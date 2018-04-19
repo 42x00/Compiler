@@ -9,7 +9,7 @@ primaryExpression // 3
 
 declarationSpecifier // 16
     :   typeSpecifier
-    |   typeSpecifier '[' ']'
+    |   declarationSpecifier '[' ']'
     ;
 
 postfixExpression // 28
@@ -108,12 +108,8 @@ expression // 141
     ;
 
 declaration // 150
-    :   declarationSpecifiers initDeclaratorList ';'
-	| 	declarationSpecifiers ';'
-    ;
-
-declarationSpecifiers // 156
-    :   declarationSpecifier+
+    :   declarationSpecifier initDeclaratorList ';'
+	| 	declarationSpecifier ';'
     ;
 
 initDeclaratorList // 172
@@ -134,7 +130,7 @@ typeSpecifier // 191
     ; 
 
 newDeclarator // 
-    :   NEW   declarationSpecifiers
+    :   NEW   declarationSpecifier
     ;
 
 directDeclarator // 299
@@ -149,7 +145,7 @@ parameterList // 355
     ;
 
 parameterDeclaration // 360
-    :   declarationSpecifiers directDeclarator
+    :   declarationSpecifier directDeclarator
     ;
 
 typedefName // 393
@@ -197,8 +193,8 @@ forCondition // 474
 	;
 
 forDeclaration // 479
-    :   declarationSpecifiers initDeclaratorList
-	| 	declarationSpecifiers
+    :   declarationSpecifier initDeclaratorList
+	| 	declarationSpecifier
     ;
 
 forExpression // 484
@@ -228,7 +224,7 @@ externalDeclaration // 506
     ;
 
 functionDefinition // 512
-    :   declarationSpecifiers? directDeclarator compoundStatement
+    :   declarationSpecifier? directDeclarator compoundStatement
     ;
 
 classDefinition // 

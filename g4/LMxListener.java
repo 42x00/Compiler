@@ -197,16 +197,6 @@ public interface LMxListener extends ParseTreeListener {
 	 */
 	void exitDeclaration(LMxParser.DeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#declarationSpecifiers}.
-	 * @param ctx the parse tree
-	 */
-	void enterDeclarationSpecifiers(LMxParser.DeclarationSpecifiersContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LMxParser#declarationSpecifiers}.
-	 * @param ctx the parse tree
-	 */
-	void exitDeclarationSpecifiers(LMxParser.DeclarationSpecifiersContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link LMxParser#initDeclaratorList}.
 	 * @param ctx the parse tree
 	 */

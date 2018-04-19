@@ -54,6 +54,7 @@ Whitespace=53
 Newline=54
 BlockComment=55
 LineComment=56
+NEW=57
 'break'=1
 'continue'=2
 'else'=3

@@ -243,18 +243,6 @@ public class LMxBaseListener implements LMxListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDeclarationSpecifiers(LMxParser.DeclarationSpecifiersContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDeclarationSpecifiers(LMxParser.DeclarationSpecifiersContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterInitDeclaratorList(LMxParser.InitDeclaratorListContext ctx) { }
 	/**
 	 * {@inheritDoc}

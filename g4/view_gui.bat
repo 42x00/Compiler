@@ -1,1 +1,1 @@
-grun LMx compilationUnit -gui
+grun test compilationUnit -gui
