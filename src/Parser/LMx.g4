@@ -215,7 +215,6 @@ programDeclaration // 506
     :   functionDefinition
     |   classDefinition
     |   declaration
-    |   ';'
     ;
 
 functionDefinition // 512

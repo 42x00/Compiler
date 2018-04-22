@@ -1,46 +1,18 @@
 package AST_Node;
 
-import java.util.List;
-
 public class FuncDeclNode extends DeclNode{
     private boolean isConstructFunction;
     private TypeNode functionReturnType;
     private String functionName;
-    private List<VarDeclNode> functionParameterList;
+    private VarDeclListNode functionParameterList;
     private CompStmtNode functionStatements;
-    private Location location;
 
-    public FuncDeclNode(TypeNode functionReturnType, String functionName, List<VarDeclNode> functionParameterList, CompStmtNode functionStatements, Location location) {
-        if (functionReturnType == null){
-            this.isConstructFunction = true;
-        }
-        else {
-            this.isConstructFunction = false;
-        }
+    public FuncDeclNode(TypeNode functionReturnType, String functionName, VarDeclListNode functionParameterList, CompStmtNode functionStatements) {
+        if (functionReturnType == null) isConstructFunction = true;
+        else isConstructFunction = false;
         this.functionReturnType = functionReturnType;
         this.functionName = functionName;
         this.functionParameterList = functionParameterList;
-        this.functionStatements = functionStatements;
-        this.location = location;
-    }
-
-    public void setConstructFunction(boolean constructFunction) {
-        isConstructFunction = constructFunction;
-    }
-
-    public void setFunctionReturnType(TypeNode functionReturnType) {
-        this.functionReturnType = functionReturnType;
-    }
-
-    public void setFunctionName(String functionName) {
-        this.functionName = functionName;
-    }
-
-    public void setFunctionParameterList(List<VarDeclNode> functionParameterList) {
-        this.functionParameterList = functionParameterList;
-    }
-
-    public void setFunctionStatements(CompStmtNode functionStatements) {
         this.functionStatements = functionStatements;
     }
 
@@ -56,7 +28,7 @@ public class FuncDeclNode extends DeclNode{
         return functionName;
     }
 
-    public List<VarDeclNode> getFunctionParameterList() {
+    public VarDeclListNode getFunctionParameterList() {
         return functionParameterList;
     }
 
@@ -64,13 +36,24 @@ public class FuncDeclNode extends DeclNode{
         return functionStatements;
     }
 
-    @Override
-    public Location location() {
-        return location;
+    public void setConstructFunction(boolean constructFunction) {
+        isConstructFunction = constructFunction;
+
     }
 
-    @Override
-    public void accept(ASTVisitor visitor) {
-        visitor.visit(this);
+    public void setFunctionReturnType(TypeNode functionReturnType) {
+        this.functionReturnType = functionReturnType;
+    }
+
+    public void setFunctionName(String functionName) {
+        this.functionName = functionName;
+    }
+
+    public void setFunctionParameterList(VarDeclListNode functionParameterList) {
+        this.functionParameterList = functionParameterList;
+    }
+
+    public void setFunctionStatements(CompStmtNode functionStatements) {
+        this.functionStatements = functionStatements;
     }
 }

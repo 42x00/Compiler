@@ -2,6 +2,7 @@ package Frontend;
 
 import AST_Node.*;
 
+import Type.Type;
 import org.antlr.v4.runtime.ParserRuleContext;
 import Parser.LMxBaseVisitor;
 import Parser.LMxParser;
@@ -13,47 +14,41 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitProgram(LMxParser.ProgramContext ctx) {
         List<DeclNode> declarations = new ArrayList<>();
-        for (ParserRuleContext programDeclaration : ctx.programDeclaration()){
+        for (ParserRuleContext programDeclaration : ctx.programDeclaration()) {
             ASTNode declaration = visit(programDeclaration);
             declarations.add((DeclNode) declaration);
         }
-        return new ProgramNode(declarations,Location.ctx(ctx));
+        return new ProgNode(declarations);
     }
 
     @Override
     public ASTNode visitProgramDeclaration(LMxParser.ProgramDeclarationContext ctx) {
         if (ctx.functionDefinition() != null) return (FuncDeclNode) visit(ctx.functionDefinition());
-//        else if (ctx.classDefinition() != null) return visit(ctx.classDefinition());
-//        else return visit(ctx.declaration());
+        else if (ctx.classDefinition() != null) return (ClassDeclNode) visit(ctx.classDefinition());
+        else return (VarDeclListNode) visit(ctx.declaration());
     }
 
     @Override
     public ASTNode visitFunctionDefinition(LMxParser.FunctionDefinitionContext ctx) {
-        TypeNode functionReturnType;
-        if (ctx.declarationSpecifier() == null) functionReturnType = null;
-        else functionReturnType = (TypeNode) visit(ctx.declarationSpecifier());
-        FuncDeclNode tmpfuncdeclnode = (FuncDeclNode) visit(ctx.directDeclarator());
-        tmpfuncdeclnode.setFunctionReturnType(functionReturnType);
-        tmpfuncdeclnode.setFunctionStatements((CompStmtNode) visit(ctx.compoundStatement()));
-        return tmpfuncdeclnode;
+        TypeNode returntype;
+        if (ctx.declarationSpecifier() == null) returntype = null;
+        else returntype =(TypeNode) visit(ctx.declarationSpecifier());
+        FuncDeclNode funcdeclnode_name_params =(FuncDeclNode) visit(ctx.directDeclarator());
+        CompStmtNode compoundstatement = (CompStmtNode) visit(ctx.compoundStatement());
+        return new FuncDeclNode(returntype,funcdeclnode_name_params.getFunctionName(),funcdeclnode_name_params.getFunctionParameterList(),compoundstatement);
     }
 
     @Override
     public ASTNode visitDeclarationSpecifier_type(LMxParser.DeclarationSpecifier_typeContext ctx) {
-        return TypeNode()
+        if (ctx.typeSpecifier().typedefName() == null) {
+            switch (ctx.typeSpecifier().toString()){
+                case("void"): return new TypeNode(Type.Types.VOID); break;
+                case("int"): return  new TypeNode(Type.Types.INT); break;
+                case("string"): return new TypeNode(Type.Types.STRING); break;
+            }
+        }
     }
+
+
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

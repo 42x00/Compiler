@@ -1,11 +1,11 @@
 package AST_Node;
 
-import Type.Type;
+import Type.*;
 
-abstract public class TypeNode extends ASTNode {
-    protected Type.Types type;
+public class TypeNode extends ASTNode {
+    Type.Types types;
 
-    public Type.Types getType() {
-        return type;
+    public TypeNode(Type.Types types) {
+        this.types = types;
     }
 }
