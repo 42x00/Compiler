@@ -5,13 +5,10 @@ import java.util.List;
 public class CompStmtNode extends StmtNode{
     private List<StmtNode> stmtNodeList;
 
-    @Override
-    public Location location() {
-        return stmtNodeList.get(0).location();
+    public CompStmtNode() {
     }
 
-    @Override
-    public void accept(ASTVisitor visitor) {
-        visitor.visit(this);
+    public CompStmtNode(List<StmtNode> stmtNodeList) {
+        this.stmtNodeList = stmtNodeList;
     }
 }

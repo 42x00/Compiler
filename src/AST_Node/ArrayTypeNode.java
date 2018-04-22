@@ -1,30 +1,14 @@
 package AST_Node;
 
-public class ArrayTypeNode extends TypeNode{
-    private TypeNode basetype;
-    private Location location;
+public class ArrayTypeNode extends TypeNode {
+    private int arraysize;
 
-    public ArrayTypeNode(TypeNode basetype, Location location) {
-        this.basetype = basetype;
-        this.location = location;
+    public ArrayTypeNode(TypeNode obj) {
+        this.basetype = obj.basetype;
+        this.dim = obj.dim + 1;
     }
 
-    public TypeNode getBasetype() {
-        return basetype;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    @Override
-
-    public Location location() {
-        return location;
-    }
-
-    @Override
-    public void accept(ASTVisitor visitor) {
-        visitor.visit(this);
+    public void setArraysize(int arraysize) {
+        this.arraysize = arraysize;
     }
 }

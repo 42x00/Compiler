@@ -1,4 +1,4 @@
-package Parser;// Generated from LMx.g4 by ANTLR 4.7.1
+// Generated from e:\LYK\compiler\Compiler\src\Parser\LMx.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -130,19 +130,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_primaryExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterPrimaryExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitPrimaryExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitPrimaryExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final PrimaryExpressionContext primaryExpression() throws RecognitionException {
@@ -215,38 +202,12 @@ public class LMxParser extends Parser {
 			return getRuleContext(DeclarationSpecifierContext.class,0);
 		}
 		public DeclarationSpecifier_arrayContext(DeclarationSpecifierContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterDeclarationSpecifier_array(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitDeclarationSpecifier_array(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitDeclarationSpecifier_array(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	public static class DeclarationSpecifier_typeContext extends DeclarationSpecifierContext {
 		public TypeSpecifierContext typeSpecifier() {
 			return getRuleContext(TypeSpecifierContext.class,0);
 		}
 		public DeclarationSpecifier_typeContext(DeclarationSpecifierContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterDeclarationSpecifier_type(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitDeclarationSpecifier_type(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitDeclarationSpecifier_type(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final DeclarationSpecifierContext declarationSpecifier() throws RecognitionException {
@@ -328,19 +289,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_postfixExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterPostfixExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitPostfixExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitPostfixExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final PostfixExpressionContext postfixExpression() throws RecognitionException {
@@ -474,19 +422,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_argumentExpressionList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterArgumentExpressionList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitArgumentExpressionList(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitArgumentExpressionList(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ArgumentExpressionListContext argumentExpressionList() throws RecognitionException {
@@ -563,19 +498,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_unaryExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterUnaryExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitUnaryExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitUnaryExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final UnaryExpressionContext unaryExpression() throws RecognitionException {
@@ -647,19 +569,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_unaryOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterUnaryOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitUnaryOperator(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitUnaryOperator(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final UnaryOperatorContext unaryOperator() throws RecognitionException {
@@ -701,19 +610,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_castExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterCastExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitCastExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitCastExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final CastExpressionContext castExpression() throws RecognitionException {
@@ -774,19 +670,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multiplicativeExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterMultiplicativeExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitMultiplicativeExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitMultiplicativeExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final MultiplicativeExpressionContext multiplicativeExpression() throws RecognitionException {
@@ -887,19 +770,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_additiveExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterAdditiveExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitAdditiveExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitAdditiveExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final AdditiveExpressionContext additiveExpression() throws RecognitionException {
@@ -988,19 +858,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_shiftExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterShiftExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitShiftExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitShiftExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ShiftExpressionContext shiftExpression() throws RecognitionException {
@@ -1089,19 +946,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_relationalExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterRelationalExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitRelationalExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitRelationalExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final RelationalExpressionContext relationalExpression() throws RecognitionException {
@@ -1214,19 +1058,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_equalityExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterEqualityExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitEqualityExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitEqualityExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final EqualityExpressionContext equalityExpression() throws RecognitionException {
@@ -1315,19 +1146,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_andExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterAndExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitAndExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitAndExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final AndExpressionContext andExpression() throws RecognitionException {
@@ -1398,19 +1216,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_exclusiveOrExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterExclusiveOrExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitExclusiveOrExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitExclusiveOrExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ExclusiveOrExpressionContext exclusiveOrExpression() throws RecognitionException {
@@ -1481,19 +1286,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_inclusiveOrExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterInclusiveOrExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitInclusiveOrExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitInclusiveOrExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final InclusiveOrExpressionContext inclusiveOrExpression() throws RecognitionException {
@@ -1564,19 +1356,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_logicalAndExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterLogicalAndExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitLogicalAndExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitLogicalAndExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final LogicalAndExpressionContext logicalAndExpression() throws RecognitionException {
@@ -1647,19 +1426,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_logicalOrExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterLogicalOrExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitLogicalOrExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitLogicalOrExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final LogicalOrExpressionContext logicalOrExpression() throws RecognitionException {
@@ -1737,19 +1503,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ExpressionContext expression() throws RecognitionException {
@@ -1815,19 +1568,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_declaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitDeclaration(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitDeclaration(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final DeclarationContext declaration() throws RecognitionException {
@@ -1881,19 +1621,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_initDeclaratorList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterInitDeclaratorList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitInitDeclaratorList(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitInitDeclaratorList(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final InitDeclaratorListContext initDeclaratorList() throws RecognitionException {
@@ -1964,19 +1691,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_initDeclarator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterInitDeclarator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitInitDeclarator(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitInitDeclarator(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final InitDeclaratorContext initDeclarator() throws RecognitionException {
@@ -2025,19 +1739,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_typeSpecifier; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterTypeSpecifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitTypeSpecifier(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitTypeSpecifier(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final TypeSpecifierContext typeSpecifier() throws RecognitionException {
@@ -2095,19 +1796,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_newDeclarator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterNewDeclarator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitNewDeclarator(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitNewDeclarator(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final NewDeclaratorContext newDeclarator() throws RecognitionException {
@@ -2147,19 +1835,6 @@ public class LMxParser extends Parser {
 	public static class DirectDeclarator_IdentifierContext extends DirectDeclaratorContext {
 		public TerminalNode Identifier() { return getToken(LMxParser.Identifier, 0); }
 		public DirectDeclarator_IdentifierContext(DirectDeclaratorContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterDirectDeclarator_Identifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitDirectDeclarator_Identifier(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitDirectDeclarator_Identifier(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	public static class DirectDeclarator_with_parameterListContext extends DirectDeclaratorContext {
 		public DirectDeclaratorContext directDeclarator() {
@@ -2169,38 +1844,12 @@ public class LMxParser extends Parser {
 			return getRuleContext(ParameterListContext.class,0);
 		}
 		public DirectDeclarator_with_parameterListContext(DirectDeclaratorContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterDirectDeclarator_with_parameterList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitDirectDeclarator_with_parameterList(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitDirectDeclarator_with_parameterList(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	public static class DirectDeclarator_recycleContext extends DirectDeclaratorContext {
 		public DirectDeclaratorContext directDeclarator() {
 			return getRuleContext(DirectDeclaratorContext.class,0);
 		}
 		public DirectDeclarator_recycleContext(DirectDeclaratorContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterDirectDeclarator_recycle(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitDirectDeclarator_recycle(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitDirectDeclarator_recycle(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final DirectDeclaratorContext directDeclarator() throws RecognitionException {
@@ -2297,56 +1946,16 @@ public class LMxParser extends Parser {
 	}
 
 	public static class ParameterListContext extends ParserRuleContext {
+		public ParameterDeclarationContext parameterDeclaration() {
+			return getRuleContext(ParameterDeclarationContext.class,0);
+		}
+		public ParameterListContext parameterList() {
+			return getRuleContext(ParameterListContext.class,0);
+		}
 		public ParameterListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_parameterList; }
-	 
-		public ParameterListContext() { }
-		public void copyFrom(ParameterListContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class ParameterDeclaration_multiContext extends ParameterListContext {
-		public ParameterListContext parameterList() {
-			return getRuleContext(ParameterListContext.class,0);
-		}
-		public ParameterDeclarationContext parameterDeclaration() {
-			return getRuleContext(ParameterDeclarationContext.class,0);
-		}
-		public ParameterDeclaration_multiContext(ParameterListContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterParameterDeclaration_multi(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitParameterDeclaration_multi(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitParameterDeclaration_multi(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ParameterDeclaration_singleContext extends ParameterListContext {
-		public ParameterDeclarationContext parameterDeclaration() {
-			return getRuleContext(ParameterDeclarationContext.class,0);
-		}
-		public ParameterDeclaration_singleContext(ParameterListContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterParameterDeclaration_single(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitParameterDeclaration_single(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitParameterDeclaration_single(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ParameterListContext parameterList() throws RecognitionException {
@@ -2365,10 +1974,6 @@ public class LMxParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			_localctx = new ParameterDeclaration_singleContext(_localctx);
-			_ctx = _localctx;
-			_prevctx = _localctx;
-
 			setState(356);
 			parameterDeclaration();
 			}
@@ -2382,7 +1987,7 @@ public class LMxParser extends Parser {
 					_prevctx = _localctx;
 					{
 					{
-					_localctx = new ParameterDeclaration_multiContext(new ParameterListContext(_parentctx, _parentState));
+					_localctx = new ParameterListContext(_parentctx, _parentState);
 					pushNewRecursionContext(_localctx, _startState, RULE_parameterList);
 					setState(358);
 					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
@@ -2421,19 +2026,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_parameterDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterParameterDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitParameterDeclaration(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitParameterDeclaration(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ParameterDeclarationContext parameterDeclaration() throws RecognitionException {
@@ -2465,19 +2057,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_typedefName; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterTypedefName(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitTypedefName(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitTypedefName(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final TypedefNameContext typedefName() throws RecognitionException {
@@ -2521,19 +2100,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitStatement(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final StatementContext statement() throws RecognitionException {
@@ -2621,19 +2187,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_compoundStatement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterCompoundStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitCompoundStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitCompoundStatement(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final CompoundStatementContext compoundStatement() throws RecognitionException {
@@ -2685,19 +2238,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_blockItem; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterBlockItem(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitBlockItem(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitBlockItem(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final BlockItemContext blockItem() throws RecognitionException {
@@ -2742,19 +2282,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expressionStatement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterExpressionStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitExpressionStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitExpressionStatement(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ExpressionStatementContext expressionStatement() throws RecognitionException {
@@ -2803,19 +2330,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_selectionStatement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterSelectionStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitSelectionStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitSelectionStatement(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final SelectionStatementContext selectionStatement() throws RecognitionException {
@@ -2875,19 +2389,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_iterationStatement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterIterationStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitIterationStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitIterationStatement(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final IterationStatementContext iterationStatement() throws RecognitionException {
@@ -2959,19 +2460,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_forCondition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterForCondition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitForCondition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitForCondition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ForConditionContext forCondition() throws RecognitionException {
@@ -3076,19 +2564,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_forDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterForDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitForDeclaration(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitForDeclaration(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ForDeclarationContext forDeclaration() throws RecognitionException {
@@ -3135,19 +2610,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_forExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterForExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitForExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitForExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ForExpressionContext forExpression() throws RecognitionException {
@@ -3179,19 +2641,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_jumpStatement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterJumpStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitJumpStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitJumpStatement(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final JumpStatementContext jumpStatement() throws RecognitionException {
@@ -3266,19 +2715,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_program; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterProgram(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitProgram(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitProgram(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ProgramContext program() throws RecognitionException {
@@ -3331,19 +2767,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_programDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterProgramDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitProgramDeclaration(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitProgramDeclaration(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ProgramDeclarationContext programDeclaration() throws RecognitionException {
@@ -3401,19 +2824,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_functionDefinition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterFunctionDefinition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitFunctionDefinition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitFunctionDefinition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final FunctionDefinitionContext functionDefinition() throws RecognitionException {
@@ -3458,19 +2868,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_classDefinition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterClassDefinition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitClassDefinition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitClassDefinition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ClassDefinitionContext classDefinition() throws RecognitionException {
@@ -3537,19 +2934,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_classDeclarationList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterClassDeclarationList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitClassDeclarationList(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitClassDeclarationList(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ClassDeclarationListContext classDeclarationList() throws RecognitionException {
@@ -3618,19 +3002,6 @@ public class LMxParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_classDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterClassDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitClassDeclaration(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitClassDeclaration(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ClassDeclarationContext classDeclaration() throws RecognitionException {

@@ -287,15 +287,29 @@ public interface LMxListener extends ParseTreeListener {
 	 */
 	void exitDirectDeclarator_recycle(LMxParser.DirectDeclarator_recycleContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#parameterList}.
+	 * Enter a parse tree produced by the {@code parameterDeclaration_multi}
+	 * labeled alternative in {@link LMxParser#parameterList}.
 	 * @param ctx the parse tree
 	 */
-	void enterParameterList(LMxParser.ParameterListContext ctx);
+	void enterParameterDeclaration_multi(LMxParser.ParameterDeclaration_multiContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#parameterList}.
+	 * Exit a parse tree produced by the {@code parameterDeclaration_multi}
+	 * labeled alternative in {@link LMxParser#parameterList}.
 	 * @param ctx the parse tree
 	 */
-	void exitParameterList(LMxParser.ParameterListContext ctx);
+	void exitParameterDeclaration_multi(LMxParser.ParameterDeclaration_multiContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code parameterDeclaration_single}
+	 * labeled alternative in {@link LMxParser#parameterList}.
+	 * @param ctx the parse tree
+	 */
+	void enterParameterDeclaration_single(LMxParser.ParameterDeclaration_singleContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code parameterDeclaration_single}
+	 * labeled alternative in {@link LMxParser#parameterList}.
+	 * @param ctx the parse tree
+	 */
+	void exitParameterDeclaration_single(LMxParser.ParameterDeclaration_singleContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LMxParser#parameterDeclaration}.
 	 * @param ctx the parse tree
@@ -336,16 +350,6 @@ public interface LMxListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCompoundStatement(LMxParser.CompoundStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LMxParser#blockItemList}.
-	 * @param ctx the parse tree
-	 */
-	void enterBlockItemList(LMxParser.BlockItemListContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LMxParser#blockItemList}.
-	 * @param ctx the parse tree
-	 */
-	void exitBlockItemList(LMxParser.BlockItemListContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LMxParser#blockItem}.
 	 * @param ctx the parse tree

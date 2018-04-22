@@ -140,8 +140,8 @@ directDeclarator // 299
     ;
 
 parameterList // 355
-    :   parameterDeclaration
-    |   parameterList ',' parameterDeclaration
+    :   parameterDeclaration                        #parameterDeclaration_single
+    |   parameterList ',' parameterDeclaration      #parameterDeclaration_multi
     ;
 
 parameterDeclaration // 360
@@ -161,12 +161,7 @@ statement // 426
     ;
 
 compoundStatement // 442
-    :   '{' blockItemList? '}'
-    ;
-
-blockItemList // 446
-    :   blockItem
-    |   blockItemList blockItem
+    :   '{' blockItem* '}'
     ;
 
 blockItem // 451
