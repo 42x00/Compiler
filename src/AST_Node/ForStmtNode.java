@@ -25,4 +25,9 @@ public class ForStmtNode extends StmtNode{
     public void setForinit(List<VarDeclNode> forinit) {
         this.forinit = forinit;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

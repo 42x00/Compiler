@@ -52,4 +52,9 @@ public class VarDeclNode extends DeclNode{
     public void setVarinit(ExprNode varinit) {
         this.varinit = varinit;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

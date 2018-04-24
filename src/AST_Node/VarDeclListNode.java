@@ -11,4 +11,9 @@ public class VarDeclListNode extends DeclNode{
     public VarDeclListNode(List<VarDeclNode> vardeclnodeList) {
         this.vardeclnodeList = vardeclnodeList;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

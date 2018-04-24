@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
+
     @Override
     public ASTNode visitProgram(LMxParser.ProgramContext ctx) {
         List<DeclNode> declarations = new ArrayList<>();

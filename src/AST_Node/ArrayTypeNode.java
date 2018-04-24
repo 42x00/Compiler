@@ -8,6 +8,11 @@ public class ArrayTypeNode extends TypeNode {
         this.dim = obj.dim + 1;
     }
 
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
+
     public void setArraysize(int arraysize) {
         this.arraysize = arraysize;
     }

@@ -8,4 +8,9 @@ public class WhileStmtNode extends StmtNode{
         this.whileexpr = whileexpr;
         this.whilestmt = whilestmt;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

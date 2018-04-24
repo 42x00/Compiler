@@ -6,4 +6,9 @@ public class StringExprNode extends ExprNode{
     public StringExprNode(String stringexpr) {
         this.stringexpr = stringexpr;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

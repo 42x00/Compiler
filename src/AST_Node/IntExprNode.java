@@ -9,4 +9,9 @@ public class IntExprNode extends ExprNode{
         this.exprtype.setBasetype(Type.Types.INT);
         this.intvalue = intvalue;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

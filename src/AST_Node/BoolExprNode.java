@@ -6,4 +6,9 @@ public class BoolExprNode extends ExprNode{
     public BoolExprNode(boolean bool) {
         this.bool = bool;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

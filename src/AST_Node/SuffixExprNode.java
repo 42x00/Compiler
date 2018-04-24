@@ -12,4 +12,9 @@ public class SuffixExprNode extends ExprNode{
         this.exprop = exprop;
         this.suffixexpr = suffixexpr;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

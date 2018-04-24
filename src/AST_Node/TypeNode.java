@@ -19,4 +19,9 @@ public class TypeNode extends ASTNode {
     public void setBasetype(Type.Types basetype) {
         this.basetype = basetype;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

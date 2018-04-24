@@ -20,4 +20,9 @@ public class FuncCallExprNode extends ExprNode{
     public void setFunction(ExprNode function) {
         this.function = function;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

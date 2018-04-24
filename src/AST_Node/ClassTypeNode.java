@@ -10,4 +10,9 @@ public class ClassTypeNode extends TypeNode {
         this.dim = 0;
         this.classname = classname;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

@@ -11,4 +11,9 @@ public class CompStmtNode extends StmtNode{
     public CompStmtNode(List<StmtNode> stmtNodeList) {
         this.stmtNodeList = stmtNodeList;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

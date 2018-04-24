@@ -63,4 +63,9 @@ public class FuncDeclNode extends DeclNode{
     public void setFunctionStatements(CompStmtNode functionStatements) {
         this.functionStatements = functionStatements;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

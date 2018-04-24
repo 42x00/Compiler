@@ -8,4 +8,9 @@ public class ClassMethodExprNode extends ExprNode{
         this.classexpr = classexpr;
         this.methodname = methodname;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

@@ -14,4 +14,9 @@ public class ClassDeclNode extends ASTNode{
         this.classname = classname;
         this.classdecllist = classdecllist;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

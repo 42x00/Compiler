@@ -12,4 +12,9 @@ public class IfStmtNode extends StmtNode{
     public void setElsestmt(StmtNode elsestmt) {
         this.elsestmt = elsestmt;
     }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }
