@@ -16,4 +16,7 @@ public class TypeNode extends ASTNode {
         this.basetype = basetype;
     }
 
+    public void setBasetype(Type.Types basetype) {
+        this.basetype = basetype;
+    }
 }

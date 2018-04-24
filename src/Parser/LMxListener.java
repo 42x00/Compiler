@@ -41,35 +41,149 @@ public interface LMxListener extends ParseTreeListener {
 	 */
 	void exitDeclarationSpecifier_type(LMxParser.DeclarationSpecifier_typeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#postfixExpression}.
+	 * Enter a parse tree produced by the {@code postfixExpression_inc}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterPostfixExpression(LMxParser.PostfixExpressionContext ctx);
+	void enterPostfixExpression_inc(LMxParser.PostfixExpression_incContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#postfixExpression}.
+	 * Exit a parse tree produced by the {@code postfixExpression_inc}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitPostfixExpression(LMxParser.PostfixExpressionContext ctx);
+	void exitPostfixExpression_inc(LMxParser.PostfixExpression_incContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#argumentExpressionList}.
+	 * Enter a parse tree produced by the {@code postfixExpression_func}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterArgumentExpressionList(LMxParser.ArgumentExpressionListContext ctx);
+	void enterPostfixExpression_func(LMxParser.PostfixExpression_funcContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#argumentExpressionList}.
+	 * Exit a parse tree produced by the {@code postfixExpression_func}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitArgumentExpressionList(LMxParser.ArgumentExpressionListContext ctx);
+	void exitPostfixExpression_func(LMxParser.PostfixExpression_funcContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#unaryExpression}.
+	 * Enter a parse tree produced by the {@code postfixExpression_class}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterUnaryExpression(LMxParser.UnaryExpressionContext ctx);
+	void enterPostfixExpression_class(LMxParser.PostfixExpression_classContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#unaryExpression}.
+	 * Exit a parse tree produced by the {@code postfixExpression_class}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitUnaryExpression(LMxParser.UnaryExpressionContext ctx);
+	void exitPostfixExpression_class(LMxParser.PostfixExpression_classContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code postfixExpression_primary}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterPostfixExpression_primary(LMxParser.PostfixExpression_primaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code postfixExpression_primary}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitPostfixExpression_primary(LMxParser.PostfixExpression_primaryContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code postfixExpression_dec}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterPostfixExpression_dec(LMxParser.PostfixExpression_decContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code postfixExpression_dec}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitPostfixExpression_dec(LMxParser.PostfixExpression_decContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code postfixExpression_array}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterPostfixExpression_array(LMxParser.PostfixExpression_arrayContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code postfixExpression_array}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitPostfixExpression_array(LMxParser.PostfixExpression_arrayContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code argumentExpressionList_single}
+	 * labeled alternative in {@link LMxParser#argumentExpressionList}.
+	 * @param ctx the parse tree
+	 */
+	void enterArgumentExpressionList_single(LMxParser.ArgumentExpressionList_singleContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code argumentExpressionList_single}
+	 * labeled alternative in {@link LMxParser#argumentExpressionList}.
+	 * @param ctx the parse tree
+	 */
+	void exitArgumentExpressionList_single(LMxParser.ArgumentExpressionList_singleContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code argumentExpressionList_multi}
+	 * labeled alternative in {@link LMxParser#argumentExpressionList}.
+	 * @param ctx the parse tree
+	 */
+	void enterArgumentExpressionList_multi(LMxParser.ArgumentExpressionList_multiContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code argumentExpressionList_multi}
+	 * labeled alternative in {@link LMxParser#argumentExpressionList}.
+	 * @param ctx the parse tree
+	 */
+	void exitArgumentExpressionList_multi(LMxParser.ArgumentExpressionList_multiContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code unaryExpression_postfix}
+	 * labeled alternative in {@link LMxParser#unaryExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnaryExpression_postfix(LMxParser.UnaryExpression_postfixContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code unaryExpression_postfix}
+	 * labeled alternative in {@link LMxParser#unaryExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnaryExpression_postfix(LMxParser.UnaryExpression_postfixContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code unaryExpression_prefix_inc}
+	 * labeled alternative in {@link LMxParser#unaryExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnaryExpression_prefix_inc(LMxParser.UnaryExpression_prefix_incContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code unaryExpression_prefix_inc}
+	 * labeled alternative in {@link LMxParser#unaryExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnaryExpression_prefix_inc(LMxParser.UnaryExpression_prefix_incContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code unaryExpression_prefix_dec}
+	 * labeled alternative in {@link LMxParser#unaryExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnaryExpression_prefix_dec(LMxParser.UnaryExpression_prefix_decContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code unaryExpression_prefix_dec}
+	 * labeled alternative in {@link LMxParser#unaryExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnaryExpression_prefix_dec(LMxParser.UnaryExpression_prefix_decContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code unaryExpression_prefix}
+	 * labeled alternative in {@link LMxParser#unaryExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnaryExpression_prefix(LMxParser.UnaryExpression_prefixContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code unaryExpression_prefix}
+	 * labeled alternative in {@link LMxParser#unaryExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnaryExpression_prefix(LMxParser.UnaryExpression_prefixContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LMxParser#unaryOperator}.
 	 * @param ctx the parse tree
@@ -91,105 +205,341 @@ public interface LMxListener extends ParseTreeListener {
 	 */
 	void exitCastExpression(LMxParser.CastExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#multiplicativeExpression}.
+	 * Enter a parse tree produced by the {@code multiplicativeExpression_unary}
+	 * labeled alternative in {@link LMxParser#multiplicativeExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterMultiplicativeExpression(LMxParser.MultiplicativeExpressionContext ctx);
+	void enterMultiplicativeExpression_unary(LMxParser.MultiplicativeExpression_unaryContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#multiplicativeExpression}.
+	 * Exit a parse tree produced by the {@code multiplicativeExpression_unary}
+	 * labeled alternative in {@link LMxParser#multiplicativeExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitMultiplicativeExpression(LMxParser.MultiplicativeExpressionContext ctx);
+	void exitMultiplicativeExpression_unary(LMxParser.MultiplicativeExpression_unaryContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#additiveExpression}.
+	 * Enter a parse tree produced by the {@code multiplicativeExpression_mod}
+	 * labeled alternative in {@link LMxParser#multiplicativeExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterAdditiveExpression(LMxParser.AdditiveExpressionContext ctx);
+	void enterMultiplicativeExpression_mod(LMxParser.MultiplicativeExpression_modContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#additiveExpression}.
+	 * Exit a parse tree produced by the {@code multiplicativeExpression_mod}
+	 * labeled alternative in {@link LMxParser#multiplicativeExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitAdditiveExpression(LMxParser.AdditiveExpressionContext ctx);
+	void exitMultiplicativeExpression_mod(LMxParser.MultiplicativeExpression_modContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#shiftExpression}.
+	 * Enter a parse tree produced by the {@code multiplicativeExpression_div}
+	 * labeled alternative in {@link LMxParser#multiplicativeExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterShiftExpression(LMxParser.ShiftExpressionContext ctx);
+	void enterMultiplicativeExpression_div(LMxParser.MultiplicativeExpression_divContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#shiftExpression}.
+	 * Exit a parse tree produced by the {@code multiplicativeExpression_div}
+	 * labeled alternative in {@link LMxParser#multiplicativeExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitShiftExpression(LMxParser.ShiftExpressionContext ctx);
+	void exitMultiplicativeExpression_div(LMxParser.MultiplicativeExpression_divContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#relationalExpression}.
+	 * Enter a parse tree produced by the {@code multiplicativeExpression_mul}
+	 * labeled alternative in {@link LMxParser#multiplicativeExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterRelationalExpression(LMxParser.RelationalExpressionContext ctx);
+	void enterMultiplicativeExpression_mul(LMxParser.MultiplicativeExpression_mulContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#relationalExpression}.
+	 * Exit a parse tree produced by the {@code multiplicativeExpression_mul}
+	 * labeled alternative in {@link LMxParser#multiplicativeExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitRelationalExpression(LMxParser.RelationalExpressionContext ctx);
+	void exitMultiplicativeExpression_mul(LMxParser.MultiplicativeExpression_mulContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#equalityExpression}.
+	 * Enter a parse tree produced by the {@code additiveExpression_sub}
+	 * labeled alternative in {@link LMxParser#additiveExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterEqualityExpression(LMxParser.EqualityExpressionContext ctx);
+	void enterAdditiveExpression_sub(LMxParser.AdditiveExpression_subContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#equalityExpression}.
+	 * Exit a parse tree produced by the {@code additiveExpression_sub}
+	 * labeled alternative in {@link LMxParser#additiveExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitEqualityExpression(LMxParser.EqualityExpressionContext ctx);
+	void exitAdditiveExpression_sub(LMxParser.AdditiveExpression_subContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#andExpression}.
+	 * Enter a parse tree produced by the {@code additiveExpression_add}
+	 * labeled alternative in {@link LMxParser#additiveExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterAndExpression(LMxParser.AndExpressionContext ctx);
+	void enterAdditiveExpression_add(LMxParser.AdditiveExpression_addContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#andExpression}.
+	 * Exit a parse tree produced by the {@code additiveExpression_add}
+	 * labeled alternative in {@link LMxParser#additiveExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitAndExpression(LMxParser.AndExpressionContext ctx);
+	void exitAdditiveExpression_add(LMxParser.AdditiveExpression_addContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#exclusiveOrExpression}.
+	 * Enter a parse tree produced by the {@code additiveExpression_unary}
+	 * labeled alternative in {@link LMxParser#additiveExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterExclusiveOrExpression(LMxParser.ExclusiveOrExpressionContext ctx);
+	void enterAdditiveExpression_unary(LMxParser.AdditiveExpression_unaryContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#exclusiveOrExpression}.
+	 * Exit a parse tree produced by the {@code additiveExpression_unary}
+	 * labeled alternative in {@link LMxParser#additiveExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitExclusiveOrExpression(LMxParser.ExclusiveOrExpressionContext ctx);
+	void exitAdditiveExpression_unary(LMxParser.AdditiveExpression_unaryContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#inclusiveOrExpression}.
+	 * Enter a parse tree produced by the {@code shiftExpression_shr}
+	 * labeled alternative in {@link LMxParser#shiftExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterInclusiveOrExpression(LMxParser.InclusiveOrExpressionContext ctx);
+	void enterShiftExpression_shr(LMxParser.ShiftExpression_shrContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#inclusiveOrExpression}.
+	 * Exit a parse tree produced by the {@code shiftExpression_shr}
+	 * labeled alternative in {@link LMxParser#shiftExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitInclusiveOrExpression(LMxParser.InclusiveOrExpressionContext ctx);
+	void exitShiftExpression_shr(LMxParser.ShiftExpression_shrContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#logicalAndExpression}.
+	 * Enter a parse tree produced by the {@code shiftExpression_unary}
+	 * labeled alternative in {@link LMxParser#shiftExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterLogicalAndExpression(LMxParser.LogicalAndExpressionContext ctx);
+	void enterShiftExpression_unary(LMxParser.ShiftExpression_unaryContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#logicalAndExpression}.
+	 * Exit a parse tree produced by the {@code shiftExpression_unary}
+	 * labeled alternative in {@link LMxParser#shiftExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitLogicalAndExpression(LMxParser.LogicalAndExpressionContext ctx);
+	void exitShiftExpression_unary(LMxParser.ShiftExpression_unaryContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#logicalOrExpression}.
+	 * Enter a parse tree produced by the {@code shiftExpression_shl}
+	 * labeled alternative in {@link LMxParser#shiftExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterLogicalOrExpression(LMxParser.LogicalOrExpressionContext ctx);
+	void enterShiftExpression_shl(LMxParser.ShiftExpression_shlContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#logicalOrExpression}.
+	 * Exit a parse tree produced by the {@code shiftExpression_shl}
+	 * labeled alternative in {@link LMxParser#shiftExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitLogicalOrExpression(LMxParser.LogicalOrExpressionContext ctx);
+	void exitShiftExpression_shl(LMxParser.ShiftExpression_shlContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code relationalExpression_ge}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterRelationalExpression_ge(LMxParser.RelationalExpression_geContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code relationalExpression_ge}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitRelationalExpression_ge(LMxParser.RelationalExpression_geContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code relationalExpression_unary}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterRelationalExpression_unary(LMxParser.RelationalExpression_unaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code relationalExpression_unary}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitRelationalExpression_unary(LMxParser.RelationalExpression_unaryContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code relationalExpression_geq}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterRelationalExpression_geq(LMxParser.RelationalExpression_geqContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code relationalExpression_geq}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitRelationalExpression_geq(LMxParser.RelationalExpression_geqContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code relationalExpression_le}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterRelationalExpression_le(LMxParser.RelationalExpression_leContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code relationalExpression_le}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitRelationalExpression_le(LMxParser.RelationalExpression_leContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code relationalExpression_leq}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterRelationalExpression_leq(LMxParser.RelationalExpression_leqContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code relationalExpression_leq}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitRelationalExpression_leq(LMxParser.RelationalExpression_leqContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code equalityExpression_unary}
+	 * labeled alternative in {@link LMxParser#equalityExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterEqualityExpression_unary(LMxParser.EqualityExpression_unaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code equalityExpression_unary}
+	 * labeled alternative in {@link LMxParser#equalityExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitEqualityExpression_unary(LMxParser.EqualityExpression_unaryContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code equalityExpression_equal}
+	 * labeled alternative in {@link LMxParser#equalityExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterEqualityExpression_equal(LMxParser.EqualityExpression_equalContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code equalityExpression_equal}
+	 * labeled alternative in {@link LMxParser#equalityExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitEqualityExpression_equal(LMxParser.EqualityExpression_equalContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code equalityExpression_inequal}
+	 * labeled alternative in {@link LMxParser#equalityExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterEqualityExpression_inequal(LMxParser.EqualityExpression_inequalContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code equalityExpression_inequal}
+	 * labeled alternative in {@link LMxParser#equalityExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitEqualityExpression_inequal(LMxParser.EqualityExpression_inequalContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code andExpression_unary}
+	 * labeled alternative in {@link LMxParser#andExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterAndExpression_unary(LMxParser.AndExpression_unaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code andExpression_unary}
+	 * labeled alternative in {@link LMxParser#andExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitAndExpression_unary(LMxParser.AndExpression_unaryContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code andExpression_binary}
+	 * labeled alternative in {@link LMxParser#andExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterAndExpression_binary(LMxParser.AndExpression_binaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code andExpression_binary}
+	 * labeled alternative in {@link LMxParser#andExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitAndExpression_binary(LMxParser.AndExpression_binaryContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code exclusiveOrExpression_unary}
+	 * labeled alternative in {@link LMxParser#exclusiveOrExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterExclusiveOrExpression_unary(LMxParser.ExclusiveOrExpression_unaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code exclusiveOrExpression_unary}
+	 * labeled alternative in {@link LMxParser#exclusiveOrExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitExclusiveOrExpression_unary(LMxParser.ExclusiveOrExpression_unaryContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code exclusiveOrExpression_binary}
+	 * labeled alternative in {@link LMxParser#exclusiveOrExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterExclusiveOrExpression_binary(LMxParser.ExclusiveOrExpression_binaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code exclusiveOrExpression_binary}
+	 * labeled alternative in {@link LMxParser#exclusiveOrExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitExclusiveOrExpression_binary(LMxParser.ExclusiveOrExpression_binaryContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code inclusiveOrExpression_binary}
+	 * labeled alternative in {@link LMxParser#inclusiveOrExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterInclusiveOrExpression_binary(LMxParser.InclusiveOrExpression_binaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code inclusiveOrExpression_binary}
+	 * labeled alternative in {@link LMxParser#inclusiveOrExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitInclusiveOrExpression_binary(LMxParser.InclusiveOrExpression_binaryContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code inclusiveOrExpression_unary}
+	 * labeled alternative in {@link LMxParser#inclusiveOrExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterInclusiveOrExpression_unary(LMxParser.InclusiveOrExpression_unaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code inclusiveOrExpression_unary}
+	 * labeled alternative in {@link LMxParser#inclusiveOrExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitInclusiveOrExpression_unary(LMxParser.InclusiveOrExpression_unaryContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code logicalAndExpression_unary}
+	 * labeled alternative in {@link LMxParser#logicalAndExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalAndExpression_unary(LMxParser.LogicalAndExpression_unaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code logicalAndExpression_unary}
+	 * labeled alternative in {@link LMxParser#logicalAndExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalAndExpression_unary(LMxParser.LogicalAndExpression_unaryContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code logicalAndExpression_binary}
+	 * labeled alternative in {@link LMxParser#logicalAndExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalAndExpression_binary(LMxParser.LogicalAndExpression_binaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code logicalAndExpression_binary}
+	 * labeled alternative in {@link LMxParser#logicalAndExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalAndExpression_binary(LMxParser.LogicalAndExpression_binaryContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code logicalOrExpression_binary}
+	 * labeled alternative in {@link LMxParser#logicalOrExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalOrExpression_binary(LMxParser.LogicalOrExpression_binaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code logicalOrExpression_binary}
+	 * labeled alternative in {@link LMxParser#logicalOrExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalOrExpression_binary(LMxParser.LogicalOrExpression_binaryContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code logicalOrExpression_unary}
+	 * labeled alternative in {@link LMxParser#logicalOrExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalOrExpression_unary(LMxParser.LogicalOrExpression_unaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code logicalOrExpression_unary}
+	 * labeled alternative in {@link LMxParser#logicalOrExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalOrExpression_unary(LMxParser.LogicalOrExpression_unaryContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LMxParser#expression}.
 	 * @param ctx the parse tree
@@ -201,35 +551,77 @@ public interface LMxListener extends ParseTreeListener {
 	 */
 	void exitExpression(LMxParser.ExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#declaration}.
+	 * Enter a parse tree produced by the {@code declaration_init}
+	 * labeled alternative in {@link LMxParser#declaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterDeclaration(LMxParser.DeclarationContext ctx);
+	void enterDeclaration_init(LMxParser.Declaration_initContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#declaration}.
+	 * Exit a parse tree produced by the {@code declaration_init}
+	 * labeled alternative in {@link LMxParser#declaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitDeclaration(LMxParser.DeclarationContext ctx);
+	void exitDeclaration_init(LMxParser.Declaration_initContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#initDeclaratorList}.
+	 * Enter a parse tree produced by the {@code declaration_none}
+	 * labeled alternative in {@link LMxParser#declaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterInitDeclaratorList(LMxParser.InitDeclaratorListContext ctx);
+	void enterDeclaration_none(LMxParser.Declaration_noneContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#initDeclaratorList}.
+	 * Exit a parse tree produced by the {@code declaration_none}
+	 * labeled alternative in {@link LMxParser#declaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitInitDeclaratorList(LMxParser.InitDeclaratorListContext ctx);
+	void exitDeclaration_none(LMxParser.Declaration_noneContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#initDeclarator}.
+	 * Enter a parse tree produced by the {@code initDeclaratorList_single}
+	 * labeled alternative in {@link LMxParser#initDeclaratorList}.
 	 * @param ctx the parse tree
 	 */
-	void enterInitDeclarator(LMxParser.InitDeclaratorContext ctx);
+	void enterInitDeclaratorList_single(LMxParser.InitDeclaratorList_singleContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#initDeclarator}.
+	 * Exit a parse tree produced by the {@code initDeclaratorList_single}
+	 * labeled alternative in {@link LMxParser#initDeclaratorList}.
 	 * @param ctx the parse tree
 	 */
-	void exitInitDeclarator(LMxParser.InitDeclaratorContext ctx);
+	void exitInitDeclaratorList_single(LMxParser.InitDeclaratorList_singleContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code initDeclaratorList_multi}
+	 * labeled alternative in {@link LMxParser#initDeclaratorList}.
+	 * @param ctx the parse tree
+	 */
+	void enterInitDeclaratorList_multi(LMxParser.InitDeclaratorList_multiContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code initDeclaratorList_multi}
+	 * labeled alternative in {@link LMxParser#initDeclaratorList}.
+	 * @param ctx the parse tree
+	 */
+	void exitInitDeclaratorList_multi(LMxParser.InitDeclaratorList_multiContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code initDeclarator_none}
+	 * labeled alternative in {@link LMxParser#initDeclarator}.
+	 * @param ctx the parse tree
+	 */
+	void enterInitDeclarator_none(LMxParser.InitDeclarator_noneContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code initDeclarator_none}
+	 * labeled alternative in {@link LMxParser#initDeclarator}.
+	 * @param ctx the parse tree
+	 */
+	void exitInitDeclarator_none(LMxParser.InitDeclarator_noneContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code initDeclarator_init}
+	 * labeled alternative in {@link LMxParser#initDeclarator}.
+	 * @param ctx the parse tree
+	 */
+	void enterInitDeclarator_init(LMxParser.InitDeclarator_initContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code initDeclarator_init}
+	 * labeled alternative in {@link LMxParser#initDeclarator}.
+	 * @param ctx the parse tree
+	 */
+	void exitInitDeclarator_init(LMxParser.InitDeclarator_initContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LMxParser#typeSpecifier}.
 	 * @param ctx the parse tree
@@ -381,35 +773,77 @@ public interface LMxListener extends ParseTreeListener {
 	 */
 	void exitSelectionStatement(LMxParser.SelectionStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#iterationStatement}.
+	 * Enter a parse tree produced by the {@code iterationStatement_while}
+	 * labeled alternative in {@link LMxParser#iterationStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterIterationStatement(LMxParser.IterationStatementContext ctx);
+	void enterIterationStatement_while(LMxParser.IterationStatement_whileContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#iterationStatement}.
+	 * Exit a parse tree produced by the {@code iterationStatement_while}
+	 * labeled alternative in {@link LMxParser#iterationStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitIterationStatement(LMxParser.IterationStatementContext ctx);
+	void exitIterationStatement_while(LMxParser.IterationStatement_whileContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#forCondition}.
+	 * Enter a parse tree produced by the {@code iterationStatement_for}
+	 * labeled alternative in {@link LMxParser#iterationStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterForCondition(LMxParser.ForConditionContext ctx);
+	void enterIterationStatement_for(LMxParser.IterationStatement_forContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#forCondition}.
+	 * Exit a parse tree produced by the {@code iterationStatement_for}
+	 * labeled alternative in {@link LMxParser#iterationStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitForCondition(LMxParser.ForConditionContext ctx);
+	void exitIterationStatement_for(LMxParser.IterationStatement_forContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#forDeclaration}.
+	 * Enter a parse tree produced by the {@code forCondition_init}
+	 * labeled alternative in {@link LMxParser#forCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterForDeclaration(LMxParser.ForDeclarationContext ctx);
+	void enterForCondition_init(LMxParser.ForCondition_initContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#forDeclaration}.
+	 * Exit a parse tree produced by the {@code forCondition_init}
+	 * labeled alternative in {@link LMxParser#forCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitForDeclaration(LMxParser.ForDeclarationContext ctx);
+	void exitForCondition_init(LMxParser.ForCondition_initContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code forCondition_none}
+	 * labeled alternative in {@link LMxParser#forCondition}.
+	 * @param ctx the parse tree
+	 */
+	void enterForCondition_none(LMxParser.ForCondition_noneContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code forCondition_none}
+	 * labeled alternative in {@link LMxParser#forCondition}.
+	 * @param ctx the parse tree
+	 */
+	void exitForCondition_none(LMxParser.ForCondition_noneContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code forDeclaration_init}
+	 * labeled alternative in {@link LMxParser#forDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterForDeclaration_init(LMxParser.ForDeclaration_initContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code forDeclaration_init}
+	 * labeled alternative in {@link LMxParser#forDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitForDeclaration_init(LMxParser.ForDeclaration_initContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code forDeclaration_none}
+	 * labeled alternative in {@link LMxParser#forDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterForDeclaration_none(LMxParser.ForDeclaration_noneContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code forDeclaration_none}
+	 * labeled alternative in {@link LMxParser#forDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitForDeclaration_none(LMxParser.ForDeclaration_noneContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LMxParser#forExpression}.
 	 * @param ctx the parse tree
@@ -421,15 +855,41 @@ public interface LMxListener extends ParseTreeListener {
 	 */
 	void exitForExpression(LMxParser.ForExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#jumpStatement}.
+	 * Enter a parse tree produced by the {@code jumpStatement_continue}
+	 * labeled alternative in {@link LMxParser#jumpStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterJumpStatement(LMxParser.JumpStatementContext ctx);
+	void enterJumpStatement_continue(LMxParser.JumpStatement_continueContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#jumpStatement}.
+	 * Exit a parse tree produced by the {@code jumpStatement_continue}
+	 * labeled alternative in {@link LMxParser#jumpStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitJumpStatement(LMxParser.JumpStatementContext ctx);
+	void exitJumpStatement_continue(LMxParser.JumpStatement_continueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code jumpStatement_break}
+	 * labeled alternative in {@link LMxParser#jumpStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterJumpStatement_break(LMxParser.JumpStatement_breakContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code jumpStatement_break}
+	 * labeled alternative in {@link LMxParser#jumpStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitJumpStatement_break(LMxParser.JumpStatement_breakContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code jumpStatement_return}
+	 * labeled alternative in {@link LMxParser#jumpStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterJumpStatement_return(LMxParser.JumpStatement_returnContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code jumpStatement_return}
+	 * labeled alternative in {@link LMxParser#jumpStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitJumpStatement_return(LMxParser.JumpStatement_returnContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LMxParser#program}.
 	 * @param ctx the parse tree
@@ -461,25 +921,29 @@ public interface LMxListener extends ParseTreeListener {
 	 */
 	void exitFunctionDefinition(LMxParser.FunctionDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#classDefinition}.
+	 * Enter a parse tree produced by the {@code classDeclaration_decl}
+	 * labeled alternative in {@link LMxParser#classDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void enterClassDefinition(LMxParser.ClassDefinitionContext ctx);
+	void enterClassDeclaration_decl(LMxParser.ClassDeclaration_declContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#classDefinition}.
+	 * Exit a parse tree produced by the {@code classDeclaration_decl}
+	 * labeled alternative in {@link LMxParser#classDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void exitClassDefinition(LMxParser.ClassDefinitionContext ctx);
+	void exitClassDeclaration_decl(LMxParser.ClassDeclaration_declContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#classDeclarationList}.
+	 * Enter a parse tree produced by the {@code classDeclaration_none}
+	 * labeled alternative in {@link LMxParser#classDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void enterClassDeclarationList(LMxParser.ClassDeclarationListContext ctx);
+	void enterClassDeclaration_none(LMxParser.ClassDeclaration_noneContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#classDeclarationList}.
+	 * Exit a parse tree produced by the {@code classDeclaration_none}
+	 * labeled alternative in {@link LMxParser#classDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void exitClassDeclarationList(LMxParser.ClassDeclarationListContext ctx);
+	void exitClassDeclaration_none(LMxParser.ClassDeclaration_noneContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LMxParser#classDeclaration}.
 	 * @param ctx the parse tree

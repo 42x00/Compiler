@@ -30,23 +30,89 @@ public interface LMxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDeclarationSpecifier_type(LMxParser.DeclarationSpecifier_typeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#postfixExpression}.
+	 * Visit a parse tree produced by the {@code postfixExpression_inc}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPostfixExpression(LMxParser.PostfixExpressionContext ctx);
+	T visitPostfixExpression_inc(LMxParser.PostfixExpression_incContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#argumentExpressionList}.
+	 * Visit a parse tree produced by the {@code postfixExpression_func}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitArgumentExpressionList(LMxParser.ArgumentExpressionListContext ctx);
+	T visitPostfixExpression_func(LMxParser.PostfixExpression_funcContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#unaryExpression}.
+	 * Visit a parse tree produced by the {@code postfixExpression_class}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitUnaryExpression(LMxParser.UnaryExpressionContext ctx);
+	T visitPostfixExpression_class(LMxParser.PostfixExpression_classContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code postfixExpression_primary}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPostfixExpression_primary(LMxParser.PostfixExpression_primaryContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code postfixExpression_dec}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPostfixExpression_dec(LMxParser.PostfixExpression_decContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code postfixExpression_array}
+	 * labeled alternative in {@link LMxParser#postfixExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPostfixExpression_array(LMxParser.PostfixExpression_arrayContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code argumentExpressionList_single}
+	 * labeled alternative in {@link LMxParser#argumentExpressionList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArgumentExpressionList_single(LMxParser.ArgumentExpressionList_singleContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code argumentExpressionList_multi}
+	 * labeled alternative in {@link LMxParser#argumentExpressionList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArgumentExpressionList_multi(LMxParser.ArgumentExpressionList_multiContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code unaryExpression_postfix}
+	 * labeled alternative in {@link LMxParser#unaryExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnaryExpression_postfix(LMxParser.UnaryExpression_postfixContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code unaryExpression_prefix_inc}
+	 * labeled alternative in {@link LMxParser#unaryExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnaryExpression_prefix_inc(LMxParser.UnaryExpression_prefix_incContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code unaryExpression_prefix_dec}
+	 * labeled alternative in {@link LMxParser#unaryExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnaryExpression_prefix_dec(LMxParser.UnaryExpression_prefix_decContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code unaryExpression_prefix}
+	 * labeled alternative in {@link LMxParser#unaryExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnaryExpression_prefix(LMxParser.UnaryExpression_prefixContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LMxParser#unaryOperator}.
 	 * @param ctx the parse tree
@@ -60,65 +126,201 @@ public interface LMxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCastExpression(LMxParser.CastExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#multiplicativeExpression}.
+	 * Visit a parse tree produced by the {@code multiplicativeExpression_unary}
+	 * labeled alternative in {@link LMxParser#multiplicativeExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMultiplicativeExpression(LMxParser.MultiplicativeExpressionContext ctx);
+	T visitMultiplicativeExpression_unary(LMxParser.MultiplicativeExpression_unaryContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#additiveExpression}.
+	 * Visit a parse tree produced by the {@code multiplicativeExpression_mod}
+	 * labeled alternative in {@link LMxParser#multiplicativeExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAdditiveExpression(LMxParser.AdditiveExpressionContext ctx);
+	T visitMultiplicativeExpression_mod(LMxParser.MultiplicativeExpression_modContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#shiftExpression}.
+	 * Visit a parse tree produced by the {@code multiplicativeExpression_div}
+	 * labeled alternative in {@link LMxParser#multiplicativeExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitShiftExpression(LMxParser.ShiftExpressionContext ctx);
+	T visitMultiplicativeExpression_div(LMxParser.MultiplicativeExpression_divContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#relationalExpression}.
+	 * Visit a parse tree produced by the {@code multiplicativeExpression_mul}
+	 * labeled alternative in {@link LMxParser#multiplicativeExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRelationalExpression(LMxParser.RelationalExpressionContext ctx);
+	T visitMultiplicativeExpression_mul(LMxParser.MultiplicativeExpression_mulContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#equalityExpression}.
+	 * Visit a parse tree produced by the {@code additiveExpression_sub}
+	 * labeled alternative in {@link LMxParser#additiveExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEqualityExpression(LMxParser.EqualityExpressionContext ctx);
+	T visitAdditiveExpression_sub(LMxParser.AdditiveExpression_subContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#andExpression}.
+	 * Visit a parse tree produced by the {@code additiveExpression_add}
+	 * labeled alternative in {@link LMxParser#additiveExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAndExpression(LMxParser.AndExpressionContext ctx);
+	T visitAdditiveExpression_add(LMxParser.AdditiveExpression_addContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#exclusiveOrExpression}.
+	 * Visit a parse tree produced by the {@code additiveExpression_unary}
+	 * labeled alternative in {@link LMxParser#additiveExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExclusiveOrExpression(LMxParser.ExclusiveOrExpressionContext ctx);
+	T visitAdditiveExpression_unary(LMxParser.AdditiveExpression_unaryContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#inclusiveOrExpression}.
+	 * Visit a parse tree produced by the {@code shiftExpression_shr}
+	 * labeled alternative in {@link LMxParser#shiftExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInclusiveOrExpression(LMxParser.InclusiveOrExpressionContext ctx);
+	T visitShiftExpression_shr(LMxParser.ShiftExpression_shrContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#logicalAndExpression}.
+	 * Visit a parse tree produced by the {@code shiftExpression_unary}
+	 * labeled alternative in {@link LMxParser#shiftExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLogicalAndExpression(LMxParser.LogicalAndExpressionContext ctx);
+	T visitShiftExpression_unary(LMxParser.ShiftExpression_unaryContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#logicalOrExpression}.
+	 * Visit a parse tree produced by the {@code shiftExpression_shl}
+	 * labeled alternative in {@link LMxParser#shiftExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLogicalOrExpression(LMxParser.LogicalOrExpressionContext ctx);
+	T visitShiftExpression_shl(LMxParser.ShiftExpression_shlContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code relationalExpression_ge}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRelationalExpression_ge(LMxParser.RelationalExpression_geContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code relationalExpression_unary}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRelationalExpression_unary(LMxParser.RelationalExpression_unaryContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code relationalExpression_geq}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRelationalExpression_geq(LMxParser.RelationalExpression_geqContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code relationalExpression_le}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRelationalExpression_le(LMxParser.RelationalExpression_leContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code relationalExpression_leq}
+	 * labeled alternative in {@link LMxParser#relationalExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRelationalExpression_leq(LMxParser.RelationalExpression_leqContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code equalityExpression_unary}
+	 * labeled alternative in {@link LMxParser#equalityExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEqualityExpression_unary(LMxParser.EqualityExpression_unaryContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code equalityExpression_equal}
+	 * labeled alternative in {@link LMxParser#equalityExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEqualityExpression_equal(LMxParser.EqualityExpression_equalContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code equalityExpression_inequal}
+	 * labeled alternative in {@link LMxParser#equalityExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEqualityExpression_inequal(LMxParser.EqualityExpression_inequalContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code andExpression_unary}
+	 * labeled alternative in {@link LMxParser#andExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAndExpression_unary(LMxParser.AndExpression_unaryContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code andExpression_binary}
+	 * labeled alternative in {@link LMxParser#andExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAndExpression_binary(LMxParser.AndExpression_binaryContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code exclusiveOrExpression_unary}
+	 * labeled alternative in {@link LMxParser#exclusiveOrExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExclusiveOrExpression_unary(LMxParser.ExclusiveOrExpression_unaryContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code exclusiveOrExpression_binary}
+	 * labeled alternative in {@link LMxParser#exclusiveOrExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExclusiveOrExpression_binary(LMxParser.ExclusiveOrExpression_binaryContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code inclusiveOrExpression_binary}
+	 * labeled alternative in {@link LMxParser#inclusiveOrExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInclusiveOrExpression_binary(LMxParser.InclusiveOrExpression_binaryContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code inclusiveOrExpression_unary}
+	 * labeled alternative in {@link LMxParser#inclusiveOrExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInclusiveOrExpression_unary(LMxParser.InclusiveOrExpression_unaryContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code logicalAndExpression_unary}
+	 * labeled alternative in {@link LMxParser#logicalAndExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicalAndExpression_unary(LMxParser.LogicalAndExpression_unaryContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code logicalAndExpression_binary}
+	 * labeled alternative in {@link LMxParser#logicalAndExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicalAndExpression_binary(LMxParser.LogicalAndExpression_binaryContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code logicalOrExpression_binary}
+	 * labeled alternative in {@link LMxParser#logicalOrExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicalOrExpression_binary(LMxParser.LogicalOrExpression_binaryContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code logicalOrExpression_unary}
+	 * labeled alternative in {@link LMxParser#logicalOrExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicalOrExpression_unary(LMxParser.LogicalOrExpression_unaryContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LMxParser#expression}.
 	 * @param ctx the parse tree
@@ -126,23 +328,47 @@ public interface LMxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(LMxParser.ExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#declaration}.
+	 * Visit a parse tree produced by the {@code declaration_init}
+	 * labeled alternative in {@link LMxParser#declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDeclaration(LMxParser.DeclarationContext ctx);
+	T visitDeclaration_init(LMxParser.Declaration_initContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#initDeclaratorList}.
+	 * Visit a parse tree produced by the {@code declaration_none}
+	 * labeled alternative in {@link LMxParser#declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInitDeclaratorList(LMxParser.InitDeclaratorListContext ctx);
+	T visitDeclaration_none(LMxParser.Declaration_noneContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#initDeclarator}.
+	 * Visit a parse tree produced by the {@code initDeclaratorList_single}
+	 * labeled alternative in {@link LMxParser#initDeclaratorList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInitDeclarator(LMxParser.InitDeclaratorContext ctx);
+	T visitInitDeclaratorList_single(LMxParser.InitDeclaratorList_singleContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code initDeclaratorList_multi}
+	 * labeled alternative in {@link LMxParser#initDeclaratorList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInitDeclaratorList_multi(LMxParser.InitDeclaratorList_multiContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code initDeclarator_none}
+	 * labeled alternative in {@link LMxParser#initDeclarator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInitDeclarator_none(LMxParser.InitDeclarator_noneContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code initDeclarator_init}
+	 * labeled alternative in {@link LMxParser#initDeclarator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInitDeclarator_init(LMxParser.InitDeclarator_initContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LMxParser#typeSpecifier}.
 	 * @param ctx the parse tree
@@ -233,23 +459,47 @@ public interface LMxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSelectionStatement(LMxParser.SelectionStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#iterationStatement}.
+	 * Visit a parse tree produced by the {@code iterationStatement_while}
+	 * labeled alternative in {@link LMxParser#iterationStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIterationStatement(LMxParser.IterationStatementContext ctx);
+	T visitIterationStatement_while(LMxParser.IterationStatement_whileContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#forCondition}.
+	 * Visit a parse tree produced by the {@code iterationStatement_for}
+	 * labeled alternative in {@link LMxParser#iterationStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitForCondition(LMxParser.ForConditionContext ctx);
+	T visitIterationStatement_for(LMxParser.IterationStatement_forContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#forDeclaration}.
+	 * Visit a parse tree produced by the {@code forCondition_init}
+	 * labeled alternative in {@link LMxParser#forCondition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitForDeclaration(LMxParser.ForDeclarationContext ctx);
+	T visitForCondition_init(LMxParser.ForCondition_initContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code forCondition_none}
+	 * labeled alternative in {@link LMxParser#forCondition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForCondition_none(LMxParser.ForCondition_noneContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code forDeclaration_init}
+	 * labeled alternative in {@link LMxParser#forDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForDeclaration_init(LMxParser.ForDeclaration_initContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code forDeclaration_none}
+	 * labeled alternative in {@link LMxParser#forDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForDeclaration_none(LMxParser.ForDeclaration_noneContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LMxParser#forExpression}.
 	 * @param ctx the parse tree
@@ -257,11 +507,26 @@ public interface LMxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitForExpression(LMxParser.ForExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#jumpStatement}.
+	 * Visit a parse tree produced by the {@code jumpStatement_continue}
+	 * labeled alternative in {@link LMxParser#jumpStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitJumpStatement(LMxParser.JumpStatementContext ctx);
+	T visitJumpStatement_continue(LMxParser.JumpStatement_continueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code jumpStatement_break}
+	 * labeled alternative in {@link LMxParser#jumpStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJumpStatement_break(LMxParser.JumpStatement_breakContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code jumpStatement_return}
+	 * labeled alternative in {@link LMxParser#jumpStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJumpStatement_return(LMxParser.JumpStatement_returnContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LMxParser#program}.
 	 * @param ctx the parse tree
@@ -281,17 +546,19 @@ public interface LMxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionDefinition(LMxParser.FunctionDefinitionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#classDefinition}.
+	 * Visit a parse tree produced by the {@code classDeclaration_decl}
+	 * labeled alternative in {@link LMxParser#classDefinition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitClassDefinition(LMxParser.ClassDefinitionContext ctx);
+	T visitClassDeclaration_decl(LMxParser.ClassDeclaration_declContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#classDeclarationList}.
+	 * Visit a parse tree produced by the {@code classDeclaration_none}
+	 * labeled alternative in {@link LMxParser#classDefinition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitClassDeclarationList(LMxParser.ClassDeclarationListContext ctx);
+	T visitClassDeclaration_none(LMxParser.ClassDeclaration_noneContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LMxParser#classDeclaration}.
 	 * @param ctx the parse tree

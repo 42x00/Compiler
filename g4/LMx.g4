@@ -130,7 +130,7 @@ typeSpecifier // 191
     ; 
 
 newDeclarator // 
-    :   NEW   declarationSpecifier
+    :   'new'   declarationSpecifier
     ;
 
 directDeclarator // 299

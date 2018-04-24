@@ -2,7 +2,7 @@ package AST_Node;
 
 import java.util.List;
 
-public class VarDeclListNode extends ASTNode{
+public class VarDeclListNode extends DeclNode{
     public List<VarDeclNode> vardeclnodeList;
 
     public VarDeclListNode() {

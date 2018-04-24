@@ -10,6 +10,10 @@ public class FuncDeclNode extends DeclNode{
     public FuncDeclNode(){
     }
 
+    public FuncDeclNode(String functionName) {
+        this.functionName = functionName;
+    }
+
     public FuncDeclNode(TypeNode functionReturnType, String functionName, VarDeclListNode functionParameterList, CompStmtNode functionStatements) {
         if (functionReturnType == null) isConstructFunction = true;
         else isConstructFunction = false;

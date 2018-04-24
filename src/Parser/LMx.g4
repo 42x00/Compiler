@@ -13,28 +13,28 @@ declarationSpecifier // 16
     ;
 
 postfixExpression // 28
-    :   primaryExpression
-    |   postfixExpression '[' expression ']'
-    |   postfixExpression '(' argumentExpressionList? ')'
-    |   postfixExpression '.' Identifier
-    |   postfixExpression '++'
-    |   postfixExpression '--'
+    :   primaryExpression                                   #postfixExpression_primary
+    |   postfixExpression '[' expression ']'                #postfixExpression_array
+    |   postfixExpression '(' argumentExpressionList? ')'   #postfixExpression_func
+    |   postfixExpression '.' Identifier                    #postfixExpression_class
+    |   postfixExpression '++'                              #postfixExpression_inc
+    |   postfixExpression '--'                              #postfixExpression_dec
     ;
 
 argumentExpressionList // 42
-    :   expression
-    |   argumentExpressionList ',' expression
+    :   expression                                          #argumentExpressionList_single
+    |   argumentExpressionList ',' expression               #argumentExpressionList_multi
     ;
 
 unaryExpression // 47
-    :   postfixExpression
-    |   '++' unaryExpression
-    |   '--' unaryExpression
-    |   unaryOperator castExpression
+    :   postfixExpression               #unaryExpression_postfix
+    |   '++' unaryExpression            #unaryExpression_prefix_inc
+    |   '--' unaryExpression            #unaryExpression_prefix_dec
+    |   unaryOperator castExpression    #unaryExpression_prefix
     ;
 
 unaryOperator // 58
-    :   '&' | '|' | '+' | '-' | '~' | '!'
+    :   '+' | '-' | '~' | '!'
     ;
 
 castExpression // 62
@@ -43,61 +43,61 @@ castExpression // 62
     ;
 
 multiplicativeExpression // 69
-    :   castExpression
-    |   multiplicativeExpression '*' castExpression
-    |   multiplicativeExpression '/' castExpression
-    |   multiplicativeExpression '%' castExpression
+    :   castExpression                                      #multiplicativeExpression_unary
+    |   multiplicativeExpression '*' castExpression         #multiplicativeExpression_mul
+    |   multiplicativeExpression '/' castExpression         #multiplicativeExpression_div
+    |   multiplicativeExpression '%' castExpression         #multiplicativeExpression_mod
     ;
 
 additiveExpression // 76
-    :   multiplicativeExpression
-    |   additiveExpression '+' multiplicativeExpression
-    |   additiveExpression '-' multiplicativeExpression
+    :   multiplicativeExpression                            #additiveExpression_unary                    
+    |   additiveExpression '+' multiplicativeExpression     #additiveExpression_add         
+    |   additiveExpression '-' multiplicativeExpression     #additiveExpression_sub           
     ;
 
 shiftExpression // 82
-    :   additiveExpression
-    |   shiftExpression '<<' additiveExpression
-    |   shiftExpression '>>' additiveExpression
+    :   additiveExpression                                  #shiftExpression_unary
+    |   shiftExpression '<<' additiveExpression             #shiftExpression_shl
+    |   shiftExpression '>>' additiveExpression             #shiftExpression_shr
     ;
 
 relationalExpression // 88
-    :   shiftExpression
-    |   relationalExpression '<' shiftExpression
-    |   relationalExpression '>' shiftExpression
-    |   relationalExpression '<=' shiftExpression
-    |   relationalExpression '>=' shiftExpression
+    :   shiftExpression                                     #relationalExpression_unary
+    |   relationalExpression '<' shiftExpression            #relationalExpression_le
+    |   relationalExpression '>' shiftExpression            #relationalExpression_ge
+    |   relationalExpression '<=' shiftExpression           #relationalExpression_leq
+    |   relationalExpression '>=' shiftExpression           #relationalExpression_geq
     ;
 
 equalityExpression // 96
-    :   relationalExpression
-    |   equalityExpression '==' relationalExpression
-    |   equalityExpression '!=' relationalExpression
+    :   relationalExpression                                #equalityExpression_unary
+    |   equalityExpression '==' relationalExpression        #equalityExpression_equal
+    |   equalityExpression '!=' relationalExpression        #equalityExpression_inequal
     ;
 
 andExpression // 102
-    :   equalityExpression
-    |   andExpression '&' equalityExpression
+    :   equalityExpression                                  #andExpression_unary
+    |   andExpression '&' equalityExpression                #andExpression_binary
     ;
 
 exclusiveOrExpression // 107
-    :   andExpression
-    |   exclusiveOrExpression '^' andExpression
+    :   andExpression                                       #exclusiveOrExpression_unary
+    |   exclusiveOrExpression '^' andExpression             #exclusiveOrExpression_binary
     ;
 
 inclusiveOrExpression // 112
-    :   exclusiveOrExpression
-    |   inclusiveOrExpression '|' exclusiveOrExpression
+    :   exclusiveOrExpression                               #inclusiveOrExpression_unary
+    |   inclusiveOrExpression '|' exclusiveOrExpression     #inclusiveOrExpression_binary
     ;
 
 logicalAndExpression // 117
-    :   inclusiveOrExpression
-    |   logicalAndExpression '&&' inclusiveOrExpression
+    :   inclusiveOrExpression                               #logicalAndExpression_unary
+    |   logicalAndExpression '&&' inclusiveOrExpression     #logicalAndExpression_binary
     ;
 
 logicalOrExpression // 122
-    :   logicalAndExpression
-    |   logicalOrExpression '||' logicalAndExpression
+    :   logicalAndExpression                                #logicalOrExpression_unary
+    |   logicalOrExpression '||' logicalAndExpression       #logicalOrExpression_binary
     ;
 
 expression // 141
@@ -108,18 +108,18 @@ expression // 141
     ;
 
 declaration // 150
-    :   declarationSpecifier initDeclaratorList ';'
-	| 	declarationSpecifier ';'
+    :   declarationSpecifier initDeclaratorList ';'     #declaration_init
+	| 	declarationSpecifier ';'                        #declaration_none
     ;
 
 initDeclaratorList // 172
-    :   initDeclarator
-    |   initDeclaratorList ',' initDeclarator
+    :   initDeclarator                                  #initDeclaratorList_single
+    |   initDeclaratorList ',' initDeclarator           #initDeclaratorList_multi
     ;
 
 initDeclarator // 177
-    :   directDeclarator
-    |   directDeclarator '=' expression
+    :   directDeclarator                                #initDeclarator_none
+    |   directDeclarator '=' expression                 #initDeclarator_init
     ;
 
 typeSpecifier // 191
@@ -178,18 +178,18 @@ selectionStatement // 460
     ;
 
 iterationStatement // 465
-    :   While '(' expression ')' statement
-    |   For '(' forCondition ')' statement
+    :   While '(' expression ')' statement              #iterationStatement_while
+    |   For '(' forCondition ')' statement              #iterationStatement_for
     ;
 
 forCondition // 474
-	:   forDeclaration ';' forExpression? ';' forExpression?
-	|   expression? ';' forExpression? ';' forExpression?
+	:   forDeclaration ';' forExpression? ';' forExpression?    #forCondition_init
+	|   expression? ';' forExpression? ';' forExpression?       #forCondition_none
 	;
 
 forDeclaration // 479
-    :   declarationSpecifier initDeclaratorList
-	| 	declarationSpecifier
+    :   declarationSpecifier initDeclaratorList         #forDeclaration_init
+	| 	declarationSpecifier                            #forDeclaration_none
     ;
 
 forExpression // 484
@@ -197,9 +197,9 @@ forExpression // 484
     ;
 
 jumpStatement // 489
-    :   'continue' ';'
-    |   'break' ';'
-    |   'return' expression? ';'
+    :   'continue' ';'                  #jumpStatement_continue
+    |   'break' ';'                     #jumpStatement_break
+    |   'return' expression? ';'        #jumpStatement_return
     ;
 
 program // 497
@@ -210,6 +210,7 @@ programDeclaration // 506
     :   functionDefinition
     |   classDefinition
     |   declaration
+    |   ';'
     ;
 
 functionDefinition // 512
@@ -217,13 +218,8 @@ functionDefinition // 512
     ;
 
 classDefinition // 
-    :   'class' Identifier? '{' classDeclarationList '}'
-    |   'class' Identifier
-    ;
-
-classDeclarationList //
-    :   classDeclaration
-    |   classDeclarationList classDeclaration
+    :   'class' Identifier? '{' classDeclaration* '}'           #classDeclaration_decl
+    |   'class' Identifier                                      #classDeclaration_none
     ;
 
 classDeclaration // 

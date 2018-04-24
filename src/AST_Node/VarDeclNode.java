@@ -5,7 +5,17 @@ public class VarDeclNode extends DeclNode{
     private String varname;
     private ExprNode varinit;
 
-    public VarDeclNode() {
+    public VarDeclNode(String varname, ExprNode varinit) {
+        this.varname = varname;
+        this.varinit = varinit;
+    }
+
+    public VarDeclNode(String varname) {
+        this.varname = varname;
+    }
+
+    public VarDeclNode(TypeNode vartype) {
+        this.vartype = vartype;
     }
 
     public VarDeclNode(TypeNode vartype, String varname) {

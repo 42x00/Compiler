@@ -142,6 +142,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitPrimaryExpression(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitPrimaryExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final PrimaryExpressionContext primaryExpression() throws RecognitionException {
@@ -216,6 +221,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitDeclarationSpecifier(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitDeclarationSpecifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -301,6 +311,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitPostfixExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitPostfixExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -443,6 +458,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitArgumentExpressionList(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitArgumentExpressionList(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ArgumentExpressionListContext argumentExpressionList() throws RecognitionException {
@@ -527,6 +547,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitUnaryExpression(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitUnaryExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final UnaryExpressionContext unaryExpression() throws RecognitionException {
@@ -606,6 +631,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitUnaryOperator(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitUnaryOperator(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final UnaryOperatorContext unaryOperator() throws RecognitionException {
@@ -654,6 +684,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitCastExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitCastExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -722,6 +757,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitMultiplicativeExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitMultiplicativeExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -831,6 +871,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitAdditiveExpression(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitAdditiveExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final AdditiveExpressionContext additiveExpression() throws RecognitionException {
@@ -927,6 +972,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitShiftExpression(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitShiftExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ShiftExpressionContext shiftExpression() throws RecognitionException {
@@ -1022,6 +1072,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitRelationalExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitRelationalExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1143,6 +1198,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitEqualityExpression(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitEqualityExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final EqualityExpressionContext equalityExpression() throws RecognitionException {
@@ -1239,6 +1299,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitAndExpression(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitAndExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final AndExpressionContext andExpression() throws RecognitionException {
@@ -1316,6 +1381,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitExclusiveOrExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitExclusiveOrExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1395,6 +1465,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitInclusiveOrExpression(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitInclusiveOrExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final InclusiveOrExpressionContext inclusiveOrExpression() throws RecognitionException {
@@ -1473,6 +1548,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitLogicalAndExpression(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitLogicalAndExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final LogicalAndExpressionContext logicalAndExpression() throws RecognitionException {
@@ -1550,6 +1630,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitLogicalOrExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitLogicalOrExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1636,6 +1721,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitExpression(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ExpressionContext expression() throws RecognitionException {
@@ -1709,6 +1799,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitDeclaration(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitDeclaration(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final DeclarationContext declaration() throws RecognitionException {
@@ -1769,6 +1864,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitInitDeclaratorList(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitInitDeclaratorList(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1848,6 +1948,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitInitDeclarator(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitInitDeclarator(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final InitDeclaratorContext initDeclarator() throws RecognitionException {
@@ -1903,6 +2008,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitTypeSpecifier(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitTypeSpecifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1970,6 +2080,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitNewDeclarator(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitNewDeclarator(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final NewDeclaratorContext newDeclarator() throws RecognitionException {
@@ -2014,6 +2129,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitDirectDeclarator(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitDirectDeclarator(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2122,6 +2242,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitParameterList(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitParameterList(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ParameterListContext parameterList() throws RecognitionException {
@@ -2200,6 +2325,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitParameterDeclaration(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitParameterDeclaration(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ParameterDeclarationContext parameterDeclaration() throws RecognitionException {
@@ -2238,6 +2368,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitTypedefName(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitTypedefName(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2289,6 +2424,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitStatement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2382,6 +2522,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitCompoundStatement(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitCompoundStatement(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final CompoundStatementContext compoundStatement() throws RecognitionException {
@@ -2436,6 +2581,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitBlockItemList(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitBlockItemList(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2513,6 +2663,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitBlockItem(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitBlockItem(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final BlockItemContext blockItem() throws RecognitionException {
@@ -2564,6 +2719,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitExpressionStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitExpressionStatement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2620,6 +2780,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitSelectionStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitSelectionStatement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2687,6 +2852,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitIterationStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitIterationStatement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2766,6 +2936,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitForCondition(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitForCondition(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2879,6 +3054,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitForDeclaration(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitForDeclaration(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ForDeclarationContext forDeclaration() throws RecognitionException {
@@ -2933,6 +3113,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitForExpression(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitForExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ForExpressionContext forExpression() throws RecognitionException {
@@ -2971,6 +3156,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitJumpStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitJumpStatement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3051,6 +3241,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitCompilationUnit(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitCompilationUnit(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final CompilationUnitContext compilationUnit() throws RecognitionException {
@@ -3103,6 +3298,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitTranslationUnit(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitTranslationUnit(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3183,6 +3383,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitExternalDeclaration(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitExternalDeclaration(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ExternalDeclarationContext externalDeclaration() throws RecognitionException {
@@ -3255,6 +3460,11 @@ public class LMxParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitFunctionDefinition(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitFunctionDefinition(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final FunctionDefinitionContext functionDefinition() throws RecognitionException {
@@ -3306,6 +3516,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitClassDefinition(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitClassDefinition(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3380,6 +3595,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitClassDeclarationList(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitClassDeclarationList(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3456,6 +3676,11 @@ public class LMxParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitClassDeclaration(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitClassDeclaration(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
