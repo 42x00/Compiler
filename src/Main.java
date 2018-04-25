@@ -11,7 +11,7 @@ import static org.antlr.v4.runtime.CharStreams.fromFileName;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        String inputFile = "D:\\LYK\\Class\\Compiler\\LMx_Compiler\\Compiler\\src\\Test";
+        String inputFile = "D:\\LYK\\Class\\Compiler\\LMx_Compiler\\Compiler\\src\\Test\\code.txt";
         CharStream stream = fromFileName(inputFile);
         LMxLexer lexer              = new LMxLexer(stream);
         CommonTokenStream tokens    = new CommonTokenStream(lexer);

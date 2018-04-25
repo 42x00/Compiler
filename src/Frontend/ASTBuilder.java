@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import static java.lang.System.out;
 
 public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
@@ -48,14 +49,14 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitDeclarationSpecifier_type(LMxParser.DeclarationSpecifier_typeContext ctx) {
         if (ctx.typeSpecifier().typedefName() == null) {
-            switch (ctx.typeSpecifier().toString()){
+            switch (ctx.typeSpecifier().getText()){
                 case("void"): return new TypeNode(Type.Types.VOID);
                 case("int"): return  new TypeNode(Type.Types.INT);
                 case("string"): return new TypeNode(Type.Types.STRING);
             }
         }
         else {
-            return new ClassTypeNode(ctx.typeSpecifier().typedefName().Identifier().toString());
+            return new ClassTypeNode(ctx.typeSpecifier().typedefName().Identifier().getText());
         }
         return null;
     }
@@ -68,7 +69,7 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitDirectDeclarator_Identifier(LMxParser.DirectDeclarator_IdentifierContext ctx) {
-        return new FuncDeclNode(ctx.Identifier().toString());
+        return new FuncDeclNode(ctx.Identifier().getText());
     }
 
     @Override
@@ -79,7 +80,7 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitDirectDeclarator_with_parameterList(LMxParser.DirectDeclarator_with_parameterListContext ctx) {
         FuncDeclNode funcdeclnode_name_params =(FuncDeclNode) visit(ctx.directDeclarator());
-        funcdeclnode_name_params.setFunctionParameterList((VarDeclListNode) visit(ctx.parameterList()));
+        if (ctx.parameterList() != null) funcdeclnode_name_params.setFunctionParameterList((VarDeclListNode) visit(ctx.parameterList()));
         return funcdeclnode_name_params;
     }
 
@@ -263,7 +264,7 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitClassDeclaration_none(LMxParser.ClassDeclaration_noneContext ctx) {
-        return new ClassDeclNode(ctx.Identifier().toString());
+        return new ClassDeclNode(ctx.Identifier().getText());
     }
 
     @Override
@@ -278,7 +279,7 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
             }
             else declnodelist.add((DeclNode) visitclassdeclaration);
         }
-        return new ClassDeclNode(ctx.Identifier().toString(), declnodelist);
+        return new ClassDeclNode(ctx.Identifier().getText(), declnodelist);
     }
 
     @Override
@@ -287,7 +288,7 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
             return new NewExprNode((TypeNode) visit(ctx.newDeclarator().declarationSpecifier()));
         }
         else if (ctx.DigitSequence() != null){
-            return new IntExprNode(Integer.parseInt(ctx.DigitSequence().toString()));
+            return new IntExprNode(Integer.parseInt(ctx.DigitSequence().getText()));
         }
         else if (ctx.logicalOrExpression() != null){
             return visit(ctx.logicalOrExpression());
@@ -479,7 +480,7 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitCastExpression(LMxParser.CastExpressionContext ctx) {
         if (ctx.unaryExpression() != null) return visit(ctx.unaryExpression());
-        return new IntExprNode(Integer.parseInt(ctx.DigitSequence().toString()));
+        return new IntExprNode(Integer.parseInt(ctx.DigitSequence().getText()));
     }
 
     @Override
@@ -494,13 +495,14 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitUnaryExpression_prefix(LMxParser.UnaryExpression_prefixContext ctx) {
-        if (ctx.unaryOperator().toString() == "+"){
+        String unaryoperator = ctx.unaryOperator().getText();
+        if (unaryoperator == "+"){
             return new UnaryExprNode(UnaryExprNode.UnaryOP.POSI, (ExprNode) visit(ctx.unaryOperator()));
         }
-        else if (ctx.unaryOperator().toString() == "-"){
+        else if (unaryoperator == "-"){
             return new UnaryExprNode(UnaryExprNode.UnaryOP.NEGE, (ExprNode) visit(ctx.unaryOperator()));
         }
-        else if (ctx.unaryOperator().toString() == "~"){
+        else if (unaryoperator == "~"){
             return new UnaryExprNode((UnaryExprNode.UnaryOP.BIT_NOT), (ExprNode) visit(ctx.unaryOperator()));
         }
         else return new UnaryExprNode(UnaryExprNode.UnaryOP.LOGIC_NOT, (ExprNode) visit(ctx.unaryOperator()));
@@ -509,14 +511,14 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPrimaryExpression(LMxParser.PrimaryExpressionContext ctx) {
-        if (ctx.Identifier() != null) return new IDExprNode(ctx.Identifier().toString());
+        if (ctx.Identifier() != null) return new IDExprNode(ctx.Identifier().getText());
         else if (ctx.Constant() != null) {
-            String constant = ctx.Constant().toString();
+            String constant = ctx.Constant().getText();
             if (constant == "true") return new BoolExprNode(true);
             else if (constant == "false") return new BoolExprNode(false);
             return new IntExprNode(Integer.parseInt(constant));
         }
-        else if (ctx.StringLiteral() != null) return new StringExprNode(ctx.StringLiteral().toString());
+        else if (ctx.StringLiteral() != null) return new StringExprNode(ctx.StringLiteral().getText());
         else return visit(ctx.expression());
     }
 
@@ -563,7 +565,7 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPostfixExpression_class(LMxParser.PostfixExpression_classContext ctx) {
-        return new ClassMethodExprNode((ExprNode) visit(ctx.postfixExpression()), ctx.Identifier().toString());
+        return new ClassMethodExprNode((ExprNode) visit(ctx.postfixExpression()), ctx.Identifier().getText());
     }
 
     @Override

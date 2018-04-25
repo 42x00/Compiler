@@ -1,1 +1,0 @@
-grun test compilationUnit -gui

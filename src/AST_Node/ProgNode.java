@@ -1,11 +1,13 @@
 package AST_Node;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProgNode extends ASTNode{
     public List<DeclNode> declarations;
 
     public ProgNode() {
+        this.declarations = new ArrayList<>();
     }
 
     public ProgNode(List<DeclNode> declarations) {

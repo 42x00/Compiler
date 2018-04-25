@@ -19,157 +19,165 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(ArrayIndexExprNode arrayIndexExprNode) {
-        out.println("ArrayIndexExprNode " + arrayIndexExprNode.getClass().getSimpleName());
+        out.println("ArrayIndexExprNode");
     }
 
     @Override
     public void visit(ArrayTypeNode arrayTypeNode) {
-        out.println("ArrayTypeNode " + arrayTypeNode.getClass().getSimpleName());
+        out.println("ArrayTypeNode");
     }
 
     @Override
     public void visit(BinaryExprNode binaryExprNode) {
-        out.println("BinaryExprNode " + binaryExprNode.getClass().getSimpleName());
+        out.println("BinaryExprNode");
     }
 
     @Override
     public void visit(BoolExprNode boolExprNode) {
-        out.println("BoolExprNode " + boolExprNode.getClass().getSimpleName());
+        out.println("BoolExprNode");
     }
 
     @Override
     public void visit(BreakStmtNode breakStmtNode) {
-        out.println("BreakStmtNode " + breakStmtNode.getClass().getSimpleName());
+        out.println("BreakStmtNode");
     }
 
     @Override
     public void visit(ClassDeclNode classDeclNode) {
-        out.println("ClassDeclNode " + classDeclNode.getClass().getSimpleName());
+        out.println("ClassDeclNode");
+        for (DeclNode vardeclnode : classDeclNode.classdecllist)
+            vardeclnode.accept(this);
     }
 
     @Override
     public void visit(ClassMethodExprNode classMethodExprNode) {
-        out.println("ClassMethodExprNode " + classMethodExprNode.getClass().getSimpleName());
+        out.println("ClassMethodExprNode");
     }
 
     @Override
     public void visit(ClassTypeNode classTypeNode) {
-        out.println("ClassTypeNode " + classTypeNode.getClass().getSimpleName());
+        out.println("ClassTypeNode");
     }
 
     @Override
     public void visit(CompStmtNode compStmtNode) {
-        out.println("CompStmtNode " + compStmtNode.getClass().getSimpleName());
+        out.println("CompStmtNode");
+        for (StmtNode stmtnode : compStmtNode.stmtNodeList)
+            stmtnode.accept(this);
     }
 
     @Override
     public void visit(ContinueStmtNode continueStmtNode) {
-        out.println("ContinueStmtNode " + continueStmtNode.getClass().getSimpleName());
+        out.println("ContinueStmtNode");
     }
 
     @Override
     public void visit(DeclNode declNode) {
-        out.println("DeclNode " + declNode.getClass().getSimpleName());
+        out.println("DeclNode");
     }
 
     @Override
     public void visit(ExprNode exprNode) {
-        out.println("ExprNode " + exprNode.getClass().getSimpleName());
+        out.println("ExprNode");
     }
 
     @Override
     public void visit(ExprStmtNode exprStmtNode) {
-        out.println("ExprStmtNode " + exprStmtNode.getClass().getSimpleName());
+        out.println("ExprStmtNode");
     }
 
     @Override
     public void visit(ForStmtNode forStmtNode) {
-        out.println("ForStmtNode " + forStmtNode.getClass().getSimpleName());
+        out.println("ForStmtNode");
     }
 
     @Override
     public void visit(FuncCallExprNode funcCallExprNode) {
-        out.println("FuncCallExprNode " + funcCallExprNode.getClass().getSimpleName());
+        out.println("FuncCallExprNode");
     }
 
     @Override
     public void visit(FuncDeclNode funcDeclNode) {
-        out.println("FuncDeclNode " + funcDeclNode.getClass().getSimpleName());
+        out.println("FuncDeclNode");
+        funcDeclNode.getFunctionStatements().accept(this);
     }
 
     @Override
     public void visit(IDExprNode idExprNode) {
-        out.println("IDExprNode " + idExprNode.getClass().getSimpleName());
+        out.println("IDExprNode");
     }
 
     @Override
     public void visit(IfStmtNode ifStmtNode) {
-        out.println("IfStmtNode " + ifStmtNode.getClass().getSimpleName());
+        out.println("IfStmtNode");
     }
 
     @Override
     public void visit(IntExprNode intExprNode) {
-        out.println("IntExprNode " + intExprNode.getClass().getSimpleName());
+        out.println("IntExprNode");
     }
 
     @Override
     public void visit(NewExprNode newExprNode) {
-        out.println("NewExprNode " + newExprNode.getClass().getSimpleName());
+        out.println("NewExprNode");
     }
 
     @Override
     public void visit(ProgNode progNode) {
-        out.println("ProgNode " + progNode.getClass().getSimpleName());
+        out.println("ProgNode");
+        for (DeclNode declnode : progNode.declarations){
+            declnode.accept(this);
+        }
     }
 
     @Override
     public void visit(ReturnStmtNode returnStmtNode) {
-        out.println("ReturnStmtNode " + returnStmtNode.getClass().getSimpleName());
+        out.println("ReturnStmtNode");
     }
 
     @Override
     public void visit(StmtNode stmtNode) {
-        out.println("StmtNode " + stmtNode.getClass().getSimpleName());
+        out.println("StmtNode");
     }
 
     @Override
     public void visit(StringExprNode stringExprNode) {
-        out.println("StringExprNode " + stringExprNode.getClass().getSimpleName());
+        out.println("StringExprNode");
     }
 
     @Override
     public void visit(SuffixExprNode suffixExprNode) {
-        out.println("SuffixExprNode " + suffixExprNode.getClass().getSimpleName());
+        out.println("SuffixExprNode");
     }
 
     @Override
     public void visit(TypeNode typeNode) {
-        out.println("TypeNode " + typeNode.getClass().getSimpleName());
+        out.println("TypeNode");
     }
 
     @Override
     public void visit(UnaryExprNode unaryExprNode) {
-        out.println("UnaryExprNode " + unaryExprNode.getClass().getSimpleName());
+        out.println("UnaryExprNode");
     }
 
     @Override
     public void visit(VarDeclListNode varDeclListNode) {
-        out.println("VarDeclListNode " + varDeclListNode.getClass().getSimpleName());
+        out.println("VarDeclListNode");
     }
 
     @Override
     public void visit(VarDeclNode varDeclNode) {
-        out.println("VarDeclNode " + varDeclNode.getClass().getSimpleName());
+        out.println("VarDeclNode");
     }
 
     @Override
     public void visit(VarDeclStmtNode varDeclStmtNode) {
-        out.println("VarDeclStmtNode " + varDeclStmtNode.getClass().getSimpleName());
+        out.println("VarDeclStmtNode");
     }
 
     @Override
     public void visit(WhileStmtNode whileStmtNode) {
-        out.println("WhileStmtNode " + whileStmtNode.getClass().getSimpleName());
+        out.println("WhileStmtNode");
     }
 
 

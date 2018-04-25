@@ -1,5 +1,6 @@
 package AST_Node;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ForStmtNode extends StmtNode{
@@ -7,15 +8,21 @@ public class ForStmtNode extends StmtNode{
     public ExprNode forexprinit, forexprend, forexprupdate;
     public List<VarDeclNode> forinit;
 
+    public ForStmtNode() {
+        this.forinit = new ArrayList<>();
+    }
+
     public ForStmtNode(ExprNode forexprinit, ExprNode forexprend, ExprNode forexprupdate) {
         this.forexprinit = forexprinit;
         this.forexprend = forexprend;
         this.forexprupdate = forexprupdate;
+        this.forinit = new ArrayList<>();
     }
 
     public ForStmtNode(ExprNode forexprend, ExprNode forexprupdate) {
         this.forexprend = forexprend;
         this.forexprupdate = forexprupdate;
+        this.forinit = new ArrayList<>();
     }
 
     public void setForstmt(StmtNode forstmt) {

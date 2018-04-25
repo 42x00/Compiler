@@ -1,11 +1,13 @@
 package AST_Node;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompStmtNode extends StmtNode{
-    private List<StmtNode> stmtNodeList;
+    public List<StmtNode> stmtNodeList;
 
     public CompStmtNode() {
+        this.stmtNodeList = new ArrayList<>();
     }
 
     public CompStmtNode(List<StmtNode> stmtNodeList) {
