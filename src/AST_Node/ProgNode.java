@@ -1,5 +1,7 @@
 package AST_Node;
 
+import AST_Node.DeclNodes.DeclNode;
+
 import java.util.ArrayList;
 import java.util.List;
 

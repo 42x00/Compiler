@@ -1,6 +1,10 @@
 package Frontend;
 
 import AST_Node.*;
+import AST_Node.ExprNodes.*;
+import AST_Node.StmtNodes.*;
+import AST_Node.TypeNodes.*;
+import AST_Node.DeclNodes.*;
 import Parser.LMxBaseVisitor;
 import Parser.LMxParser;
 import Type.Type;
@@ -8,7 +12,6 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 import java.util.List;
-import static java.lang.System.out;
 
 public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
@@ -211,14 +214,19 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitForCondition_none(LMxParser.ForCondition_noneContext ctx) {
-        return new ForStmtNode((ExprNode) visit(ctx.expression()),
-                (ExprNode) visit(ctx.forExpression(0)),
-                (ExprNode) visit(ctx.forExpression(1)));
+        ExprNode forexprinit = null, forexprend = null, forexprupdate = null;
+        if (ctx.expression() != null) forexprinit = (ExprNode) visit(ctx.expression());
+        if (ctx.forExpression(0) != null) forexprend = (ExprNode) visit(ctx.forExpression(0));
+        if (ctx.forExpression(1) != null) forexprupdate = (ExprNode) visit(ctx.forExpression(1));
+        return new ForStmtNode(forexprinit,forexprend,forexprupdate);
     }
 
     @Override
     public ASTNode visitForCondition_init(LMxParser.ForCondition_initContext ctx) {
-        ForStmtNode forstmtnode = new ForStmtNode((ExprNode) visit(ctx.forExpression(0)),(ExprNode) visit(ctx.forExpression(1)));
+        ExprNode forexprend = null, forexprupdate = null;
+        if (ctx.forExpression(0) != null) forexprend = (ExprNode) visit(ctx.forExpression(0));
+        if (ctx.forExpression(1) != null) forexprupdate = (ExprNode) visit(ctx.forExpression(1));
+        ForStmtNode forstmtnode = new ForStmtNode(forexprend,forexprupdate);
         ASTNode forinit = visit(ctx.forDeclaration());
         if (forinit instanceof VarDeclNode){
             forstmtnode.forinit.add((VarDeclNode) forinit);
