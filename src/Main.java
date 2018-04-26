@@ -3,6 +3,7 @@ import Frontend.ASTBuilder;
 import Parser.LMxLexer;
 import Parser.LMxParser;
 import Tools.ASTViewer;
+import Tools.SymbolTable;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -23,5 +24,8 @@ public class Main {
 
         ASTViewer viewer = new ASTViewer();
         viewer.visit(ast);
+
+        SymbolTable scoper = new SymbolTable();
+        scoper.visit(ast);
     }
 }

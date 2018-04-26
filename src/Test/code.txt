@@ -1,5 +1,6 @@
 int main(){
     for(;;){
 	int x;    
+	int x;
 }
 }

@@ -6,16 +6,15 @@ import AST_Node.TypeNodes.TypeNode;
 
 public class VarDeclNode extends DeclNode {
     private TypeNode vartype;
-    private String varname;
     private ExprNode varinit;
 
     public VarDeclNode(String varname, ExprNode varinit) {
-        this.varname = varname;
+        this.declname = varname;
         this.varinit = varinit;
     }
 
     public VarDeclNode(String varname) {
-        this.varname = varname;
+        this.declname = varname;
     }
 
     public VarDeclNode(TypeNode vartype) {
@@ -24,12 +23,12 @@ public class VarDeclNode extends DeclNode {
 
     public VarDeclNode(TypeNode vartype, String varname) {
         this.vartype = vartype;
-        this.varname = varname;
+        this.declname = varname;
     }
 
     public VarDeclNode(TypeNode vartype, String varname, ExprNode varinit) {
         this.vartype = vartype;
-        this.varname = varname;
+        this.declname = varname;
         this.varinit = varinit;
     }
 
@@ -42,11 +41,11 @@ public class VarDeclNode extends DeclNode {
     }
 
     public String getVarname() {
-        return varname;
+        return this.declname;
     }
 
     public void setVarname(String varname) {
-        this.varname = varname;
+        this.declname = varname;
     }
 
     public ExprNode getVarinit() {

@@ -108,7 +108,7 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(ClassDeclNode classDeclNode) {
-        out.print("ClassDecl:" + classDeclNode.classname);
+        out.print("ClassDecl:" + classDeclNode.declname);
         ++indent;
         for (DeclNode declNode : classDeclNode.classdecllist){
             indentPrinter();

@@ -7,7 +7,6 @@ import AST_Node.TypeNodes.TypeNode;
 public class FuncDeclNode extends DeclNode{
     private boolean isConstructFunction;
     private TypeNode functionReturnType;
-    private String functionName;
     private VarDeclListNode functionParameterList;
     private CompStmtNode functionStatements;
 
@@ -15,14 +14,14 @@ public class FuncDeclNode extends DeclNode{
     }
 
     public FuncDeclNode(String functionName) {
-        this.functionName = functionName;
+        this.declname = functionName;
     }
 
     public FuncDeclNode(TypeNode functionReturnType, String functionName, VarDeclListNode functionParameterList, CompStmtNode functionStatements) {
         if (functionReturnType == null) isConstructFunction = true;
         else isConstructFunction = false;
         this.functionReturnType = functionReturnType;
-        this.functionName = functionName;
+        this.declname = functionName;
         this.functionParameterList = functionParameterList;
         this.functionStatements = functionStatements;
     }
@@ -36,7 +35,7 @@ public class FuncDeclNode extends DeclNode{
     }
 
     public String getFunctionName() {
-        return functionName;
+        return this.declname;
     }
 
     public VarDeclListNode getFunctionParameterList() {
@@ -57,7 +56,7 @@ public class FuncDeclNode extends DeclNode{
     }
 
     public void setFunctionName(String functionName) {
-        this.functionName = functionName;
+        this.declname = functionName;
     }
 
     public void setFunctionParameterList(VarDeclListNode functionParameterList) {
