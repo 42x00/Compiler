@@ -11,11 +11,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ASTViewer.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ASTViewer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Tools/ASTViewer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="92" lean-forward="true" selection-start-line="92" selection-end-line="92" />
+            <state relative-caret-position="220">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1034#1035#0" expanded="true" />
@@ -75,6 +75,27 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="462">
+              <caret line="21" column="54" lean-forward="true" selection-start-line="21" selection-start-column="54" selection-end-line="21" selection-end-column="54" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Test.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Test/Test.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="20" column="60" lean-forward="true" selection-start-line="20" selection-start-column="60" selection-end-line="20" selection-end-column="60" />
             </state>
           </provider>
         </entry>
@@ -173,10 +194,11 @@
         <option value="$PROJECT_DIR$/src/Tools/Scope/LocalScope.java" />
         <option value="$PROJECT_DIR$/src/Tools/Scope/ToplevelScope.java" />
         <option value="$PROJECT_DIR$/src/AST_Node/TypeNodes/ArrayTypeNode.java" />
-        <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/Frontend/ASTBuilder.java" />
         <option value="$PROJECT_DIR$/src/Tools/SymbolTable.java" />
         <option value="$PROJECT_DIR$/src/Tools/ASTViewer.java" />
+        <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/Test/Test.java" />
       </list>
     </option>
   </component>
@@ -263,6 +285,11 @@
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="Test" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -275,14 +302,26 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
-    <configuration name="Unnamed" type="Application" factoryName="Application">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="9" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Compiler" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
     </configuration>
+    <configuration name="Test" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="9" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="Test.Test" />
+      <module name="Compiler" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH" value="9" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="Test.Test" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -322,6 +361,10 @@
       <properties />
       <listeners />
     </configuration>
+    <list>
+      <item itemvalue="Application.Test" />
+      <item itemvalue="Application.Main" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -335,12 +378,12 @@
       <updated>1524581918314</updated>
       <workItem from="1524641234060" duration="13164000" />
       <workItem from="1524729852756" duration="12620000" />
-      <workItem from="1524811208953" duration="5778000" />
+      <workItem from="1524811208953" duration="6643000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31562000" />
+    <option name="totallyTimeSpent" value="32427000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="55" y="-7" width="1488" height="878" extended-state="6" />
@@ -352,7 +395,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.32941177" />
       <window_info anchor="right" id="Maven Projects" order="5" weight="0.32938856" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.53464055" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.53464055" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Designer" order="2" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19063772" />
@@ -430,306 +473,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$PROJECT_DIR$/lib/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/CommonToken.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="83" selection-start-line="83" selection-end-line="83" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/RuleContext.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="68" selection-start-line="68" selection-end-line="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AST_Node/ExprNodes/ClassMethodExprNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="uml://JAVA/AST_Node.StringExprNode">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>JAVA</ID>
-          <OriginalElement>AST_Node.StringExprNode</OriginalElement>
-          <nodes>
-            <node x="" y="">AST_Node.BoolExprNode</node>
-            <node x="" y="">AST_Node.ExprNode</node>
-            <node x="" y="">AST_Node.BinaryExprNode</node>
-            <node x="" y="">AST_Node.ClassTypeNode</node>
-            <node x="" y="">AST_Node.BreakStmtNode</node>
-            <node x="" y="">AST_Node.IDExprNode</node>
-            <node x="" y="">AST_Node.IfStmtNode</node>
-            <node x="" y="">AST_Node.FuncCallExprNode</node>
-            <node x="" y="">AST_Node.NewExprNode</node>
-            <node x="" y="">AST_Node.FuncDeclNode</node>
-            <node x="" y="">AST_Node.ClassDeclNode</node>
-            <node x="" y="">AST_Node.StmtNode</node>
-            <node x="" y="">AST_Node.ClassMethodExprNode</node>
-            <node x="" y="">AST_Node.ContinueStmtNode</node>
-            <node x="" y="">AST_Node.ArrayIndexExprNode</node>
-            <node x="" y="">AST_Node.ReturnStmtNode</node>
-            <node x="" y="">AST_Node.VarDeclStmtNode</node>
-            <node x="" y="">AST_Node.TypeNode</node>
-            <node x="" y="">AST_Node.UnaryExprNode</node>
-            <node x="" y="">AST_Node.ExprStmtNode</node>
-            <node x="" y="">AST_Node.DeclNode</node>
-            <node x="" y="">AST_Node.SuffixExprNode</node>
-            <node x="" y="">AST_Node.ArrayTypeNode</node>
-            <node x="" y="">AST_Node.ASTNode</node>
-            <node x="" y="">AST_Node.ForStmtNode</node>
-            <node x="" y="">AST_Node.ProgNode</node>
-            <node x="" y="">AST_Node.WhileStmtNode</node>
-            <node x="" y="">AST_Node.StringExprNode</node>
-            <node x="" y="">AST_Node.IntExprNode</node>
-            <node x="" y="">AST_Node.VarDeclNode</node>
-            <node x="" y="">AST_Node.VarDeclListNode</node>
-            <node x="" y="">AST_Node.CompStmtNode</node>
-          </nodes>
-          <notes />
-          <edges />
-          <settings layout="Hierarchic Group" zoom="0.8" x="378.0" y="103.0" />
-          <SelectedNodes />
-          <Categories />
-          <SCOPE>All</SCOPE>
-          <VISIBILITY>private</VISIBILITY>
-        </state>
-      </provider>
-    </entry>
-    <entry file="uml://JAVA/AST_Node.ArrayIndexExprNode">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>JAVA</ID>
-          <OriginalElement>AST_Node.ArrayIndexExprNode</OriginalElement>
-          <nodes>
-            <node x="791.0" y="190.0">AST_Node.DeclNodes.VarDeclNode</node>
-            <node x="4011.0" y="190.0">AST_Node.ExprNodes.SuffixExprNode</node>
-            <node x="1396.0" y="190.0">AST_Node.StmtNodes.ContinueStmtNode</node>
-            <node x="3010.0" y="190.0">AST_Node.ExprNodes.BoolExprNode</node>
-            <node x="2220.0" y="190.0">AST_Node.StmtNodes.WhileStmtNode</node>
-            <node x="2872.0" y="190.0">AST_Node.ExprNodes.IDExprNode</node>
-            <node x="626.0" y="190.0">AST_Node.DeclNodes.VarDeclListNode</node>
-            <node x="1072.0" y="190.0">AST_Node.StmtNodes.CompStmtNode</node>
-            <node x="3186.0" y="80.0">AST_Node.ExprNodes.ExprNode</node>
-            <node x="1879.0" y="190.0">AST_Node.StmtNodes.VarDeclStmtNode</node>
-            <node x="1577.0" y="190.0">AST_Node.StmtNodes.ForStmtNode</node>
-            <node x="3336.0" y="190.0">AST_Node.ExprNodes.ClassMethodExprNode</node>
-            <node x="557.3616477272733" y="80.0">AST_Node.DeclNodes.DeclNode</node>
-            <node x="473.0" y="190.0">AST_Node.DeclNodes.FuncDeclNode</node>
-            <node x="1587.0" y="80.0">AST_Node.StmtNodes.StmtNode</node>
-            <node x="95.0" y="80.0">AST_Node.TypeNodes.TypeNode</node>
-            <node x="3538.0" y="190.0">AST_Node.ExprNodes.BinaryExprNode</node>
-            <node x="2052.0" y="190.0">AST_Node.StmtNodes.ReturnStmtNode</node>
-            <node x="2711.0" y="190.0">AST_Node.ExprNodes.StringExprNode</node>
-            <node x="936.0" y="190.0">AST_Node.StmtNodes.IfStmtNode</node>
-            <node x="2570.0" y="190.0">AST_Node.ExprNodes.IntExprNode</node>
-            <node x="1725.0" y="190.0">AST_Node.StmtNodes.ExprStmtNode</node>
-            <node x="3699.0" y="190.0">AST_Node.ExprNodes.NewExprNode</node>
-            <node x="1589.0" y="0.0">AST_Node.ASTNode</node>
-            <node x="2381.0" y="190.0">AST_Node.ExprNodes.ArrayIndexExprNode</node>
-            <node x="0.0" y="190.0">AST_Node.TypeNodes.ArrayTypeNode</node>
-            <node x="2386.5" y="80.0">AST_Node.ProgNode</node>
-            <node x="318.0" y="190.0">AST_Node.DeclNodes.ClassDeclNode</node>
-            <node x="160.0" y="190.0">AST_Node.TypeNodes.ClassTypeNode</node>
-            <node x="1236.0" y="190.0">AST_Node.StmtNodes.BreakStmtNode</node>
-            <node x="3851.0" y="190.0">AST_Node.ExprNodes.UnaryExprNode</node>
-            <node x="3162.0" y="190.0">AST_Node.ExprNodes.FuncCallExprNode</node>
-          </nodes>
-          <notes />
-          <edges>
-            <edge source="AST_Node.ExprNodes.StringExprNode" target="AST_Node.ExprNodes.ExprNode">
-              <point x="0.0" y="-15.0" />
-              <point x="2781.5" y="150.0" />
-              <point x="3210.090909090909" y="150.0" />
-              <point x="-28.90909090909099" y="15.0" />
-            </edge>
-            <edge source="AST_Node.ExprNodes.NewExprNode" target="AST_Node.ExprNodes.ExprNode">
-              <point x="0.0" y="-15.0" />
-              <point x="3765.0" y="150.0" />
-              <point x="3267.909090909091" y="150.0" />
-              <point x="28.90909090909099" y="15.0" />
-            </edge>
-            <edge source="AST_Node.ExprNodes.BinaryExprNode" target="AST_Node.ExprNodes.ExprNode">
-              <point x="0.0" y="-15.0" />
-              <point x="3608.5" y="160.0" />
-              <point x="3258.272727272727" y="160.0" />
-              <point x="19.272727272727252" y="15.0" />
-            </edge>
-            <edge source="AST_Node.StmtNodes.CompStmtNode" target="AST_Node.StmtNodes.StmtNode">
-              <point x="0.0" y="-15.0" />
-              <point x="1144.0" y="150.0" />
-              <point x="1605.0" y="150.0" />
-              <point x="-36.0" y="15.0" />
-            </edge>
-            <edge source="AST_Node.ExprNodes.ClassMethodExprNode" target="AST_Node.ExprNodes.ExprNode">
-              <point x="0.0" y="-15.0" />
-              <point x="3427.0" y="170.0" />
-              <point x="3248.636363636364" y="170.0" />
-              <point x="9.63636363636374" y="15.0" />
-            </edge>
-            <edge source="AST_Node.ExprNodes.IDExprNode" target="AST_Node.ExprNodes.ExprNode">
-              <point x="0.0" y="-15.0" />
-              <point x="2931.0" y="160.0" />
-              <point x="3219.727272727273" y="160.0" />
-              <point x="-19.272727272727252" y="15.0" />
-            </edge>
-            <edge source="AST_Node.TypeNodes.ArrayTypeNode" target="AST_Node.TypeNodes.TypeNode">
-              <point x="0.0" y="-15.0" />
-              <point x="70.0" y="170.0" />
-              <point x="122.25" y="170.0" />
-              <point x="-27.25" y="15.0" />
-            </edge>
-            <edge source="AST_Node.ExprNodes.UnaryExprNode" target="AST_Node.ExprNodes.ExprNode">
-              <point x="0.0" y="-15.0" />
-              <point x="3921.0" y="140.0" />
-              <point x="3277.5454545454545" y="140.0" />
-              <point x="38.545454545454504" y="15.0" />
-            </edge>
-            <edge source="AST_Node.ExprNodes.SuffixExprNode" target="AST_Node.ExprNodes.ExprNode">
-              <point x="0.0" y="-15.0" />
-              <point x="4080.0" y="130.0" />
-              <point x="3287.181818181818" y="130.0" />
-              <point x="48.181818181818244" y="15.0" />
-            </edge>
-            <edge source="AST_Node.DeclNodes.ClassDeclNode" target="AST_Node.DeclNodes.DeclNode">
-              <point x="0.0" y="-15.0" />
-              <point x="385.5" y="160.0" />
-              <point x="570.6116477272733" y="160.0" />
-              <point x="-39.75" y="15.0" />
-            </edge>
-            <edge source="AST_Node.ExprNodes.ExprNode" target="AST_Node.ASTNode">
-              <point x="0.0" y="-15.0" />
-              <point x="3239.0" y="50.0" />
-              <point x="1682.6" y="50.0" />
-              <point x="41.59999999999991" y="15.0" />
-            </edge>
-            <edge source="AST_Node.StmtNodes.BreakStmtNode" target="AST_Node.StmtNodes.StmtNode">
-              <point x="0.0" y="-15.0" />
-              <point x="1306.0" y="160.0" />
-              <point x="1617.0" y="160.0" />
-              <point x="-24.0" y="15.0" />
-            </edge>
-            <edge source="AST_Node.StmtNodes.WhileStmtNode" target="AST_Node.StmtNodes.StmtNode">
-              <point x="0.0" y="-15.0" />
-              <point x="2290.5" y="140.0" />
-              <point x="1689.0" y="140.0" />
-              <point x="48.0" y="15.0" />
-            </edge>
-            <edge source="AST_Node.StmtNodes.StmtNode" target="AST_Node.ASTNode">
-              <point x="0.0" y="-15.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="AST_Node.StmtNodes.ReturnStmtNode" target="AST_Node.StmtNodes.StmtNode">
-              <point x="0.0" y="-15.0" />
-              <point x="2126.0" y="150.0" />
-              <point x="1677.0" y="150.0" />
-              <point x="36.0" y="15.0" />
-            </edge>
-            <edge source="AST_Node.StmtNodes.IfStmtNode" target="AST_Node.StmtNodes.StmtNode">
-              <point x="0.0" y="-15.0" />
-              <point x="994.0" y="140.0" />
-              <point x="1593.0" y="140.0" />
-              <point x="-48.0" y="15.0" />
-            </edge>
-            <edge source="AST_Node.DeclNodes.FuncDeclNode" target="AST_Node.DeclNodes.DeclNode">
-              <point x="0.0" y="-15.0" />
-              <point x="539.5" y="170.0" />
-              <point x="597.1116477272733" y="170.0" />
-              <point x="-13.25" y="15.0" />
-            </edge>
-            <edge source="AST_Node.DeclNodes.DeclNode" target="AST_Node.ASTNode">
-              <point x="0.0" y="-15.0" />
-              <point x="610.3616477272733" y="60.0" />
-              <point x="1620.2" y="60.0" />
-              <point x="-20.799999999999955" y="15.0" />
-            </edge>
-            <edge source="AST_Node.ExprNodes.IntExprNode" target="AST_Node.ExprNodes.ExprNode">
-              <point x="0.0" y="-15.0" />
-              <point x="2630.5" y="140.0" />
-              <point x="3200.4545454545455" y="140.0" />
-              <point x="-38.545454545454504" y="15.0" />
-            </edge>
-            <edge source="AST_Node.TypeNodes.ClassTypeNode" target="AST_Node.TypeNodes.TypeNode">
-              <point x="0.0" y="-15.0" />
-              <point x="229.0" y="170.0" />
-              <point x="176.75" y="170.0" />
-              <point x="27.25" y="15.0" />
-            </edge>
-            <edge source="AST_Node.ExprNodes.BoolExprNode" target="AST_Node.ExprNodes.ExprNode">
-              <point x="0.0" y="-15.0" />
-              <point x="3076.0" y="170.0" />
-              <point x="3229.363636363636" y="170.0" />
-              <point x="-9.63636363636374" y="15.0" />
-            </edge>
-            <edge source="AST_Node.TypeNodes.TypeNode" target="AST_Node.ASTNode">
-              <point x="0.0" y="-15.0" />
-              <point x="149.5" y="50.0" />
-              <point x="1599.4" y="50.0" />
-              <point x="-41.59999999999991" y="15.0" />
-            </edge>
-            <edge source="AST_Node.ProgNode" target="AST_Node.ASTNode">
-              <point x="0.0" y="-15.0" />
-              <point x="2440.5" y="60.0" />
-              <point x="1661.8" y="60.0" />
-              <point x="20.799999999999955" y="15.0" />
-            </edge>
-            <edge source="AST_Node.StmtNodes.ForStmtNode" target="AST_Node.StmtNodes.StmtNode">
-              <point x="0.0" y="-15.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="AST_Node.StmtNodes.ExprStmtNode" target="AST_Node.StmtNodes.StmtNode">
-              <point x="0.0" y="-15.0" />
-              <point x="1792.0" y="170.0" />
-              <point x="1653.0" y="170.0" />
-              <point x="12.0" y="15.0" />
-            </edge>
-            <edge source="AST_Node.StmtNodes.VarDeclStmtNode" target="AST_Node.StmtNodes.StmtNode">
-              <point x="0.0" y="-15.0" />
-              <point x="1955.5" y="160.0" />
-              <point x="1665.0" y="160.0" />
-              <point x="24.0" y="15.0" />
-            </edge>
-            <edge source="AST_Node.DeclNodes.VarDeclListNode" target="AST_Node.DeclNodes.DeclNode">
-              <point x="0.0" y="-15.0" />
-              <point x="698.5" y="170.0" />
-              <point x="623.6116477272733" y="170.0" />
-              <point x="13.25" y="15.0" />
-            </edge>
-            <edge source="AST_Node.StmtNodes.ContinueStmtNode" target="AST_Node.StmtNodes.StmtNode">
-              <point x="0.0" y="-15.0" />
-              <point x="1476.5" y="170.0" />
-              <point x="1629.0" y="170.0" />
-              <point x="-12.0" y="15.0" />
-            </edge>
-            <edge source="AST_Node.ExprNodes.FuncCallExprNode" target="AST_Node.ExprNodes.ExprNode">
-              <point x="0.0" y="-15.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="AST_Node.DeclNodes.VarDeclNode" target="AST_Node.DeclNodes.DeclNode">
-              <point x="0.0" y="-15.0" />
-              <point x="853.5" y="160.0" />
-              <point x="650.1116477272733" y="160.0" />
-              <point x="39.75" y="15.0" />
-            </edge>
-            <edge source="AST_Node.ExprNodes.ArrayIndexExprNode" target="AST_Node.ExprNodes.ExprNode">
-              <point x="0.0" y="-15.0" />
-              <point x="2465.5" y="130.0" />
-              <point x="3190.818181818182" y="130.0" />
-              <point x="-48.181818181818244" y="15.0" />
-            </edge>
-          </edges>
-          <settings layout="Hierarchic Group" zoom="0.9861597505396973" x="194.0" y="76.0" />
-          <SelectedNodes />
-          <Categories />
-          <SCOPE>All</SCOPE>
-          <VISIBILITY>private</VISIBILITY>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AST_Node/ExprNodes/BinaryExprNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -998,16 +741,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="25" column="26" lean-forward="true" selection-start-line="25" selection-start-column="26" selection-end-line="25" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AST_Node/ASTNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -1153,10 +886,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/java/lang/Compiler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="44" column="31" selection-start-line="44" selection-start-column="31" selection-end-line="44" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../reference/EM-Compiler/src/com/evensgn/emcompiler/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="78" column="10" selection-start-line="78" selection-start-column="10" selection-end-line="78" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Tools/ASTViewer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="92" lean-forward="true" selection-start-line="92" selection-end-line="92" />
+        <state relative-caret-position="220">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1034#1035#0" expanded="true" />
@@ -1192,6 +939,37 @@
             <element signature="e#4718#4719#0" expanded="true" />
             <element signature="e#4784#4785#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../reference/EM-Compiler/src/com/evensgn/emcompiler/compiler/Compiler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="30" column="55" lean-forward="true" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/sun/nio/fs/WindowsException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="84" selection-start-line="84" selection-end-line="84" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="21" column="54" lean-forward="true" selection-start-line="21" selection-start-column="54" selection-end-line="21" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Test/Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="20" column="60" lean-forward="true" selection-start-line="20" selection-start-column="60" selection-end-line="20" selection-end-column="60" />
         </state>
       </provider>
     </entry>
