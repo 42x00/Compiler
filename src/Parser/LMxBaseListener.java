@@ -723,25 +723,25 @@ public class LMxBaseListener implements LMxListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParameterDeclaration_multi(LMxParser.ParameterDeclaration_multiContext ctx) { }
+	@Override public void enterParameterList_multi(LMxParser.ParameterList_multiContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParameterDeclaration_multi(LMxParser.ParameterDeclaration_multiContext ctx) { }
+	@Override public void exitParameterList_multi(LMxParser.ParameterList_multiContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParameterDeclaration_single(LMxParser.ParameterDeclaration_singleContext ctx) { }
+	@Override public void enterParameterList_single(LMxParser.ParameterList_singleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParameterDeclaration_single(LMxParser.ParameterDeclaration_singleContext ctx) { }
+	@Override public void exitParameterList_single(LMxParser.ParameterList_singleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

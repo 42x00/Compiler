@@ -16,4 +16,8 @@ public class VarDeclListNode extends DeclNode {
         this.vardeclnodeList = vardeclnodeList;
     }
 
+    public VarDeclListNode(VarDeclNode varDeclNode) {
+        this.vardeclnodeList = new ArrayList<>();
+        vardeclnodeList.add(varDeclNode);
+    }
 }

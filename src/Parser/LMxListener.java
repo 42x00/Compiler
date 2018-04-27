@@ -705,29 +705,29 @@ public interface LMxListener extends ParseTreeListener {
 	 */
 	void exitDirectDeclarator_recycle(LMxParser.DirectDeclarator_recycleContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code parameterDeclaration_multi}
+	 * Enter a parse tree produced by the {@code parameterList_multi}
 	 * labeled alternative in {@link LMxParser#parameterList}.
 	 * @param ctx the parse tree
 	 */
-	void enterParameterDeclaration_multi(LMxParser.ParameterDeclaration_multiContext ctx);
+	void enterParameterList_multi(LMxParser.ParameterList_multiContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code parameterDeclaration_multi}
+	 * Exit a parse tree produced by the {@code parameterList_multi}
 	 * labeled alternative in {@link LMxParser#parameterList}.
 	 * @param ctx the parse tree
 	 */
-	void exitParameterDeclaration_multi(LMxParser.ParameterDeclaration_multiContext ctx);
+	void exitParameterList_multi(LMxParser.ParameterList_multiContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code parameterDeclaration_single}
+	 * Enter a parse tree produced by the {@code parameterList_single}
 	 * labeled alternative in {@link LMxParser#parameterList}.
 	 * @param ctx the parse tree
 	 */
-	void enterParameterDeclaration_single(LMxParser.ParameterDeclaration_singleContext ctx);
+	void enterParameterList_single(LMxParser.ParameterList_singleContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code parameterDeclaration_single}
+	 * Exit a parse tree produced by the {@code parameterList_single}
 	 * labeled alternative in {@link LMxParser#parameterList}.
 	 * @param ctx the parse tree
 	 */
-	void exitParameterDeclaration_single(LMxParser.ParameterDeclaration_singleContext ctx);
+	void exitParameterList_single(LMxParser.ParameterList_singleContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LMxParser#parameterDeclaration}.
 	 * @param ctx the parse tree

@@ -1,8 +1,25 @@
-int[][][][] a;
-
-int main() {
-    a = new int[3][4][][];
-    int x = a.size();
-    println("size of a: " + toString(x));
+int adjustHeap(int n)
+{
+    int i;
+    int j;
+    int t;
+    i = 0;
+    j = 0;
+    t = 0;
+    while (i * 2 < n)
+    {
+        j = i * 2;
+        if (i * 2 + 1 < n && a[i * 2 + 1] < a[i * 2])
+            j = i * 2 + 1;
+        if (a[i] > a[j])
+        {
+            int t = a[i];
+            a[i] = a[j];
+            a[j] = t;
+            i = j;
+        }
+        else
+            break;
+    }
     return 0;
 }

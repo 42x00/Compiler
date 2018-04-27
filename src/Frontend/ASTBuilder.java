@@ -97,16 +97,22 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitParameterDeclaration_multi(LMxParser.ParameterDeclaration_multiContext ctx) {
+    public ASTNode visitParameterList_multi(LMxParser.ParameterList_multiContext ctx) {
         VarDeclListNode vardecllistnode = (VarDeclListNode) visit(ctx.parameterList());
         vardecllistnode.vardeclnodeList.add((VarDeclNode) visit(ctx.parameterDeclaration()));
         return vardecllistnode;
     }
 
     @Override
-    public ASTNode visitParameterDeclaration_single(LMxParser.ParameterDeclaration_singleContext ctx) {
-        TypeNode vartype = (TypeNode) visit(ctx.parameterDeclaration().declarationSpecifier());
-        FuncDeclNode funcdeclnode_name = (FuncDeclNode) visit(ctx.parameterDeclaration().directDeclarator());
+    public ASTNode visitParameterList_single(LMxParser.ParameterList_singleContext ctx) {
+        VarDeclNode varDeclNode = (VarDeclNode) visit(ctx.parameterDeclaration());
+        return new VarDeclListNode(varDeclNode);
+    }
+
+    @Override
+    public ASTNode visitParameterDeclaration(LMxParser.ParameterDeclarationContext ctx) {
+        TypeNode vartype = (TypeNode) visit(ctx.declarationSpecifier());
+        FuncDeclNode funcdeclnode_name = (FuncDeclNode) visit(ctx.directDeclarator());
         return new VarDeclNode(vartype,funcdeclnode_name.getFunctionName());
     }
 
@@ -187,7 +193,7 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
         }
         else if (ctx.expressionStatement() != null){
             if (ctx.expressionStatement().expression() != null) {
-                return (ExprNode) visit(ctx.expressionStatement().expression());
+                return new ExprStmtNode((ExprNode) visit(ctx.expressionStatement().expression()));
             }
             else return null;
         }

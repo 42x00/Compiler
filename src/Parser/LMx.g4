@@ -142,8 +142,8 @@ directDeclarator // 299
     ;
 
 parameterList // 355
-    :   parameterDeclaration                        #parameterDeclaration_single
-    |   parameterList ',' parameterDeclaration      #parameterDeclaration_multi
+    :   parameterDeclaration                        #parameterList_single
+    |   parameterList ',' parameterDeclaration      #parameterList_multi
     ;
 
 parameterDeclaration // 360

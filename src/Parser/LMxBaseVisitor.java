@@ -429,14 +429,14 @@ public class LMxBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements LM
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParameterDeclaration_multi(LMxParser.ParameterDeclaration_multiContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParameterList_multi(LMxParser.ParameterList_multiContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParameterDeclaration_single(LMxParser.ParameterDeclaration_singleContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParameterList_single(LMxParser.ParameterList_singleContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

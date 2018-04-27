@@ -3276,44 +3276,44 @@ public class LMxParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class ParameterDeclaration_multiContext extends ParameterListContext {
+	public static class ParameterList_multiContext extends ParameterListContext {
 		public ParameterListContext parameterList() {
 			return getRuleContext(ParameterListContext.class,0);
 		}
 		public ParameterDeclarationContext parameterDeclaration() {
 			return getRuleContext(ParameterDeclarationContext.class,0);
 		}
-		public ParameterDeclaration_multiContext(ParameterListContext ctx) { copyFrom(ctx); }
+		public ParameterList_multiContext(ParameterListContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterParameterDeclaration_multi(this);
+			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterParameterList_multi(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitParameterDeclaration_multi(this);
+			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitParameterList_multi(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitParameterDeclaration_multi(this);
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitParameterList_multi(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ParameterDeclaration_singleContext extends ParameterListContext {
+	public static class ParameterList_singleContext extends ParameterListContext {
 		public ParameterDeclarationContext parameterDeclaration() {
 			return getRuleContext(ParameterDeclarationContext.class,0);
 		}
-		public ParameterDeclaration_singleContext(ParameterListContext ctx) { copyFrom(ctx); }
+		public ParameterList_singleContext(ParameterListContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterParameterDeclaration_single(this);
+			if ( listener instanceof LMxListener ) ((LMxListener)listener).enterParameterList_single(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitParameterDeclaration_single(this);
+			if ( listener instanceof LMxListener ) ((LMxListener)listener).exitParameterList_single(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitParameterDeclaration_single(this);
+			if ( visitor instanceof LMxVisitor ) return ((LMxVisitor<? extends T>)visitor).visitParameterList_single(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3334,7 +3334,7 @@ public class LMxParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			_localctx = new ParameterDeclaration_singleContext(_localctx);
+			_localctx = new ParameterList_singleContext(_localctx);
 			_ctx = _localctx;
 			_prevctx = _localctx;
 
@@ -3351,7 +3351,7 @@ public class LMxParser extends Parser {
 					_prevctx = _localctx;
 					{
 					{
-					_localctx = new ParameterDeclaration_multiContext(new ParameterListContext(_parentctx, _parentState));
+					_localctx = new ParameterList_multiContext(new ParameterListContext(_parentctx, _parentState));
 					pushNewRecursionContext(_localctx, _startState, RULE_parameterList);
 					setState(398);
 					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");

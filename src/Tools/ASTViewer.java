@@ -7,6 +7,7 @@ import AST_Node.StmtNodes.*;
 import AST_Node.TypeNodes.*;
 
 import static java.lang.System.err;
+import static java.lang.System.runFinalization;
 
 
 public class ASTViewer implements ASTVisitor {
@@ -37,6 +38,8 @@ public class ASTViewer implements ASTVisitor {
         funcDeclNode.getFunctionReturnType().accept(this);
         err.print(" " + funcDeclNode.getFunctionName());
         err.println();
+        if (!(funcDeclNode.getFunctionStatements() instanceof CompStmtNode))
+            indentPrinter();
         funcDeclNode.getFunctionStatements().accept(this);
         --indent;
     }
@@ -67,11 +70,29 @@ public class ASTViewer implements ASTVisitor {
     public void visit(IfStmtNode ifStmtNode) {
         err.println("IfExpr:");
         ++indent;
-        indentPrinter();
-        ifStmtNode.ifstmt.accept(this);
-        if (ifStmtNode.elsestmt != null){
+        if (ifStmtNode.ifstmt instanceof CompStmtNode) {
+            --indent;
+            ifStmtNode.ifstmt.accept(this);
+            ++indent;
+        }
+        else{
             indentPrinter();
-            ifStmtNode.elsestmt.accept(this);
+            ifStmtNode.ifstmt.accept(this);
+        }
+        if (ifStmtNode.elsestmt != null){
+            --indent;
+            indentPrinter();
+            err.println("ElseExpr:");
+            ++indent;
+            if (ifStmtNode.elsestmt instanceof CompStmtNode) {
+                --indent;
+                ifStmtNode.elsestmt.accept(this);
+                ++indent;
+            }
+            else{
+                indentPrinter();
+                ifStmtNode.elsestmt.accept(this);
+            }
         }
         --indent;
     }
@@ -79,16 +100,27 @@ public class ASTViewer implements ASTVisitor {
     @Override
     public void visit(WhileStmtNode whileStmtNode) {
         err.println("WhileExpr:");
-        ++indent;
-        indentPrinter();
-        whileStmtNode.whilestmt.accept(this);
-        --indent;
+        if (whileStmtNode.whilestmt instanceof CompStmtNode)
+            whileStmtNode.whilestmt.accept(this);
+        else {
+            ++indent;
+            indentPrinter();
+            whileStmtNode.whilestmt.accept(this);
+            --indent;
+        }
     }
 
     @Override
     public void visit(ForStmtNode forStmtNode) {
         err.println("ForExpr:");
-        forStmtNode.forstmt.accept(this);
+        if (forStmtNode.forstmt instanceof CompStmtNode)
+            forStmtNode.forstmt.accept(this);
+        else {
+            ++indent;
+            indentPrinter();
+            forStmtNode.forstmt.accept(this);
+            --indent;
+        }
     }
 
     @Override

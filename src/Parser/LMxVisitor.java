@@ -418,19 +418,19 @@ public interface LMxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDirectDeclarator_recycle(LMxParser.DirectDeclarator_recycleContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code parameterDeclaration_multi}
+	 * Visit a parse tree produced by the {@code parameterList_multi}
 	 * labeled alternative in {@link LMxParser#parameterList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParameterDeclaration_multi(LMxParser.ParameterDeclaration_multiContext ctx);
+	T visitParameterList_multi(LMxParser.ParameterList_multiContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code parameterDeclaration_single}
+	 * Visit a parse tree produced by the {@code parameterList_single}
 	 * labeled alternative in {@link LMxParser#parameterList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParameterDeclaration_single(LMxParser.ParameterDeclaration_singleContext ctx);
+	T visitParameterList_single(LMxParser.ParameterList_singleContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LMxParser#parameterDeclaration}.
 	 * @param ctx the parse tree
