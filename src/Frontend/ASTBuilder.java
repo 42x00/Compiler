@@ -51,17 +51,22 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitDeclarationSpecifier_type(LMxParser.DeclarationSpecifier_typeContext ctx) {
-        if (ctx.typeSpecifier().typedefName() == null) {
-            switch (ctx.typeSpecifier().getText()){
+        return visit(ctx.typeSpecifier());
+    }
+
+    @Override
+    public ASTNode visitTypeSpecifier(LMxParser.TypeSpecifierContext ctx) {
+        if (ctx.typedefName() == null) {
+            switch (ctx.getText()){
                 case("void"): return new TypeNode(Type.Types.VOID);
                 case("int"): return  new TypeNode(Type.Types.INT);
                 case("string"): return new TypeNode(Type.Types.STRING);
+                default: return null;
             }
         }
         else {
-            return new ClassTypeNode(ctx.typeSpecifier().typedefName().Identifier().getText());
+            return new ClassTypeNode(ctx.typedefName().Identifier().getText());
         }
-        return null;
     }
 
     @Override
@@ -320,13 +325,14 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitNewDeclarator_array(LMxParser.NewDeclarator_arrayContext ctx) {
         TypeNode basetype = (TypeNode) visit(ctx.typeSpecifier());
-        for (int i = 0; i < ctx.LeftBracket().size(); ++i){
+        int nonexprleftbracket = ctx.LeftBracket().size() - ctx.expression().size();
+        for (int i = 0; i < nonexprleftbracket; ++i){
             basetype = new ArrayTypeNode(basetype);
         }
         for (int i = ctx.expression().size() - 1; i >= 0; --i){
             basetype = new ArrayTypeNode(basetype, (ExprNode) visit(ctx.expression(i)));
         }
-        return basetype;
+        return new NewExprNode(basetype);
     }
 
     @Override

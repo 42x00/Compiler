@@ -6,7 +6,7 @@ import AST_Node.ExprNodes.*;
 import AST_Node.StmtNodes.*;
 import AST_Node.TypeNodes.*;
 
-import static java.lang.System.out;
+import static java.lang.System.err;
 
 
 public class ASTViewer implements ASTVisitor {
@@ -18,13 +18,13 @@ public class ASTViewer implements ASTVisitor {
 
     public void indentPrinter(){
         for(int i=0;i<indent;++i){
-            out.print("\t");
+            err.print("\t");
         }
     }
 
     @Override
     public void visit(ProgNode progNode) {
-        out.println("Program:");
+        err.println("Program:");
         for (DeclNode declNode : progNode.declarations)
             declNode.accept(this);
     }
@@ -33,24 +33,24 @@ public class ASTViewer implements ASTVisitor {
     public void visit(FuncDeclNode funcDeclNode) {
         ++indent;
         indentPrinter();
-        out.print("FuncDecl:");
+        err.print("FuncDecl:");
         funcDeclNode.getFunctionReturnType().accept(this);
-        out.print(" " + funcDeclNode.getFunctionName());
-        out.println();
+        err.print(" " + funcDeclNode.getFunctionName());
+        err.println();
         funcDeclNode.getFunctionStatements().accept(this);
         --indent;
     }
 
     @Override
     public void visit(TypeNode typeNode) {
-        out.print(typeNode.basetype + " " + String.valueOf(typeNode.dim));
+        err.print(typeNode.basetype + " " + String.valueOf(typeNode.dim));
     }
 
     @Override
     public void visit(VarDeclNode varDeclNode) {
-        out.print("VarDecl:");
+        err.print("VarDecl:");
         varDeclNode.getVartype().accept(this);
-        out.println(" " + varDeclNode.getVarname());
+        err.println(" " + varDeclNode.getVarname());
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(IfStmtNode ifStmtNode) {
-        out.println("IfExpr:");
+        err.println("IfExpr:");
         ++indent;
         indentPrinter();
         ifStmtNode.ifstmt.accept(this);
@@ -78,7 +78,7 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(WhileStmtNode whileStmtNode) {
-        out.println("WhileExpr:");
+        err.println("WhileExpr:");
         ++indent;
         indentPrinter();
         whileStmtNode.whilestmt.accept(this);
@@ -87,28 +87,28 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(ForStmtNode forStmtNode) {
-        out.println("ForExpr:");
+        err.println("ForExpr:");
         forStmtNode.forstmt.accept(this);
     }
 
     @Override
     public void visit(ContinueStmtNode continueStmtNode) {
-        out.println("ContinueExpr");
+        err.println("ContinueExpr");
     }
 
     @Override
     public void visit(BreakStmtNode breakStmtNode) {
-        out.println("BreakExpr");
+        err.println("BreakExpr");
     }
 
     @Override
     public void visit(ReturnStmtNode returnStmtNode) {
-        out.println("ReturnExpr");
+        err.println("ReturnExpr");
     }
 
     @Override
     public void visit(ClassDeclNode classDeclNode) {
-        out.print("ClassDecl:" + classDeclNode.declname);
+        err.print("ClassDecl:" + classDeclNode.declname);
         ++indent;
         for (DeclNode declNode : classDeclNode.classdecllist){
             indentPrinter();
@@ -124,14 +124,14 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(NewExprNode newExprNode) {
-        out.print("NewExpr:");
+        err.print("NewExpr:");
         newExprNode.exprtype.accept(this);
-        out.println();
+        err.println();
     }
 
     @Override
     public void visit(BinaryExprNode binaryExprNode) {
-        out.println("BinaryExpr:" + binaryExprNode.exprop);
+        err.println("BinaryExpr:" + binaryExprNode.exprop);
         ++indent;
         indentPrinter();
         binaryExprNode.lhs.accept(this);
@@ -142,42 +142,42 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(UnaryExprNode unaryExprNode) {
-        out.println("UnaryExpr:" + unaryExprNode.exprop);
+        err.println("UnaryExpr:" + unaryExprNode.exprop);
     }
 
     @Override
     public void visit(IDExprNode idExprNode) {
-        out.println("IDExpr");
+        err.println("IDExpr");
     }
 
     @Override
     public void visit(IntExprNode intExprNode) {
-        out.println("IntExpr");
+        err.println("IntExpr");
     }
 
     @Override
     public void visit(BoolExprNode boolExprNode) {
-        out.println("BoolExpr");
+        err.println("BoolExpr");
     }
 
     @Override
     public void visit(StringExprNode stringExprNode) {
-        out.println("StringExpr");
+        err.println("StringExpr");
     }
 
     @Override
     public void visit(ArrayIndexExprNode arrayIndexExprNode) {
-        out.println("ArraIndexExpr");
+        err.println("ArraIndexExpr");
     }
 
     @Override
     public void visit(ClassMethodExprNode classMethodExprNode) {
-        out.println("ClassMethodExpr");
+        err.println("ClassMethodExpr");
     }
 
     @Override
     public void visit(ClassTypeNode classTypeNode) {
-        out.print("Class " + classTypeNode.classname);
+        err.print("Class " + classTypeNode.classname);
     }
 
     @Override
@@ -187,11 +187,11 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(FuncCallExprNode funcCallExprNode) {
-        out.println("FuncCallExpr");
+        err.println("FuncCallExpr");
     }
 
     @Override
     public void visit(SuffixExprNode suffixExprNode) {
-        out.println("SuffixExpr:" + suffixExprNode.exprop);
+        err.println("SuffixExpr:" + suffixExprNode.exprop);
     }
 }

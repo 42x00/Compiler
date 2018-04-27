@@ -22,8 +22,8 @@ public class Main {
         ASTBuilder builder = new ASTBuilder();
         ProgNode ast = (ProgNode) builder.visit(parsetree);
 
-//        ASTViewer viewer = new ASTViewer();
-//        viewer.visit(ast);
+        ASTViewer viewer = new ASTViewer();
+        viewer.visit(ast);
 
         SymbolTable scoper = new SymbolTable();
         scoper.visit(ast);

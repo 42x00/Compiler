@@ -23,7 +23,7 @@ public class SymbolTable implements ASTVisitor{
 
     @Override
     public void visit(ProgNode progNode) {
-        ToplevelScope toplevelScope = new ToplevelScope(progNode.declarations);
+        ToplevelScope toplevelScope = new ToplevelScope();
         scopeStack.addLast(toplevelScope);
         for (DeclNode declNode : progNode.declarations)
             declNode.accept(this);
