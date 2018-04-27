@@ -1,6 +1,5 @@
-int main(){
-    for(;;){
-	int x;    
+int main () {
+	for ( int x; ; ){
 	int x;
 }
 }

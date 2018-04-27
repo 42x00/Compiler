@@ -49,11 +49,12 @@ public class SymbolTable implements ASTVisitor{
 
     @Override
     public void visit(CompStmtNode compStmtNode) {
+        LocalScope localScope = new LocalScope(currentScope());
+        scopeStack.addLast(localScope);
         for (StmtNode stmtNode : compStmtNode.stmtNodeList)
             stmtNode.accept(this);
+        scopeStack.removeLast();
     }
-
-
 
     @Override
     public void visit(ForStmtNode forStmtNode) {
@@ -80,7 +81,11 @@ public class SymbolTable implements ASTVisitor{
 
     @Override
     public void visit(ClassDeclNode classDeclNode) {
-
+        LocalScope localScope = new LocalScope(currentScope());
+        scopeStack.addLast(localScope);
+        for (DeclNode declNode : classDeclNode.classdecllist)
+            declNode.accept(this);
+        scopeStack.removeLast();
     }
 
     @Override

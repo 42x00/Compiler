@@ -66,8 +66,12 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitDeclarationSpecifier_array(LMxParser.DeclarationSpecifier_arrayContext ctx) {
-        TypeNode basetype = (TypeNode) visit(ctx.declarationSpecifier());
-        return new ArrayTypeNode(basetype);
+        ASTNode basetype = visit(ctx.declarationSpecifier());
+        if (basetype instanceof ClassTypeNode)
+            return new ArrayTypeNode((ClassTypeNode) basetype);
+        else if (basetype instanceof ArrayTypeNode)
+            return new ArrayTypeNode((ArrayTypeNode) basetype);
+        else return new ArrayTypeNode((TypeNode) basetype);
     }
 
     @Override
@@ -293,7 +297,7 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitExpression(LMxParser.ExpressionContext ctx) {
         if (ctx.newDeclarator() != null){
-            return new NewExprNode((TypeNode) visit(ctx.newDeclarator().declarationSpecifier()));
+            return visit(ctx.newDeclarator());
         }
         else if (ctx.DigitSequence() != null){
             return new IntExprNode(Integer.parseInt(ctx.DigitSequence().getText()));
@@ -306,6 +310,28 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
                     (ExprNode) visit(ctx.unaryExpression()),
                     (ExprNode) visit(ctx.expression()));
         }
+    }
+
+    @Override
+    public ASTNode visitNewDeclarator_error(LMxParser.NewDeclarator_errorContext ctx) {
+        throw new Error();
+    }
+
+    @Override
+    public ASTNode visitNewDeclarator_array(LMxParser.NewDeclarator_arrayContext ctx) {
+        TypeNode basetype = (TypeNode) visit(ctx.typeSpecifier());
+        for (int i = 0; i < ctx.LeftBracket().size(); ++i){
+            basetype = new ArrayTypeNode(basetype);
+        }
+        for (int i = ctx.expression().size() - 1; i >= 0; --i){
+            basetype = new ArrayTypeNode(basetype, (ExprNode) visit(ctx.expression(i)));
+        }
+        return basetype;
+    }
+
+    @Override
+    public ASTNode visitNewDeclarator_nonarray(LMxParser.NewDeclarator_nonarrayContext ctx) {
+        return new NewExprNode((TypeNode) visit(ctx.typeSpecifier()));
     }
 
     @Override

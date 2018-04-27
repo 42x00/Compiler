@@ -130,8 +130,10 @@ typeSpecifier // 191
     ; 
 
 newDeclarator // 
-    :   'new' declarationSpecifier
-    ;
+    :   'new' typeSpecifier ('[' expression ']')+ ('[' ']')+ ('[' expression ']')+      #newDeclarator_error
+    |   'new' typeSpecifier ('[' expression ']')+ ( LeftBracket ']')*                   #newDeclarator_array
+    |   'new' typeSpecifier                                                             #newDeclarator_nonarray
+    ; 
 
 directDeclarator // 299
     :   Identifier                                  #directDeclarator_Identifier

@@ -633,15 +633,41 @@ public interface LMxListener extends ParseTreeListener {
 	 */
 	void exitTypeSpecifier(LMxParser.TypeSpecifierContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#newDeclarator}.
+	 * Enter a parse tree produced by the {@code newDeclarator_error}
+	 * labeled alternative in {@link LMxParser#newDeclarator}.
 	 * @param ctx the parse tree
 	 */
-	void enterNewDeclarator(LMxParser.NewDeclaratorContext ctx);
+	void enterNewDeclarator_error(LMxParser.NewDeclarator_errorContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#newDeclarator}.
+	 * Exit a parse tree produced by the {@code newDeclarator_error}
+	 * labeled alternative in {@link LMxParser#newDeclarator}.
 	 * @param ctx the parse tree
 	 */
-	void exitNewDeclarator(LMxParser.NewDeclaratorContext ctx);
+	void exitNewDeclarator_error(LMxParser.NewDeclarator_errorContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code newDeclarator_array}
+	 * labeled alternative in {@link LMxParser#newDeclarator}.
+	 * @param ctx the parse tree
+	 */
+	void enterNewDeclarator_array(LMxParser.NewDeclarator_arrayContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code newDeclarator_array}
+	 * labeled alternative in {@link LMxParser#newDeclarator}.
+	 * @param ctx the parse tree
+	 */
+	void exitNewDeclarator_array(LMxParser.NewDeclarator_arrayContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code newDeclarator_nonarray}
+	 * labeled alternative in {@link LMxParser#newDeclarator}.
+	 * @param ctx the parse tree
+	 */
+	void enterNewDeclarator_nonarray(LMxParser.NewDeclarator_nonarrayContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code newDeclarator_nonarray}
+	 * labeled alternative in {@link LMxParser#newDeclarator}.
+	 * @param ctx the parse tree
+	 */
+	void exitNewDeclarator_nonarray(LMxParser.NewDeclarator_nonarrayContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code directDeclarator_Identifier}
 	 * labeled alternative in {@link LMxParser#directDeclarator}.

@@ -376,11 +376,26 @@ public interface LMxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypeSpecifier(LMxParser.TypeSpecifierContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#newDeclarator}.
+	 * Visit a parse tree produced by the {@code newDeclarator_error}
+	 * labeled alternative in {@link LMxParser#newDeclarator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNewDeclarator(LMxParser.NewDeclaratorContext ctx);
+	T visitNewDeclarator_error(LMxParser.NewDeclarator_errorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code newDeclarator_array}
+	 * labeled alternative in {@link LMxParser#newDeclarator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNewDeclarator_array(LMxParser.NewDeclarator_arrayContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code newDeclarator_nonarray}
+	 * labeled alternative in {@link LMxParser#newDeclarator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNewDeclarator_nonarray(LMxParser.NewDeclarator_nonarrayContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code directDeclarator_Identifier}
 	 * labeled alternative in {@link LMxParser#directDeclarator}.

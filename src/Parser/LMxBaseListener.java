@@ -651,13 +651,37 @@ public class LMxBaseListener implements LMxListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNewDeclarator(LMxParser.NewDeclaratorContext ctx) { }
+	@Override public void enterNewDeclarator_error(LMxParser.NewDeclarator_errorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNewDeclarator(LMxParser.NewDeclaratorContext ctx) { }
+	@Override public void exitNewDeclarator_error(LMxParser.NewDeclarator_errorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNewDeclarator_array(LMxParser.NewDeclarator_arrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNewDeclarator_array(LMxParser.NewDeclarator_arrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNewDeclarator_nonarray(LMxParser.NewDeclarator_nonarrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNewDeclarator_nonarray(LMxParser.NewDeclarator_nonarrayContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

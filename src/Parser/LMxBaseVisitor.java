@@ -387,7 +387,21 @@ public class LMxBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements LM
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNewDeclarator(LMxParser.NewDeclaratorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNewDeclarator_error(LMxParser.NewDeclarator_errorContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitNewDeclarator_array(LMxParser.NewDeclarator_arrayContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitNewDeclarator_nonarray(LMxParser.NewDeclarator_nonarrayContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
