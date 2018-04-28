@@ -6,6 +6,9 @@ import AST_Node.ExprNodes.ExprNode;
 public class ExprStmtNode extends StmtNode{
     public ExprNode exprnode;
 
+    public ExprStmtNode() {
+    }
+
     public ExprStmtNode(ExprNode exprnode) {
         this.exprnode = exprnode;
     }

@@ -1,7 +1,11 @@
 grammar LMx;
 
 primaryExpression // 3
-    :   Identifier
+    :   'this'
+    |   'true'
+    |   'false'
+    |   'null'
+    |   Identifier
     |   Constant
     |   StringLiteral
     |   '(' expression ')'
@@ -125,7 +129,8 @@ initDeclarator // 177
 typeSpecifier // 191
     :   ('void'
     |   'int'
-    |   'string')
+    |   'string'
+    |   'bool')
     |   typedefName
     ; 
 
@@ -243,6 +248,8 @@ Class : 'class';
 New : 'new';
 True : 'true';
 False : 'false';
+Null : 'null';
+Bool : 'bool';
 
 LeftParen : '(';
 RightParen : ')';
@@ -304,7 +311,6 @@ Digit // 642
 
 Constant // 657
     :   IntegerConstant
-    |   BooleanConstant
     ;
 
 fragment
@@ -321,9 +327,10 @@ DigitSequence // 770
     :   Digit+
     ;
 
-BooleanConstant // 797
-    :   True
-    |   False
+fragment
+CChar
+    :   ~['\\\r\n]
+    |   EscapeSequence
     ;
 
 fragment

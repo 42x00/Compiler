@@ -23,6 +23,7 @@ public interface ASTVisitor {
     void visit(IfStmtNode ifStmtNode);
     void visit(IntExprNode intExprNode);
     void visit(NewExprNode newExprNode);
+    void visit(NullExprNode nullExprNode);
     void visit(ProgNode progNode);
     void visit(ReturnStmtNode returnStmtNode);
     void visit(StringExprNode stringExprNode);

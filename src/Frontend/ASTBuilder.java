@@ -61,6 +61,7 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
                 case("void"): return new TypeNode(Type.Types.VOID);
                 case("int"): return  new TypeNode(Type.Types.INT);
                 case("string"): return new TypeNode(Type.Types.STRING);
+                case("bool"): return new TypeNode(Type.Types.BOOL);
                 default: return null;
             }
         }
@@ -195,7 +196,7 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
             if (ctx.expressionStatement().expression() != null) {
                 return new ExprStmtNode((ExprNode) visit(ctx.expressionStatement().expression()));
             }
-            else return null;
+            else return new ExprStmtNode();
         }
         else if (ctx.selectionStatement() != null){
             return visit(ctx.selectionStatement());
@@ -282,7 +283,8 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitJumpStatement_return(LMxParser.JumpStatement_returnContext ctx) {
-        return new ReturnStmtNode((ExprNode) visit(ctx.expression()));
+        if (ctx.expression() != null) return new ReturnStmtNode((ExprNode) visit(ctx.expression()));
+        else return new ReturnStmtNode();
     }
 
     @Override
@@ -349,6 +351,7 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitLogicalOrExpression_unary(LMxParser.LogicalOrExpression_unaryContext ctx) {
         return visit(ctx.logicalAndExpression());
+
     }
 
     @Override
@@ -557,15 +560,19 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPrimaryExpression(LMxParser.PrimaryExpressionContext ctx) {
-        if (ctx.Identifier() != null) return new IDExprNode(ctx.Identifier().getText());
-        else if (ctx.Constant() != null) {
-            String constant = ctx.Constant().getText();
-            if (constant == "true") return new BoolExprNode(true);
-            else if (constant == "false") return new BoolExprNode(false);
-            return new IntExprNode(Integer.parseInt(constant));
+        String gettext = ctx.getText();
+        if (ctx.Identifier() != null) return new IDExprNode(gettext);
+        else if (ctx.Constant() != null) return new IntExprNode(Integer.parseInt(gettext));
+        else if (ctx.StringLiteral() != null) return new StringExprNode(gettext);
+        else if (ctx.expression() != null) return visit(ctx.expression());
+        else {
+            switch (gettext){
+                case "true": return new BoolExprNode(true);
+                case "false" : return new BoolExprNode(false);
+                case "null" : return new NullExprNode();
+                default : return null;
+            }
         }
-        else if (ctx.StringLiteral() != null) return new StringExprNode(ctx.StringLiteral().getText());
-        else return visit(ctx.expression());
     }
 
     @Override

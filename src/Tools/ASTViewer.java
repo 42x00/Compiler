@@ -7,6 +7,7 @@ import AST_Node.StmtNodes.*;
 import AST_Node.TypeNodes.*;
 
 import static java.lang.System.err;
+import static java.lang.System.in;
 import static java.lang.System.runFinalization;
 
 
@@ -26,14 +27,16 @@ public class ASTViewer implements ASTVisitor {
     @Override
     public void visit(ProgNode progNode) {
         err.println("Program:");
-        for (DeclNode declNode : progNode.declarations)
-            declNode.accept(this);
+        ++indent;
+        for (DeclNode declNode : progNode.declarations) {
+            indentPrinter();
+            if (declNode.declname != "") declNode.accept(this);
+        }
+        --indent;
     }
 
     @Override
     public void visit(FuncDeclNode funcDeclNode) {
-        ++indent;
-        indentPrinter();
         err.print("FuncDecl:");
         funcDeclNode.getFunctionReturnType().accept(this);
         err.print(" " + funcDeclNode.getFunctionName());
@@ -41,7 +44,6 @@ public class ASTViewer implements ASTVisitor {
         if (!(funcDeclNode.getFunctionStatements() instanceof CompStmtNode))
             indentPrinter();
         funcDeclNode.getFunctionStatements().accept(this);
-        --indent;
     }
 
     @Override
@@ -140,7 +142,7 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(ClassDeclNode classDeclNode) {
-        err.print("ClassDecl:" + classDeclNode.declname);
+        err.println("ClassDecl:" + classDeclNode.declname);
         ++indent;
         for (DeclNode declNode : classDeclNode.classdecllist){
             indentPrinter();
@@ -170,6 +172,11 @@ public class ASTViewer implements ASTVisitor {
         indentPrinter();
         binaryExprNode.rhs.accept(this);
         --indent;
+    }
+
+    @Override
+    public void visit(NullExprNode nullExprNode) {
+        err.println("NullExpr");
     }
 
     @Override
@@ -214,7 +221,8 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(ExprStmtNode exprStmtNode) {
-        exprStmtNode.exprnode.accept(this);
+        if (exprStmtNode.exprnode != null) exprStmtNode.exprnode.accept(this);
+        err.println();
     }
 
     @Override

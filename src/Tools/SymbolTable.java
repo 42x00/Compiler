@@ -177,4 +177,9 @@ public class SymbolTable implements ASTVisitor{
     public void visit(UnaryExprNode unaryExprNode) {
 
     }
+
+    @Override
+    public void visit(NullExprNode nullExprNode) {
+
+    }
 }
