@@ -38,7 +38,8 @@ public class ASTViewer implements ASTVisitor {
     @Override
     public void visit(FuncDeclNode funcDeclNode) {
         err.print("FuncDecl:");
-        funcDeclNode.getFunctionReturnType().accept(this);
+        if (funcDeclNode.isConstructFunction() == true) err.print("Construct ");
+        else funcDeclNode.getFunctionReturnType().accept(this);
         err.print(" " + funcDeclNode.getFunctionName());
         err.println();
         if (!(funcDeclNode.getFunctionStatements() instanceof CompStmtNode))
@@ -49,6 +50,11 @@ public class ASTViewer implements ASTVisitor {
     @Override
     public void visit(TypeNode typeNode) {
         err.print(typeNode.basetype + " " + String.valueOf(typeNode.dim));
+    }
+
+    @Override
+    public void visit(ArrayTypeNode arrayTypeNode) {
+
     }
 
     @Override
@@ -197,6 +203,11 @@ public class ASTViewer implements ASTVisitor {
     @Override
     public void visit(BoolExprNode boolExprNode) {
         err.println("BoolExpr");
+    }
+
+    @Override
+    public void visit(ClassThisExprNode classThisExprNode) {
+        err.println("ClassThisExpr");
     }
 
     @Override

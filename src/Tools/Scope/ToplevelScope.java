@@ -16,7 +16,7 @@ public class ToplevelScope extends Scope{
         declarations = new HashMap<>();
     }
 
-    public ToplevelScope(List<DeclNode> declNodes){
+    public ToplevelScope(List<? extends DeclNode> declNodes){
         declarations = new HashMap<>();
         for (DeclNode declNode : declNodes){
             DeclNode d = declarations.get(declNode.declname);
@@ -28,10 +28,18 @@ public class ToplevelScope extends Scope{
     }
 
     @Override
-    public void addDecl(VarDeclNode varDeclNode) {
-        DeclNode d = declarations.get(varDeclNode.declname);
+    public DeclNode get(String string) {
+        DeclNode d = declarations.get(string);
+        if (d == null)
+            throw new Error("Wrong Identifier!");
+        return d;
+    }
+
+    @Override
+    public void addDecl(String declname, DeclNode declNode) {
+        DeclNode d = declarations.get(declname);
         if (d != null)
-            throw new Error();
-        declarations.put(varDeclNode.declname,varDeclNode);
+            throw new Error("Decl exists!");
+        declarations.put(declname,declNode);
     }
 }

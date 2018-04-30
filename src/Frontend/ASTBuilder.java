@@ -570,6 +570,7 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
                 case "true": return new BoolExprNode(true);
                 case "false" : return new BoolExprNode(false);
                 case "null" : return new NullExprNode();
+                case "this" : return new ClassThisExprNode();
                 default : return null;
             }
         }

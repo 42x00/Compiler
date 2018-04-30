@@ -6,6 +6,10 @@ import Type.Type;
 public class IntExprNode extends ExprNode{
     public int intvalue;
 
+    public IntExprNode() {
+        this.exprtype.setBasetype(Type.Types.INT);
+    }
+
     public IntExprNode(int intvalue) {
         this.exprtype.setBasetype(Type.Types.INT);
         this.intvalue = intvalue;

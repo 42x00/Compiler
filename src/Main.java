@@ -3,15 +3,13 @@ import Frontend.ASTBuilder;
 import Parser.LMxLexer;
 import Parser.LMxParser;
 import Tools.ASTViewer;
-import Tools.SymbolTable;
+import Tools.SemanticCheck;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.InputStream;
-
-import static org.antlr.v4.runtime.CharStreams.fromFileName;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -28,7 +26,7 @@ public class Main {
         ASTViewer viewer = new ASTViewer();
         viewer.visit(ast);
 
-        SymbolTable scoper = new SymbolTable();
+        SemanticCheck scoper = new SemanticCheck();
         scoper.visit(ast);
     }
 }

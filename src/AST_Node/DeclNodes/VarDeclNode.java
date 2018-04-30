@@ -3,6 +3,8 @@ package AST_Node.DeclNodes;
 import AST_Node.ASTVisitor;
 import AST_Node.ExprNodes.ExprNode;
 import AST_Node.TypeNodes.TypeNode;
+import Type.*;
+import static java.lang.System.err;
 
 public class VarDeclNode extends DeclNode {
     private TypeNode vartype;
@@ -18,15 +20,27 @@ public class VarDeclNode extends DeclNode {
     }
 
     public VarDeclNode(TypeNode vartype) {
+        if (vartype.basetype == Type.Types.VOID){
+            err.println("Void Var!");
+            throw new Error();
+        }
         this.vartype = vartype;
     }
 
     public VarDeclNode(TypeNode vartype, String varname) {
+        if (vartype.basetype == Type.Types.VOID){
+            err.println("Void Var!");
+            throw new Error();
+        }
         this.vartype = vartype;
         this.declname = varname;
     }
 
     public VarDeclNode(TypeNode vartype, String varname, ExprNode varinit) {
+        if (vartype.basetype == Type.Types.VOID){
+            err.println("Void Var!");
+            throw new Error();
+        }
         this.vartype = vartype;
         this.declname = varname;
         this.varinit = varinit;
@@ -37,6 +51,10 @@ public class VarDeclNode extends DeclNode {
     }
 
     public void setVartype(TypeNode vartype) {
+        if (vartype.basetype == Type.Types.VOID){
+            err.println("Void Var!");
+            throw new Error();
+        }
         this.vartype = vartype;
     }
 

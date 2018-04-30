@@ -7,12 +7,14 @@ import AST_Node.TypeNodes.*;
 
 public interface ASTVisitor {
     void visit(ArrayIndexExprNode arrayIndexExprNode);
+    void visit(ArrayTypeNode arrayTypeNode);
     void visit(BinaryExprNode binaryExprNode);
     void visit(BoolExprNode boolExprNode);
     void visit(BreakStmtNode breakStmtNode);
     void visit(ClassDeclNode classDeclNode);
     void visit(ClassMethodExprNode classMethodExprNode);
     void visit(ClassTypeNode classTypeNode);
+    void visit(ClassThisExprNode classThisExprNode);
     void visit(CompStmtNode compStmtNode);
     void visit(ContinueStmtNode continueStmtNode);
     void visit(ExprStmtNode exprStmtNode);
