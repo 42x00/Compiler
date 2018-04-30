@@ -18,6 +18,10 @@ public class TypeNode extends ASTNode {
         this.basetype = basetype;
     }
 
+    public boolean isEqual(TypeNode obj) {
+        return  (basetype == obj.basetype && dim == obj.dim);
+    }
+
     public void setBasetype(Type.Types basetype) {
         this.basetype = basetype;
     }

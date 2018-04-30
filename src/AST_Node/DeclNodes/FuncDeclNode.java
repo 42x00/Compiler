@@ -5,6 +5,8 @@ import AST_Node.StmtNodes.CompStmtNode;
 import AST_Node.TypeNodes.TypeNode;
 import Tools.Scope.Scope;
 
+import java.util.ArrayList;
+
 public class FuncDeclNode extends DeclNode{
     private boolean isConstructFunction;
     private TypeNode functionReturnType;

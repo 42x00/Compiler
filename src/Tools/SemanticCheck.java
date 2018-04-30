@@ -190,9 +190,9 @@ public class SemanticCheck implements ASTVisitor{
     public void visit(ArrayIndexExprNode arrayIndexExprNode) {
         arrayIndexExprNode.array.accept(this);
         arrayIndexExprNode.index.accept(this);
-        if (!(arrayIndexExprNode.exprtype instanceof ArrayTypeNode))
+        if (!(arrayIndexExprNode.array.exprtype instanceof ArrayTypeNode))
             throw new Error("ArrayIndex not array");
-        if (arrayIndexExprNode.exprtype.basetype != Type.Types.INT)
+        if (arrayIndexExprNode.index.exprtype.basetype != Type.Types.INT)
             throw new Error("ArrayIndex not by INT index!");
         arrayIndexExprNode.exprtype = ((ArrayTypeNode) arrayIndexExprNode.array.exprtype).getArrayelement();
         arrayIndexExprNode.isLvalue = true;
@@ -210,13 +210,13 @@ public class SemanticCheck implements ASTVisitor{
                 else throw new Error("Wrong type assigned null!");
             }
             else {
-                if (binaryExprNode.lhs.exprtype != binaryExprNode.rhs.exprtype)
+                if (!binaryExprNode.lhs.exprtype.isEqual(binaryExprNode.rhs.exprtype))
                     throw new Error("Assign with different type!");
                 binaryExprNode.exprtype = binaryExprNode.lhs.exprtype;
             }
         }
         else {
-            if (binaryExprNode.lhs.exprtype != binaryExprNode.rhs.exprtype)
+            if (!binaryExprNode.lhs.exprtype.isEqual(binaryExprNode.rhs.exprtype))
                 throw new Error("BinaryExpr with different type!");
             switch (binaryExprNode.exprop) {
                 case ADD:
@@ -409,14 +409,14 @@ public class SemanticCheck implements ASTVisitor{
     @Override
     public void visit(FuncCallExprNode funcCallExprNode) {
         funcCallExprNode.function.accept(this);
-        if (funcCallExprNode.exprtype instanceof FuncTypeNode){
-            FuncTypeNode funcTypeNode = (FuncTypeNode) funcCallExprNode.exprtype;
-            if (funcCallExprNode.parameters.size() != funcTypeNode.getFunctionParameterList().vardeclnodeList.size())
+        if (funcCallExprNode.function.exprtype instanceof FuncTypeNode){
+            FuncTypeNode funcTypeNode = (FuncTypeNode) funcCallExprNode.function.exprtype;
+            if (funcCallExprNode.parameters.size() != funcTypeNode.getparamsize())
                 throw new Error("FuncCall with wrong number of params!");
             int cntparams = funcCallExprNode.parameters.size();
             for (int i = 0; i < cntparams; ++i){
                 funcCallExprNode.parameters.get(i).accept(this);
-                if (funcCallExprNode.parameters.get(i).exprtype != funcTypeNode.getFunctionParameterList().vardeclnodeList.get(i).getVartype())
+                if (!funcCallExprNode.parameters.get(i).exprtype.isEqual(funcTypeNode.getFunctionParameterList().vardeclnodeList.get(i).getVartype()))
                     throw new Error("FuncCall with wrong type!");
             }
             funcCallExprNode.exprtype = funcTypeNode.getFunctionReturnType();
@@ -429,7 +429,7 @@ public class SemanticCheck implements ASTVisitor{
     public void visit(ReturnStmtNode returnStmtNode) {
         if (currentFunc == null) throw new Error("ReturnExpr not in Function");
         returnStmtNode.returnexpr.accept(this);
-        if (returnStmtNode.returnexpr.exprtype != currentFunc.getFunctionReturnType())
+        if (!returnStmtNode.returnexpr.exprtype.isEqual(currentFunc.getFunctionReturnType()))
             throw new Error("Return wrong type!");
     }
 }

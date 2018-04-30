@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import static org.antlr.v4.runtime.CharStreams.fromFileName;
+import static java.lang.System.err;
 
 public class Test {
     public static void main(String[] args) throws Exception {
@@ -26,6 +27,8 @@ public class Test {
 
         ASTViewer viewer = new ASTViewer();
         viewer.visit(ast);
+
+        err.println("=======================================");
 
         SemanticCheck scoper = new SemanticCheck();
         scoper.visit(ast);
