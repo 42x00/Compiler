@@ -190,8 +190,8 @@ iterationStatement // 465
     ;
 
 forCondition // 474
-	:   forDeclaration ';' forExpression? ';' forExpression?    #forCondition_init
-	|   expression? ';' forExpression? ';' forExpression?       #forCondition_none
+	:   forDeclaration ';' forExprEnd? ';' forExprUpdate?    #forCondition_init
+	|   expression? ';' forExprEnd? ';' forExprUpdate?       #forCondition_none
 	;
 
 forDeclaration // 479
@@ -199,7 +199,11 @@ forDeclaration // 479
 	| 	declarationSpecifier                            #forDeclaration_none
     ;
 
-forExpression // 484
+forExprEnd
+    :   expression
+    ;
+
+forExprUpdate
     :   expression
     ;
 

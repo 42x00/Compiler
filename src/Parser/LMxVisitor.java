@@ -516,11 +516,17 @@ public interface LMxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitForDeclaration_none(LMxParser.ForDeclaration_noneContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LMxParser#forExpression}.
+	 * Visit a parse tree produced by {@link LMxParser#forExprEnd}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitForExpression(LMxParser.ForExpressionContext ctx);
+	T visitForExprEnd(LMxParser.ForExprEndContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LMxParser#forExprUpdate}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForExprUpdate(LMxParser.ForExprUpdateContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code jumpStatement_continue}
 	 * labeled alternative in {@link LMxParser#jumpStatement}.

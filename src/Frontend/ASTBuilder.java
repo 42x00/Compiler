@@ -232,16 +232,16 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
     public ASTNode visitForCondition_none(LMxParser.ForCondition_noneContext ctx) {
         ExprNode forexprinit = null, forexprend = null, forexprupdate = null;
         if (ctx.expression() != null) forexprinit = (ExprNode) visit(ctx.expression());
-        if (ctx.forExpression(0) != null) forexprend = (ExprNode) visit(ctx.forExpression(0));
-        if (ctx.forExpression(1) != null) forexprupdate = (ExprNode) visit(ctx.forExpression(1));
+        if (ctx.forExprEnd() != null) forexprend = (ExprNode) visit(ctx.forExprEnd());
+        if (ctx.forExprUpdate() != null) forexprupdate = (ExprNode) visit(ctx.forExprUpdate());
         return new ForStmtNode(forexprinit,forexprend,forexprupdate);
     }
 
     @Override
     public ASTNode visitForCondition_init(LMxParser.ForCondition_initContext ctx) {
         ExprNode forexprend = null, forexprupdate = null;
-        if (ctx.forExpression(0) != null) forexprend = (ExprNode) visit(ctx.forExpression(0));
-        if (ctx.forExpression(1) != null) forexprupdate = (ExprNode) visit(ctx.forExpression(1));
+        if (ctx.forExprEnd() != null) forexprend = (ExprNode) visit(ctx.forExprEnd());
+        if (ctx.forExprUpdate() != null) forexprupdate = (ExprNode) visit(ctx.forExprUpdate());
         ForStmtNode forstmtnode = new ForStmtNode(forexprend,forexprupdate);
         ASTNode forinit = visit(ctx.forDeclaration());
         if (forinit instanceof VarDeclNode){
@@ -252,7 +252,12 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitForExpression(LMxParser.ForExpressionContext ctx) {
+    public ASTNode visitForExprEnd(LMxParser.ForExprEndContext ctx) {
+        return visit(ctx.expression());
+    }
+
+    @Override
+    public ASTNode visitForExprUpdate(LMxParser.ForExprUpdateContext ctx) {
         return visit(ctx.expression());
     }
 

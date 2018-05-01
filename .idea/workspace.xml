@@ -17,8 +17,8 @@
       <file leaf-file-name="SemanticCheck.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Tools/SemanticCheck.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="109" column="32" lean-forward="true" selection-start-line="109" selection-start-column="32" selection-end-line="109" selection-end-column="32" />
+            <state relative-caret-position="195">
+              <caret line="480" column="68" selection-start-line="480" selection-start-column="68" selection-end-line="480" selection-end-column="68" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#varTypeExprCheck#0;class#SemanticCheck#0" />
@@ -35,11 +35,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ToplevelScope.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Tools/Scope/ToplevelScope.java">
+      <file leaf-file-name="ASTBuilder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Frontend/ASTBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="91">
-              <caret line="33" selection-start-line="33" selection-end-line="33" />
+            <state relative-caret-position="97">
+              <caret line="260" column="39" selection-start-line="260" selection-start-column="39" selection-end-line="260" selection-end-column="39" />
+              <folding>
+                <element signature="e#10935#10936#0" expanded="true" />
+                <element signature="e#10964#10965#0" expanded="true" />
+                <element signature="e#11075#11076#0" expanded="true" />
+                <element signature="e#11127#11128#0" expanded="true" />
+                <element signature="e#11886#11887#0" expanded="true" />
+                <element signature="e#11928#11929#0" expanded="true" />
+                <element signature="e#13858#13859#0" expanded="true" />
+                <element signature="e#13891#13892#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -55,7 +65,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>decla</find>
       <find>expressionS</find>
       <find>functionde</find>
       <find>var</find>
@@ -85,6 +94,7 @@
       <find>unary</find>
       <find>isEqual</find>
       <find>Un</find>
+      <find>For</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -141,8 +151,8 @@
         <option value="$PROJECT_DIR$/src/AST_Node/ExprNodes/ClassThisExprNode.java" />
         <option value="$PROJECT_DIR$/src/AST_Node/ExprNodes/NullExprNode.java" />
         <option value="$PROJECT_DIR$/src/AST_Node/ExprNodes/UnaryExprNode.java" />
-        <option value="$PROJECT_DIR$/src/Frontend/ASTBuilder.java" />
         <option value="$PROJECT_DIR$/src/AST_Node/TypeNodes/FuncTypeNode.java" />
+        <option value="$PROJECT_DIR$/src/Frontend/ASTBuilder.java" />
         <option value="$PROJECT_DIR$/src/Tools/SemanticCheck.java" />
       </list>
     </option>
@@ -161,7 +171,7 @@
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
-      <sortByType ProjectPane="false" />
+      <sortByType ProjectPane="true" />
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -221,6 +231,12 @@
               <item name="Compiler" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Frontend" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Compiler" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Compiler" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Parser" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Compiler" type="b2602c69:ProjectViewProjectNode" />
@@ -360,12 +376,12 @@
       <workItem from="1525081463886" duration="451000" />
       <workItem from="1525082017353" duration="10632000" />
       <workItem from="1525147815849" duration="7286000" />
-      <workItem from="1525161959960" duration="4877000" />
+      <workItem from="1525161959960" duration="6544000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="123086000" />
+    <option name="totallyTimeSpent" value="124753000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="55" y="-7" width="1488" height="878" extended-state="6" />
@@ -377,7 +393,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.32941177" />
       <window_info anchor="right" id="Maven Projects" order="5" weight="0.32938856" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.5" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.5" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Designer" order="2" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20769231" />
@@ -403,11 +419,44 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="123" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Tools/SemanticCheck.java</url>
+          <line>169</line>
+          <properties />
+          <option name="timeStamp" value="123" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="126" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>ctx.children.get(1).getText().equals(&quot;;&quot;)</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>ctx.children.get(1)</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>ctx.children</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>ctx.forExpression(1)</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>ctx.forExpression()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>unaryoperator.equals(&quot;~&quot;)</expression-string>
         <language-id>JAVA</language-id>
@@ -426,34 +475,6 @@
       <expression>
         <expression-string>unaryoperator</expression-string>
         <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>classTypeNode</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>funcTypeNode.getFunctionParameterList()</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>funcTypeNode.getFunctionParameterList().vardeclnodeList</expression-string>
-        <language-id>JAVA</language-id>
-        <custom-info>java.util.ArrayList</custom-info>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>funcTypeNode.getFunctionParameterList().vardeclnodeList.size()</expression-string>
-        <language-id>JAVA</language-id>
-        <custom-info>java.util.ArrayList</custom-info>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string />
-        <language-id>JAVA</language-id>
-        <custom-info>java.util.ArrayList</custom-info>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
@@ -1199,14 +1220,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Tools/Scope/ToplevelScope.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="91">
+          <caret line="33" selection-start-line="33" selection-end-line="33" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Frontend/ASTBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        <state relative-caret-position="97">
+          <caret line="260" column="39" selection-start-line="260" selection-start-column="39" selection-end-line="260" selection-end-column="39" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#10961#10962#0" expanded="true" />
-            <element signature="e#11007#11008#0" expanded="true" />
+            <element signature="e#10935#10936#0" expanded="true" />
+            <element signature="e#10964#10965#0" expanded="true" />
+            <element signature="e#11075#11076#0" expanded="true" />
+            <element signature="e#11127#11128#0" expanded="true" />
             <element signature="e#11886#11887#0" expanded="true" />
             <element signature="e#11928#11929#0" expanded="true" />
             <element signature="e#13858#13859#0" expanded="true" />
@@ -1215,17 +1244,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Tools/Scope/ToplevelScope.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="91">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Tools/SemanticCheck.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="109" column="32" lean-forward="true" selection-start-line="109" selection-start-column="32" selection-end-line="109" selection-end-column="32" />
+        <state relative-caret-position="195">
+          <caret line="480" column="68" selection-start-line="480" selection-start-column="68" selection-end-line="480" selection-end-column="68" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#varTypeExprCheck#0;class#SemanticCheck#0" />

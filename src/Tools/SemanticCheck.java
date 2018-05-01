@@ -477,7 +477,8 @@ public class SemanticCheck implements ASTVisitor{
     public void visit(ReturnStmtNode returnStmtNode) {
         if (currentFunc == null) throw new Error("ReturnExpr not in Function");
         if (currentFunc.isConstructFunction() == true){
-            throw new Error("Return in construct func!");
+            if (returnStmtNode.returnexpr != null)
+                throw new Error("Return nonNull in Constructfunc!");
         }
         else {
             if (returnStmtNode.returnexpr == null){

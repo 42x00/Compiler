@@ -871,15 +871,25 @@ public interface LMxListener extends ParseTreeListener {
 	 */
 	void exitForDeclaration_none(LMxParser.ForDeclaration_noneContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LMxParser#forExpression}.
+	 * Enter a parse tree produced by {@link LMxParser#forExprEnd}.
 	 * @param ctx the parse tree
 	 */
-	void enterForExpression(LMxParser.ForExpressionContext ctx);
+	void enterForExprEnd(LMxParser.ForExprEndContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LMxParser#forExpression}.
+	 * Exit a parse tree produced by {@link LMxParser#forExprEnd}.
 	 * @param ctx the parse tree
 	 */
-	void exitForExpression(LMxParser.ForExpressionContext ctx);
+	void exitForExprEnd(LMxParser.ForExprEndContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LMxParser#forExprUpdate}.
+	 * @param ctx the parse tree
+	 */
+	void enterForExprUpdate(LMxParser.ForExprUpdateContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LMxParser#forExprUpdate}.
+	 * @param ctx the parse tree
+	 */
+	void exitForExprUpdate(LMxParser.ForExprUpdateContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code jumpStatement_continue}
 	 * labeled alternative in {@link LMxParser#jumpStatement}.
