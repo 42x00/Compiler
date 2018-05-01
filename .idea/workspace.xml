@@ -17,8 +17,8 @@
       <file leaf-file-name="SemanticCheck.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Tools/SemanticCheck.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="448" column="21" selection-start-line="448" selection-start-column="21" selection-end-line="448" selection-end-column="21" />
+            <state relative-caret-position="352">
+              <caret line="78" column="64" selection-start-line="78" selection-start-column="64" selection-end-line="78" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#14548#14549#0" expanded="true" />
@@ -402,12 +402,12 @@
       <workItem from="1525057067949" duration="5033000" />
       <workItem from="1525081463886" duration="451000" />
       <workItem from="1525082017353" duration="10632000" />
-      <workItem from="1525147815849" duration="6660000" />
+      <workItem from="1525147815849" duration="7286000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="117583000" />
+    <option name="totallyTimeSpent" value="118209000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="55" y="-7" width="1488" height="878" extended-state="6" />
@@ -1265,8 +1265,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Tools/SemanticCheck.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="448" column="21" selection-start-line="448" selection-start-column="21" selection-end-line="448" selection-end-column="21" />
+        <state relative-caret-position="352">
+          <caret line="78" column="64" selection-start-line="78" selection-start-column="64" selection-end-line="78" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#14548#14549#0" expanded="true" />

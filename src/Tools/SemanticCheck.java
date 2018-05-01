@@ -75,6 +75,8 @@ public class SemanticCheck implements ASTVisitor{
         progNode.setAstscope(toplevelScope);
         scopeStack.addLast(toplevelScope);
         setBuiltInFunction();
+        DeclNode main = currentScope().get("main");
+        if (main == null) throw new Error("Without main func!");
         for (DeclNode declNode : progNode.declarations)
             if (declNode instanceof ClassDeclNode) {
                 ClassDeclNode classDeclNode = (ClassDeclNode) declNode;
