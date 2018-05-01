@@ -95,7 +95,6 @@ public class SemanticCheck implements ASTVisitor{
         progNode.setAstscope(toplevelScope);
         scopeStack.addLast(toplevelScope);
         setBuiltInFunction();
-        checkMain();
         for (DeclNode declNode : progNode.declarations)
             if (declNode instanceof ClassDeclNode) {
                 ClassDeclNode classDeclNode = (ClassDeclNode) declNode;
@@ -105,6 +104,7 @@ public class SemanticCheck implements ASTVisitor{
             }
             else if (declNode instanceof FuncDeclNode)
                 toplevelScope.addDecl(declNode.declname, declNode);
+        checkMain();
         for (DeclNode declNode : progNode.declarations)
             declNode.accept(this);
         scopeStack.removeLast();

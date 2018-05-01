@@ -17,8 +17,8 @@
       <file leaf-file-name="SemanticCheck.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Tools/SemanticCheck.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="621">
-              <caret line="108" column="34" lean-forward="true" selection-start-line="108" selection-start-column="34" selection-end-line="108" selection-end-column="34" />
+            <state relative-caret-position="305">
+              <caret line="109" column="32" lean-forward="true" selection-start-line="109" selection-start-column="32" selection-end-line="109" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#varTypeExprCheck#0;class#SemanticCheck#0" />
@@ -35,60 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FuncTypeNode.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/AST_Node/TypeNodes/FuncTypeNode.java">
+      <file leaf-file-name="ToplevelScope.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Tools/Scope/ToplevelScope.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="20" column="56" selection-start-line="20" selection-start-column="56" selection-end-line="20" selection-end-column="56" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1230#1231#0" expanded="true" />
-                <element signature="e#1265#1266#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TypeNode.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/AST_Node/TypeNodes/TypeNode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
-              <folding>
-                <element signature="e#421#422#0" expanded="true" />
-                <element signature="e#489#490#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ASTBuilder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Frontend/ASTBuilder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="560" lean-forward="true" selection-start-line="560" selection-end-line="560" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#10961#10962#0" expanded="true" />
-                <element signature="e#11007#11008#0" expanded="true" />
-                <element signature="e#11886#11887#0" expanded="true" />
-                <element signature="e#11928#11929#0" expanded="true" />
-                <element signature="e#13858#13859#0" expanded="true" />
-                <element signature="e#13891#13892#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UnaryExprNode.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/AST_Node/ExprNodes/UnaryExprNode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="14" column="5" lean-forward="true" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
-              <folding>
-                <element signature="e#490#491#0" expanded="true" />
-                <element signature="e#525#526#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="91">
+              <caret line="33" selection-start-line="33" selection-end-line="33" />
             </state>
           </provider>
         </entry>
@@ -409,12 +360,12 @@
       <workItem from="1525081463886" duration="451000" />
       <workItem from="1525082017353" duration="10632000" />
       <workItem from="1525147815849" duration="7286000" />
-      <workItem from="1525161959960" duration="4631000" />
+      <workItem from="1525161959960" duration="4877000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="122840000" />
+    <option name="totallyTimeSpent" value="123086000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="55" y="-7" width="1488" height="878" extended-state="6" />
@@ -452,7 +403,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="122" />
+      <option name="time" value="123" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -942,13 +893,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Tools/Scope/ToplevelScope.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AST_Node/ASTNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -1232,22 +1176,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Frontend/ASTBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="560" lean-forward="true" selection-start-line="560" selection-end-line="560" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#10961#10962#0" expanded="true" />
-            <element signature="e#11007#11008#0" expanded="true" />
-            <element signature="e#11886#11887#0" expanded="true" />
-            <element signature="e#11928#11929#0" expanded="true" />
-            <element signature="e#13858#13859#0" expanded="true" />
-            <element signature="e#13891#13892#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AST_Node/TypeNodes/FuncTypeNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="57">
@@ -1271,10 +1199,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Frontend/ASTBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#10961#10962#0" expanded="true" />
+            <element signature="e#11007#11008#0" expanded="true" />
+            <element signature="e#11886#11887#0" expanded="true" />
+            <element signature="e#11928#11929#0" expanded="true" />
+            <element signature="e#13858#13859#0" expanded="true" />
+            <element signature="e#13891#13892#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Tools/Scope/ToplevelScope.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="91">
+          <caret line="33" selection-start-line="33" selection-end-line="33" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Tools/SemanticCheck.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="108" column="34" lean-forward="true" selection-start-line="108" selection-start-column="34" selection-end-line="108" selection-end-column="34" />
+        <state relative-caret-position="305">
+          <caret line="109" column="32" lean-forward="true" selection-start-line="109" selection-start-column="32" selection-end-line="109" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#varTypeExprCheck#0;class#SemanticCheck#0" />
