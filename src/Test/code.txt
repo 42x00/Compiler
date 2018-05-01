@@ -1,21 +1,18 @@
-void main() {}
+int main()
+{
+	a = 0;
+	return a;
+}
+int a;
 
 /*!! metadata:
 === comment ===
-Test main-func-7-5140309552-wancheng.mx
-=== is_public ===
-True
+5140309234-xietiancheng/back_ref.txt
 === assert ===
 failure_compile
-=== timeout ===
-0.0
-=== input ===
-
 === phase ===
 semantic pretest
-=== output ===
-
-=== exitcode ===
-
+=== is_public ===
+True
 
 !!*/

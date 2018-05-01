@@ -91,7 +91,7 @@ public class SemanticCheck implements ASTVisitor{
 
     @Override
     public void visit(ProgNode progNode) {
-        ToplevelScope toplevelScope = new ToplevelScope(progNode.declarations);
+        ToplevelScope toplevelScope = new ToplevelScope();
         progNode.setAstscope(toplevelScope);
         scopeStack.addLast(toplevelScope);
         setBuiltInFunction();
@@ -99,12 +99,14 @@ public class SemanticCheck implements ASTVisitor{
         for (DeclNode declNode : progNode.declarations)
             if (declNode instanceof ClassDeclNode) {
                 ClassDeclNode classDeclNode = (ClassDeclNode) declNode;
+                toplevelScope.addDecl(classDeclNode.declname, classDeclNode);
                 for (DeclNode declNode1 : classDeclNode.classdecllist)
                     toplevelScope.addDecl(classDeclNode.declname + "." + declNode1.declname, declNode1);
             }
+            else if (declNode instanceof FuncDeclNode)
+                toplevelScope.addDecl(declNode.declname, declNode);
         for (DeclNode declNode : progNode.declarations)
-            if (declNode instanceof VarDeclNode) varTypeExprCheck((VarDeclNode) declNode);
-            else declNode.accept(this);
+            declNode.accept(this);
         scopeStack.removeLast();
     }
 

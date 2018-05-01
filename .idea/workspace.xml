@@ -17,10 +17,13 @@
       <file leaf-file-name="SemanticCheck.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Tools/SemanticCheck.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="84" column="64" lean-forward="true" selection-start-line="84" selection-start-column="64" selection-end-line="84" selection-end-column="64" />
+            <state relative-caret-position="621">
+              <caret line="108" column="34" lean-forward="true" selection-start-line="108" selection-start-column="34" selection-end-line="108" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#varTypeExprCheck#0;class#SemanticCheck#0" />
+                <element signature="method#setBuiltInFunction#0;class#SemanticCheck#0" />
+                <element signature="method#checkMain#0;class#SemanticCheck#0" />
                 <element signature="e#6742#6743#0" expanded="true" />
                 <element signature="e#6802#6803#0" expanded="true" />
                 <element signature="e#8961#8962#0" expanded="true" />
@@ -199,7 +202,7 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="65" />
     <option name="y" value="-10" />
     <option name="width" value="1940" />
@@ -406,12 +409,12 @@
       <workItem from="1525081463886" duration="451000" />
       <workItem from="1525082017353" duration="10632000" />
       <workItem from="1525147815849" duration="7286000" />
-      <workItem from="1525161959960" duration="4043000" />
+      <workItem from="1525161959960" duration="4631000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="122252000" />
+    <option name="totallyTimeSpent" value="122840000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="55" y="-7" width="1488" height="878" extended-state="6" />
@@ -449,7 +452,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="121" />
+      <option name="time" value="122" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -460,12 +463,12 @@
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>unaryoperator == &quot;~&quot;</expression-string>
+        <expression-string />
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>unaryoperator == &quot;\~&quot;</expression-string>
+        <expression-string />
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -497,7 +500,7 @@
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>((ArrayList) funcCallExprNode.parameters).size</expression-string>
+        <expression-string />
         <language-id>JAVA</language-id>
         <custom-info>java.util.ArrayList</custom-info>
         <evaluation-mode>EXPRESSION</evaluation-mode>
@@ -1270,10 +1273,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Tools/SemanticCheck.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="84" column="64" lean-forward="true" selection-start-line="84" selection-start-column="64" selection-end-line="84" selection-end-column="64" />
+        <state relative-caret-position="621">
+          <caret line="108" column="34" lean-forward="true" selection-start-line="108" selection-start-column="34" selection-end-line="108" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#varTypeExprCheck#0;class#SemanticCheck#0" />
+            <element signature="method#setBuiltInFunction#0;class#SemanticCheck#0" />
+            <element signature="method#checkMain#0;class#SemanticCheck#0" />
             <element signature="e#6742#6743#0" expanded="true" />
             <element signature="e#6802#6803#0" expanded="true" />
             <element signature="e#8961#8962#0" expanded="true" />
