@@ -202,18 +202,16 @@ public class SemanticCheck implements ASTVisitor{
     public void visit(BinaryExprNode binaryExprNode) {
         binaryExprNode.lhs.accept(this);
         binaryExprNode.rhs.accept(this);
-        if (binaryExprNode.exprop == BinaryExprNode.BinaryOP.ASSIGN){
-            if (binaryExprNode.lhs.isLvalue == false) throw new Error("Assign with nonLvalue!");
-            if (binaryExprNode.rhs.exprtype.basetype == Type.Types.NULL){
-                if (binaryExprNode.lhs.exprtype instanceof ArrayTypeNode || binaryExprNode.lhs.exprtype instanceof ClassTypeNode)
+        if (binaryExprNode.rhs.exprtype.basetype == Type.Types.NULL){
+            if (binaryExprNode.lhs.exprtype instanceof ArrayTypeNode || binaryExprNode.lhs.exprtype instanceof ClassTypeNode){
+                if (binaryExprNode.exprop == BinaryExprNode.BinaryOP.ASSIGN)
                     binaryExprNode.exprtype.basetype = Type.Types.NULL;
-                else throw new Error("Wrong type assigned null!");
+                else if (binaryExprNode.exprop == BinaryExprNode.BinaryOP.EQUAL
+                        || binaryExprNode.exprop == BinaryExprNode.BinaryOP.INEQUAL)
+                    binaryExprNode.exprtype.basetype = Type.Types.BOOL;
+                else throw new Error("BinaryExpr wrong operator with null!");
             }
-            else {
-                if (!binaryExprNode.lhs.exprtype.isEqual(binaryExprNode.rhs.exprtype))
-                    throw new Error("Assign with different type!");
-                binaryExprNode.exprtype = binaryExprNode.lhs.exprtype;
-            }
+            else throw new Error("BinaryExpr wrong type with null!");
         }
         else {
             if (!binaryExprNode.lhs.exprtype.isEqual(binaryExprNode.rhs.exprtype))
@@ -259,6 +257,9 @@ public class SemanticCheck implements ASTVisitor{
                         binaryExprNode.exprtype.basetype = Type.Types.BOOL;
                     else throw new Error(binaryExprNode.exprop + " with wrong type!");
                     break;
+                case ASSIGN:
+                    binaryExprNode.exprtype = binaryExprNode.lhs.exprtype;
+                    break;
             }
         }
         binaryExprNode.isLvalue = false;
@@ -295,6 +296,7 @@ public class SemanticCheck implements ASTVisitor{
         else if (classMethodExprNode.classexpr.exprtype.basetype == Type.Types.STRING)
             declNode = currentScope().get("#String." + classMethodExprNode.methodname);
         else throw new Error("ClassMethod with wrong type!");
+
         if (declNode instanceof VarDeclNode) {
             classMethodExprNode.exprtype = ((VarDeclNode) declNode).getVartype();
             classMethodExprNode.isLvalue = true;
@@ -319,6 +321,7 @@ public class SemanticCheck implements ASTVisitor{
 
     @Override
     public void visit(ExprStmtNode exprStmtNode) {
+        if (exprStmtNode.exprnode != null)
         exprStmtNode.exprnode.accept(this);
     }
 
@@ -428,8 +431,24 @@ public class SemanticCheck implements ASTVisitor{
     @Override
     public void visit(ReturnStmtNode returnStmtNode) {
         if (currentFunc == null) throw new Error("ReturnExpr not in Function");
-        returnStmtNode.returnexpr.accept(this);
-        if (!returnStmtNode.returnexpr.exprtype.isEqual(currentFunc.getFunctionReturnType()))
-            throw new Error("Return wrong type!");
+        if (currentFunc.isConstructFunction() == true){
+            throw new Error("Return in construct func!");
+        }
+        else {
+            if (returnStmtNode.returnexpr == null){
+                if (currentFunc.getFunctionReturnType().basetype != Type.Types.VOID)
+                    throw new Error("NonVoid return null!");
+            }
+            else {
+                returnStmtNode.returnexpr.accept(this);
+                if (returnStmtNode.returnexpr.exprtype.basetype == Type.Types.NULL){
+                    if (!(currentFunc.getFunctionReturnType() instanceof ArrayTypeNode)
+                            && !(currentFunc.getFunctionReturnType() instanceof ClassTypeNode))
+                        throw new Error("Null return with wrong type!");
+                }
+                else if (!returnStmtNode.returnexpr.exprtype.isEqual(currentFunc.getFunctionReturnType()))
+                    throw new Error("Return wrong type!");
+            }
+        }
     }
 }

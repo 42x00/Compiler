@@ -1,5 +1,6 @@
 package AST_Node.TypeNodes;
 
+import AST_Node.ASTVisitor;
 import AST_Node.DeclNodes.FuncDeclNode;
 import AST_Node.DeclNodes.VarDeclListNode;
 import Type.Type;
@@ -36,5 +37,10 @@ public class FuncTypeNode extends TypeNode{
         if (functionParameterList == null)
             return 0;
         return functionParameterList.vardeclnodeList.size();
+    }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
     }
 }
