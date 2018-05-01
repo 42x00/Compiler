@@ -11,6 +11,9 @@ public class UnaryExprNode extends ExprNode {
     public UnaryOP exprop;
     public ExprNode unaryexpr;
 
+    public UnaryExprNode() {
+    }
+
     public UnaryExprNode(UnaryOP exprop, ExprNode unaryexpr) {
         this.exprop = exprop;
         this.unaryexpr = unaryexpr;

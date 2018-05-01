@@ -545,16 +545,20 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitUnaryExpression_prefix(LMxParser.UnaryExpression_prefixContext ctx) {
         String unaryoperator = ctx.unaryOperator().getText();
-        if (unaryoperator == "+"){
+        if (unaryoperator.equals("+")){
             return new UnaryExprNode(UnaryExprNode.UnaryOP.POSI, (ExprNode) visit(ctx.castExpression()));
         }
-        else if (unaryoperator == "-"){
+        else if (unaryoperator.equals("-")){
             return new UnaryExprNode(UnaryExprNode.UnaryOP.NEGE, (ExprNode) visit(ctx.castExpression()));
         }
-        else if (unaryoperator == "~"){
-            return new UnaryExprNode((UnaryExprNode.UnaryOP.BIT_NOT), (ExprNode) visit(ctx.castExpression()));
+        else if (unaryoperator.equals("~")){
+            return new UnaryExprNode(UnaryExprNode.UnaryOP.BIT_NOT, (ExprNode) visit(ctx.castExpression()));
         }
-        else return new UnaryExprNode(UnaryExprNode.UnaryOP.LOGIC_NOT, (ExprNode) visit(ctx.castExpression()));
+        else if (unaryoperator.equals("!")) {
+            return new UnaryExprNode(UnaryExprNode.UnaryOP.LOGIC_NOT, (ExprNode) visit(ctx.castExpression()));
+        }
+        else return new UnaryExprNode();
+
     }
 
 

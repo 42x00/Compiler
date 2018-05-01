@@ -29,8 +29,13 @@ public class SemanticCheck implements ASTVisitor{
     private void varTypeExprCheck(VarDeclNode varDeclNode){
         if (varDeclNode.getVartype() instanceof ClassTypeNode)
             varDeclNode.getVartype().accept(this);
-        if (varDeclNode.getVarinit() != null)
+        if (varDeclNode.getVarinit() != null){
             varDeclNode.getVarinit().accept(this);
+            if (varDeclNode.getVarinit().exprtype.basetype == Type.Types.NULL)
+                if (!(varDeclNode.getVartype() instanceof ArrayTypeNode)
+                        && !(varDeclNode.getVartype() instanceof ClassTypeNode))
+                    throw new Error("Wrong type initialized null!");
+        }
     }
 
     private void setBuiltInFunction(){
@@ -69,14 +74,28 @@ public class SemanticCheck implements ASTVisitor{
                 new VarDeclListNode(new VarDeclNode(new TypeNode(Type.Types.INT), "pos")), null));
     }
 
+    public void checkMain(){
+        DeclNode main = currentScope().get("main");
+        if (main == null) throw new Error("Without main func!");
+        FuncDeclNode funcDeclNode = (FuncDeclNode) main;
+        if (funcDeclNode.getFunctionReturnType() == null)
+            throw new Error("Main func without return!");
+        else {
+            if (!funcDeclNode.getFunctionReturnType().isEqual(new TypeNode(Type.Types.INT))){
+                throw new Error("Main with wrong return type!");
+            }
+        }
+        if (funcDeclNode.getFunctionParameterList() != null)
+            throw new Error("Main with parameters!");
+    }
+
     @Override
     public void visit(ProgNode progNode) {
         ToplevelScope toplevelScope = new ToplevelScope(progNode.declarations);
         progNode.setAstscope(toplevelScope);
         scopeStack.addLast(toplevelScope);
         setBuiltInFunction();
-        DeclNode main = currentScope().get("main");
-        if (main == null) throw new Error("Without main func!");
+        checkMain();
         for (DeclNode declNode : progNode.declarations)
             if (declNode instanceof ClassDeclNode) {
                 ClassDeclNode classDeclNode = (ClassDeclNode) declNode;
@@ -108,7 +127,7 @@ public class SemanticCheck implements ASTVisitor{
         if (funcDeclNode.isConstructFunction() == false) funcDeclNode.getFunctionReturnType().accept(this);
         else {
             if (currentClass == null) throw new Error("Constract func in nonClass!");
-            if (currentClass.classname != funcDeclNode.declname)
+            if (!currentClass.classname.equals(funcDeclNode.declname))
                 throw new Error("Constract func with wrong name!");
         }
         LocalScope localScope = new LocalScope(currentScope());
@@ -143,9 +162,11 @@ public class SemanticCheck implements ASTVisitor{
     @Override
     public void visit(ForStmtNode forStmtNode) {
         LocalScope localScope = new LocalScope(currentScope());
-        if (forStmtNode.forexprend != null) forStmtNode.forexprend.accept(this);
-        if (forStmtNode.forexprend.exprtype.basetype != Type.Types.BOOL)
-            throw new Error("ForEndExpr with nonBool!");
+        if (forStmtNode.forexprend != null) {
+            forStmtNode.forexprend.accept(this);
+            if (forStmtNode.forexprend.exprtype.basetype != Type.Types.BOOL)
+                throw new Error("ForEndExpr with nonBool!");
+        }
         if (forStmtNode.forexprupdate != null) forStmtNode.forexprupdate.accept(this);
         if (forStmtNode.forexprinit != null) forStmtNode.forexprinit.accept(this);
         else {
@@ -260,6 +281,7 @@ public class SemanticCheck implements ASTVisitor{
                     else throw new Error(binaryExprNode.exprop + " with wrong type!");
                     break;
                 case ASSIGN:
+                    if (binaryExprNode.lhs.isLvalue == false) throw new Error("Assign with nonLvalue!");
                     binaryExprNode.exprtype = binaryExprNode.lhs.exprtype;
                     break;
             }
@@ -388,17 +410,31 @@ public class SemanticCheck implements ASTVisitor{
     @Override
     public void visit(UnaryExprNode unaryExprNode) {
         unaryExprNode.unaryexpr.accept(this);
-        if (unaryExprNode.unaryexpr.exprtype.basetype == Type.Types.INT)
-           unaryExprNode.exprtype = unaryExprNode.unaryexpr.exprtype;
-        else throw new Error(unaryExprNode.exprop + " with wrong type!");
-        if (unaryExprNode.exprop == UnaryExprNode.UnaryOP.SELF_DEC ||
-                unaryExprNode.exprop == UnaryExprNode.UnaryOP.SELF_INC){
-            if (unaryExprNode.unaryexpr.isLvalue == false)
-                throw new Error(unaryExprNode.exprop + " with nonLvalue");
-            unaryExprNode.isLvalue = true;
+        switch (unaryExprNode.exprop){
+            case SELF_DEC:
+            case SELF_INC:
+                if (unaryExprNode.unaryexpr.isLvalue == false)
+                    throw new Error(unaryExprNode.exprop + " with nonLvalue");
+                if (unaryExprNode.unaryexpr.exprtype.basetype == Type.Types.INT)
+                    unaryExprNode.exprtype = unaryExprNode.unaryexpr.exprtype;
+                else throw new Error(unaryExprNode.exprop + " with wrong type!");
+                unaryExprNode.isLvalue = true;
+                break;
+            case LOGIC_NOT:
+                if (unaryExprNode.unaryexpr.exprtype.basetype == Type.Types.BOOL)
+                    unaryExprNode.exprtype.basetype = Type.Types.BOOL;
+                else throw new Error(unaryExprNode.exprop + " with wrong type!");
+                unaryExprNode.isLvalue = false;
+                break;
+            case NEGE:
+            case BIT_NOT:
+            case POSI:
+                if (unaryExprNode.unaryexpr.exprtype.basetype == Type.Types.INT)
+                    unaryExprNode.exprtype = unaryExprNode.unaryexpr.exprtype;
+                else throw new Error(unaryExprNode.exprop + " with wrong type!");
+                unaryExprNode.isLvalue = false;
+                break;
         }
-        else unaryExprNode.isLvalue = false;
-
     }
 
     @Override
@@ -421,7 +457,12 @@ public class SemanticCheck implements ASTVisitor{
             int cntparams = funcCallExprNode.parameters.size();
             for (int i = 0; i < cntparams; ++i){
                 funcCallExprNode.parameters.get(i).accept(this);
-                if (!funcCallExprNode.parameters.get(i).exprtype.isEqual(funcTypeNode.getFunctionParameterList().vardeclnodeList.get(i).getVartype()))
+                if (funcCallExprNode.parameters.get(i).exprtype.basetype == Type.Types.NULL){
+                    if (!(funcTypeNode.getFunctionParameterList().vardeclnodeList.get(i).getVartype() instanceof ArrayTypeNode)
+                            && !(funcTypeNode.getFunctionParameterList().vardeclnodeList.get(i).getVartype() instanceof  ClassTypeNode))
+                        throw new Error("FuncCall with wrong type!");
+                }
+                else if (!funcCallExprNode.parameters.get(i).exprtype.isEqual(funcTypeNode.getFunctionParameterList().vardeclnodeList.get(i).getVartype()))
                     throw new Error("FuncCall with wrong type!");
             }
             funcCallExprNode.exprtype = funcTypeNode.getFunctionReturnType();
