@@ -14,17 +14,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SemanticCheck.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SemanticCheck.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Tools/SemanticCheck.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+            <state relative-caret-position="97">
+              <caret line="486" selection-start-line="486" selection-end-line="486" />
               <folding>
                 <element signature="method#isClassorArray#0;class#SemanticCheck#0" />
                 <element signature="method#varTypeExprCheck#0;class#SemanticCheck#0" />
                 <element signature="method#setBuiltInFunction#0;class#SemanticCheck#0" />
                 <element signature="method#checkMain#0;class#SemanticCheck#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FuncCallExprNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/AST_Node/ExprNodes/FuncCallExprNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="88">
+              <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -38,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ASTBuilder.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ASTBuilder.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Frontend/ASTBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="31" column="5" lean-forward="true" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
+            <state relative-caret-position="396">
+              <caret line="29" column="29" lean-forward="true" selection-start-line="29" selection-start-column="29" selection-end-line="29" selection-end-column="29" />
               <folding>
                 <element signature="e#11640#11641#0" expanded="true" />
                 <element signature="e#11686#11687#0" expanded="true" />
@@ -64,7 +73,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>true</find>
       <find>bool</find>
       <find>visitnew</find>
       <find>visit(arr</find>
@@ -94,6 +102,7 @@
       <find>return</find>
       <find>new</find>
       <find>Error</find>
+      <find>funcC</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -151,8 +160,8 @@
         <option value="$PROJECT_DIR$/src/AST_Node/DeclNodes/VarDeclNode.java" />
         <option value="$PROJECT_DIR$/src/AST_Node/TypeNodes/ArrayTypeNode.java" />
         <option value="$PROJECT_DIR$/src/AST_Node/ExprNodes/NewExprNode.java" />
-        <option value="$PROJECT_DIR$/src/Frontend/ASTBuilder.java" />
         <option value="$PROJECT_DIR$/src/Tools/SemanticCheck.java" />
+        <option value="$PROJECT_DIR$/src/Frontend/ASTBuilder.java" />
       </list>
     </option>
   </component>
@@ -357,12 +366,12 @@
       <workItem from="1525161959960" duration="20538000" />
       <workItem from="1525233746773" duration="4114000" />
       <workItem from="1525245256789" duration="99000" />
-      <workItem from="1525251540867" duration="14583000" />
+      <workItem from="1525251540867" duration="15395000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="157543000" />
+    <option name="totallyTimeSpent" value="158355000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="55" y="-7" width="1488" height="878" extended-state="6" />
@@ -407,8 +416,14 @@
           <properties />
           <option name="timeStamp" value="133" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Tools/SemanticCheck.java</url>
+          <line>486</line>
+          <properties />
+          <option name="timeStamp" value="134" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="134" />
+      <option name="time" value="135" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -691,13 +706,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AST_Node/ExprNodes/FuncCallExprNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="35" column="5" lean-forward="true" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AST_Node/StmtNodes/ReturnStmtNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
@@ -844,19 +852,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Frontend/ASTBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="31" column="5" lean-forward="true" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
-          <folding>
-            <element signature="e#11640#11641#0" expanded="true" />
-            <element signature="e#11686#11687#0" expanded="true" />
-            <element signature="e#11777#11778#0" expanded="true" />
-            <element signature="e#11823#11824#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AST_Node/TypeNodes/ArrayTypeNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
@@ -866,13 +861,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Tools/SemanticCheck.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+        <state relative-caret-position="97">
+          <caret line="486" selection-start-line="486" selection-end-line="486" />
           <folding>
             <element signature="method#isClassorArray#0;class#SemanticCheck#0" />
             <element signature="method#varTypeExprCheck#0;class#SemanticCheck#0" />
             <element signature="method#setBuiltInFunction#0;class#SemanticCheck#0" />
             <element signature="method#checkMain#0;class#SemanticCheck#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AST_Node/ExprNodes/FuncCallExprNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Frontend/ASTBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="29" column="29" lean-forward="true" selection-start-line="29" selection-start-column="29" selection-end-line="29" selection-end-column="29" />
+          <folding>
+            <element signature="e#11640#11641#0" expanded="true" />
+            <element signature="e#11686#11687#0" expanded="true" />
+            <element signature="e#11777#11778#0" expanded="true" />
+            <element signature="e#11823#11824#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -722,11 +722,12 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPostfixExpression_func(LMxParser.PostfixExpression_funcContext ctx) {
-        FuncCallExprNode funcCallExprNode = new FuncCallExprNode();
+        FuncCallExprNode funcCallExprNode = null;
         if (ctx.argumentExpressionList() != null) {
             funcCallExprNode = (FuncCallExprNode) visit(ctx.argumentExpressionList());
             funcCallExprNode.setFunction((ExprNode) visit(ctx.postfixExpression()));
         }
+        else funcCallExprNode = new FuncCallExprNode((ExprNode) visit(ctx.postfixExpression()));
         funcCallExprNode.setCtx(ctx);
         return funcCallExprNode;
     }
