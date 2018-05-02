@@ -1,5 +1,6 @@
 package Tools;
 
+import AST_Node.ASTNode;
 import AST_Node.ASTVisitor;
 import AST_Node.DeclNodes.*;
 import AST_Node.ExprNodes.*;
@@ -11,9 +12,8 @@ import AST_Node.TypeNodes.FuncTypeNode;
 import AST_Node.TypeNodes.TypeNode;
 import Tools.Scope.*;
 import Type.*;
-import com.sun.nio.file.ExtendedWatchEventModifier;
+import org.antlr.v4.runtime.ParserRuleContext;
 
-import javax.swing.text.DefaultEditorKit;
 import java.util.LinkedList;
 
 public class SemanticCheck implements ASTVisitor{
@@ -26,14 +26,17 @@ public class SemanticCheck implements ASTVisitor{
         return scopeStack.getLast();
     }
 
+    private boolean isClassorArray(TypeNode typeNode){
+        return typeNode instanceof ClassTypeNode || typeNode instanceof ArrayTypeNode;
+    }
+
     private void varTypeExprCheck(VarDeclNode varDeclNode){
         if (varDeclNode.getVartype() instanceof ClassTypeNode)
             varDeclNode.getVartype().accept(this);
         if (varDeclNode.getVarinit() != null){
             varDeclNode.getVarinit().accept(this);
-            if (varDeclNode.getVarinit().exprtype.basetype == Type.Types.NULL)
-                if (!(varDeclNode.getVartype() instanceof ArrayTypeNode)
-                        && !(varDeclNode.getVartype() instanceof ClassTypeNode))
+            if (varDeclNode.getVarinit().isEqual(Type.Types.NULL))
+                if (!isClassorArray(varDeclNode.getVartype()))
                     throw new Error("Wrong type initialized null!");
         }
     }
@@ -62,8 +65,8 @@ public class SemanticCheck implements ASTVisitor{
                 null, null));
         //#String.substring: string substring(int left, int right)
         VarDeclListNode varDeclListNode = new VarDeclListNode();
-        varDeclListNode.vardeclnodeList.add(new VarDeclNode(new TypeNode(Type.Types.INT), "left"));
-        varDeclListNode.vardeclnodeList.add(new VarDeclNode(new TypeNode(Type.Types.INT), "right"));
+        varDeclListNode.addDecl(new VarDeclNode(new TypeNode(Type.Types.INT), "left"));
+        varDeclListNode.addDecl(new VarDeclNode(new TypeNode(Type.Types.INT), "right"));
         currentScope().addDecl("#String.substring", new FuncDeclNode(new TypeNode(Type.Types.STRING), "#String.substring",
                 varDeclListNode, null));
         //#String.parseInt: int parseInt();
@@ -81,44 +84,52 @@ public class SemanticCheck implements ASTVisitor{
         if (funcDeclNode.getFunctionReturnType() == null)
             throw new Error("Main func without return!");
         else {
-            if (!funcDeclNode.getFunctionReturnType().isEqual(new TypeNode(Type.Types.INT))){
+            if (!funcDeclNode.getFunctionReturnType().isEqual(Type.Types.INT)){
                 throw new Error("Main with wrong return type!");
             }
         }
-        if (funcDeclNode.getFunctionParameterList() != null)
+        if (funcDeclNode.getFunctionParameterList().getParamSize() != 0)
             throw new Error("Main with parameters!");
+    }
+
+    public String ctxLocation(ASTNode obj){
+        return  "Line: " + obj.ctx.getStart().getLine() + ", Row: " + obj.ctx.getStart().getCharPositionInLine();
     }
 
     @Override
     public void visit(ProgNode progNode) {
         ToplevelScope toplevelScope = new ToplevelScope();
-        progNode.setAstscope(toplevelScope);
         scopeStack.addLast(toplevelScope);
         setBuiltInFunction();
-        for (DeclNode declNode : progNode.declarations)
+
+        for (DeclNode declNode : progNode.getDeclarations())
             if (declNode instanceof ClassDeclNode) {
                 ClassDeclNode classDeclNode = (ClassDeclNode) declNode;
-                toplevelScope.addDecl(classDeclNode.declname, classDeclNode);
-                for (DeclNode declNode1 : classDeclNode.classdecllist)
-                    toplevelScope.addDecl(classDeclNode.declname + "." + declNode1.declname, declNode1);
+                toplevelScope.addDecl(classDeclNode.getDeclname(), classDeclNode);
+                for (DeclNode declNode1 : classDeclNode.getClassdecllist())
+                    toplevelScope.addDecl(classDeclNode.getDeclname() + "." + declNode1.getDeclname(), declNode1);
             }
             else if (declNode instanceof FuncDeclNode)
-                toplevelScope.addDecl(declNode.declname, declNode);
+                toplevelScope.addDecl(declNode.getDeclname(), declNode);
+
         checkMain();
-        for (DeclNode declNode : progNode.declarations)
+
+        for (DeclNode declNode : progNode.getDeclarations())
             declNode.accept(this);
+
         scopeStack.removeLast();
     }
 
     @Override
     public void visit(ClassDeclNode classDeclNode) {
-        currentClass = new ClassTypeNode(classDeclNode.declname);
-        LocalScope localScope = new LocalScope(currentScope(),classDeclNode.classdecllist);
-        classDeclNode.setAstscope(localScope);
+        currentClass = new ClassTypeNode(classDeclNode.getDeclname());
+        LocalScope localScope = new LocalScope(currentScope(),classDeclNode.getClassdecllist());
         scopeStack.addLast(localScope);
-        for (DeclNode declNode : classDeclNode.classdecllist)
+
+        for (DeclNode declNode : classDeclNode.getClassdecllist())
             if (declNode instanceof VarDeclNode) varTypeExprCheck((VarDeclNode) declNode);
             else declNode.accept(this);
+
         scopeStack.removeLast();
         currentClass = null;
     }
@@ -126,22 +137,28 @@ public class SemanticCheck implements ASTVisitor{
     @Override
     public void visit(FuncDeclNode funcDeclNode) {
         currentFunc = new FuncTypeNode(funcDeclNode);
+        LocalScope localScope = new LocalScope(currentScope());
+
+        //ReturnType
         if (funcDeclNode.isConstructFunction() == false) funcDeclNode.getFunctionReturnType().accept(this);
         else {
-            if (currentClass == null) throw new Error("Constract func in nonClass!");
-            if (!currentClass.classname.equals(funcDeclNode.declname))
-                throw new Error("Constract func with wrong name!");
+            if (currentClass == null) throw new Error(ctxLocation(funcDeclNode) + " Constract func in nonClass!");
+            if (!currentClass.getClassname().equals(funcDeclNode.getFunctionName()))
+                throw new Error(ctxLocation(funcDeclNode) + " Constract func with wrong name!");
         }
-        LocalScope localScope = new LocalScope(currentScope());
-        funcDeclNode.setAstscope(localScope);
-        if (funcDeclNode.getFunctionParameterList() != null) {
-            for (VarDeclNode varDeclNode : funcDeclNode.getFunctionParameterList().vardeclnodeList)
+        //Parameters
+        if (funcDeclNode.getFunctionParameterList().getParamSize() != 0) {
+            for (VarDeclNode varDeclNode : funcDeclNode.getFunctionParameterList().getVardeclnodeList())
                 varTypeExprCheck(varDeclNode);
-            localScope.addDecls(funcDeclNode.getFunctionParameterList().vardeclnodeList);
+            for (VarDeclNode varDeclNode : funcDeclNode.getFunctionParameterList().getVardeclnodeList())
+                localScope.addDecl(varDeclNode.getDeclname() ,varDeclNode);
         }
+
         scopeStack.addLast(localScope);
+
         if (funcDeclNode.getFunctionStatements() != null)
             funcDeclNode.getFunctionStatements().accept(this);
+
         scopeStack.removeLast();
         currentFunc = null;
     }
@@ -154,47 +171,55 @@ public class SemanticCheck implements ASTVisitor{
     @Override
     public void visit(CompStmtNode compStmtNode) {
         LocalScope localScope = new LocalScope(currentScope());
-        compStmtNode.setAstscope(localScope);
         scopeStack.addLast(localScope);
-        for (StmtNode stmtNode : compStmtNode.stmtNodeList)
+
+        for (StmtNode stmtNode : compStmtNode.getStmtNodeList())
             stmtNode.accept(this);
+
         scopeStack.removeLast();
     }
 
     @Override
     public void visit(ForStmtNode forStmtNode) {
         LocalScope localScope = new LocalScope(currentScope());
-        if (forStmtNode.forexprend != null) {
-            forStmtNode.forexprend.accept(this);
-            if (forStmtNode.forexprend.exprtype.basetype != Type.Types.BOOL)
-                throw new Error("ForEndExpr with nonBool!");
+
+        //ForExpr
+        if (forStmtNode.getForexprend() != null) {
+            forStmtNode.getForexprend().accept(this);
+            if (!forStmtNode.getForexprend().isEqual(Type.Types.BOOL))
+                throw new Error(ctxLocation(forStmtNode) + " ForEndExpr with nonBool!");
         }
-        if (forStmtNode.forexprupdate != null) forStmtNode.forexprupdate.accept(this);
-        if (forStmtNode.forexprinit != null) forStmtNode.forexprinit.accept(this);
+        if (forStmtNode.getForexprupdate() != null) forStmtNode.getForexprupdate().accept(this);
+        if (forStmtNode.getForexprinit() != null) forStmtNode.getForexprinit().accept(this);
         else {
-            if (forStmtNode.forinit != null)
-                for (VarDeclNode varDeclNode : forStmtNode.forinit)
+            if (forStmtNode.getForinit() != null)
+                for (VarDeclNode varDeclNode : forStmtNode.getForinit())
                     varTypeExprCheck(varDeclNode);
-            localScope = new LocalScope(currentScope(),forStmtNode.forinit);
+            localScope = new LocalScope(currentScope(),forStmtNode.getForinit());
         }
-        forStmtNode.setAstscope(localScope);
+
+
         scopeStack.addLast(localScope);
         ++isInLoop;
-        forStmtNode.forstmt.accept(this);
+
+        forStmtNode.getForstmt().accept(this);
+
         --isInLoop;
         scopeStack.removeLast();
     }
 
     @Override
     public void visit(WhileStmtNode whileStmtNode) {
-        whileStmtNode.whileexpr.accept(this);
-        if (whileStmtNode.whileexpr.exprtype.basetype != Type.Types.BOOL)
-            throw new Error("WhileExpr with nonBool!");
+        whileStmtNode.getWhileexpr().accept(this);
+        if (!whileStmtNode.getWhileexpr().isEqual(Type.Types.BOOL))
+            throw new Error(ctxLocation(whileStmtNode) + " WhileExpr with nonBool!");
+
         LocalScope localScope = new LocalScope(currentScope());
-        whileStmtNode.setAstscope(localScope);
         scopeStack.addLast(localScope);
         ++isInLoop;
-        whileStmtNode.whilestmt.accept(this);
+
+        whileStmtNode.getWhilestmt().accept(this);
+
         --isInLoop;
         scopeStack.removeLast();
     }
@@ -202,51 +227,54 @@ public class SemanticCheck implements ASTVisitor{
     @Override
     public void visit(VarDeclNode varDeclNode) {
         varTypeExprCheck(varDeclNode);
-        Scope scope = currentScope();
-        scope.addDecl(varDeclNode.declname,varDeclNode);
+        currentScope().addDecl(varDeclNode.getDeclname(),varDeclNode);
     }
 
     @Override
     public void visit(VarDeclStmtNode varDeclStmtNode) {
-        varDeclStmtNode.vardeclnode.accept(this);
+        varDeclStmtNode.getVardeclnode().accept(this);
     }
 
     @Override
     public void visit(ArrayIndexExprNode arrayIndexExprNode) {
-        arrayIndexExprNode.array.accept(this);
-        arrayIndexExprNode.index.accept(this);
-        if (!(arrayIndexExprNode.array.exprtype instanceof ArrayTypeNode))
-            throw new Error("ArrayIndex not array");
-        if (arrayIndexExprNode.index.exprtype.basetype != Type.Types.INT)
-            throw new Error("ArrayIndex not by INT index!");
-        arrayIndexExprNode.exprtype = ((ArrayTypeNode) arrayIndexExprNode.array.exprtype).getArrayelement();
-        arrayIndexExprNode.isLvalue = true;
+        arrayIndexExprNode.getArray().accept(this);
+        if (!(arrayIndexExprNode.getArray().getExprtype() instanceof ArrayTypeNode))
+            throw new Error(ctxLocation(arrayIndexExprNode) + " ArrayIndex not array");
+
+        arrayIndexExprNode.getIndex().accept(this);
+        if (!arrayIndexExprNode.getIndex().isEqual(Type.Types.INT))
+            throw new Error(ctxLocation(arrayIndexExprNode) + " ArrayIndex not by INT index!");
+
+        arrayIndexExprNode.setExprtype(((ArrayTypeNode) arrayIndexExprNode.getArray().getExprtype()).getArrayelement());
+        arrayIndexExprNode.setLvalue(true);
     }
+
 
     @Override
     public void visit(BinaryExprNode binaryExprNode) {
-        binaryExprNode.lhs.accept(this);
-        binaryExprNode.rhs.accept(this);
-        if (binaryExprNode.rhs.exprtype.basetype == Type.Types.NULL){
-            if (binaryExprNode.lhs.exprtype instanceof ArrayTypeNode || binaryExprNode.lhs.exprtype instanceof ClassTypeNode){
-                if (binaryExprNode.exprop == BinaryExprNode.BinaryOP.ASSIGN)
-                    binaryExprNode.exprtype.basetype = Type.Types.NULL;
-                else if (binaryExprNode.exprop == BinaryExprNode.BinaryOP.EQUAL
-                        || binaryExprNode.exprop == BinaryExprNode.BinaryOP.INEQUAL)
-                    binaryExprNode.exprtype.basetype = Type.Types.BOOL;
-                else throw new Error("BinaryExpr wrong operator with null!");
+        binaryExprNode.getLhs().accept(this);
+        binaryExprNode.getRhs().accept(this);
+
+        if (binaryExprNode.getRhs().isEqual(Type.Types.NULL)){
+            if (isClassorArray(binaryExprNode.getLhs().getExprtype())){
+                if (binaryExprNode.getExprop().equals(BinaryExprNode.BinaryOP.ASSIGN))
+                    binaryExprNode.setBasetype(Type.Types.NULL);
+                else if (binaryExprNode.getExprop().equals(BinaryExprNode.BinaryOP.EQUAL)
+                        || binaryExprNode.getExprop().equals(BinaryExprNode.BinaryOP.INEQUAL))
+                    binaryExprNode.setBasetype(Type.Types.BOOL);
+                else throw new Error(ctxLocation(binaryExprNode) + " BinaryExpr wrong operator with null!");
             }
-            else throw new Error("BinaryExpr wrong type with null!");
+            else throw new Error(ctxLocation(binaryExprNode) + " BinaryExpr wrong type with null!");
         }
         else {
-            if (!binaryExprNode.lhs.exprtype.isEqual(binaryExprNode.rhs.exprtype))
-                throw new Error("BinaryExpr with different type!");
-            switch (binaryExprNode.exprop) {
+            if (!binaryExprNode.getLhs().getExprtype().isEqual(binaryExprNode.getRhs().getExprtype()))
+                throw new Error(ctxLocation(binaryExprNode) + " BinaryExpr with different type!");
+            switch (binaryExprNode.getExprop()) {
                 case ADD:
-                    if (binaryExprNode.lhs.exprtype.basetype == Type.Types.INT ||
-                            binaryExprNode.lhs.exprtype.basetype == Type.Types.STRING)
-                        binaryExprNode.exprtype = binaryExprNode.lhs.exprtype;
-                    else throw new Error(binaryExprNode.exprop + " with wrong type!");
+                    if (binaryExprNode.getLhs().isEqual(Type.Types.INT) ||
+                            binaryExprNode.getLhs().isEqual(Type.Types.STRING))
+                        binaryExprNode.setExprtype(binaryExprNode.getLhs().getExprtype());
+                    else throw new Error(ctxLocation(binaryExprNode) + " " + binaryExprNode.getExprop() + " with wrong type!");
                     break;
                 case DIV:
                 case MOD:
@@ -257,184 +285,190 @@ public class SemanticCheck implements ASTVisitor{
                 case BIR_OR:
                 case BIT_AND:
                 case BIT_XOR:
-                    if (binaryExprNode.lhs.exprtype.basetype == Type.Types.INT)
-                        binaryExprNode.exprtype = binaryExprNode.lhs.exprtype;
-                    else throw new Error(binaryExprNode.exprop + " with wrong type!");
+                    if (binaryExprNode.getLhs().isEqual(Type.Types.INT))
+                        binaryExprNode.setExprtype(binaryExprNode.getLhs().getExprtype());
+                    else throw new Error(ctxLocation(binaryExprNode) + " " + binaryExprNode.getExprop() + " with wrong type!");
                     break;
                 case EQUAL:
                 case INEQUAL:
-                    if (binaryExprNode.lhs.exprtype.basetype == Type.Types.NULL)
-                        throw new Error(binaryExprNode.exprop + " with wrong type!");
-                    binaryExprNode.exprtype.basetype = Type.Types.BOOL;
+                    if (isClassorArray(binaryExprNode.getLhs().getExprtype()))
+                        throw new Error(ctxLocation(binaryExprNode) + " " + binaryExprNode.getExprop() + " with wrong type!");
+                    binaryExprNode.setBasetype(Type.Types.BOOL);
                     break;
                 case LESS:
                 case GREATER:
                 case LESS_EQUAL:
                 case GREATER_EQUAL:
-                    if (binaryExprNode.lhs.exprtype.basetype == Type.Types.INT ||
-                            binaryExprNode.lhs.exprtype.basetype == Type.Types.STRING)
-                        binaryExprNode.exprtype.basetype = Type.Types.BOOL;
-                    else throw new Error(binaryExprNode.exprop + " with wrong type!");
+                    if (binaryExprNode.getLhs().isEqual(Type.Types.INT) ||
+                            binaryExprNode.getLhs().isEqual(Type.Types.STRING))
+                        binaryExprNode.setBasetype(Type.Types.BOOL);
+                    else throw new Error(ctxLocation(binaryExprNode) + " " + binaryExprNode.getExprop() + " with wrong type!");
                     break;
                 case LOGICAL_OR:
                 case LOGICAL_AND:
-                    if (binaryExprNode.lhs.exprtype.basetype == Type.Types.BOOL)
-                        binaryExprNode.exprtype.basetype = Type.Types.BOOL;
-                    else throw new Error(binaryExprNode.exprop + " with wrong type!");
+                    if (binaryExprNode.getLhs().isEqual(Type.Types.BOOL))
+                        binaryExprNode.setBasetype(Type.Types.BOOL);
+                    else throw new Error(ctxLocation(binaryExprNode) + " " + binaryExprNode.getExprop() + " with wrong type!");
                     break;
                 case ASSIGN:
-                    if (binaryExprNode.lhs.isLvalue == false) throw new Error("Assign with nonLvalue!");
-                    binaryExprNode.exprtype = binaryExprNode.lhs.exprtype;
+                    if (!binaryExprNode.getLhs().isLvalue()) throw new Error(ctxLocation(binaryExprNode) + " Assign with nonLvalue!");
+                    binaryExprNode.setExprtype(binaryExprNode.getLhs().getExprtype());
                     break;
             }
         }
-        binaryExprNode.isLvalue = false;
+        binaryExprNode.setLvalue(false);
     }
 
     @Override
     public void visit(BoolExprNode boolExprNode) {
-        if (boolExprNode.exprtype.basetype != Type.Types.BOOL)
-            throw new Error("Bool with nonBool type!");
-        boolExprNode.isLvalue = false;
+        if (!boolExprNode.isEqual(Type.Types.BOOL))
+            throw new Error(ctxLocation(boolExprNode) + " Bool with nonBool type!");
+        boolExprNode.setLvalue(false);
     }
 
     @Override
     public void visit(ClassThisExprNode classThisExprNode) {
-        if (currentClass == null) throw new Error("ThisExpr not in Class");
-        classThisExprNode.exprtype = currentClass;
-        classThisExprNode.isLvalue = false;
+        if (currentClass == null) throw new Error(ctxLocation(classThisExprNode) + " ThisExpr not in Class");
+        classThisExprNode.setExprtype(currentClass);
+        classThisExprNode.setLvalue(false);
     }
 
     @Override
     public void visit(BreakStmtNode breakStmtNode) {
-        if (isInLoop == 0)
-            throw new Error("Break not in Loop!");
+        if (isInLoop == 0) throw new Error(ctxLocation(breakStmtNode) + " Break not in Loop!");
     }
 
     @Override
     public void visit(ClassMethodExprNode classMethodExprNode) {
-        classMethodExprNode.classexpr.accept(this);
+        classMethodExprNode.getClassexpr().accept(this);
+
         DeclNode declNode = null;
-        if (classMethodExprNode.classexpr.exprtype instanceof ClassTypeNode)
-            declNode = currentScope().get(((ClassTypeNode) classMethodExprNode.classexpr.exprtype).classname + "." + classMethodExprNode.methodname);
-        else if (classMethodExprNode.classexpr.exprtype instanceof ArrayTypeNode)
-            declNode = currentScope().get("#Array." + classMethodExprNode.methodname);
-        else if (classMethodExprNode.classexpr.exprtype.basetype == Type.Types.STRING)
-            declNode = currentScope().get("#String." + classMethodExprNode.methodname);
-        else throw new Error("ClassMethod with wrong type!");
+        if (classMethodExprNode.getClassexpr().getExprtype() instanceof ClassTypeNode)
+            declNode = currentScope().get(((ClassTypeNode) classMethodExprNode.getClassexpr().getExprtype()).getClassname() + "." + classMethodExprNode.getMethodname());
+        else if (classMethodExprNode.getClassexpr().getExprtype() instanceof ArrayTypeNode)
+            declNode = currentScope().get("#Array." + classMethodExprNode.getMethodname());
+        else if (classMethodExprNode.getClassexpr().isEqual(Type.Types.STRING))
+            declNode = currentScope().get("#String." + classMethodExprNode.getMethodname());
+        else throw new Error(ctxLocation(classMethodExprNode) + " ClassMethod with wrong type!");
 
         if (declNode instanceof VarDeclNode) {
-            classMethodExprNode.exprtype = ((VarDeclNode) declNode).getVartype();
-            classMethodExprNode.isLvalue = true;
+            classMethodExprNode.setExprtype(((VarDeclNode) declNode).getVartype());
+            classMethodExprNode.setLvalue(true);
         }
         else {
-            classMethodExprNode.exprtype = new FuncTypeNode((FuncDeclNode) declNode);
-            classMethodExprNode.isLvalue = false;
+            classMethodExprNode.setExprtype(new FuncTypeNode((FuncDeclNode) declNode));
+            classMethodExprNode.setLvalue(false);
         }
 
     }
 
     @Override
     public void visit(ClassTypeNode classTypeNode) {
-        currentScope().get(classTypeNode.classname);
+        currentScope().get(classTypeNode.getClassname());
     }
 
     @Override
     public void visit(ContinueStmtNode continueStmtNode) {
-        if (isInLoop == 0)
-            throw new Error("Continue not in Loop!");
+        if (isInLoop == 0) throw new Error(ctxLocation(continueStmtNode) + " Continue not in Loop!");
     }
 
     @Override
     public void visit(ExprStmtNode exprStmtNode) {
-        if (exprStmtNode.exprnode != null)
-        exprStmtNode.exprnode.accept(this);
+        if (exprStmtNode.getExprnode() != null) exprStmtNode.getExprnode().accept(this);
     }
 
     @Override
     public void visit(IDExprNode idExprNode) {
-        DeclNode declNode = currentScope().get(idExprNode.id);
+        DeclNode declNode = currentScope().get(idExprNode.getId());
+
         if (declNode instanceof ClassDeclNode) {
-            idExprNode.exprtype = new ClassTypeNode(declNode.declname);
-            idExprNode.isLvalue = false;
+            idExprNode.setExprtype(new ClassTypeNode(declNode.getDeclname()));
+            idExprNode.setLvalue(false);
         }
         else if (declNode instanceof VarDeclNode) {
-            idExprNode.exprtype = ((VarDeclNode) declNode).getVartype();
-            idExprNode.isLvalue = true;
+            idExprNode.setExprtype(((VarDeclNode) declNode).getVartype());
+            idExprNode.setLvalue(true);
         }
         else if (declNode instanceof FuncDeclNode) {
-            idExprNode.exprtype = new FuncTypeNode((FuncDeclNode) declNode);
-            idExprNode.isLvalue = false;
+            idExprNode.setExprtype(new FuncTypeNode((FuncDeclNode) declNode));
+            idExprNode.setLvalue(false);
         }
+
     }
 
     @Override
     public void visit(IfStmtNode ifStmtNode) {
-        ifStmtNode.ifexpr.accept(this);
-        if (ifStmtNode.ifexpr.exprtype.basetype != Type.Types.BOOL)
-            throw new Error("Ifexpr with nonBool!");
-        ifStmtNode.ifstmt.accept(this);
-        if (ifStmtNode.elsestmt != null) ifStmtNode.elsestmt.accept(this);
+        ifStmtNode.getIfexpr().accept(this);
+        if (!ifStmtNode.getIfexpr().isEqual(Type.Types.BOOL)) throw new Error(ctxLocation(ifStmtNode) + " Ifexpr with nonBool!");
+
+        ifStmtNode.getIfstmt().accept(this);
+        if (ifStmtNode.getElsestmt() != null) ifStmtNode.getElsestmt().accept(this);
     }
 
     @Override
     public void visit(IntExprNode intExprNode) {
-        if (intExprNode.exprtype.basetype != Type.Types.INT)
-            throw new Error("IntExpr with nonInt type!");
-        intExprNode.isLvalue = false;
+        if (!intExprNode.isEqual(Type.Types.INT))
+            throw new Error(ctxLocation(intExprNode) + " IntExpr with nonInt type!");
+        intExprNode.setLvalue(false);
     }
 
     @Override
     public void visit(NewExprNode newExprNode) {
-        if (newExprNode.exprtype instanceof ClassTypeNode)
-            currentScope().get(((ClassTypeNode) newExprNode.exprtype).classname);
-        newExprNode.isLvalue = false;
+        if (newExprNode.getExprtype() instanceof ClassTypeNode)
+            newExprNode.getExprtype().accept(this);
+        newExprNode.setLvalue(false);
     }
 
     @Override
     public void visit(StringExprNode stringExprNode) {
-        if (stringExprNode.exprtype.basetype != Type.Types.STRING)
-            throw new Error("StringExpr with nonString type!");
-        stringExprNode.isLvalue = false;
+        if (!stringExprNode.isEqual(Type.Types.STRING)) throw new Error(ctxLocation(stringExprNode) + " StringExpr with nonString type!");
+        stringExprNode.setLvalue(false);
     }
 
     @Override
     public void visit(SuffixExprNode suffixExprNode) {
-        suffixExprNode.suffixexpr.accept(this);
-        if (suffixExprNode.suffixexpr.isLvalue == false)
-            throw new Error(suffixExprNode.exprop + " with nonLvalue!");
-        if (suffixExprNode.suffixexpr.exprtype.basetype == Type.Types.INT)
-            suffixExprNode.exprtype = suffixExprNode.suffixexpr.exprtype;
-        else throw new Error(suffixExprNode.exprop + " with wrong type!");
-        suffixExprNode.isLvalue = false;
+        suffixExprNode.getSuffixexpr().accept(this);
+
+        if (!suffixExprNode.getSuffixexpr().isLvalue()) throw new Error(ctxLocation(suffixExprNode) + " " + suffixExprNode.getExprop() + " with nonLvalue!");
+
+        if (suffixExprNode.getSuffixexpr().isEqual(Type.Types.INT))
+            suffixExprNode.setBasetype(Type.Types.INT);
+        else throw new Error(ctxLocation(suffixExprNode) + " " + suffixExprNode.getExprop() + " with wrong type!");
+
+        suffixExprNode.setLvalue(false);
     }
 
     @Override
     public void visit(UnaryExprNode unaryExprNode) {
-        unaryExprNode.unaryexpr.accept(this);
-        switch (unaryExprNode.exprop){
+        unaryExprNode.getUnaryexpr().accept(this);
+
+        switch (unaryExprNode.getExprop()){
             case SELF_DEC:
             case SELF_INC:
-                if (unaryExprNode.unaryexpr.isLvalue == false)
-                    throw new Error(unaryExprNode.exprop + " with nonLvalue");
-                if (unaryExprNode.unaryexpr.exprtype.basetype == Type.Types.INT)
-                    unaryExprNode.exprtype = unaryExprNode.unaryexpr.exprtype;
-                else throw new Error(unaryExprNode.exprop + " with wrong type!");
-                unaryExprNode.isLvalue = true;
+                if (!unaryExprNode.getUnaryexpr().isLvalue())
+                    throw new Error(ctxLocation(unaryExprNode) + " " + unaryExprNode.getExprop() + " with nonLvalue");
+
+                if (unaryExprNode.getUnaryexpr().isEqual(Type.Types.INT))
+                    unaryExprNode.setBasetype(Type.Types.INT);
+                else throw new Error(ctxLocation(unaryExprNode) + " " + unaryExprNode.getExprop() + " with wrong type!");
+
+                unaryExprNode.setLvalue(true);
                 break;
             case LOGIC_NOT:
-                if (unaryExprNode.unaryexpr.exprtype.basetype == Type.Types.BOOL)
-                    unaryExprNode.exprtype.basetype = Type.Types.BOOL;
-                else throw new Error(unaryExprNode.exprop + " with wrong type!");
-                unaryExprNode.isLvalue = false;
+                if (unaryExprNode.getUnaryexpr().isEqual(Type.Types.BOOL))
+                    unaryExprNode.setBasetype(Type.Types.BOOL);
+                else throw new Error(ctxLocation(unaryExprNode) + " " + unaryExprNode.getExprop() + " with wrong type!");
+
+                unaryExprNode.setLvalue(false);
                 break;
             case NEGE:
             case BIT_NOT:
             case POSI:
-                if (unaryExprNode.unaryexpr.exprtype.basetype == Type.Types.INT)
-                    unaryExprNode.exprtype = unaryExprNode.unaryexpr.exprtype;
-                else throw new Error(unaryExprNode.exprop + " with wrong type!");
-                unaryExprNode.isLvalue = false;
+                if (unaryExprNode.getUnaryexpr().isEqual(Type.Types.INT))
+                    unaryExprNode.setBasetype(Type.Types.INT);
+                else throw new Error(ctxLocation(unaryExprNode) + " " + unaryExprNode.getExprop() + " with wrong type!");
+
+                unaryExprNode.setLvalue(false);
                 break;
         }
     }
@@ -444,56 +478,62 @@ public class SemanticCheck implements ASTVisitor{
 
     @Override
     public void visit(NullExprNode nullExprNode) {
-        if (nullExprNode.exprtype.basetype != Type.Types.NULL)
-            throw new Error("NullExpr with nonNull type!");
-        nullExprNode.isLvalue = false;
+        if (!nullExprNode.isEqual(Type.Types.NULL)) throw new Error(ctxLocation(nullExprNode) + " NullExpr with nonNull type!");
+        nullExprNode.setLvalue(false);
     }
 
     @Override
     public void visit(FuncCallExprNode funcCallExprNode) {
-        funcCallExprNode.function.accept(this);
-        if (funcCallExprNode.function.exprtype instanceof FuncTypeNode){
-            FuncTypeNode funcTypeNode = (FuncTypeNode) funcCallExprNode.function.exprtype;
-            if (funcCallExprNode.parameters.size() != funcTypeNode.getparamsize())
-                throw new Error("FuncCall with wrong number of params!");
-            int cntparams = funcCallExprNode.parameters.size();
+        funcCallExprNode.getFunction().accept(this);
+
+        if (funcCallExprNode.getFunction().getExprtype() instanceof FuncTypeNode){
+            FuncTypeNode funcTypeNode = (FuncTypeNode) funcCallExprNode.getFunction().getExprtype();
+
+            if (funcCallExprNode.getParameters().size() != funcTypeNode.getParamSize()) throw new Error(ctxLocation(funcCallExprNode) + " FuncCall with wrong number of params!");
+
+            int cntparams = funcCallExprNode.getParameters().size();
             for (int i = 0; i < cntparams; ++i){
-                funcCallExprNode.parameters.get(i).accept(this);
-                if (funcCallExprNode.parameters.get(i).exprtype.basetype == Type.Types.NULL){
-                    if (!(funcTypeNode.getFunctionParameterList().vardeclnodeList.get(i).getVartype() instanceof ArrayTypeNode)
-                            && !(funcTypeNode.getFunctionParameterList().vardeclnodeList.get(i).getVartype() instanceof  ClassTypeNode))
-                        throw new Error("FuncCall with wrong type!");
+                funcCallExprNode.getParameters().get(i).accept(this);
+
+                if (funcCallExprNode.getParameters().get(i).isEqual(Type.Types.NULL)){
+                    if (!isClassorArray(funcTypeNode.getFunctionParameterList().getVardeclnodeList().get(i).getVartype()))
+                        throw new Error(ctxLocation(funcCallExprNode) + " FuncCall with wrong type!");
                 }
-                else if (!funcCallExprNode.parameters.get(i).exprtype.isEqual(funcTypeNode.getFunctionParameterList().vardeclnodeList.get(i).getVartype()))
-                    throw new Error("FuncCall with wrong type!");
+                else if (!funcCallExprNode.getParameters().get(i).getExprtype().isEqual(funcTypeNode.getFunctionParameterList().getVardeclnodeList().get(i).getVartype()))
+                    throw new Error(ctxLocation(funcCallExprNode) + " FuncCall with wrong type!");
             }
-            funcCallExprNode.exprtype = funcTypeNode.getFunctionReturnType();
+
+            funcCallExprNode.setExprtype(funcTypeNode.getFunctionReturnType());
         }
-        else throw new Error("FuncCall with nonFunc!");
-        funcCallExprNode.isLvalue =false;
+        else throw new Error(ctxLocation(funcCallExprNode) + " FuncCall with nonFunc!");
+
+        funcCallExprNode.setLvalue(false);
     }
 
     @Override
     public void visit(ReturnStmtNode returnStmtNode) {
-        if (currentFunc == null) throw new Error("ReturnExpr not in Function");
+        if (currentFunc == null) throw new Error(ctxLocation(returnStmtNode) + " ReturnExpr not in Function");
+
         if (currentFunc.isConstructFunction() == true){
-            if (returnStmtNode.returnexpr != null)
-                throw new Error("Return nonNull in Constructfunc!");
+            if (returnStmtNode.getReturnexpr() != null)
+                throw new Error(ctxLocation(returnStmtNode) + " Return nonNull in Constructfunc!");
         }
         else {
-            if (returnStmtNode.returnexpr == null){
-                if (currentFunc.getFunctionReturnType().basetype != Type.Types.VOID)
-                    throw new Error("NonVoid return null!");
+            if (returnStmtNode.getReturnexpr() == null){
+                if (!currentFunc.getFunctionReturnType().isEqual(Type.Types.VOID))
+                    throw new Error(ctxLocation(returnStmtNode) + " NonVoid return null!");
             }
             else {
-                returnStmtNode.returnexpr.accept(this);
-                if (returnStmtNode.returnexpr.exprtype.basetype == Type.Types.NULL){
-                    if (!(currentFunc.getFunctionReturnType() instanceof ArrayTypeNode)
-                            && !(currentFunc.getFunctionReturnType() instanceof ClassTypeNode))
-                        throw new Error("Null return with wrong type!");
+                returnStmtNode.getReturnexpr().accept(this);
+
+                if (returnStmtNode.getReturnexpr().isEqual(Type.Types.NULL)){
+                    if (!isClassorArray(currentFunc.getFunctionReturnType()))
+                        throw new Error(ctxLocation(returnStmtNode) + " Null return with wrong type!");
                 }
-                else if (!returnStmtNode.returnexpr.exprtype.isEqual(currentFunc.getFunctionReturnType()))
-                    throw new Error("Return wrong type!");
+                else if (returnStmtNode.getReturnexpr().isEqual(Type.Types.VOID))
+                    throw new Error(ctxLocation(returnStmtNode) + " Return Void!");
+                else if (!returnStmtNode.getReturnexpr().getExprtype().isEqual(currentFunc.getFunctionReturnType()))
+                    throw new Error(ctxLocation(returnStmtNode) + " Return wrong type!");
             }
         }
     }

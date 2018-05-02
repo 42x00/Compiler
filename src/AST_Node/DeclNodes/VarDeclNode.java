@@ -4,6 +4,8 @@ import AST_Node.ASTVisitor;
 import AST_Node.ExprNodes.ExprNode;
 import AST_Node.TypeNodes.TypeNode;
 import Type.*;
+import org.antlr.v4.runtime.ParserRuleContext;
+
 import static java.lang.System.err;
 
 public class VarDeclNode extends DeclNode {
@@ -20,26 +22,23 @@ public class VarDeclNode extends DeclNode {
     }
 
     public VarDeclNode(TypeNode vartype) {
-        if (vartype.basetype == Type.Types.VOID){
-            err.println("Void Var!");
-            throw new Error();
+        if (vartype.isEqual(Type.Types.VOID)){
+            throw new Error("Void Var!");
         }
         this.vartype = vartype;
     }
 
     public VarDeclNode(TypeNode vartype, String varname) {
-        if (vartype.basetype == Type.Types.VOID){
-            err.println("Void Var!");
-            throw new Error();
+        if (vartype.isEqual(Type.Types.VOID)){
+            throw new Error("Void Var!");
         }
         this.vartype = vartype;
         this.declname = varname;
     }
 
     public VarDeclNode(TypeNode vartype, String varname, ExprNode varinit) {
-        if (vartype.basetype == Type.Types.VOID){
-            err.println("Void Var!");
-            throw new Error();
+        if (vartype.isEqual(Type.Types.VOID)){
+            throw new Error("Void Var!");
         }
         this.vartype = vartype;
         this.declname = varname;
@@ -51,9 +50,8 @@ public class VarDeclNode extends DeclNode {
     }
 
     public void setVartype(TypeNode vartype) {
-        if (vartype.basetype == Type.Types.VOID){
-            err.println("Void Var!");
-            throw new Error();
+        if (vartype.isEqual(Type.Types.VOID)){
+            throw new Error("Void Var!");
         }
         this.vartype = vartype;
     }
@@ -77,5 +75,10 @@ public class VarDeclNode extends DeclNode {
     @Override
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public void setCtx(ParserRuleContext ctx) {
+        this.ctx = ctx;
     }
 }

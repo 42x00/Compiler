@@ -2,17 +2,13 @@ package AST_Node.DeclNodes;
 
 import AST_Node.ASTVisitor;
 import Tools.Scope.Scope;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClassDeclNode extends DeclNode {
-    public List<DeclNode> classdecllist;
-    public Scope astscope;
-
-    public void setAstscope(Scope astscope) {
-        this.astscope = astscope;
-    }
+    private List<DeclNode> classdecllist;
 
     public ClassDeclNode() {
         this.classdecllist = new ArrayList<>();
@@ -23,13 +19,21 @@ public class ClassDeclNode extends DeclNode {
         this.classdecllist = new ArrayList<>();
     }
 
-    public ClassDeclNode(String declname, List<DeclNode> classdecllist) {
-        this.declname = declname;
-        this.classdecllist = classdecllist;
+    public void addDecl(DeclNode declNode){
+        classdecllist.add(declNode);
+    }
+
+    public List<DeclNode> getClassdecllist() {
+        return classdecllist;
     }
 
     @Override
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public void setCtx(ParserRuleContext ctx) {
+        this.ctx = ctx;
     }
 }

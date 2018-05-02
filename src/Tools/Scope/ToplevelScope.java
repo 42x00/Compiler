@@ -19,11 +19,11 @@ public class ToplevelScope extends Scope{
     public ToplevelScope(List<? extends DeclNode> declNodes){
         declarations = new HashMap<>();
         for (DeclNode declNode : declNodes){
-            DeclNode d = declarations.get(declNode.declname);
+            DeclNode d = declarations.get(declNode.getDeclname());
             if (d != null){
                 throw new Error();
             }
-            declarations.put(declNode.declname,declNode);
+            declarations.put(declNode.getDeclname(),declNode);
         }
     }
 

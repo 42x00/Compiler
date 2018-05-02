@@ -2,9 +2,10 @@ package AST_Node.ExprNodes;
 
 import AST_Node.ASTVisitor;
 import Type.Type;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 public class IntExprNode extends ExprNode{
-    public int intvalue;
+    private int intvalue;
 
     public IntExprNode() {
         this.exprtype.setBasetype(Type.Types.INT);
@@ -19,4 +20,10 @@ public class IntExprNode extends ExprNode{
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public void setCtx(ParserRuleContext ctx) {
+        this.ctx = ctx;
+    }
+
 }

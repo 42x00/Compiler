@@ -4,6 +4,7 @@ import AST_Node.ASTVisitor;
 import AST_Node.DeclNodes.FuncDeclNode;
 import AST_Node.DeclNodes.VarDeclListNode;
 import Type.Type;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 public class FuncTypeNode extends TypeNode{
     private boolean isConstructFunction;
@@ -11,6 +12,9 @@ public class FuncTypeNode extends TypeNode{
     private VarDeclListNode functionParameterList;
 
     public FuncTypeNode() {
+        isConstructFunction = false;
+        functionReturnType = new TypeNode();
+        functionParameterList = new VarDeclListNode();
     }
 
     public FuncTypeNode(FuncDeclNode funcDeclNode) {
@@ -35,14 +39,17 @@ public class FuncTypeNode extends TypeNode{
         return functionParameterList;
     }
 
-    public int getparamsize(){
-        if (functionParameterList == null)
-            return 0;
-        return functionParameterList.vardeclnodeList.size();
+    public int getParamSize(){
+        return functionParameterList.getParamSize();
     }
 
     @Override
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public void setCtx(ParserRuleContext ctx) {
+        this.ctx = ctx;
     }
 }

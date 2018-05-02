@@ -4,6 +4,7 @@ import AST_Node.ASTVisitor;
 import AST_Node.StmtNodes.CompStmtNode;
 import AST_Node.TypeNodes.TypeNode;
 import Tools.Scope.Scope;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 
@@ -12,16 +13,19 @@ public class FuncDeclNode extends DeclNode{
     private TypeNode functionReturnType;
     private VarDeclListNode functionParameterList;
     private CompStmtNode functionStatements;
-    public Scope astscope;
-
-    public void setAstscope(Scope astscope) {
-        this.astscope = astscope;
-    }
 
     public FuncDeclNode(){
+        isConstructFunction = false;
+        functionReturnType = new TypeNode();
+        functionParameterList = new VarDeclListNode();
+        functionStatements = new CompStmtNode();
     }
 
     public FuncDeclNode(String functionName) {
+        isConstructFunction = false;
+        functionReturnType = new TypeNode();
+        functionParameterList = new VarDeclListNode();
+        functionStatements = new CompStmtNode();
         this.declname = functionName;
     }
 
@@ -30,8 +34,13 @@ public class FuncDeclNode extends DeclNode{
         else isConstructFunction = false;
         this.functionReturnType = functionReturnType;
         this.declname = functionName;
-        this.functionParameterList = functionParameterList;
+        if (functionParameterList != null) this.functionParameterList = functionParameterList;
+        else this.functionParameterList = new VarDeclListNode();
         this.functionStatements = functionStatements;
+    }
+
+    public int getParamSize(){
+        return functionParameterList.getParamSize();
     }
 
     public boolean isConstructFunction() {
@@ -56,11 +65,12 @@ public class FuncDeclNode extends DeclNode{
 
     public void setConstructFunction(boolean constructFunction) {
         isConstructFunction = constructFunction;
-
     }
 
     public void setFunctionReturnType(TypeNode functionReturnType) {
         this.functionReturnType = functionReturnType;
+        if (functionReturnType == null) this.isConstructFunction = true;
+        else this.isConstructFunction = false;
     }
 
     public void setFunctionName(String functionName) {
@@ -78,5 +88,10 @@ public class FuncDeclNode extends DeclNode{
     @Override
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public void setCtx(ParserRuleContext ctx) {
+        this.ctx = ctx;
     }
 }

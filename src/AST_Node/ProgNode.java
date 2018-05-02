@@ -2,28 +2,28 @@ package AST_Node;
 
 import AST_Node.DeclNodes.DeclNode;
 import Tools.Scope.Scope;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProgNode extends ASTNode{
-    public List<DeclNode> declarations;
-    public Scope astscope;
-
-    public void setAstscope(Scope astscope) {
-        this.astscope = astscope;
-    }
+    private List<DeclNode> declarations;
 
     public ProgNode() {
         this.declarations = new ArrayList<>();
     }
 
-    public ProgNode(List<DeclNode> declarations) {
-        this.declarations = declarations;
+    public void addDecl(DeclNode declNode){
+        declarations.add(declNode);
     }
 
-    public void setDeclarations(List<DeclNode> declarations) {
-        this.declarations = declarations;
+    public void setCtx(ParserRuleContext ctx) {
+        this.ctx = ctx;
+    }
+
+    public List<DeclNode> getDeclarations() {
+        return declarations;
     }
 
     @Override

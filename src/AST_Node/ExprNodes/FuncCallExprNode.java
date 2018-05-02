@@ -1,13 +1,14 @@
 package AST_Node.ExprNodes;
 
 import AST_Node.ASTVisitor;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FuncCallExprNode extends ExprNode{
-    public ExprNode function;
-    public List<ExprNode> parameters;
+    private ExprNode function;
+    private List<ExprNode> parameters;
 
     public FuncCallExprNode() {
         this.parameters = new ArrayList<>();
@@ -18,16 +19,30 @@ public class FuncCallExprNode extends ExprNode{
         this.parameters = new ArrayList<>();
     }
 
-    public FuncCallExprNode(List<ExprNode> parameters) {
-        this.parameters = parameters;
-    }
-
     public void setFunction(ExprNode function) {
         this.function = function;
+    }
+
+    public void addExpr(ExprNode exprNode){
+        parameters.add(exprNode);
+    }
+
+    public ExprNode getFunction() {
+        return function;
+    }
+
+    public List<ExprNode> getParameters() {
+        return parameters;
     }
 
     @Override
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public void setCtx(ParserRuleContext ctx) {
+        this.ctx = ctx;
+    }
+
 }

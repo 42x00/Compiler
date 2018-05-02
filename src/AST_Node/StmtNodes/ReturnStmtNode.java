@@ -2,9 +2,10 @@ package AST_Node.StmtNodes;
 
 import AST_Node.ASTVisitor;
 import AST_Node.ExprNodes.ExprNode;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 public class ReturnStmtNode extends StmtNode{
-    public ExprNode returnexpr;
+    private ExprNode returnexpr;
 
     public ReturnStmtNode() {
     }
@@ -13,8 +14,18 @@ public class ReturnStmtNode extends StmtNode{
         this.returnexpr = returnexpr;
     }
 
+    public ExprNode getReturnexpr() {
+        return returnexpr;
+    }
+
     @Override
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public void setCtx(ParserRuleContext ctx) {
+        this.ctx = ctx;
+    }
+
 }

@@ -28,9 +28,9 @@ public class ASTViewer implements ASTVisitor {
     public void visit(ProgNode progNode) {
         err.println("Program:");
         ++indent;
-        for (DeclNode declNode : progNode.declarations) {
+        for (DeclNode declNode : progNode.getDeclarations()) {
             indentPrinter();
-            if (declNode.declname != "") declNode.accept(this);
+            if (declNode.getDeclname() != "") declNode.accept(this);
         }
         --indent;
     }
@@ -49,7 +49,7 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(TypeNode typeNode) {
-        err.print(typeNode.basetype + " " + String.valueOf(typeNode.dim));
+        err.print(typeNode.getBasetype() + " " + String.valueOf(typeNode.getDim()));
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ASTViewer implements ASTVisitor {
     @Override
     public void visit(CompStmtNode compStmtNode) {
         ++indent;
-        for (StmtNode stmtNode : compStmtNode.stmtNodeList) {
+        for (StmtNode stmtNode : compStmtNode.getStmtNodeList()) {
             indentPrinter();
             stmtNode.accept(this);
         }
@@ -78,28 +78,28 @@ public class ASTViewer implements ASTVisitor {
     public void visit(IfStmtNode ifStmtNode) {
         err.println("IfExpr:");
         ++indent;
-        if (ifStmtNode.ifstmt instanceof CompStmtNode) {
+        if (ifStmtNode.getIfstmt() instanceof CompStmtNode) {
             --indent;
-            ifStmtNode.ifstmt.accept(this);
+            ifStmtNode.getIfstmt().accept(this);
             ++indent;
         }
         else{
             indentPrinter();
-            ifStmtNode.ifstmt.accept(this);
+            ifStmtNode.getIfstmt().accept(this);
         }
-        if (ifStmtNode.elsestmt != null){
+        if (ifStmtNode.getElsestmt() != null){
             --indent;
             indentPrinter();
             err.println("ElseExpr:");
             ++indent;
-            if (ifStmtNode.elsestmt instanceof CompStmtNode) {
+            if (ifStmtNode.getElsestmt() instanceof CompStmtNode) {
                 --indent;
-                ifStmtNode.elsestmt.accept(this);
+                ifStmtNode.getElsestmt().accept(this);
                 ++indent;
             }
             else{
                 indentPrinter();
-                ifStmtNode.elsestmt.accept(this);
+                ifStmtNode.getElsestmt().accept(this);
             }
         }
         --indent;
@@ -108,12 +108,12 @@ public class ASTViewer implements ASTVisitor {
     @Override
     public void visit(WhileStmtNode whileStmtNode) {
         err.println("WhileExpr:");
-        if (whileStmtNode.whilestmt instanceof CompStmtNode)
-            whileStmtNode.whilestmt.accept(this);
+        if (whileStmtNode.getWhilestmt() instanceof CompStmtNode)
+            whileStmtNode.getWhilestmt().accept(this);
         else {
             ++indent;
             indentPrinter();
-            whileStmtNode.whilestmt.accept(this);
+            whileStmtNode.getWhilestmt().accept(this);
             --indent;
         }
     }
@@ -121,12 +121,12 @@ public class ASTViewer implements ASTVisitor {
     @Override
     public void visit(ForStmtNode forStmtNode) {
         err.println("ForExpr:");
-        if (forStmtNode.forstmt instanceof CompStmtNode)
-            forStmtNode.forstmt.accept(this);
+        if (forStmtNode.getForstmt() instanceof CompStmtNode)
+            forStmtNode.getForstmt().accept(this);
         else {
             ++indent;
             indentPrinter();
-            forStmtNode.forstmt.accept(this);
+            forStmtNode.getForstmt().accept(this);
             --indent;
         }
     }
@@ -148,9 +148,9 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(ClassDeclNode classDeclNode) {
-        err.println("ClassDecl:" + classDeclNode.declname);
+        err.println("ClassDecl:" + classDeclNode.getDeclname());
         ++indent;
-        for (DeclNode declNode : classDeclNode.classdecllist){
+        for (DeclNode declNode : classDeclNode.getClassdecllist()){
             indentPrinter();
             declNode.accept(this);
         }
@@ -159,24 +159,24 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(VarDeclStmtNode varDeclStmtNode) {
-        varDeclStmtNode.vardeclnode.accept(this);
+        varDeclStmtNode.getVardeclnode().accept(this);
     }
 
     @Override
     public void visit(NewExprNode newExprNode) {
         err.print("NewExpr:");
-        newExprNode.exprtype.accept(this);
+        newExprNode.getExprtype().accept(this);
         err.println();
     }
 
     @Override
     public void visit(BinaryExprNode binaryExprNode) {
-        err.println("BinaryExpr:" + binaryExprNode.exprop);
+        err.println("BinaryExpr:" + binaryExprNode.getExprop());
         ++indent;
         indentPrinter();
-        binaryExprNode.lhs.accept(this);
+        binaryExprNode.getLhs().accept(this);
         indentPrinter();
-        binaryExprNode.rhs.accept(this);
+        binaryExprNode.getRhs().accept(this);
         --indent;
     }
 
@@ -187,7 +187,7 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(UnaryExprNode unaryExprNode) {
-        err.println("UnaryExpr:" + unaryExprNode.exprop);
+        err.println("UnaryExpr:" + unaryExprNode.getExprop());
     }
 
     @Override
@@ -227,12 +227,12 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(ClassTypeNode classTypeNode) {
-        err.print("Class " + classTypeNode.classname);
+        err.print("Class " + classTypeNode.getClassname());
     }
 
     @Override
     public void visit(ExprStmtNode exprStmtNode) {
-        if (exprStmtNode.exprnode != null) exprStmtNode.exprnode.accept(this);
+        if (exprStmtNode.getExprnode() != null) exprStmtNode.getExprnode().accept(this);
         err.println();
     }
 
@@ -243,6 +243,6 @@ public class ASTViewer implements ASTVisitor {
 
     @Override
     public void visit(SuffixExprNode suffixExprNode) {
-        err.println("SuffixExpr:" + suffixExprNode.exprop);
+        err.println("SuffixExpr:" + suffixExprNode.getExprop());
     }
 }

@@ -2,9 +2,10 @@ package AST_Node.ExprNodes;
 
 import AST_Node.ASTVisitor;
 import Type.Type;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 public class BoolExprNode extends ExprNode{
-    public boolean bool;
+    private boolean bool;
 
     public BoolExprNode() {
         this.exprtype.setBasetype(Type.Types.BOOL);
@@ -19,4 +20,10 @@ public class BoolExprNode extends ExprNode{
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public void setCtx(ParserRuleContext ctx) {
+        this.ctx = ctx;
+    }
+
 }

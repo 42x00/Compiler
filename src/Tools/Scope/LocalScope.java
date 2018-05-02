@@ -19,17 +19,17 @@ public class LocalScope extends Scope{
         this.parent = parent;
         declarations = new HashMap<>();
         for (DeclNode declNode : declNodes){
-            DeclNode d = declarations.get(declNode.declname);
+            DeclNode d = declarations.get(declNode.getDeclname());
             if (d != null)
                 throw new Error();
-            declarations.put(declNode.declname,declNode);
+            declarations.put(declNode.getDeclname(),declNode);
         }
     }
 
     public LocalScope(Scope parent, VarDeclNode varDeclNode){
         this.parent = parent;
         declarations = new HashMap<>();
-        declarations.put(varDeclNode.declname,varDeclNode);
+        declarations.put(varDeclNode.getVarname(),varDeclNode);
     }
 
     @Override
@@ -38,15 +38,6 @@ public class LocalScope extends Scope{
         if (d == null)
             return this.parent.get(string);
         return d;
-    }
-
-    public void addDecls(List<VarDeclNode> varDeclNodes){
-        for (VarDeclNode varDeclNode : varDeclNodes){
-            DeclNode d = declarations.get(varDeclNode.declname);
-            if (d != null)
-                throw new Error();
-            declarations.put(varDeclNode.declname,varDeclNode);
-        }
     }
 
     @Override
