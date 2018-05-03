@@ -31,6 +31,11 @@ public class Test {
         err.println("=======================================");
 
         SemanticCheck scoper = new SemanticCheck();
-        scoper.visit(ast);
+        try {
+            scoper.visit(ast);
+        }
+        catch (Error e) {
+            err.println(e);
+        }
     }
 }

@@ -10,9 +10,6 @@ import Parser.LMxParser;
 import Type.Type;
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
     @Override
@@ -381,7 +378,10 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitNewDeclarator_nonarray(LMxParser.NewDeclarator_nonarrayContext ctx) {
-        NewExprNode _NewExprNode = new NewExprNode((TypeNode) visit(ctx.typeSpecifier()));
+        TypeNode typeNode =(TypeNode) visit(ctx.typeSpecifier());
+        if (ctx.LeftParen() != null && !(typeNode instanceof ClassTypeNode))
+            throw new Error("NewExpr () with non Class!");
+        NewExprNode _NewExprNode = new NewExprNode(typeNode);
         _NewExprNode.setCtx(ctx);
         return _NewExprNode;
     }

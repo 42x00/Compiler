@@ -137,7 +137,7 @@ typeSpecifier // 191
 newDeclarator // 
     :   'new' typeSpecifier ('[' expression ']')+ ('[' ']')+ ('[' expression ']')+      #newDeclarator_error
     |   'new' typeSpecifier ('[' expression ']')+ ( LeftBracket ']')*                   #newDeclarator_array
-    |   'new' typeSpecifier                                                             #newDeclarator_nonarray
+    |   'new' typeSpecifier ( LeftParen ')' )?                                          #newDeclarator_nonarray
     ; 
 
 directDeclarator // 299

@@ -25,6 +25,7 @@ public class FuncTypeNode extends TypeNode{
             this.basetype = functionReturnType.basetype;
             this.dim = functionReturnType.dim;
         }
+        this.ctx = funcDeclNode.ctx;
     }
 
     public boolean isConstructFunction() {
