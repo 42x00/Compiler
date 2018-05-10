@@ -297,10 +297,15 @@ NotEqual : '!=';
 Dot : '.';
 
 Identifier // 622
-    :   Nondigit
+    :   Nondigitnon
         (   Nondigit
         |   Digit
         )*
+    ;
+
+fragment
+Nondigitnon
+    :   [a-zA-Z]
     ;
 
 fragment

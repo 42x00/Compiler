@@ -379,9 +379,8 @@ public class ASTBuilder extends LMxBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitNewDeclarator_nonarray(LMxParser.NewDeclarator_nonarrayContext ctx) {
         TypeNode typeNode =(TypeNode) visit(ctx.typeSpecifier());
-        if (ctx.LeftParen() != null && !(typeNode instanceof ClassTypeNode))
-            throw new Error("NewExpr () with non Class!");
         NewExprNode _NewExprNode = new NewExprNode(typeNode);
+        if (ctx.LeftParen() != null) _NewExprNode.setClassConstruct(true);
         _NewExprNode.setCtx(ctx);
         return _NewExprNode;
     }

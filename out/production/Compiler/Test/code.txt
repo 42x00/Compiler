@@ -1,22 +1,20 @@
-class Array{
-    int size(){
-    }
-}
+int __print() {
 
-int main(){
-    Array a = null;
-    a.size();
+}
+int main() {
+int a = (new int[123])[31];
+__print();
 }
 
 /*!! metadata:
 === comment ===
-李怿铠 Test conflict between Built-in Function & Class.Function
+金之涵 
 === is_public ===
 True
 === assert ===
-success_compile
+failure_compile
 === timeout ===
-0
+0.0
 === input ===
 
 === phase ===

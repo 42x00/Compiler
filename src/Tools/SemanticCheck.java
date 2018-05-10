@@ -12,6 +12,7 @@ import AST_Node.TypeNodes.FuncTypeNode;
 import AST_Node.TypeNodes.TypeNode;
 import Tools.Scope.*;
 import Type.*;
+import org.antlr.v4.codegen.model.decl.Decl;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.LinkedList;
@@ -364,7 +365,9 @@ public class SemanticCheck implements ASTVisitor{
 
     @Override
     public void visit(ClassTypeNode classTypeNode) {
-        currentScope().get(classTypeNode.getClassname());
+        DeclNode declNode = currentScope().get(classTypeNode.getClassname());
+        if (!(declNode instanceof ClassDeclNode))
+            throw new Error("Not Class");
     }
 
     @Override
@@ -416,6 +419,8 @@ public class SemanticCheck implements ASTVisitor{
     public void visit(NewExprNode newExprNode) {
         if (newExprNode.getExprtype() instanceof ClassTypeNode)
             newExprNode.getExprtype().accept(this);
+        if (newExprNode.isClassConstruct() && !(newExprNode.getExprtype() instanceof  ClassTypeNode))
+            throw new Error("New ClassConstruct with nonClass");
         newExprNode.setLvalue(false);
     }
 
