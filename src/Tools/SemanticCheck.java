@@ -366,8 +366,13 @@ public class SemanticCheck implements ASTVisitor{
     @Override
     public void visit(ClassTypeNode classTypeNode) {
         DeclNode declNode = currentScope().get(classTypeNode.getClassname());
-        if (!(declNode instanceof ClassDeclNode))
-            throw new Error("Not Class");
+        if (!(declNode instanceof ClassDeclNode)){
+            if (declNode instanceof FuncDeclNode) {
+                if (!((FuncDeclNode) declNode).isConstructFunction())
+                    throw new Error("Not Class");
+            }
+            else throw new Error("Not Class");
+        }
     }
 
     @Override
