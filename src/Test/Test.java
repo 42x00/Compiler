@@ -5,6 +5,7 @@ import Frontend.ASTBuilder;
 import Parser.LMxLexer;
 import Parser.LMxParser;
 import Tools.ASTViewer;
+import Tools.IRGenerator;
 import Tools.SemanticCheck;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -25,11 +26,6 @@ public class Test {
         ASTBuilder builder = new ASTBuilder();
         ProgNode ast = (ProgNode) builder.visit(parsetree);
 
-        ASTViewer viewer = new ASTViewer();
-        viewer.visit(ast);
-
-        err.println("=======================================");
-
         SemanticCheck scoper = new SemanticCheck();
         try {
             scoper.visit(ast);
@@ -37,5 +33,13 @@ public class Test {
         catch (Error e) {
             err.println(e);
         }
+
+        ASTViewer viewer = new ASTViewer();
+        viewer.visit(ast);
+
+//        IRGenerator irGenerator = new IRGenerator();
+//        irGenerator.visit(ast);
+
+        err.println("=======================================");
     }
 }

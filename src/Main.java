@@ -12,7 +12,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import java.io.InputStream;
 import static java.lang.System.err;
 
-
 public class Main {
     public static void main(String[] args) throws Exception {
         InputStream inS = System.in;

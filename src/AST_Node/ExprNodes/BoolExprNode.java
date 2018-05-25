@@ -16,6 +16,14 @@ public class BoolExprNode extends ExprNode{
         this.exprtype.setBasetype(Type.Types.BOOL);
     }
 
+    public boolean isBool() {
+        return bool;
+    }
+
+    public boolean isTrue(){
+        return bool;
+    }
+
     @Override
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);

@@ -1,10 +1,12 @@
 package AST_Node.ExprNodes;
 
 import AST_Node.ASTVisitor;
+import AST_Node.DeclNodes.DeclNode;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 public class IDExprNode extends ExprNode{
     private String id;
+    private DeclNode declNode;
 
     public IDExprNode(String id) {
         this.id = id;
@@ -12,6 +14,14 @@ public class IDExprNode extends ExprNode{
 
     public String getId() {
         return id;
+    }
+
+    public DeclNode getDeclNode() {
+        return declNode;
+    }
+
+    public void setDeclNode(DeclNode declNode) {
+        this.declNode = declNode;
     }
 
     @Override

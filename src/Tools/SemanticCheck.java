@@ -22,6 +22,7 @@ public class SemanticCheck implements ASTVisitor{
     private int isInLoop = 0;
     private ClassTypeNode currentClass;
     private FuncTypeNode currentFunc;
+    static private ToplevelScope toplevelScope;
 
     private Scope currentScope(){
         return scopeStack.getLast();
@@ -29,6 +30,10 @@ public class SemanticCheck implements ASTVisitor{
 
     private boolean isClassorArray(TypeNode typeNode){
         return typeNode instanceof ClassTypeNode || typeNode instanceof ArrayTypeNode;
+    }
+
+    public ToplevelScope getToplevelScope() {
+        return toplevelScope;
     }
 
     private void varTypeExprCheck(VarDeclNode varDeclNode){
@@ -99,7 +104,7 @@ public class SemanticCheck implements ASTVisitor{
 
     @Override
     public void visit(ProgNode progNode) {
-        ToplevelScope toplevelScope = new ToplevelScope();
+        toplevelScope = new ToplevelScope();
         scopeStack.addLast(toplevelScope);
         setBuiltInFunction();
 
@@ -258,8 +263,10 @@ public class SemanticCheck implements ASTVisitor{
 
         if (binaryExprNode.getRhs().isEqual(Type.Types.NULL)){
             if (isClassorArray(binaryExprNode.getLhs().getExprtype())){
-                if (binaryExprNode.getExprop().equals(BinaryExprNode.BinaryOP.ASSIGN))
+                if (binaryExprNode.getExprop().equals(BinaryExprNode.BinaryOP.ASSIGN)){
+                    if (!binaryExprNode.getLhs().isLvalue()) throw new Error("Assign with NonLvalue!");
                     binaryExprNode.setBasetype(Type.Types.NULL);
+                }
                 else if (binaryExprNode.getExprop().equals(BinaryExprNode.BinaryOP.EQUAL)
                         || binaryExprNode.getExprop().equals(BinaryExprNode.BinaryOP.INEQUAL))
                     binaryExprNode.setBasetype(Type.Types.BOOL);
@@ -388,6 +395,7 @@ public class SemanticCheck implements ASTVisitor{
     @Override
     public void visit(IDExprNode idExprNode) {
         DeclNode declNode = currentScope().get(idExprNode.getId());
+        idExprNode.setDeclNode(declNode);
 
         if (declNode instanceof ClassDeclNode) {
             idExprNode.setExprtype(new ClassTypeNode(declNode.getDeclname()));
@@ -401,7 +409,6 @@ public class SemanticCheck implements ASTVisitor{
             idExprNode.setExprtype(new FuncTypeNode((FuncDeclNode) declNode));
             idExprNode.setLvalue(false);
         }
-
     }
 
     @Override

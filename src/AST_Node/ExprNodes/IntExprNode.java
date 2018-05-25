@@ -16,6 +16,10 @@ public class IntExprNode extends ExprNode{
         this.intvalue = intvalue;
     }
 
+    public int getIntvalue() {
+        return intvalue;
+    }
+
     @Override
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
