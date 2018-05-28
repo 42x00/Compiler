@@ -3,6 +3,8 @@ import Frontend.ASTBuilder;
 import Parser.LMxLexer;
 import Parser.LMxParser;
 import Tools.ASTViewer;
+import Tools.CodeGenerator;
+import Tools.IRGenerator;
 import Tools.SemanticCheck;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -24,12 +26,23 @@ public class Main {
         ASTBuilder builder = new ASTBuilder();
         ProgNode ast = (ProgNode) builder.visit(parsetree);
 
+        SemanticCheck scoper = new SemanticCheck();
+        try {
+            scoper.visit(ast);
+        }
+        catch (Error e) {
+            err.println(e);
+        }
+
         ASTViewer viewer = new ASTViewer();
         viewer.visit(ast);
 
         err.println("=======================================");
 
-        SemanticCheck scoper = new SemanticCheck();
-        scoper.visit(ast);
+        IRGenerator irGenerator = new IRGenerator();
+        irGenerator.visit(ast);
+
+        CodeGenerator codeGenerator = new CodeGenerator();
+        codeGenerator.generate(irGenerator.getStartBlock(), ast);
     }
 }
