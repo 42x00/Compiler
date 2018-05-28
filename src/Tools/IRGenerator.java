@@ -11,7 +11,7 @@ import AST_Node.StmtNodes.*;
 import AST_Node.TypeNodes.ArrayTypeNode;
 import AST_Node.TypeNodes.ClassTypeNode;
 import AST_Node.TypeNodes.TypeNode;
-import IR.*;
+import IR.IRNodes.*;
 import Type.Type;
 
 import java.util.Map;
@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class IRGenerator implements ASTVisitor {
-    static private final int intOffset = 4;
+    static private final int intOffset = 8;
 
-    static private int stackTop = 0;
+    static private int stackTop = 8;
     static private char[] IRMem = new char[10000];
 
     static private boolean stopVisit = false;
@@ -34,11 +34,17 @@ public class IRGenerator implements ASTVisitor {
 
     static private Map<String, BasicBlock> funcBlockMap = new HashMap<>();
 
-    BasicBlock currentBlock;
-    BasicBlock endBlock = new BasicBlock();
+    private BasicBlock currentBlock;
+    private BasicBlock startBlock = new BasicBlock();
+    private BasicBlock endBlock = new BasicBlock();
+
+    public BasicBlock getStartBlock() {
+        return startBlock;
+    }
 
     @Override
     public void visit(ProgNode progNode) {
+        currentBlock = startBlock;
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof FuncDeclNode) {
                 if (((FuncDeclNode) declNode).getFunctionName() == "main") {
@@ -175,7 +181,7 @@ public class IRGenerator implements ASTVisitor {
     @Override
     public void visit(ReturnStmtNode returnStmtNode) {
         returnStmtNode.getReturnexpr().accept(this);
-        currentBlock.append(new Return(exprLinkedList.pop()));
+        currentBlock.append(new ReturnInst(exprLinkedList.pop()));
     }
 
     //  ***************************** Stmt Over ***************************** //
@@ -203,7 +209,7 @@ public class IRGenerator implements ASTVisitor {
         binaryExprNode.getLhs().accept(this);
         IntValue lhs = exprLinkedList.pop();
         currentBlock.append(new Bin(binaryExprNode.getExprop(), lhs, rhs));
-        exprLinkedList.push(new Register());
+        exprLinkedList.push(new Register(0));
     }
 
     @Override
@@ -231,13 +237,13 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(BoolExprNode boolExprNode) {
-        if (boolExprNode.isTrue()) exprLinkedList.push(new Const(1));
-        else exprLinkedList.push(new Const(0));
+        if (boolExprNode.isTrue()) exprLinkedList.push(new ConstValue(1));
+        else exprLinkedList.push(new ConstValue(0));
     }
 
     @Override
     public void visit(IntExprNode intExprNode) {
-        exprLinkedList.push(new Const(intExprNode.getIntvalue()));
+        exprLinkedList.push(new ConstValue(intExprNode.getIntvalue()));
     }
 
     @Override

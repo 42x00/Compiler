@@ -5,6 +5,7 @@ import Frontend.ASTBuilder;
 import Parser.LMxLexer;
 import Parser.LMxParser;
 import Tools.ASTViewer;
+import Tools.CodeGenerator;
 import Tools.IRGenerator;
 import Tools.SemanticCheck;
 import org.antlr.v4.runtime.CharStream;
@@ -37,9 +38,13 @@ public class Test {
         ASTViewer viewer = new ASTViewer();
         viewer.visit(ast);
 
-//        IRGenerator irGenerator = new IRGenerator();
-//        irGenerator.visit(ast);
-
         err.println("=======================================");
+
+        IRGenerator irGenerator = new IRGenerator();
+        irGenerator.visit(ast);
+
+        CodeGenerator codeGenerator = new CodeGenerator();
+        codeGenerator.fromIR(irGenerator.getStartBlock());
+
     }
 }

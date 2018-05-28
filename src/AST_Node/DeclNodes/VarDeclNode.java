@@ -3,6 +3,7 @@ package AST_Node.DeclNodes;
 import AST_Node.ASTVisitor;
 import AST_Node.ExprNodes.ExprNode;
 import AST_Node.TypeNodes.TypeNode;
+import IR.IRNodes.IntValue;
 import Type.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 
@@ -11,6 +12,7 @@ import static java.lang.System.err;
 public class VarDeclNode extends DeclNode {
     private TypeNode vartype;
     private ExprNode varinit;
+    private IntValue intValue;
 
     public VarDeclNode(String varname, ExprNode varinit) {
         this.declname = varname;
@@ -70,6 +72,14 @@ public class VarDeclNode extends DeclNode {
 
     public void setVarinit(ExprNode varinit) {
         this.varinit = varinit;
+    }
+
+    public IntValue getIntValue() {
+        return intValue;
+    }
+
+    public void setIntValue(IntValue intValue) {
+        this.intValue = intValue;
     }
 
     @Override

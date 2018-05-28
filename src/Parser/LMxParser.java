@@ -61,7 +61,7 @@ public class LMxParser extends Parser {
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, "Break", "Continue", "Else", "For", "If", "Int", "String", 
-		"Return", "Void", "While", "Class", "New", "True", "False", "Null", "Bool", 
+		"ReturnInst", "Void", "While", "Class", "New", "True", "False", "Null", "Bool",
 		"LeftParen", "RightParen", "LeftBracket", "RightBracket", "LeftBrace", 
 		"RightBrace", "Less", "LessEqual", "Greater", "GreaterEqual", "LeftShift", 
 		"RightShift", "Plus", "PlusPlus", "Minus", "MinusMinus", "Star", "Div", 

@@ -34,7 +34,7 @@ public class LMxLexer extends Lexer {
 	};
 
 	public static final String[] ruleNames = {
-		"T__0", "Break", "Continue", "Else", "For", "If", "Int", "String", "Return", 
+		"T__0", "Break", "Continue", "Else", "For", "If", "Int", "String", "ReturnInst",
 		"Void", "While", "Class", "New", "True", "False", "Null", "Bool", "LeftParen", 
 		"RightParen", "LeftBracket", "RightBracket", "LeftBrace", "RightBrace", 
 		"Less", "LessEqual", "Greater", "GreaterEqual", "LeftShift", "RightShift", 
@@ -56,7 +56,7 @@ public class LMxLexer extends Lexer {
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, "Break", "Continue", "Else", "For", "If", "Int", "String", 
-		"Return", "Void", "While", "Class", "New", "True", "False", "Null", "Bool", 
+		"ReturnInst", "Void", "While", "Class", "New", "True", "False", "Null", "Bool",
 		"LeftParen", "RightParen", "LeftBracket", "RightBracket", "LeftBrace", 
 		"RightBrace", "Less", "LessEqual", "Greater", "GreaterEqual", "LeftShift", 
 		"RightShift", "Plus", "PlusPlus", "Minus", "MinusMinus", "Star", "Div", 

@@ -533,7 +533,7 @@ public class SemanticCheck implements ASTVisitor{
 
         if (currentFunc.isConstructFunction() == true){
             if (returnStmtNode.getReturnexpr() != null)
-                throw new Error(ctxLocation(returnStmtNode) + " Return nonNull in Constructfunc!");
+                throw new Error(ctxLocation(returnStmtNode) + " ReturnInst nonNull in Constructfunc!");
         }
         else {
             if (returnStmtNode.getReturnexpr() == null){
@@ -548,9 +548,9 @@ public class SemanticCheck implements ASTVisitor{
                         throw new Error(ctxLocation(returnStmtNode) + " Null return with wrong type!");
                 }
                 else if (returnStmtNode.getReturnexpr().isEqual(Type.Types.VOID))
-                    throw new Error(ctxLocation(returnStmtNode) + " Return Void!");
+                    throw new Error(ctxLocation(returnStmtNode) + " ReturnInst Void!");
                 else if (!returnStmtNode.getReturnexpr().getExprtype().isEqual(currentFunc.getFunctionReturnType()))
-                    throw new Error(ctxLocation(returnStmtNode) + " Return wrong type!");
+                    throw new Error(ctxLocation(returnStmtNode) + " ReturnInst wrong type!");
             }
         }
     }
