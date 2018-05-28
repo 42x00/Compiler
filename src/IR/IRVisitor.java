@@ -8,6 +8,7 @@ public interface IRVisitor{
     void visit(Bin bin);
     void visit(Cjump cjump);
     void visit(ConstValue constValue);
+    void visit(GloalVar gloalVar);
     void visit(Jump jump);
     void visit(MemAddr memAddr);
     void visit(Register register);

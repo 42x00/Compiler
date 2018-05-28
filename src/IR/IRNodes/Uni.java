@@ -7,6 +7,14 @@ public class Uni extends Inst{
     private UnaryExprNode.UnaryOP unaryOP;
     private IntValue obj;
 
+    public UnaryExprNode.UnaryOP getUnaryOP() {
+        return unaryOP;
+    }
+
+    public IntValue getObj() {
+        return obj;
+    }
+
     @Override
     public void accept(IRVisitor visitor) {
         visitor.visit(this);

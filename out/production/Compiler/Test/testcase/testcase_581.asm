@@ -7,6 +7,7 @@
 default rel
 
 global main
+global x
 
 
 SECTION .text   
@@ -14,20 +15,17 @@ SECTION .text
 main:
         push    rbp
         mov     rbp, rsp
-        mov     dword [rbp-4H], 10
-        cmp     dword [rbp-4H], 10
-        jnz     L_001
-        mov     dword [rbp-4H], 20
-        jmp     L_002
-
-L_001:  mov     dword [rbp-4H], 30
-L_002:  mov     eax, dword [rbp-4H]
+        mov     dword [rel x], 20
+        mov     eax, dword [rel x]
         pop     rbp
         ret
 
 
 
-SECTION .data   
+SECTION .data   align=4
+
+x:
+        dd 0000000AH
 
 
 SECTION .bss    

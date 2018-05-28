@@ -4,10 +4,13 @@ import IR.IRVisitor;
 
 public class Register extends IntValue{
     private int ord;
-    private int anInt;
 
     public Register(int ord) {
         this.ord = ord;
+    }
+
+    public int getOrd() {
+        return ord;
     }
 
     @Override

@@ -44,7 +44,7 @@ public class Test {
         irGenerator.visit(ast);
 
         CodeGenerator codeGenerator = new CodeGenerator();
-        codeGenerator.fromIR(irGenerator.getStartBlock());
+        codeGenerator.generate(irGenerator.getStartBlock(), ast);
 
     }
 }

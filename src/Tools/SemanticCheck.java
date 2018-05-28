@@ -395,7 +395,6 @@ public class SemanticCheck implements ASTVisitor{
     @Override
     public void visit(IDExprNode idExprNode) {
         DeclNode declNode = currentScope().get(idExprNode.getId());
-        idExprNode.setDeclNode(declNode);
 
         if (declNode instanceof ClassDeclNode) {
             idExprNode.setExprtype(new ClassTypeNode(declNode.getDeclname()));
@@ -404,6 +403,7 @@ public class SemanticCheck implements ASTVisitor{
         else if (declNode instanceof VarDeclNode) {
             idExprNode.setExprtype(((VarDeclNode) declNode).getVartype());
             idExprNode.setLvalue(true);
+            idExprNode.setVarDeclNode((VarDeclNode) declNode);
         }
         else if (declNode instanceof FuncDeclNode) {
             idExprNode.setExprtype(new FuncTypeNode((FuncDeclNode) declNode));

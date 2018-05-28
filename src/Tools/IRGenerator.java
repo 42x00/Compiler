@@ -19,35 +19,45 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class IRGenerator implements ASTVisitor {
-    static private final int intOffset = 8;
-
-    static private int stackTop = 8;
-    static private char[] IRMem = new char[10000];
-
     static private boolean stopVisit = false;
+
+    static private int cntRegister = 0;
 
     static private LinkedList<IntValue> exprLinkedList = new LinkedList<>();
 
     static private LinkedList<BasicBlock> breakLinkedList = new LinkedList<>();
     static private LinkedList<BasicBlock> continueLinkedList = new LinkedList<>();
-    static private LinkedList<BasicBlock> returnLinkedList = new LinkedList<>();
-
-    static private Map<String, BasicBlock> funcBlockMap = new HashMap<>();
 
     private BasicBlock currentBlock;
     private BasicBlock startBlock = new BasicBlock();
-    private BasicBlock endBlock = new BasicBlock();
 
     public BasicBlock getStartBlock() {
         return startBlock;
+    }
+
+    private void initGlobalVar(ProgNode progNode) {
+        for (DeclNode declNode : progNode.getDeclarations()) {
+            if (declNode instanceof VarDeclNode) {
+                if (((VarDeclNode) declNode).getVarinit() != null) {
+                    ((VarDeclNode) declNode).getVarinit().accept(this);
+                    currentBlock.append(new Assign(((VarDeclNode) declNode).getIntValue(), exprLinkedList.pop()));
+                }
+            }
+        }
     }
 
     @Override
     public void visit(ProgNode progNode) {
         currentBlock = startBlock;
         for (DeclNode declNode : progNode.getDeclarations()) {
+            if (declNode instanceof VarDeclNode) {
+                ((VarDeclNode) declNode).setIntValue(new GloalVar(((VarDeclNode) declNode).getVarname()));
+            }
+        }
+        for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof FuncDeclNode) {
-                if (((FuncDeclNode) declNode).getFunctionName() == "main") {
+                if (((FuncDeclNode) declNode).getFunctionName().equals("main")) {
+                    initGlobalVar(progNode);
                     declNode.accept(this);
                 }
             }
@@ -192,41 +202,108 @@ public class IRGenerator implements ASTVisitor {
         if (varDeclNode.getVartype() instanceof TypeNode) {
 //          Int
             if (varDeclNode.getVartype().getBasetype() == Type.Types.INT) {
-                varDeclNode.setMemAddr(stackTop);
+                varDeclNode.setIntValue(new Register(cntRegister++));
                 if (varDeclNode.getVarinit() != null) {
                     varDeclNode.getVarinit().accept(this);
-                    currentBlock.append(new Assign(stackTop, exprLinkedList.pop()));
+                    currentBlock.append(new Assign(varDeclNode.getIntValue(), exprLinkedList.pop()));
                 }
-                stackTop += intOffset;
             }
         }
     }
 
     @Override
     public void visit(BinaryExprNode binaryExprNode) {
-        binaryExprNode.getRhs().accept(this);
-        IntValue rhs = exprLinkedList.pop();
-        binaryExprNode.getLhs().accept(this);
-        IntValue lhs = exprLinkedList.pop();
-        currentBlock.append(new Bin(binaryExprNode.getExprop(), lhs, rhs));
-        exprLinkedList.push(new Register(0));
+        switch (binaryExprNode.getExprop()) {
+            case LOGICAL_AND: {
+                Register register = new Register(cntRegister++);
+                BasicBlock shortCutBlock = new BasicBlock();
+                shortCutBlock.append(new Assign(register, new ConstValue(0)));
+
+                binaryExprNode.getLhs().accept(this);
+                BasicBlock nxtBlock = new BasicBlock();
+                currentBlock.append(new Cjump(exprLinkedList.pop(), nxtBlock, shortCutBlock));
+                currentBlock = nxtBlock;
+
+                binaryExprNode.getRhs().accept(this);
+                nxtBlock = new BasicBlock();
+                currentBlock.append(new Cjump(exprLinkedList.pop(), nxtBlock, shortCutBlock));
+                currentBlock = nxtBlock;
+
+                currentBlock.append(new Assign(register, new ConstValue(1)));
+                exprLinkedList.push(register);
+                break;
+            }
+            case LOGICAL_OR: {
+                Register register = new Register(cntRegister++);
+                BasicBlock shortCutBlock = new BasicBlock();
+                shortCutBlock.append(new Assign(register, new ConstValue(1)));
+
+                binaryExprNode.getLhs().accept(this);
+                BasicBlock nxtBlock = new BasicBlock();
+                currentBlock.append(new Cjump(exprLinkedList.pop(), shortCutBlock, nxtBlock));
+                currentBlock = nxtBlock;
+
+                binaryExprNode.getRhs().accept(this);
+                nxtBlock = new BasicBlock();
+                currentBlock.append(new Cjump(exprLinkedList.pop(), shortCutBlock, nxtBlock));
+                currentBlock = nxtBlock;
+
+                currentBlock.append(new Assign(register, new ConstValue(0)));
+                exprLinkedList.push(register);
+                break;
+            }
+            case ASSIGN: {
+                binaryExprNode.getRhs().accept(this);
+                IntValue rhs = exprLinkedList.pop();
+                binaryExprNode.getLhs().accept(this);
+                IntValue lhs = exprLinkedList.pop();
+                currentBlock.append(new Assign(lhs, rhs));
+                exprLinkedList.push(new ConstValue(0));
+                break;
+            }
+            case GREATER_EQUAL:
+            case LESS_EQUAL:
+            case EQUAL:
+            case INEQUAL:
+            case GREATER:
+            case LESS:
+            case BIT_XOR:
+            case BIT_AND:
+            case BIR_OR:
+            case SHR:
+            case SHL:
+            case ADD:
+            case SUB:
+            case MUL:
+            case MOD:
+            case DIV: {
+                binaryExprNode.getRhs().accept(this);
+                IntValue rhs = exprLinkedList.pop();
+                binaryExprNode.getLhs().accept(this);
+                IntValue lhs = exprLinkedList.pop();
+                Register register = new Register(cntRegister++);
+                currentBlock.append(new Bin(binaryExprNode.getExprop(),lhs,rhs,register));
+                exprLinkedList.push(register);
+                break;
+            }
+        }
     }
 
     @Override
     public void visit(SuffixExprNode suffixExprNode) {
         suffixExprNode.getSuffixexpr().accept(this);
 
-        //consider Lvalue, MemAddr actually
         IntValue intValue = exprLinkedList.pop();
+        Register register = new Register(cntRegister++);
+
         //copy
-        currentBlock.append(new Assign(stackTop, intValue));
+        currentBlock.append(new Assign(register, intValue));
 
         if (suffixExprNode.getExprop() == SuffixExprNode.SuffixOP.SELF_INC)
             currentBlock.append(new Uni(UnaryExprNode.UnaryOP.SELF_INC, intValue));
         else currentBlock.append(new Uni(UnaryExprNode.UnaryOP.SELF_DEC, intValue));
 
-        exprLinkedList.push(new MemAddr(stackTop));
-        stackTop += intOffset;
+        exprLinkedList.push(register);
     }
 
     @Override
@@ -248,7 +325,7 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(IDExprNode idExprNode) {
-        exprLinkedList.push(new MemAddr(idExprNode.getDeclNode().getMemAddr()));
+        exprLinkedList.push(idExprNode.getVarDeclNode().getIntValue());
     }
 
     @Override

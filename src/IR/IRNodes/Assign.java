@@ -3,15 +3,15 @@ package IR.IRNodes;
 import IR.IRVisitor;
 
 public class Assign extends Inst{
-    private int lhs;
+    private IntValue lhs;
     private IntValue rhs;
 
-    public Assign(int lhs, IntValue rhs) {
+    public Assign(IntValue lhs, IntValue rhs) {
         this.lhs = lhs;
         this.rhs = rhs;
     }
 
-    public int getLhs() {
+    public IntValue getLhs() {
         return lhs;
     }
 
