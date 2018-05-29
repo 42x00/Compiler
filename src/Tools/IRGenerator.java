@@ -21,8 +21,6 @@ import java.util.LinkedList;
 public class IRGenerator implements ASTVisitor {
     static private boolean stopVisit = false;
 
-    static private int cntRegister = 0;
-
     static private LinkedList<IntValue> exprLinkedList = new LinkedList<>();
 
     static private LinkedList<BasicBlock> breakLinkedList = new LinkedList<>();
@@ -51,7 +49,8 @@ public class IRGenerator implements ASTVisitor {
         currentBlock = startBlock;
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof VarDeclNode) {
-                ((VarDeclNode) declNode).setIntValue(new GloalVar(((VarDeclNode) declNode).getVarname()));
+                VarDeclNode varDeclNode = (VarDeclNode) declNode;
+                varDeclNode.setIntValue(new GloalVar(varDeclNode.getVarname()));
             }
         }
         for (DeclNode declNode : progNode.getDeclarations()) {
@@ -144,6 +143,9 @@ public class IRGenerator implements ASTVisitor {
         whileStmtNode.getWhilestmt().accept(this);
         currentBlock.append(new Jump(condBlock));
 
+        continueLinkedList.pop();
+        breakLinkedList.pop();
+
         currentBlock = endBlock;
     }
 
@@ -173,18 +175,21 @@ public class IRGenerator implements ASTVisitor {
         forStmtNode.getForstmt().accept(this);
         currentBlock.append(new Jump(condBlock));
 
+        continueLinkedList.pop();
+        breakLinkedList.pop();
+
         currentBlock = endBlock;
     }
 
     @Override
     public void visit(BreakStmtNode breakStmtNode) {
-        currentBlock.append(new Jump(breakLinkedList.pop()));
+        currentBlock.append(new Jump(breakLinkedList.getLast()));
         stopVisit = true;
     }
 
     @Override
     public void visit(ContinueStmtNode continueStmtNode) {
-        currentBlock.append(new Jump(continueLinkedList.pop()));
+        currentBlock.append(new Jump(continueLinkedList.getLast()));
         stopVisit = true;
     }
 
@@ -202,7 +207,7 @@ public class IRGenerator implements ASTVisitor {
         if (varDeclNode.getVartype() instanceof TypeNode) {
 //          Int
             if (varDeclNode.getVartype().getBasetype() == Type.Types.INT) {
-                varDeclNode.setIntValue(new Register(cntRegister++));
+                varDeclNode.setIntValue(new Register());
                 if (varDeclNode.getVarinit() != null) {
                     varDeclNode.getVarinit().accept(this);
                     currentBlock.append(new Assign(varDeclNode.getIntValue(), exprLinkedList.pop()));
@@ -215,7 +220,7 @@ public class IRGenerator implements ASTVisitor {
     public void visit(BinaryExprNode binaryExprNode) {
         switch (binaryExprNode.getExprop()) {
             case LOGICAL_AND: {
-                Register register = new Register(cntRegister++);
+                Register register = new Register();
                 BasicBlock shortCutBlock = new BasicBlock();
                 shortCutBlock.append(new Assign(register, new ConstValue(0)));
 
@@ -234,7 +239,7 @@ public class IRGenerator implements ASTVisitor {
                 break;
             }
             case LOGICAL_OR: {
-                Register register = new Register(cntRegister++);
+                Register register = new Register();
                 BasicBlock shortCutBlock = new BasicBlock();
                 shortCutBlock.append(new Assign(register, new ConstValue(1)));
 
@@ -281,7 +286,7 @@ public class IRGenerator implements ASTVisitor {
                 IntValue rhs = exprLinkedList.pop();
                 binaryExprNode.getLhs().accept(this);
                 IntValue lhs = exprLinkedList.pop();
-                Register register = new Register(cntRegister++);
+                Register register = new Register();
                 currentBlock.append(new Bin(binaryExprNode.getExprop(),lhs,rhs,register));
                 exprLinkedList.push(register);
                 break;
@@ -294,14 +299,14 @@ public class IRGenerator implements ASTVisitor {
         suffixExprNode.getSuffixexpr().accept(this);
 
         IntValue intValue = exprLinkedList.pop();
-        Register register = new Register(cntRegister++);
+        Register register = new Register();
 
         //copy
         currentBlock.append(new Assign(register, intValue));
 
         if (suffixExprNode.getExprop() == SuffixExprNode.SuffixOP.SELF_INC)
-            currentBlock.append(new Uni(UnaryExprNode.UnaryOP.SELF_INC, intValue));
-        else currentBlock.append(new Uni(UnaryExprNode.UnaryOP.SELF_DEC, intValue));
+            currentBlock.append(new Uni(UnaryExprNode.UnaryOP.SELF_INC, intValue, new Register()));
+        else currentBlock.append(new Uni(UnaryExprNode.UnaryOP.SELF_DEC, intValue, new Register()));
 
         exprLinkedList.push(register);
     }
@@ -309,7 +314,8 @@ public class IRGenerator implements ASTVisitor {
     @Override
     public void visit(UnaryExprNode unaryExprNode) {
         unaryExprNode.getUnaryexpr().accept(this);
-        currentBlock.append(new Uni(unaryExprNode.getExprop(), exprLinkedList.getLast()));
+        Register register = new Register();
+        currentBlock.append(new Uni(unaryExprNode.getExprop(), exprLinkedList.getLast(), register));
     }
 
     @Override

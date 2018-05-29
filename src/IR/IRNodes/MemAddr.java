@@ -2,19 +2,16 @@ package IR.IRNodes;
 
 import IR.IRVisitor;
 
-public class MemAddr extends IntValue{
-    private int memAddr;
+public class MemAddr extends IntValue {
+    private IntValue intValue;
 
-    public MemAddr(int memAddr) {
-        this.memAddr = memAddr;
+    public MemAddr(IntValue intValue) {
+        this.intValue = intValue;
     }
 
     @Override
     public void accept(IRVisitor visitor) {
         visitor.visit(this);
     }
-
-//    public MemAddr(MemAddr obj) {
-//        memAddr = obj.memAddr;
-//    }
+    
 }

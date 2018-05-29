@@ -8,8 +8,8 @@ public class BinaryExprNode extends ExprNode{
         MUL, DIV, MOD,
         ADD, SUB,
         SHL, SHR,
-        LESS, LESS_EQUAL, GREATER, GREATER_EQUAL, EQUAL, INEQUAL,
-        BIT_AND, BIT_XOR, BIR_OR, LOGICAL_AND, LOGICAL_OR, ASSIGN
+        BIT_AND, BIT_XOR, BIR_OR, LOGICAL_AND, LOGICAL_OR, ASSIGN,
+        LESS, LESS_EQUAL, GREATER, GREATER_EQUAL, EQUAL, INEQUAL
     }
 
     private BinaryOP exprop;

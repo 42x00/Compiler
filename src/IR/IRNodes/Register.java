@@ -5,8 +5,10 @@ import IR.IRVisitor;
 public class Register extends IntValue{
     private int ord;
 
-    public Register(int ord) {
-        this.ord = ord;
+    static private int cntRegister = 0;
+
+    public Register() {
+        this.ord = cntRegister++;
     }
 
     public int getOrd() {

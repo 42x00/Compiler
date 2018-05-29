@@ -6,6 +6,13 @@ import IR.IRVisitor;
 public class Uni extends Inst{
     private UnaryExprNode.UnaryOP unaryOP;
     private IntValue obj;
+    private Register ans;
+
+    public Uni(UnaryExprNode.UnaryOP unaryOP, IntValue obj, Register ans) {
+        this.unaryOP = unaryOP;
+        this.obj = obj;
+        this.ans = ans;
+    }
 
     public UnaryExprNode.UnaryOP getUnaryOP() {
         return unaryOP;
@@ -20,8 +27,4 @@ public class Uni extends Inst{
         visitor.visit(this);
     }
 
-    public Uni(UnaryExprNode.UnaryOP unaryOP, IntValue obj) {
-        this.unaryOP = unaryOP;
-        this.obj = obj;
-    }
 }
