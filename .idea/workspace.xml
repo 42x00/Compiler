@@ -14,11 +14,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CodeGenerator.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="IRGenerator.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Tools/IRGenerator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="419">
+              <caret line="373" column="23" selection-start-line="373" selection-start-column="23" selection-end-line="373" selection-end-column="23" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#visit#12;class#IRGenerator#0" />
+                <element signature="method#visit#13;class#IRGenerator#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CodeGenerator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Tools/CodeGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="47" column="29" lean-forward="true" selection-start-line="47" selection-start-column="29" selection-end-line="47" selection-end-column="29" />
+            <state relative-caret-position="836">
+              <caret line="92" column="67" lean-forward="true" selection-start-line="92" selection-start-column="67" selection-end-line="92" selection-end-column="67" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#13569#13570#0" expanded="true" />
@@ -34,11 +48,49 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Cjump.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Cjump.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
+              <folding>
+                <element signature="e#240#241#0" expanded="true" />
+                <element signature="e#451#452#0" expanded="true" />
+                <element signature="e#478#479#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BasicBlock.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/BasicBlock.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="47" selection-start-line="47" selection-end-line="47" />
+              <folding>
+                <element signature="e#919#920#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Jump.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Jump.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
+              <folding>
+                <element signature="e#270#271#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="testcode.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Test/testcode.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="176">
+              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
             </state>
           </provider>
         </entry>
@@ -139,11 +191,11 @@
         <option value="$PROJECT_DIR$/src/Test/code.txt" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/BasicBlock.java" />
         <option value="$PROJECT_DIR$/src/Test/Test.java" />
-        <option value="$PROJECT_DIR$/src/Tools/IRGenerator.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/Register.java" />
         <option value="$PROJECT_DIR$/src/Test/testcode.txt" />
         <option value="$PROJECT_DIR$/src/Tools/CodeGenerator.java" />
+        <option value="$PROJECT_DIR$/src/Tools/IRGenerator.java" />
       </list>
     </option>
   </component>
@@ -153,7 +205,7 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="x" value="80" />
     <option name="y" value="-9" />
     <option name="width" value="1849" />
@@ -369,12 +421,12 @@
       <workItem from="1527652915139" duration="234000" />
       <workItem from="1527653320393" duration="131000" />
       <workItem from="1527657385748" duration="10000" />
-      <workItem from="1527657945729" duration="23208000" />
+      <workItem from="1527657945729" duration="28412000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="305096000" />
+    <option name="totallyTimeSpent" value="310300000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-7" width="1479" height="878" extended-state="0" />
@@ -439,7 +491,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="176" />
+      <option name="time" value="178" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -582,13 +634,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Cjump.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/ReturnInst.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -608,13 +653,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
           <caret line="24" column="28" lean-forward="true" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Jump.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="14" column="5" lean-forward="true" selection-start-line="11" selection-start-column="4" selection-end-line="14" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -805,13 +843,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/BasicBlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="35" column="37" selection-start-line="35" selection-start-column="37" selection-end-line="35" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/IntValue.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -931,16 +962,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Tools/IRGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
-          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Frontend/ASTBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
@@ -970,15 +991,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Test/testcode.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="176">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Jump.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+          <folding>
+            <element signature="e#270#271#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/BasicBlock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="47" selection-start-line="47" selection-end-line="47" />
+          <folding>
+            <element signature="e#919#920#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Cjump.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="e#240#241#0" expanded="true" />
+            <element signature="e#451#452#0" expanded="true" />
+            <element signature="e#478#479#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Tools/CodeGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="47" column="29" lean-forward="true" selection-start-line="47" selection-start-column="29" selection-end-line="47" selection-end-column="29" />
+        <state relative-caret-position="836">
+          <caret line="92" column="67" lean-forward="true" selection-start-line="92" selection-start-column="67" selection-end-line="92" selection-end-column="67" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#13569#13570#0" expanded="true" />
@@ -989,6 +1042,18 @@
             <element signature="e#13823#13824#0" expanded="true" />
             <element signature="e#13883#13884#0" expanded="true" />
             <element signature="e#13946#13947#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Tools/IRGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="373" column="23" selection-start-line="373" selection-start-column="23" selection-end-line="373" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#visit#12;class#IRGenerator#0" />
+            <element signature="method#visit#13;class#IRGenerator#0" />
           </folding>
         </state>
       </provider>

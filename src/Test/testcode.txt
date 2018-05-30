@@ -1,18 +1,27 @@
 int main() {
-    int n = 10;
-    int sum = 0;
-    int i;
-    for (i = 1; i <= n; ++i) sum = sum + i;
-    int j;
-    for (j = 1; j <= n; ++j) sum = sum + 10 + j;
-    return sum;
+    int a = 5;
+    int b = 0;
+    int c;
+    bool d = b != 0 && a/b != 1;
+    if (d) {
+        c = 10;
+    } else {
+        c = 20;
+    }
+
+    bool e;
+    e = !(c == 10 && a/b == 0 && a == 5);
+    if (e)
+        c = 30;
+
+    return c;
 }
 
 
 
 /*!! metadata:
 === comment ===
-loop2.mx
+simple4.mx
 === assert ===
 exitcode
 === timeout ===
@@ -24,6 +33,6 @@ codegen pretest
 === is_public ===
 True
 === exitcode ===
-210
+30
 
 !!*/

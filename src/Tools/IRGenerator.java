@@ -26,11 +26,15 @@ public class IRGenerator implements ASTVisitor {
     static private LinkedList<BasicBlock> breakLinkedList = new LinkedList<>();
     static private LinkedList<BasicBlock> continueLinkedList = new LinkedList<>();
 
+//    static private LinkedList<BasicBlock> shortcutTrue = new LinkedList<>();
+//    static private LinkedList<BasicBlock> shortcurFalse = new LinkedList<>();
+
     static private Map<String, Integer> registerCntMap = new HashMap<>();
     static private Map<String, BasicBlock> funcBlockMap = new HashMap<>();
 
     private BasicBlock currentBlock;
     private BasicBlock startBlock;
+    private BasicBlock shortcut2Block;
 
     public BasicBlock getStartBlock() {
         return startBlock;
@@ -112,7 +116,9 @@ public class IRGenerator implements ASTVisitor {
             BasicBlock thenBlock = new BasicBlock();
             BasicBlock endBlock = new BasicBlock();
 
+            shortcut2Block = endBlock;
             ifStmtNode.getIfexpr().accept(this);
+
             currentBlock.append(new Cjump(exprLinkedList.pop(), thenBlock, endBlock));
 
             currentBlock = thenBlock;
@@ -125,7 +131,9 @@ public class IRGenerator implements ASTVisitor {
             BasicBlock elseBlock = new BasicBlock();
             BasicBlock endBlock = new BasicBlock();
 
+            shortcut2Block = elseBlock;
             ifStmtNode.getIfexpr().accept(this);
+
             currentBlock.append(new Cjump(exprLinkedList.pop(), thenBlock, elseBlock));
 
             currentBlock = thenBlock;
@@ -148,7 +156,10 @@ public class IRGenerator implements ASTVisitor {
 
         currentBlock.append(new Jump(condBlock));
         currentBlock = condBlock;
+
+        shortcut2Block = endBlock;
         whileStmtNode.getWhileexpr().accept(this);
+
         currentBlock.append(new Cjump(exprLinkedList.pop(), whileBlock, endBlock));
 
         continueLinkedList.push(condBlock);
@@ -180,7 +191,9 @@ public class IRGenerator implements ASTVisitor {
         currentBlock.append(new Jump(condBlock));
         currentBlock = condBlock;
 
+        shortcut2Block = endBlock;
         forStmtNode.getForexprend().accept(this);
+
         currentBlock.append(new Cjump(exprLinkedList.pop(), forBlock, endBlock));
 
         continueLinkedList.push(condBlock);
@@ -225,6 +238,18 @@ public class IRGenerator implements ASTVisitor {
             if (varDeclNode.getVartype().getBasetype() != Type.Types.STRING) {
                 varDeclNode.setIntValue(new Register());
                 if (varDeclNode.getVarinit() != null) {
+                    if (varDeclNode.getVarinit() instanceof BinaryExprNode) {
+                        BinaryExprNode.BinaryOP binaryOP = ((BinaryExprNode) varDeclNode.getVarinit()).getExprop();
+                        if (binaryOP == BinaryExprNode.BinaryOP.LOGICAL_AND || binaryOP == BinaryExprNode.BinaryOP.LOGICAL_OR) {
+                            BasicBlock nxtBlock = new BasicBlock();
+                            shortcut2Block = nxtBlock;
+                            varDeclNode.getVarinit().accept(this);
+                            currentBlock.append(new Jump(nxtBlock));
+                            currentBlock = nxtBlock;
+                            currentBlock.append(new Assign(varDeclNode.getIntValue(), exprLinkedList.pop()));
+                            return;
+                        }
+                    }
                     varDeclNode.getVarinit().accept(this);
                     currentBlock.append(new Assign(varDeclNode.getIntValue(), exprLinkedList.pop()));
                 }
@@ -239,14 +264,17 @@ public class IRGenerator implements ASTVisitor {
                 Register register = new Register();
                 BasicBlock shortCutBlock = new BasicBlock();
                 shortCutBlock.append(new Assign(register, new ConstValue(0)));
+                shortCutBlock.append(new Jump(shortcut2Block));
 
-                binaryExprNode.getLhs().accept(this);
                 BasicBlock nxtBlock = new BasicBlock();
+                shortcut2Block = nxtBlock;
+                binaryExprNode.getLhs().accept(this);
                 currentBlock.append(new Cjump(exprLinkedList.pop(), nxtBlock, shortCutBlock));
                 currentBlock = nxtBlock;
 
-                binaryExprNode.getRhs().accept(this);
                 nxtBlock = new BasicBlock();
+                shortcut2Block = nxtBlock;
+                binaryExprNode.getRhs().accept(this);
                 currentBlock.append(new Cjump(exprLinkedList.pop(), nxtBlock, shortCutBlock));
                 currentBlock = nxtBlock;
 
@@ -258,14 +286,17 @@ public class IRGenerator implements ASTVisitor {
                 Register register = new Register();
                 BasicBlock shortCutBlock = new BasicBlock();
                 shortCutBlock.append(new Assign(register, new ConstValue(1)));
+                shortCutBlock.append(new Jump(shortcut2Block));
 
-                binaryExprNode.getLhs().accept(this);
                 BasicBlock nxtBlock = new BasicBlock();
+                shortcut2Block = nxtBlock;
+                binaryExprNode.getLhs().accept(this);
                 currentBlock.append(new Cjump(exprLinkedList.pop(), shortCutBlock, nxtBlock));
                 currentBlock = nxtBlock;
 
-                binaryExprNode.getRhs().accept(this);
                 nxtBlock = new BasicBlock();
+                shortcut2Block = nxtBlock;
+                binaryExprNode.getRhs().accept(this);
                 currentBlock.append(new Cjump(exprLinkedList.pop(), shortCutBlock, nxtBlock));
                 currentBlock = nxtBlock;
 
@@ -329,8 +360,21 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(UnaryExprNode unaryExprNode) {
-        unaryExprNode.getUnaryexpr().accept(this);
         Register register = new Register();
+        if (unaryExprNode.getUnaryexpr() instanceof BinaryExprNode){
+            BinaryExprNode.BinaryOP binaryOP = ((BinaryExprNode) unaryExprNode.getUnaryexpr()).getExprop();
+            if (binaryOP == BinaryExprNode.BinaryOP.LOGICAL_AND || binaryOP == BinaryExprNode.BinaryOP.LOGICAL_OR) {
+                BasicBlock nxtBlock = new BasicBlock();
+                shortcut2Block = nxtBlock;
+                unaryExprNode.getUnaryexpr().accept(this);
+                currentBlock.append(new Jump(nxtBlock));
+                currentBlock = nxtBlock;
+                currentBlock.append(new Uni(unaryExprNode.getExprop(), exprLinkedList.pop(), register));
+                exprLinkedList.push(register);
+                return;
+            }
+        }
+        unaryExprNode.getUnaryexpr().accept(this);
         currentBlock.append(new Uni(unaryExprNode.getExprop(), exprLinkedList.pop(), register));
         exprLinkedList.push(register);
     }

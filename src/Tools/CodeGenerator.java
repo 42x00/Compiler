@@ -275,10 +275,6 @@ public class CodeGenerator implements IRVisitor {
             }
 
             case MUL:
-                //push rax
-                //push rdx
-                out.print("push rax\n\tpush rdx\n\t");
-                err.print("push rax\n\tpush rdx\n\t");
                 //mov rax, rbx
                 out.print("mov rax, rbx\n\t");
                 err.print("mov rax, rbx\n\t");
@@ -286,19 +282,11 @@ public class CodeGenerator implements IRVisitor {
                 out.print("imul rcx\n\t");
                 err.print("imul rcx\n\t");
                 //mov r, rax
-                out.printf("mov %s, rax\n\t", bin.getAns().accept(this));
-                err.printf("mov %s, rax\n\t", bin.getAns().accept(this));
-                //pop rdx
-                //pop rax
-                out.println("pop rdx\n\tpop rax");
-                err.println("pop rdx\n\tpop rax");
+                out.printf("mov %s, rax\n", bin.getAns().accept(this));
+                err.printf("mov %s, rax\n", bin.getAns().accept(this));
                 break;
 
             case MOD:
-                //push rax
-                //push rdx
-                out.print("push rax\n\tpush rdx\n\t");
-                err.print("push rax\n\tpush rdx\n\t");
                 //mov rax, rbx
                 out.print("mov rax, rbx\n\t");
                 err.print("mov rax, rbx\n\t");
@@ -307,18 +295,10 @@ public class CodeGenerator implements IRVisitor {
                 out.print("cdq\n\tidiv rcx\n\t");
                 err.print("cdq\n\tidiv rcx\n\t");
                 //mov r, rdx
-                out.printf("mov %s, rdx\n\t", bin.getAns().accept(this));
-                err.printf("mov %s, rdx\n\t", bin.getAns().accept(this));
-                //pop rdx
-                //pop rax
-                out.println("pop rdx\n\tpop rax");
-                err.println("pop rdx\n\tpop rax");
+                out.printf("mov %s, rdx\n", bin.getAns().accept(this));
+                err.printf("mov %s, rdx\n", bin.getAns().accept(this));
                 break;
             case DIV:
-                //push rax
-                //push rdx
-                out.print("push rax\n\tpush rdx\n\t");
-                err.print("push rax\n\tpush rdx\n\t");
                 //mov rax, rbx
                 out.print("mov rax, rbx\n\t");
                 err.print("mov rax, rbx\n\t");
@@ -327,12 +307,8 @@ public class CodeGenerator implements IRVisitor {
                 out.print("cdq\n\tidiv rcx\n\t");
                 err.print("cdq\n\tidiv rcx\n\t");
                 //mov r, rax
-                out.printf("mov %s, rax\n\t", bin.getAns().accept(this));
-                err.printf("mov %s, rax\n\t", bin.getAns().accept(this));
-                //pop rdx
-                //pop rax
-                out.println("pop rdx\n\tpop rax");
-                err.println("pop rdx\n\tpop rax");
+                out.printf("mov %s, rax\n", bin.getAns().accept(this));
+                err.printf("mov %s, rax\n", bin.getAns().accept(this));
                 break;
         }
     }
