@@ -37,16 +37,19 @@ public class CodeGenerator implements IRVisitor {
         return true;
     }
 
-//    private String c8t1(String s) {
-//        switch (s) {
-//            case "rsi":
-//                return "sil";
-//            case "rdi":
-//                return "dil";
-//            default:
-//                return s + 'b';
-//        }
-//    }
+    private String c8t1(String s) {
+        if (s.startsWith("qword")){
+            return "byte" + s.substring(5);
+        }
+        switch (s) {
+            case "rsi":
+                return "sil";
+            case "rdi":
+                return "dil";
+            default:
+                return s + 'b';
+        }
+    }
 
     public void generate(IRGenerator irGenerator, ProgNode progNode) {
         cntRegisterMap = irGenerator.getRegisterCntMap();
@@ -118,8 +121,8 @@ public class CodeGenerator implements IRVisitor {
     @Override
     public void visit(Cjump cjump) {
         //cmp r, 0
-        out.printf("cmp %s, 0\n\t", cjump.getCond().accept(this));
-        err.printf("cmp %s, 0\n\t", cjump.getCond().accept(this));
+        out.printf("cmp %s, 0\n\t", c8t1(cjump.getCond().accept(this)));
+        err.printf("cmp %s, 0\n\t", c8t1(cjump.getCond().accept(this)));
         //jz L_*
         out.println("jz " + cjump.getElseBlock().toLabel());
         err.println("jz " + cjump.getElseBlock().toLabel());
@@ -154,48 +157,48 @@ public class CodeGenerator implements IRVisitor {
                 out.print("cmp rbx, rcx\n\t");
                 err.print("cmp rbx, rcx\n\t");
                 //setge r
-                out.printf("setge %s\n", bin.getAns().accept(this));
-                err.printf("setge %s\n", bin.getAns().accept(this));
+                out.printf("setge %s\n", c8t1(bin.getAns().accept(this)));
+                err.printf("setge %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case LESS_EQUAL:
                 //cmp rbx, rcx
                 out.print("cmp rbx, rcx\n\t");
                 err.print("cmp rbx, rcx\n\t");
                 //setle r
-                out.printf("setle %s\n", bin.getAns().accept(this));
-                err.printf("setle %s\n", bin.getAns().accept(this));
+                out.printf("setle %s\n", c8t1(bin.getAns().accept(this)));
+                err.printf("setle %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case EQUAL:
                 //cmp rbx, rcx
                 out.print("cmp rbx, rcx\n\t");
                 err.print("cmp rbx, rcx\n\t");
                 //sete r
-                out.printf("sete %s\n", bin.getAns().accept(this));
-                err.printf("sete %s\n", bin.getAns().accept(this));
+                out.printf("sete %s\n", c8t1(bin.getAns().accept(this)));
+                err.printf("sete %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case INEQUAL:
                 //cmp rbx, rcx
                 out.print("cmp rbx, rcx\n\t");
                 err.print("cmp rbx, rcx\n\t");
                 //setne r
-                out.printf("setne %s\n", bin.getAns().accept(this));
-                err.printf("setne %s\n", bin.getAns().accept(this));
+                out.printf("setne %s\n", c8t1(bin.getAns().accept(this)));
+                err.printf("setne %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case GREATER:
                 //cmp rbx, rcx
                 out.print("cmp rbx, rcx\n\t");
                 err.print("cmp rbx, rcx\n\t");
                 //setg r
-                out.printf("setg %s\n", bin.getAns().accept(this));
-                err.printf("setg %s\n", bin.getAns().accept(this));
+                out.printf("setg %s\n", c8t1(bin.getAns().accept(this)));
+                err.printf("setg %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case LESS:
                 //cmp rbx, rcx
                 out.print("cmp rbx, rcx\n\t");
                 err.print("cmp rbx, rcx\n\t");
                 //setl r
-                out.printf("setl %s\n", bin.getAns().accept(this));
-                err.printf("setl %s\n", bin.getAns().accept(this));
+                out.printf("setl %s\n", c8t1(bin.getAns().accept(this)));
+                err.printf("setl %s\n", c8t1(bin.getAns().accept(this)));
                 break;
 
             case BIT_XOR: {
