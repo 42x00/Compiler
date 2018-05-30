@@ -4,6 +4,8 @@ import IR.IRVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.System.err;
 import static java.lang.System.out;
 
 public class BasicBlock{
@@ -31,6 +33,7 @@ public class BasicBlock{
 
     public void setLabel(){
         out.println(toLabel() + ":");
+        err.println(toLabel() + ":");
     }
 
     public List<Inst> getInstList() {

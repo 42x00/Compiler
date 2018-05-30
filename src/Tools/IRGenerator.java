@@ -153,7 +153,7 @@ public class IRGenerator implements ASTVisitor {
         BasicBlock forBlock = new BasicBlock();
         BasicBlock endBlock = new BasicBlock();
 
-        if (forStmtNode.getForinit() == null) {
+        if (forStmtNode.getForexprinit() != null) {
             forStmtNode.getForexprinit().accept(this);
         } else {
             for (VarDeclNode varDeclNode : forStmtNode.getForinit()) {
@@ -171,6 +171,7 @@ public class IRGenerator implements ASTVisitor {
 
         currentBlock = forBlock;
         forStmtNode.getForstmt().accept(this);
+        forStmtNode.getForexprupdate().accept(this);
         currentBlock.append(new Jump(condBlock));
 
         continueLinkedList.pop();
@@ -313,7 +314,7 @@ public class IRGenerator implements ASTVisitor {
     public void visit(UnaryExprNode unaryExprNode) {
         unaryExprNode.getUnaryexpr().accept(this);
         Register register = new Register();
-        currentBlock.append(new Uni(unaryExprNode.getExprop(), exprLinkedList.getLast(), register));
+        currentBlock.append(new Uni(unaryExprNode.getExprop(), exprLinkedList.pop(), register));
     }
 
     @Override
