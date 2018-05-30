@@ -3,7 +3,7 @@ global main
 SECTION .text
 main:
 	push rbp
-	move rbp, rsp
+	mov rbp, rsp
 	mov qword [x], 10
 	mov qword [x], 20
 	mov rax, qword [x]
