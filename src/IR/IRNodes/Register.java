@@ -9,21 +9,18 @@ public class Register extends IntValue {
 
     private int ord;
 
-    static private int cntRegister = 6;
+    static private int cntRegister;
+
+    static public void resetCnt() {
+        cntRegister = 16;
+    }
+
+    public static int getCntRegister() {
+        return cntRegister;
+    }
 
     public Register() {
         this.ord = cntRegister++;
-    }
-
-    public Register(RegisterName registerName) {
-        switch (registerName) {
-            case RSI:
-                this.ord = 6;
-                break;
-            case RDI:
-                this.ord = 7;
-                break;
-        }
     }
 
     public int getOrd() {
@@ -32,16 +29,9 @@ public class Register extends IntValue {
 
     public String toString() {
         if (ord < 8) {
-            switch (ord) {
-                case 6:
-                    return "rsi";
-                case 7:
-                    return "rdi";
-                default:
-                    return "Err ord with" + Integer.toString(ord);
-            }
+            return "Err ord with" + Integer.toString(ord);
         } else {
-            return "r" + Integer.toString(ord);
+            return "qword [rsp - " + Integer.toString((ord-15)*8) + "]";
         }
     }
 

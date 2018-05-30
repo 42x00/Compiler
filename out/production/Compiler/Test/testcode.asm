@@ -3,52 +3,16 @@ SECTION .text
 main:
 	push rbp
 	mov rbp, rsp
-	mov rsi, 5
-	mov rdi, 0
-	mov r8, 1
-	jmp L_1
+	sub rsp, 16
+	mov rax, 0
+	cmp rax, 0
+	sete qword [rbp - 8]
+	cmp qword [rbp - 8], 0
+	jz L_1
+	leave
+	ret
 L_1:
-	push rbx
-	push rcx
-	mov rbx, r8
-	mov rcx, rsi
-	cmp rbx, rcx
-	setle r10b
-	pop rcx
-	pop rbx
-	cmp r10, 0
-	jz L_3
-L_2:
-	mov r9, 1
-	jmp L_4
-L_4:
-	push rbx
-	push rcx
-	mov rbx, r9
-	mov rcx, rsi
-	cmp rbx, rcx
-	setle r11b
-	pop rcx
-	pop rbx
-	cmp r11, 0
-	jz L_6
-L_5:
-	push rbx
-	push rcx
-	mov rbx, rdi
-	mov rcx, r8
-	mov r12, rbx
-	add r12, rcx
-	pop rcx
-	pop rbx
-	mov rdi, r12
-	inc r9
-	jmp L_4
-L_6:
-	inc r8
-	jmp L_1
-L_3:
-	mov rax, rdi
+	mov rax, 1
 	leave
 	ret
 SECTION .data

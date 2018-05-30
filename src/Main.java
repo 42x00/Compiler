@@ -35,15 +35,13 @@ public class Main {
             err.println(e);
         }
 
-        ASTViewer viewer = new ASTViewer();
-        viewer.visit(ast);
-
-        err.println("=======================================");
+//        ASTViewer viewer = new ASTViewer();
+//        viewer.visit(ast);
 
         IRGenerator irGenerator = new IRGenerator();
         irGenerator.visit(ast);
 
         CodeGenerator codeGenerator = new CodeGenerator();
-        codeGenerator.generate(irGenerator.getStartBlock(), ast);
+        codeGenerator.generate(irGenerator, ast);
     }
 }

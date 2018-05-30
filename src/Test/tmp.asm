@@ -1,27 +1,33 @@
+
+
+
+
+
+
+default rel
+
 global main
-SECTION .text
+
+
+SECTION .text   
+
 main:
-	push rbp
-	mov rbp, rsp
-	mov rsi, 10
-	push rbx
-	push rcx
-	mov rbx, rsi
-	mov rcx, 10
-	cmp rbx, rcx
-	sete dil
-	pop rcx
-	pop rbx
-	cmp rdi, 0
-	jz L_2
-L_1:
-	mov rsi, 20
-	jmp L_3
-L_3:
-	mov rax, rsi
-	leave
-	ret
-L_2:
-	mov rsi, 30
-	jmp L_3
-SECTION .data
+        push    rbp
+        mov     rbp, rsp
+        mov     dword [rbp-8H], 0
+        cmp     dword [rbp-8H], 0
+        sete    al
+        movzx   eax, al
+        mov     dword [rbp-4H], eax
+        mov     eax, dword [rbp-4H]
+        pop     rbp
+        ret
+
+
+
+SECTION .data   
+
+
+SECTION .bss    
+
+

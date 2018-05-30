@@ -51,6 +51,6 @@ public class Test {
         irGenerator.visit(ast);
 
         CodeGenerator codeGenerator = new CodeGenerator();
-        codeGenerator.generate(irGenerator.getStartBlock(), ast);
+        codeGenerator.generate(irGenerator, ast);
     }
 }

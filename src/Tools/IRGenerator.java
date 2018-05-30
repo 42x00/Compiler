@@ -14,7 +14,9 @@ import AST_Node.TypeNodes.TypeNode;
 import IR.IRNodes.*;
 import Type.Type;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class IRGenerator implements ASTVisitor {
     static private boolean stopVisit = false;
@@ -24,11 +26,22 @@ public class IRGenerator implements ASTVisitor {
     static private LinkedList<BasicBlock> breakLinkedList = new LinkedList<>();
     static private LinkedList<BasicBlock> continueLinkedList = new LinkedList<>();
 
+    static private Map<String, Integer> registerCntMap = new HashMap<>();
+    static private Map<String, BasicBlock> funcBlockMap = new HashMap<>();
+
     private BasicBlock currentBlock;
-    private BasicBlock startBlock = new BasicBlock();
+    private BasicBlock startBlock;
 
     public BasicBlock getStartBlock() {
         return startBlock;
+    }
+
+    public Map<String, Integer> getRegisterCntMap() {
+        return registerCntMap;
+    }
+
+    public Map<String, BasicBlock> getFuncBlockMap() {
+        return funcBlockMap;
     }
 
     private void initGlobalVar(ProgNode progNode) {
@@ -44,7 +57,6 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(ProgNode progNode) {
-        currentBlock = startBlock;
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof VarDeclNode) {
                 VarDeclNode varDeclNode = (VarDeclNode) declNode;
@@ -53,18 +65,23 @@ public class IRGenerator implements ASTVisitor {
         }
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof FuncDeclNode) {
-                if (((FuncDeclNode) declNode).getFunctionName().equals("main")) {
+                startBlock = new BasicBlock();
+                funcBlockMap.put(declNode.getDeclname(), startBlock);
+                currentBlock = startBlock;
+                if (((FuncDeclNode) declNode).getFunctionName().equals("main"))
                     initGlobalVar(progNode);
-                    declNode.accept(this);
-                }
+                declNode.accept(this);
             }
         }
     }
 
     @Override
     public void visit(FuncDeclNode funcDeclNode) {
-        if (funcDeclNode.getFunctionStatements() != null)
+        if (funcDeclNode.getFunctionStatements() != null) {
+            Register.resetCnt();
             funcDeclNode.getFunctionStatements().accept(this);
+            registerCntMap.put(funcDeclNode.getFunctionName(), Register.getCntRegister() - 15);
+        }
     }
 
     @Override
@@ -205,7 +222,7 @@ public class IRGenerator implements ASTVisitor {
 //      Non-Array & Non-Class
         if (varDeclNode.getVartype() instanceof TypeNode) {
 //          Int
-            if (varDeclNode.getVartype().getBasetype() == Type.Types.INT) {
+            if (varDeclNode.getVartype().getBasetype() != Type.Types.STRING) {
                 varDeclNode.setIntValue(new Register());
                 if (varDeclNode.getVarinit() != null) {
                     varDeclNode.getVarinit().accept(this);
@@ -286,7 +303,7 @@ public class IRGenerator implements ASTVisitor {
                 binaryExprNode.getLhs().accept(this);
                 IntValue lhs = exprLinkedList.pop();
                 Register register = new Register();
-                currentBlock.append(new Bin(binaryExprNode.getExprop(),lhs,rhs,register));
+                currentBlock.append(new Bin(binaryExprNode.getExprop(), lhs, rhs, register));
                 exprLinkedList.push(register);
                 break;
             }
@@ -315,6 +332,7 @@ public class IRGenerator implements ASTVisitor {
         unaryExprNode.getUnaryexpr().accept(this);
         Register register = new Register();
         currentBlock.append(new Uni(unaryExprNode.getExprop(), exprLinkedList.pop(), register));
+        exprLinkedList.push(register);
     }
 
     @Override
