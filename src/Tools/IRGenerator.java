@@ -14,8 +14,6 @@ import AST_Node.TypeNodes.TypeNode;
 import IR.IRNodes.*;
 import Type.Type;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 public class IRGenerator implements ASTVisitor {

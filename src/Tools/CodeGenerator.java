@@ -3,7 +3,6 @@ package Tools;
 import AST_Node.DeclNodes.ClassDeclNode;
 import AST_Node.DeclNodes.DeclNode;
 import AST_Node.DeclNodes.VarDeclNode;
-import AST_Node.ExprNodes.BinaryExprNode;
 import AST_Node.ExprNodes.UnaryExprNode;
 import AST_Node.ProgNode;
 import AST_Node.TypeNodes.TypeNode;
@@ -28,6 +27,17 @@ public class CodeGenerator implements IRVisitor {
         labelSet.add(basicBlock.getOrd());
         basicBlock.setLabel();
         return true;
+    }
+
+    private String c8t1(String s) {
+        switch (s) {
+            case "rsi":
+                return "sil";
+            case "rdi":
+                return "dil";
+            default:
+                return s + 'b';
+        }
     }
 
     public void generate(BasicBlock startBlock, ProgNode progNode) {
@@ -69,6 +79,7 @@ public class CodeGenerator implements IRVisitor {
 
     @Override
     public void visit(Jump jump) {
+        //jmp L_*
         out.println("jmp " + jump.getNxtBlock().toLabel());
         if (trySetLabel(jump.getNxtBlock()))
             jump.getNxtBlock().accept(this);
@@ -76,10 +87,9 @@ public class CodeGenerator implements IRVisitor {
 
     @Override
     public void visit(Cjump cjump) {
-        out.print("cmp ");
-        cjump.getCond().accept(this);
-        out.println(", 0");
-        indent();
+        //cmp r, 0
+        out.printf("cmp %s, 0\n\t", cjump.getCond().accept(this));
+        //jz L_*
         out.println("jz " + cjump.getElseBlock().toLabel());
         if (trySetLabel(cjump.getThenBlock()))
             cjump.getThenBlock().accept(this);
@@ -90,520 +100,216 @@ public class CodeGenerator implements IRVisitor {
     @Override
     public void visit(Assign assign) {
         if ((assign.getLhs() instanceof MemAddr || assign.getLhs() instanceof GloalVar) && (assign.getRhs() instanceof MemAddr || assign.getRhs() instanceof GloalVar)) {
-            //mov rcx, qword [rbp - ?]
-            //mov rcx, qword [x]
-            out.print("mov rcx, ");
-            assign.getRhs().accept(this);
-            out.println();
+            //mov rcx, r:qword []
+            out.printf("mov rcx, %s\n", assign.getRhs().accept(this));
             indent();
-            //mov qword [rbp - ?], qword [rbp - ?]
-            out.print("mov ");
-            assign.getLhs().accept(this);
-            out.print(", ");
-            assign.getRhs().accept(this);
-            out.println();
+            //mov l:qword [], r:qword []
+            out.printf("mov %s, %s\n", assign.getLhs().accept(this), assign.getRhs().accept(this));
             return;
         }
-        //mov xxx, xxx
-        out.print("mov ");
-        assign.getLhs().accept(this);
-        out.print(", ");
-        assign.getRhs().accept(this);
-        out.println();
-
+        //mov l:*, r:*
+        out.printf("mov %s, %s\n", assign.getLhs().accept(this), assign.getRhs().accept(this));
     }
 
     @Override
     public void visit(Bin bin) {
-        IntValue lhs = bin.getLhs();
-        IntValue rhs = bin.getRhs();
+        //push rbx
+        //push rcx
+        out.print("push rbx\n\tpush rcx\n\t");
+
+        //mov rbx, l:*
+        out.printf("mov rbx, %s\n", bin.getLhs().accept(this));
+        indent();
+        //mov rcx, r:*
+        out.printf("mov rcx, %s\n", bin.getRhs().accept(this));
+        indent();
 
         switch (bin.getBinaryOP()) {
             case GREATER_EQUAL:
-                //cmp r:l r:r
-                out.print("cmp ");
-                lhs.accept(this);
-                out.print(", ");
-                rhs.accept(this);
-                out.println();
-                indent();
+                //cmp rbx, rcx
+                out.print("cmp rbx, rcx\n\t");
                 //setge r
-                out.print("setge ");
-                bin.getAns().accept(this);
-                out.println();
+                out.printf("setge %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case LESS_EQUAL:
-                //cmp r:l r:r
-                out.print("cmp ");
-                lhs.accept(this);
-                out.print(", ");
-                rhs.accept(this);
-                out.println();
-                indent();
+                //cmp rbx, rcx
+                out.print("cmp rbx, rcx\n\t");
                 //setle r
-                out.print("setle ");
-                bin.getAns().accept(this);
-                out.println();
+                out.printf("setle %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case EQUAL:
-                //cmp r:l r:r
-                out.print("cmp ");
-                lhs.accept(this);
-                out.print(", ");
-                rhs.accept(this);
-                out.println();
-                indent();
+                //cmp rbx, rcx
+                out.print("cmp rbx, rcx\n\t");
                 //sete r
-                out.print("sete ");
-                bin.getAns().accept(this);
-                out.println();
+                out.printf("sete %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case INEQUAL:
-                //cmp r:l r:r
-                out.print("cmp ");
-                lhs.accept(this);
-                out.print(", ");
-                rhs.accept(this);
-                out.println();
-                indent();
+                //cmp rbx, rcx
+                out.print("cmp rbx, rcx\n\t");
                 //setne r
-                out.print("setne ");
-                bin.getAns().accept(this);
-                out.println();
+                out.printf("setne %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case GREATER:
-                //cmp r:l r:r
-                out.print("cmp ");
-                lhs.accept(this);
-                out.print(", ");
-                rhs.accept(this);
-                out.println();
-                indent();
+                //cmp rbx, rcx
+                out.print("cmp rbx, rcx\n\t");
                 //setg r
-                out.print("setg ");
-                bin.getAns().accept(this);
-                out.println();
+                out.printf("setg %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case LESS:
-                //cmp r:l r:r
-                out.print("cmp ");
-                lhs.accept(this);
-                out.print(", ");
-                rhs.accept(this);
-                out.println();
-                indent();
+                //cmp rbx, rcx
+                out.print("cmp rbx, rcx\n\t");
                 //setl r
-                out.print("setl ");
-                bin.getAns().accept(this);
-                out.println();
+                out.printf("setl %s\n", c8t1(bin.getAns().accept(this)));
                 break;
 
-            case BIT_XOR:
-                //mov r, r:l
-                out.print("mov ");
-                bin.getAns().accept(this);
-                out.print(", ");
-                lhs.accept(this);
-                out.println();
-                indent();
-                //xor r, r:r
-                out.print("xor ");
-                bin.getAns().accept(this);
-                out.print(", ");
-                rhs.accept(this);
-                out.println();
+            case BIT_XOR: {
+                String r = bin.getAns().accept(this);
+                //mov r, rbx
+                out.printf("mov %s, rbx\n\t", r);
+                //xor r, rcx
+                out.printf("xor %s, rcx\n", r);
                 break;
-            case BIT_AND:
-                //mov r, r:l
-                out.print("mov ");
-                bin.getAns().accept(this);
-                out.print(", ");
-                lhs.accept(this);
-                out.println();
-                indent();
-                //and r, r:r
-                out.print("and ");
-                bin.getAns().accept(this);
-                out.print(", ");
-                rhs.accept(this);
-                out.println();
+            }
+            case BIT_AND: {
+                String r = bin.getAns().accept(this);
+                //mov r, rbx
+                out.printf("mov %s, rbx\n\t", r);
+                //and r, rcx
+                out.printf("and %s, rcx\n", r);
                 break;
-            case BIR_OR:
-                //mov r, r:l
-                out.print("mov ");
-                bin.getAns().accept(this);
-                out.print(", ");
-                lhs.accept(this);
-                out.println();
-                indent();
-                //or r, r:r
-                out.print("or ");
-                bin.getAns().accept(this);
-                out.print(", ");
-                rhs.accept(this);
-                out.println();
+            }
+            case BIR_OR: {
+                String r = bin.getAns().accept(this);
+                //mov r, rbx
+                out.printf("mov %s, rbx\n\t", r);
+                //or r, rcx
+                out.printf("or %s, rcx\n", r);
                 break;
-            case SHR:
-                //mov r, r:l
-                out.print("mov ");
-                bin.getAns().accept(this);
-                out.print(", ");
-                lhs.accept(this);
-                out.println();
-                indent();
+            }
+
+            case SHR: {
+                String r = bin.getAns().accept(this);
+                //mov r, rbx
+                out.printf("mov %s, rbx\n\t", r);
                 //sar r, cl
-                out.print("sar ");
-                bin.getAns().accept(this);
-                out.println(", cl");
+                out.printf("sar %s, cl\n", r);
                 break;
-            case SHL:
-                //mov r, r:l
-                out.print("mov ");
-                bin.getAns().accept(this);
-                out.print(", ");
-                lhs.accept(this);
-                out.println();
-                indent();
+            }
+            case SHL: {
+                String r = bin.getAns().accept(this);
+                //mov r, rbx
+                out.printf("mov %s, rbx\n\t", r);
                 //sal r, cl
-                out.print("sal ");
-                bin.getAns().accept(this);
-                out.println(", cl");
+                out.printf("sar %s, cl\n", r);
                 break;
-            case ADD:
-                //mov r, r:l
-                out.print("mov ");
-                bin.getAns().accept(this);
-                out.print(", ");
-                lhs.accept(this);
-                out.println();
-                indent();
-                //add r, r:r
-                out.print("add ");
-                bin.getAns().accept(this);
-                out.print(", ");
-                rhs.accept(this);
-                out.println();
+            }
+
+            case ADD: {
+                String r = bin.getAns().accept(this);
+                //mov r, rbx
+                out.printf("mov %s, rbx\n\t", r);
+                //add r, rcx
+                out.printf("add %s, rcx\n", r);
                 break;
-            case SUB:
-                //mov r, r:l
-                out.print("mov ");
-                bin.getAns().accept(this);
-                out.print(", ");
-                lhs.accept(this);
-                out.println();
-                indent();
-                //sub r, r:r
-                out.print("sub ");
-                bin.getAns().accept(this);
-                out.print(", ");
-                rhs.accept(this);
-                out.println();
+            }
+            case SUB: {
+                String r = bin.getAns().accept(this);
+                //mov r, rbx
+                out.printf("mov %s, rbx\n\t", r);
+                //sub r, rcx
+                out.printf("sub %s, rcx\n", r);
                 break;
+            }
+
             case MUL:
-                //mov rax, r:l
-                out.print("mov rax, ");
-                lhs.accept(this);
-                out.println();
-                indent();
-                //imul r:r
-                out.print("imul , ");
-                rhs.accept(this);
-                out.println();
+                //push rax
+                //push rdx
+                out.print("push rax\n\tpush rdx\n\t");
+                //mov rax, rbx
+                out.print("mov rax, rbx\n\t");
+                //imul rcx
+                out.print("imul rcx\n\t");
                 //mov r, rax
-                out.print("mov ");
-                bin.getAns().accept(this);
-                out.println(", rax");
+                out.printf("mod %s, rax", bin.getAns().accept(this));
+                //pop rdx
+                //pop rax
+                out.println("\tpop rdx\n\tpop rax");
                 break;
+
             case MOD:
-                //mov rax, r:l
-                out.print("mov rax, ");
-                lhs.accept(this);
-                out.println();
-                indent();
-                //idiv r:r
-                out.print("idiv , ");
-                rhs.accept(this);
-                out.println();
+                //push rax
+                //push rdx
+                out.print("push rax\n\tpush rdx\n\t");
+                //mov rax, rbx
+                out.print("mov rax, rbx\n\t");
+                //cdq
+                //idiv rcx
+                out.print("cdq\n\tidiv rcx\n\t");
                 //mov r, rdx
-                out.print("mov ");
-                bin.getAns().accept(this);
-                out.println(", rdx");
+                out.printf("mod %s, rdx", bin.getAns().accept(this));
+                //pop rdx
+                //pop rax
+                out.println("\tpop rdx\n\tpop rax");
                 break;
             case DIV:
-                //mov rax, r:l
-                out.print("mov rax, ");
-                lhs.accept(this);
-                out.println();
-                indent();
-                //idiv r:r
-                out.print("idiv , ");
-                rhs.accept(this);
-                out.println();
+                //push rax
+                //push rdx
+                out.print("push rax\n\tpush rdx\n\t");
+                //mov rax, rbx
+                out.print("mov rax, rbx\n\t");
+                //cdq
+                //idiv rcx
+                out.print("cdq\n\tidiv rcx\n\t");
                 //mov r, rax
-                out.print("mov ");
-                bin.getAns().accept(this);
-                out.println(", rax");
+                out.printf("mod %s, rax", bin.getAns().accept(this));
+                //pop rdx
+                //pop rax
+                out.println("\tpop rdx\n\tpop rax");
                 break;
         }
 
-
-//        //Mem & Mem
-//        if ((bin.getLhs() instanceof MemAddr || bin.getLhs() instanceof GloalVar) && (bin.getRhs() instanceof MemAddr || bin.getRhs() instanceof GloalVar)) {
-//            //mov rcx, qword [rbp - ?]
-//            out.print("mov rcx, ");
-//            bin.getRhs().accept(this);
-//            out.println();
-//            indent();
-//            switch (bin.getBinaryOP()) {
-//                case GREATER_EQUAL:
-//                    //cmp qword [], rcx
-//                    out.print("cmp ");
-//                    bin.getLhs().accept(this);
-//                    out.println(", rcx");
-//                    indent();
-//                    //setge r
-//                    out.print("setge ");
-//                    bin.getAns().accept(this);
-//                    out.println();
-//                    break;
-//                case LESS_EQUAL:
-//                    //cmp qword [], rcx
-//                    out.print("cmp ");
-//                    bin.getLhs().accept(this);
-//                    out.println(", rcx");
-//                    indent();
-//                    //setle r
-//                    out.print("setle ");
-//                    bin.getAns().accept(this);
-//                    out.println();
-//                    break;
-//                case EQUAL:
-//                    //cmp qword [], rcx
-//                    out.print("cmp ");
-//                    bin.getLhs().accept(this);
-//                    out.println(", rcx");
-//                    indent();
-//                    //sete r
-//                    out.print("sete ");
-//                    bin.getAns().accept(this);
-//                    out.println();
-//                    break;
-//                case INEQUAL:
-//                    //cmp qword [], rcx
-//                    out.print("cmp ");
-//                    bin.getLhs().accept(this);
-//                    out.println(", rcx");
-//                    indent();
-//                    //setne r
-//                    out.print("setne ");
-//                    bin.getAns().accept(this);
-//                    out.println();
-//                    break;
-//                case GREATER:
-//                    //cmp qword [], rcx
-//                    out.print("cmp ");
-//                    bin.getLhs().accept(this);
-//                    out.println(", rcx");
-//                    indent();
-//                    //setg r
-//                    out.print("setg ");
-//                    bin.getAns().accept(this);
-//                    out.println();
-//                    break;
-//                case LESS:
-//                    //cmp qword [], rcx
-//                    out.print("cmp ");
-//                    bin.getLhs().accept(this);
-//                    out.println(", rcx");
-//                    indent();
-//                    //setl r
-//                    out.print("setl ");
-//                    bin.getAns().accept(this);
-//                    out.println();
-//                    break;
-//
-//                case BIT_XOR:
-//                    //mov r, qword []
-//                    out.print("mov ");
-//                    bin.getAns().accept(this);
-//                    out.print(", ");
-//                    bin.getLhs().accept(this);
-//                    out.println();
-//                    indent();
-//                    //xor r, rcx
-//                    out.print("xor ");
-//                    bin.getAns().accept(this);
-//                    out.println(", rcx");
-//                    break;
-//                case BIT_AND:
-//                    //mov r, qword []
-//                    out.print("mov ");
-//                    bin.getAns().accept(this);
-//                    out.print(", ");
-//                    bin.getLhs().accept(this);
-//                    out.println();
-//                    indent();
-//                    //and r, rcx
-//                    out.print("and ");
-//                    bin.getAns().accept(this);
-//                    out.println(", rcx");
-//                    break;
-//                case BIR_OR:
-//                    //mov r, qword []
-//                    out.print("mov ");
-//                    bin.getAns().accept(this);
-//                    out.print(", ");
-//                    bin.getLhs().accept(this);
-//                    out.println();
-//                    indent();
-//                    //or r, rcx
-//                    out.print("or ");
-//                    bin.getAns().accept(this);
-//                    out.println(", rcx");
-//                    break;
-//
-//                case SHR:
-//                    //mov r, qword []
-//                    out.print("mov ");
-//                    bin.getAns().accept(this);
-//                    out.print(", ");
-//                    bin.getLhs().accept(this);
-//                    out.println();
-//                    indent();
-//                    //sar cl, r
-//                    out.print("sar cl, ");
-//                    bin.getAns().accept(this);
-//                    out.println();
-//                    break;
-//                case SHL:
-//                    //mov r, qword []
-//                    out.print("mov ");
-//                    bin.getAns().accept(this);
-//                    out.print(", ");
-//                    bin.getLhs().accept(this);
-//                    out.println();
-//                    indent();
-//                    //sal cl, r
-//                    out.print("sal cl, ");
-//                    bin.getAns().accept(this);
-//                    out.println();
-//                    break;
-//
-//                case ADD:
-//                    //mov r, qword []
-//                    out.print("mov ");
-//                    bin.getAns().accept(this);
-//                    out.print(", ");
-//                    bin.getLhs().accept(this);
-//                    out.println();
-//                    indent();
-//                    //add rcx, r
-//                    out.print("add rcx, ");
-//                    bin.getAns().accept(this);
-//                    break;
-//                case SUB:
-//                    //mov r, qword []
-//                    out.print("mov ");
-//                    bin.getAns().accept(this);
-//                    out.print(", ");
-//                    bin.getLhs().accept(this);
-//                    out.println();
-//                    indent();
-//                    //sub rcx, r
-//                    out.print("sub rcx, ");
-//                    bin.getAns().accept(this);
-//                    break;
-//                case MUL:
-//                    //mov rax, qword []
-//                    out.print("mov rax, ");
-//                    bin.getAns().accept(this);
-//                    out.println();
-//                    indent();
-//                    //imul rcx
-//                    out.println("imul rcx");
-//                    indent();
-//                    //mov r, rax
-//                    out.print("mov ");
-//                    bin.getAns().accept(this);
-//                    out.println(", rax");
-//                    break;
-//                case MOD:
-//                    //mov rax, qword []
-//                    out.print("mov rax, ");
-//                    bin.getAns().accept(this);
-//                    out.println();
-//                    indent();
-//                    //idiv rcx
-//                    out.println("cdq");
-//                    out.println("idiv rcx");
-//                    indent();
-//                    //mov r, rdx
-//                    out.print("mov ");
-//                    bin.getAns().accept(this);
-//                    out.println(", rdx");
-//                    break;
-//                case DIV:
-//                    //mov rax, qword []
-//                    out.print("mov rax, ");
-//                    bin.getAns().accept(this);
-//                    out.println();
-//                    indent();
-//                    //idiv rcx
-//                    out.println("cdq");
-//                    out.println("idiv rcx");
-//                    indent();
-//                    //mov r, rax
-//                    out.print("mov ");
-//                    bin.getAns().accept(this);
-//                    out.println(", rax");
-//                    break;
-//            }
-//            return;
-//        }
-
-
+        //pop rcx
+        //pop rbx
+        out.println("\tpop rcx\n\tpop rbx");
     }
 
     @Override
     public void visit(Uni uni) {
         if (uni.getUnaryOP() == UnaryExprNode.UnaryOP.SELF_INC) {
-            out.print("inc ");
-            uni.getObj().accept(this);
+            out.printf("inc %s\n", uni.getObj().accept(this));
         } else {
-            out.print("dec ");
-            uni.getObj().accept(this);
+            out.printf("dec %s\n", uni.getObj().accept(this));
         }
 
     }
 
     @Override
-    public void visit(ConstValue constValue) {
-        out.print(constValue.getAnInt());
+    public String visit(ConstValue constValue) {
+        return Integer.toString(constValue.getAnInt());
     }
 
     @Override
-    public void visit(MemAddr memAddr) {
-
+    public String visit(MemAddr memAddr) {
+        return "[ mem ]";
     }
 
     @Override
-    public void visit(Register register) {
-        out.print('r' + Integer.toString(register.getOrd()));
+    public String visit(Register register) {
+        return register.toString();
+    }
+
+    @Override
+    public String visit(GloalVar gloalVar) {
+        return "qword [" + gloalVar.getDeclname() + ']';
     }
 
     @Override
     public void visit(ReturnInst returnInst) {
-        out.print("mov rax, ");
-        returnInst.getIntValue().accept(this);
-        out.println();
-        indent();
-        out.println("pop rbp");
-        indent();
-        out.println("ret");
+        //mov rax, r:*
+        out.printf("mov rax, %s\n\t", returnInst.getIntValue().accept(this));
+        //leave
+        //ret
+        out.println("leave\n\tret");
     }
 
-    @Override
-    public void visit(GloalVar gloalVar) {
-        out.print("qword [" + gloalVar.getDeclname() + ']');
-    }
 }

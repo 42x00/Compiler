@@ -7,11 +7,11 @@ public interface IRVisitor{
     void visit(BasicBlock basicBlock);
     void visit(Bin bin);
     void visit(Cjump cjump);
-    void visit(ConstValue constValue);
-    void visit(GloalVar gloalVar);
+    String visit(ConstValue constValue);
+    String visit(GloalVar gloalVar);
     void visit(Jump jump);
-    void visit(MemAddr memAddr);
-    void visit(Register register);
+    String visit(MemAddr memAddr);
+    String visit(Register register);
     void visit(ReturnInst returnInst);
     void visit(Uni uni);
 }

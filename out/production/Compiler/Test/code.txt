@@ -1,15 +1,15 @@
-int x = 10;
 int main() {
-    x = 20;
+    int x = 10;
+    if (x == 10) x = 20;
+    else x = 30;
     return x;
 }
 
 
 
-
 /*!! metadata:
 === comment ===
-symtable2.mx
+ssa1.mx
 === assert ===
 exitcode
 === timeout ===

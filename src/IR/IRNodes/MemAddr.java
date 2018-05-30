@@ -10,8 +10,8 @@ public class MemAddr extends IntValue {
     }
 
     @Override
-    public void accept(IRVisitor visitor) {
-        visitor.visit(this);
+    public String accept(IRVisitor visitor) {
+        return visitor.visit(this);
     }
     
 }

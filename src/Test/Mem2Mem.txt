@@ -1,0 +1,213 @@
+//        //Mem & Mem
+//        if ((bin.getLhs() instanceof MemAddr || bin.getLhs() instanceof GloalVar) && (bin.getRhs() instanceof MemAddr || bin.getRhs() instanceof GloalVar)) {
+//            //mov rcx, qword [rbp - ?]
+//            out.print("mov rcx, ");
+//            bin.getRhs().accept(this);
+//            out.println();
+//            indent();
+//            switch (bin.getBinaryOP()) {
+//                case GREATER_EQUAL:
+//                    //cmp qword [], rcx
+//                    out.print("cmp ");
+//                    bin.getLhs().accept(this);
+//                    out.println(", rcx");
+//                    indent();
+//                    //setge r
+//                    out.print("setge ");
+//                    bin.getAns().accept(this);
+//                    out.println();
+//                    break;
+//                case LESS_EQUAL:
+//                    //cmp qword [], rcx
+//                    out.print("cmp ");
+//                    bin.getLhs().accept(this);
+//                    out.println(", rcx");
+//                    indent();
+//                    //setle r
+//                    out.print("setle ");
+//                    bin.getAns().accept(this);
+//                    out.println();
+//                    break;
+//                case EQUAL:
+//                    //cmp qword [], rcx
+//                    out.print("cmp ");
+//                    bin.getLhs().accept(this);
+//                    out.println(", rcx");
+//                    indent();
+//                    //sete r
+//                    out.print("sete ");
+//                    bin.getAns().accept(this);
+//                    out.println();
+//                    break;
+//                case INEQUAL:
+//                    //cmp qword [], rcx
+//                    out.print("cmp ");
+//                    bin.getLhs().accept(this);
+//                    out.println(", rcx");
+//                    indent();
+//                    //setne r
+//                    out.print("setne ");
+//                    bin.getAns().accept(this);
+//                    out.println();
+//                    break;
+//                case GREATER:
+//                    //cmp qword [], rcx
+//                    out.print("cmp ");
+//                    bin.getLhs().accept(this);
+//                    out.println(", rcx");
+//                    indent();
+//                    //setg r
+//                    out.print("setg ");
+//                    bin.getAns().accept(this);
+//                    out.println();
+//                    break;
+//                case LESS:
+//                    //cmp qword [], rcx
+//                    out.print("cmp ");
+//                    bin.getLhs().accept(this);
+//                    out.println(", rcx");
+//                    indent();
+//                    //setl r
+//                    out.print("setl ");
+//                    bin.getAns().accept(this);
+//                    out.println();
+//                    break;
+//
+//                case BIT_XOR:
+//                    //mov r, qword []
+//                    out.print("mov ");
+//                    bin.getAns().accept(this);
+//                    out.print(", ");
+//                    bin.getLhs().accept(this);
+//                    out.println();
+//                    indent();
+//                    //xor r, rcx
+//                    out.print("xor ");
+//                    bin.getAns().accept(this);
+//                    out.println(", rcx");
+//                    break;
+//                case BIT_AND:
+//                    //mov r, qword []
+//                    out.print("mov ");
+//                    bin.getAns().accept(this);
+//                    out.print(", ");
+//                    bin.getLhs().accept(this);
+//                    out.println();
+//                    indent();
+//                    //and r, rcx
+//                    out.print("and ");
+//                    bin.getAns().accept(this);
+//                    out.println(", rcx");
+//                    break;
+//                case BIR_OR:
+//                    //mov r, qword []
+//                    out.print("mov ");
+//                    bin.getAns().accept(this);
+//                    out.print(", ");
+//                    bin.getLhs().accept(this);
+//                    out.println();
+//                    indent();
+//                    //or r, rcx
+//                    out.print("or ");
+//                    bin.getAns().accept(this);
+//                    out.println(", rcx");
+//                    break;
+//
+//                case SHR:
+//                    //mov r, qword []
+//                    out.print("mov ");
+//                    bin.getAns().accept(this);
+//                    out.print(", ");
+//                    bin.getLhs().accept(this);
+//                    out.println();
+//                    indent();
+//                    //sar cl, r
+//                    out.print("sar cl, ");
+//                    bin.getAns().accept(this);
+//                    out.println();
+//                    break;
+//                case SHL:
+//                    //mov r, qword []
+//                    out.print("mov ");
+//                    bin.getAns().accept(this);
+//                    out.print(", ");
+//                    bin.getLhs().accept(this);
+//                    out.println();
+//                    indent();
+//                    //sal cl, r
+//                    out.print("sal cl, ");
+//                    bin.getAns().accept(this);
+//                    out.println();
+//                    break;
+//
+//                case ADD:
+//                    //mov r, qword []
+//                    out.print("mov ");
+//                    bin.getAns().accept(this);
+//                    out.print(", ");
+//                    bin.getLhs().accept(this);
+//                    out.println();
+//                    indent();
+//                    //add rcx, r
+//                    out.print("add rcx, ");
+//                    bin.getAns().accept(this);
+//                    break;
+//                case SUB:
+//                    //mov r, qword []
+//                    out.print("mov ");
+//                    bin.getAns().accept(this);
+//                    out.print(", ");
+//                    bin.getLhs().accept(this);
+//                    out.println();
+//                    indent();
+//                    //sub rcx, r
+//                    out.print("sub rcx, ");
+//                    bin.getAns().accept(this);
+//                    break;
+//                case MUL:
+//                    //mov rax, qword []
+//                    out.print("mov rax, ");
+//                    bin.getAns().accept(this);
+//                    out.println();
+//                    indent();
+//                    //imul rcx
+//                    out.println("imul rcx");
+//                    indent();
+//                    //mov r, rax
+//                    out.print("mov ");
+//                    bin.getAns().accept(this);
+//                    out.println(", rax");
+//                    break;
+//                case MOD:
+//                    //mov rax, qword []
+//                    out.print("mov rax, ");
+//                    bin.getAns().accept(this);
+//                    out.println();
+//                    indent();
+//                    //idiv rcx
+//                    out.println("cdq");
+//                    out.println("idiv rcx");
+//                    indent();
+//                    //mov r, rdx
+//                    out.print("mov ");
+//                    bin.getAns().accept(this);
+//                    out.println(", rdx");
+//                    break;
+//                case DIV:
+//                    //mov rax, qword []
+//                    out.print("mov rax, ");
+//                    bin.getAns().accept(this);
+//                    out.println();
+//                    indent();
+//                    //idiv rcx
+//                    out.println("cdq");
+//                    out.println("idiv rcx");
+//                    indent();
+//                    //mov r, rax
+//                    out.print("mov ");
+//                    bin.getAns().accept(this);
+//                    out.println(", rax");
+//                    break;
+//            }
+//            return;
+//        }
