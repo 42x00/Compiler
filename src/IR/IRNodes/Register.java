@@ -69,7 +69,7 @@ public class Register extends IntValue {
             if (ord == 0) return "rax";
             return "Err ord with" + Integer.toString(ord);
         } else {
-            return "qword [rsp - " + Integer.toString((ord - 15) * 8) + "]";
+            return "qword [rbp - " + Integer.toString((ord - 15) * 8) + "]";
         }
     }
 

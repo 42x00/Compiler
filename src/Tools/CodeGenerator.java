@@ -24,7 +24,7 @@ public class CodeGenerator implements IRVisitor {
 
     static private Map<String, Integer> cntRegisterMap;
     static private Map<String, BasicBlock> funcBlockMap;
-    static private boolean isPrintMain = false;
+    private boolean isPrintMain = false;
 
     private void indent() {
         out.print('\t');
@@ -82,7 +82,13 @@ public class CodeGenerator implements IRVisitor {
                     isPrintMain = true;
                 else {
                     //push rbp, rbx, r12, r13, r14, r15
-                    out.print("\tpush rbp\n\t" +
+                    out.print("\t" +
+                            "push rbx\n\t" +
+                            "push r12\n\t" +
+                            "push r13\n\t" +
+                            "push r14\n\t" +
+                            "push r15\n\t");
+                    err.print("\t" +
                             "push rbx\n\t" +
                             "push r12\n\t" +
                             "push r13\n\t" +
@@ -485,23 +491,21 @@ public class CodeGenerator implements IRVisitor {
 
     @Override
     public void visit(ReturnInst returnInst) {
-        //mov rax, r:*
-        out.printf("mov rax, %s\n\t", returnInst.getIntValue().accept(this));
-        err.printf("mov rax, %s\n\t", returnInst.getIntValue().accept(this));
+//        //mov rax, r:*
+//        out.printf("mov rax, %s\n\t", returnInst.getIntValue().accept(this));
+//        err.printf("mov rax, %s\n\t", returnInst.getIntValue().accept(this));
         if (!isPrintMain) {
             //pop rbp, rbx, r12, r13, r14, r15
             out.print("pop r15\n\t" +
                     "pop r14\n\t" +
                     "pop r13\n\t" +
                     "pop r12\n\t" +
-                    "pop rbx\n\t" +
-                    "pop rbp\n\t");
+                    "pop rbx\n\t");
             err.print("pop r15\n\t" +
                     "pop r14\n\t" +
                     "pop r13\n\t" +
                     "pop r12\n\t" +
-                    "pop rbx\n\t" +
-                    "pop rbp\n\t");
+                    "pop rbx\n\t");
         }
         //leave
         //ret

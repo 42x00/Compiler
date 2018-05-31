@@ -30,6 +30,7 @@ public class IRGenerator implements ASTVisitor {
     private BasicBlock currentBlock;
     private BasicBlock startBlock;
     private BasicBlock shortcut2Block;
+    private BasicBlock funcReturnBlock;
 
     public Map<String, Integer> getRegisterCntMap() {
         return registerCntMap;
@@ -73,6 +74,8 @@ public class IRGenerator implements ASTVisitor {
     @Override
     public void visit(FuncDeclNode funcDeclNode) {
         if (funcDeclNode.getFunctionStatements() != null) {
+            funcReturnBlock = new BasicBlock();
+            funcReturnBlock.append(new ReturnInst());
             Register.resetCnt();
             for (VarDeclNode varDeclNode : funcDeclNode.getFunctionParameterList().getVardeclnodeList()){
                 varDeclNode.setIntValue(new Register());
@@ -219,7 +222,9 @@ public class IRGenerator implements ASTVisitor {
     @Override
     public void visit(ReturnStmtNode returnStmtNode) {
         returnStmtNode.getReturnexpr().accept(this);
-        currentBlock.append(new ReturnInst(exprLinkedList.pop()));
+        currentBlock.append(new Assign(new Register(Register.RegisterName.RAX), exprLinkedList.pop()));
+        currentBlock.append(new Jump(funcReturnBlock));
+        stopVisit = true;
     }
 
     //  ***************************** Stmt Over ***************************** //
@@ -404,7 +409,9 @@ public class IRGenerator implements ASTVisitor {
         }
 
         currentBlock.append(new Call(funcName, intValueList));
-        exprLinkedList.push(new Register(Register.RegisterName.RAX));
+        Register register = new Register();
+        currentBlock.append(new Assign(register, new Register(Register.RegisterName.RAX)));
+        exprLinkedList.push(register);
     }
 
     @Override
