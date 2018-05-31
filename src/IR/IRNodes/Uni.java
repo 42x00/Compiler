@@ -22,6 +22,10 @@ public class Uni extends Inst{
         return obj;
     }
 
+    public Register getAns() {
+        return ans;
+    }
+
     @Override
     public void accept(IRVisitor visitor) {
         visitor.visit(this);

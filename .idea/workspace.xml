@@ -14,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Register.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Register.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Register.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="406">
-              <caret line="71" column="29" selection-start-line="71" selection-start-column="29" selection-end-line="71" selection-end-column="29" />
+            <state relative-caret-position="242">
+              <caret line="11" column="35" lean-forward="true" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -26,8 +26,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="484">
-              <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+            <state relative-caret-position="396">
+              <caret line="32" column="9" lean-forward="true" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -35,8 +35,8 @@
       <file leaf-file-name="CodeGenerator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Tools/CodeGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="76" column="77" lean-forward="true" selection-start-line="76" selection-start-column="77" selection-end-line="76" selection-end-column="77" />
+            <state relative-caret-position="1760">
+              <caret line="461" column="61" selection-start-line="461" selection-start-column="61" selection-end-line="461" selection-end-column="61" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#18860#18861#0" expanded="true" />
@@ -46,11 +46,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IRGenerator.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="IRGenerator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Tools/IRGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8470">
-              <caret line="419" column="5" lean-forward="true" selection-start-line="419" selection-start-column="5" selection-end-line="419" selection-end-column="5" />
+            <state relative-caret-position="174">
+              <caret line="312" column="22" selection-start-line="312" selection-start-column="22" selection-end-line="312" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -148,7 +148,6 @@
         <option value="$PROJECT_DIR$/src/AST_Node/ExprNodes/IDExprNode.java" />
         <option value="$PROJECT_DIR$/src/Tools/SemanticCheck.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/Bin.java" />
-        <option value="$PROJECT_DIR$/src/IR/IRNodes/Uni.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/Assign.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/IntValue.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/GloalVar.java" />
@@ -165,9 +164,10 @@
         <option value="$PROJECT_DIR$/src/IR/IRVisitor.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/Call.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/ReturnInst.java" />
-        <option value="$PROJECT_DIR$/src/Tools/IRGenerator.java" />
-        <option value="$PROJECT_DIR$/src/Tools/CodeGenerator.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/Register.java" />
+        <option value="$PROJECT_DIR$/src/IR/IRNodes/Uni.java" />
+        <option value="$PROJECT_DIR$/src/Tools/CodeGenerator.java" />
+        <option value="$PROJECT_DIR$/src/Tools/IRGenerator.java" />
       </list>
     </option>
   </component>
@@ -390,12 +390,12 @@
       <workItem from="1527657945729" duration="30769000" />
       <workItem from="1527738943585" duration="2472000" />
       <workItem from="1527770104358" duration="5908000" />
-      <workItem from="1527783071530" duration="3315000" />
+      <workItem from="1527783071530" duration="10310000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="324352000" />
+    <option name="totallyTimeSpent" value="331347000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-7" width="1479" height="878" extended-state="6" />
@@ -690,13 +690,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Tools/SemanticCheck.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-371">
-          <caret line="516" column="93" selection-start-line="516" selection-start-column="88" selection-end-line="516" selection-end-column="93" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AST_Node/StmtNodes/ExprStmtNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -790,13 +783,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
           <caret line="635" column="9" selection-start-line="635" selection-start-column="9" selection-end-line="635" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Uni.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="6" column="32" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -919,13 +905,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/ReturnInst.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
@@ -933,20 +912,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Tools/IRGenerator.java">
+    <entry file="file://$PROJECT_DIR$/src/Tools/SemanticCheck.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8470">
-          <caret line="419" column="5" lean-forward="true" selection-start-line="419" selection-start-column="5" selection-end-line="419" selection-end-column="5" />
+        <state relative-caret-position="264">
+          <caret line="40" column="50" lean-forward="true" selection-start-line="40" selection-start-column="50" selection-end-line="40" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Register.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="11" column="35" lean-forward="true" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="32" column="9" lean-forward="true" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Uni.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#566#567#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Tools/CodeGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="76" column="77" lean-forward="true" selection-start-line="76" selection-start-column="77" selection-end-line="76" selection-end-column="77" />
+        <state relative-caret-position="1760">
+          <caret line="461" column="61" selection-start-line="461" selection-start-column="61" selection-end-line="461" selection-end-column="61" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#18860#18861#0" expanded="true" />
@@ -955,10 +955,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Register.java">
+    <entry file="file://$PROJECT_DIR$/src/Tools/IRGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="71" column="29" selection-start-line="71" selection-start-column="29" selection-end-line="71" selection-end-column="29" />
+        <state relative-caret-position="174">
+          <caret line="312" column="22" selection-start-line="312" selection-start-column="22" selection-end-line="312" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

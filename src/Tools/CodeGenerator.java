@@ -441,32 +441,38 @@ public class CodeGenerator implements IRVisitor {
         switch (uni.getUnaryOP()) {
             case SELF_INC:
                 //inc *
-                out.printf("inc %s\n", uni.getObj().accept(this));
-                err.printf("inc %s\n", uni.getObj().accept(this));
+                out.printf("inc %s\n\t", uni.getObj().accept(this));
+                err.printf("inc %s\n\t", uni.getObj().accept(this));
                 break;
             case SELF_DEC:
                 //dec *
-                out.printf("dec %s\n", uni.getObj().accept(this));
-                err.printf("dec %s\n", uni.getObj().accept(this));
+                out.printf("dec %s\n\t", uni.getObj().accept(this));
+                err.printf("dec %s\n\t", uni.getObj().accept(this));
                 break;
             case POSI:
                 break;
             case NEGE:
                 //neg *
-                out.printf("neg %s\n", uni.getObj().accept(this));
-                err.printf("neg %s\n", uni.getObj().accept(this));
+                out.printf("neg %s\n\t", uni.getObj().accept(this));
+                err.printf("neg %s\n\t", uni.getObj().accept(this));
                 break;
             case BIT_NOT:
                 //not *
-                out.printf("not %s\n", uni.getObj().accept(this));
-                err.printf("not %s\n", uni.getObj().accept(this));
+                out.printf("not %s\n\t", uni.getObj().accept(this));
+                err.printf("not %s\n\t", uni.getObj().accept(this));
                 break;
             case LOGIC_NOT:
                 //xor *, 1
-                out.printf("xor %s, 1\n", uni.getObj().accept(this));
-                err.printf("xor %s, 1\n", uni.getObj().accept(this));
+                out.printf("xor %s, 1\n\t", uni.getObj().accept(this));
+                err.printf("xor %s, 1\n\t", uni.getObj().accept(this));
                 break;
         }
+        //mov rcx, *
+        out.printf("mov rcx, %s\n\t", uni.getObj().accept(this));
+        err.printf("mov rcx, %s\n\t", uni.getObj().accept(this));
+        //mov r, rcx
+        out.printf("mov %s, rcx\n", uni.getAns().accept(this));
+        err.printf("mov %s, rcx\n", uni.getAns().accept(this));
     }
 
     @Override

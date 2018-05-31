@@ -266,16 +266,20 @@ public class IRGenerator implements ASTVisitor {
                 shortCutBlock.append(new Assign(register, new ConstValue(0)));
                 shortCutBlock.append(new Jump(shortcut2Block));
 
+                BasicBlock jumpBlock = new BasicBlock();
                 BasicBlock nxtBlock = new BasicBlock();
-                shortcut2Block = nxtBlock;
+                shortcut2Block = jumpBlock;
                 binaryExprNode.getLhs().accept(this);
-                currentBlock.append(new Cjump(exprLinkedList.pop(), nxtBlock, shortCutBlock));
+                currentBlock.append(new Jump(jumpBlock));
+                jumpBlock.append(new Cjump(exprLinkedList.pop(), nxtBlock, shortCutBlock));
                 currentBlock = nxtBlock;
 
+                jumpBlock = new BasicBlock();
                 nxtBlock = new BasicBlock();
-                shortcut2Block = nxtBlock;
+                shortcut2Block = jumpBlock;
                 binaryExprNode.getRhs().accept(this);
-                currentBlock.append(new Cjump(exprLinkedList.pop(), nxtBlock, shortCutBlock));
+                currentBlock.append(new Jump(jumpBlock));
+                jumpBlock.append(new Cjump(exprLinkedList.pop(), nxtBlock, shortCutBlock));
                 currentBlock = nxtBlock;
 
                 currentBlock.append(new Assign(register, new ConstValue(1)));
@@ -288,16 +292,20 @@ public class IRGenerator implements ASTVisitor {
                 shortCutBlock.append(new Assign(register, new ConstValue(1)));
                 shortCutBlock.append(new Jump(shortcut2Block));
 
+                BasicBlock jumpBlock = new BasicBlock();
                 BasicBlock nxtBlock = new BasicBlock();
-                shortcut2Block = nxtBlock;
+                shortcut2Block = jumpBlock;
                 binaryExprNode.getLhs().accept(this);
-                currentBlock.append(new Cjump(exprLinkedList.pop(), shortCutBlock, nxtBlock));
+                currentBlock.append(new Jump(jumpBlock));
+                jumpBlock.append(new Cjump(exprLinkedList.pop(), shortCutBlock, nxtBlock));
                 currentBlock = nxtBlock;
 
+                jumpBlock = new BasicBlock();
                 nxtBlock = new BasicBlock();
-                shortcut2Block = nxtBlock;
+                shortcut2Block = jumpBlock;
                 binaryExprNode.getRhs().accept(this);
-                currentBlock.append(new Cjump(exprLinkedList.pop(), shortCutBlock, nxtBlock));
+                currentBlock.append(new Jump(jumpBlock));
+                jumpBlock.append(new Cjump(exprLinkedList.pop(), shortCutBlock, nxtBlock));
                 currentBlock = nxtBlock;
 
                 currentBlock.append(new Assign(register, new ConstValue(0)));
