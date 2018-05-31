@@ -1,43 +1,47 @@
+global f
 global main
 SECTION .text
+f:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 16
+	push rbp
+	push rbx
+	push r12
+	push r13
+	push r14
+	push r15
+	mov qword [rsp - 8], rdi
+	mov rax, qword [rsp - 8]
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	pop rbx
+	pop rbp
+	leave
+	ret
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 80
-	mov rcx, 5
+	sub rsp, 16
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rdi, 1
+	call f
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
 	mov qword [rsp - 8], rcx
-	mov rcx, 0
-	mov qword [rsp - 16], rcx
-	mov rbx, qword [rsp - 16]
-	mov rcx, 0
-	cmp rbx, rcx
-	setne byte [rsp - 48]
-	cmp byte [rsp - 48], 0
-	jz L_2
-L_3:
-	mov rbx, qword [rsp - 8]
-	mov rcx, qword [rsp - 16]
-	mov rax, rbx
-	cdq
-	idiv rcx
-	mov qword [rsp - 56], rax
-	mov rbx, qword [rsp - 56]
-	mov rcx, 1
-	cmp rbx, rcx
-	setne byte [rsp - 64]
-	cmp byte [rsp - 64], 0
-	jz L_2
-L_4:
-	mov rcx, 1
-	mov qword [rsp - 40], rcx
-	jmp L_1
-L_1:
-	mov rcx, qword [rsp - 40]
-	mov qword [rsp - 32], rcx
+	mov rax, 0
 	leave
 	ret
-L_2:
-	mov rcx, 0
-	mov qword [rsp - 40], rcx
-	jmp L_1
 SECTION .data

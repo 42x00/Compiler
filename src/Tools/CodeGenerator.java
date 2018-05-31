@@ -11,8 +11,8 @@ import IR.IRNodes.*;
 import IR.IRVisitor;
 import Type.Type;
 
-import java.io.File;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Map;
 
@@ -24,6 +24,7 @@ public class CodeGenerator implements IRVisitor {
 
     static private Map<String, Integer> cntRegisterMap;
     static private Map<String, BasicBlock> funcBlockMap;
+    static private boolean isPrintMain = false;
 
     private void indent() {
         out.print('\t');
@@ -38,7 +39,7 @@ public class CodeGenerator implements IRVisitor {
     }
 
     private String c8t1(String s) {
-        if (s.startsWith("qword")){
+        if (s.startsWith("qword")) {
             return "byte" + s.substring(5);
         }
         switch (s) {
@@ -74,13 +75,60 @@ public class CodeGenerator implements IRVisitor {
                 out.printf("%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
                 err.printf("%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
                 int cntRegister = cntRegisterMap.get(declNode.getDeclname());
-                if (cntRegister % 2 == 1) {
-                    ++cntRegister;
-                }
                 //     sub rsp, 8
                 out.printf("sub rsp, %d\n", cntRegister * 8);
                 err.printf("sub rsp, %d\n", cntRegister * 8);
+                if (declNode.getDeclname().equals("main"))
+                    isPrintMain = true;
+                else {
+                    //push rbp, rbx, r12, r13, r14, r15
+                    out.print("\tpush rbp\n\t" +
+                            "push rbx\n\t" +
+                            "push r12\n\t" +
+                            "push r13\n\t" +
+                            "push r14\n\t" +
+                            "push r15\n\t");
+                    List<VarDeclNode> varDeclNodeList = ((FuncDeclNode) declNode).getFunctionParameterList().getVardeclnodeList();
+                    for (int index = varDeclNodeList.size() - 1; index >= 0; --index) {
+                        if (index > 5) {
+                            out.printf("mov %s, qword [rbp + %d]\n\t",
+                                    varDeclNodeList.get(index).getIntValue().accept(this),
+                                    (index - 4) * 8);
+                            err.printf("mov %s, qword [rbp + %d]\n\t",
+                                    varDeclNodeList.get(index).getIntValue().accept(this),
+                                    (index - 4) * 8);
+                        } else {
+                            switch (index) {
+                                case 0:
+                                    out.printf("mov %s, rdi\n", varDeclNodeList.get(index).getIntValue().accept(this));
+                                    err.printf("mov %s, rdi\n", varDeclNodeList.get(index).getIntValue().accept(this));
+                                    break;
+                                case 1:
+                                    out.printf("mov %s, rsi\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                    err.printf("mov %s, rsi\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                    break;
+                                case 2:
+                                    out.printf("mov %s, rdx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                    err.printf("mov %s, rdx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                    break;
+                                case 3:
+                                    out.printf("mov %s, rcx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                    err.printf("mov %s, rcx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                    break;
+                                case 4:
+                                    out.printf("mov %s, r8\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                    err.printf("mov %s, r8\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                    break;
+                                case 5:
+                                    out.printf("mov %s, r9\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                    err.printf("mov %s, r9\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                    break;
+                            }
+                        }
+                    }
+                }
                 funcBlockMap.get(declNode.getDeclname()).accept(this);
+                isPrintMain = false;
             }
         }
         //SECTION .data
@@ -140,6 +188,75 @@ public class CodeGenerator implements IRVisitor {
         //mov l:*, rcx
         out.printf("mov %s, rcx\n", assign.getLhs().accept(this));
         err.printf("mov %s, rcx\n", assign.getLhs().accept(this));
+    }
+
+    @Override
+    public void visit(Call call) {
+        //push rdi, rsi, rdx, rcx, r8, r9
+        out.print("push rdi\n\t" +
+                "push rsi\n\t" +
+                "push rdx\n\t" +
+                "push rcx\n\t" +
+                "push r8\n\t" +
+                "push r9\n\t");
+        err.print("push rdi\n\t" +
+                "push rsi\n\t" +
+                "push rdx\n\t" +
+                "push rcx\n\t" +
+                "push r8\n\t" +
+                "push r9\n\t");
+        //mov rdi, rsi, rdx, rcx, r8, r9  args*
+        //push args*
+        List<IntValue> intValueList = call.getIntValues();
+        for (int index = intValueList.size() - 1; index >= 0; --index) {
+            if (index > 5) {
+                out.printf("push %s\n\t", intValueList.get(index).accept(this));
+                err.printf("push %s\n\t", intValueList.get(index).accept(this));
+            } else {
+                switch (index) {
+                    case 0:
+                        out.printf("mov rdi, %s\n\t", intValueList.get(index).accept(this));
+                        err.printf("mov rdi, %s\n\t", intValueList.get(index).accept(this));
+                        break;
+                    case 1:
+                        out.printf("mov rsi, %s\n\t", intValueList.get(index).accept(this));
+                        err.printf("mov rsi, %s\n\t", intValueList.get(index).accept(this));
+                        break;
+                    case 2:
+                        out.printf("mov rdx, %s\n\t", intValueList.get(index).accept(this));
+                        err.printf("mov rdx, %s\n\t", intValueList.get(index).accept(this));
+                        break;
+                    case 3:
+                        out.printf("mov rcx, %s\n\t", intValueList.get(index).accept(this));
+                        err.printf("mov rcx, %s\n\t", intValueList.get(index).accept(this));
+                        break;
+                    case 4:
+                        out.printf("mov r8, %s\n\t", intValueList.get(index).accept(this));
+                        err.printf("mov r8, %s\n\t", intValueList.get(index).accept(this));
+                        break;
+                    case 5:
+                        out.printf("mov r9, %s\n\t", intValueList.get(index).accept(this));
+                        err.printf("mov r9, %s\n\t", intValueList.get(index).accept(this));
+                        break;
+                }
+            }
+        }
+        //call f
+        out.printf("call %s\n\t", call.getFuncName());
+        err.printf("call %s\n\t", call.getFuncName());
+        //pop args*
+        out.print("pop r9\n\t" +
+                "pop r8\n\t" +
+                "pop rcx\n\t" +
+                "pop rdx\n\t" +
+                "pop rsi\n\t" +
+                "pop rdi\n");
+        err.print("pop r9\n\t" +
+                "pop r8\n\t" +
+                "pop rcx\n\t" +
+                "pop rdx\n\t" +
+                "pop rsi\n\t" +
+                "pop rdi\n");
     }
 
     @Override
@@ -340,8 +457,8 @@ public class CodeGenerator implements IRVisitor {
                 break;
             case LOGIC_NOT:
                 //xor *, 1
-                out.printf("xor %s, 1\n",uni.getObj().accept(this));
-                err.printf("xor %s, 1\n",uni.getObj().accept(this));
+                out.printf("xor %s, 1\n", uni.getObj().accept(this));
+                err.printf("xor %s, 1\n", uni.getObj().accept(this));
                 break;
         }
     }
@@ -371,6 +488,21 @@ public class CodeGenerator implements IRVisitor {
         //mov rax, r:*
         out.printf("mov rax, %s\n\t", returnInst.getIntValue().accept(this));
         err.printf("mov rax, %s\n\t", returnInst.getIntValue().accept(this));
+        if (!isPrintMain) {
+            //pop rbp, rbx, r12, r13, r14, r15
+            out.print("pop r15\n\t" +
+                    "pop r14\n\t" +
+                    "pop r13\n\t" +
+                    "pop r12\n\t" +
+                    "pop rbx\n\t" +
+                    "pop rbp\n\t");
+            err.print("pop r15\n\t" +
+                    "pop r14\n\t" +
+                    "pop r13\n\t" +
+                    "pop r12\n\t" +
+                    "pop rbx\n\t" +
+                    "pop rbp\n\t");
+        }
         //leave
         //ret
         out.println("leave\n\tret");

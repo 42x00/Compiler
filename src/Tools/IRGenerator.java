@@ -14,9 +14,7 @@ import AST_Node.TypeNodes.TypeNode;
 import IR.IRNodes.*;
 import Type.Type;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class IRGenerator implements ASTVisitor {
     static private boolean stopVisit = false;
@@ -26,19 +24,12 @@ public class IRGenerator implements ASTVisitor {
     static private LinkedList<BasicBlock> breakLinkedList = new LinkedList<>();
     static private LinkedList<BasicBlock> continueLinkedList = new LinkedList<>();
 
-//    static private LinkedList<BasicBlock> shortcutTrue = new LinkedList<>();
-//    static private LinkedList<BasicBlock> shortcurFalse = new LinkedList<>();
-
     static private Map<String, Integer> registerCntMap = new HashMap<>();
     static private Map<String, BasicBlock> funcBlockMap = new HashMap<>();
 
     private BasicBlock currentBlock;
     private BasicBlock startBlock;
     private BasicBlock shortcut2Block;
-
-    public BasicBlock getStartBlock() {
-        return startBlock;
-    }
 
     public Map<String, Integer> getRegisterCntMap() {
         return registerCntMap;
@@ -83,6 +74,9 @@ public class IRGenerator implements ASTVisitor {
     public void visit(FuncDeclNode funcDeclNode) {
         if (funcDeclNode.getFunctionStatements() != null) {
             Register.resetCnt();
+            for (VarDeclNode varDeclNode : funcDeclNode.getFunctionParameterList().getVardeclnodeList()){
+                varDeclNode.setIntValue(new Register());
+            }
             funcDeclNode.getFunctionStatements().accept(this);
             registerCntMap.put(funcDeclNode.getFunctionName(), Register.getCntRegister() - 15);
         }
@@ -232,6 +226,7 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(VarDeclNode varDeclNode) {
+
 //      Non-Array & Non-Class
         if (varDeclNode.getVartype() instanceof TypeNode) {
 //          Int
@@ -361,7 +356,7 @@ public class IRGenerator implements ASTVisitor {
     @Override
     public void visit(UnaryExprNode unaryExprNode) {
         Register register = new Register();
-        if (unaryExprNode.getUnaryexpr() instanceof BinaryExprNode){
+        if (unaryExprNode.getUnaryexpr() instanceof BinaryExprNode) {
             BinaryExprNode.BinaryOP binaryOP = ((BinaryExprNode) unaryExprNode.getUnaryexpr()).getExprop();
             if (binaryOP == BinaryExprNode.BinaryOP.LOGICAL_AND || binaryOP == BinaryExprNode.BinaryOP.LOGICAL_OR) {
                 BasicBlock nxtBlock = new BasicBlock();
@@ -396,6 +391,23 @@ public class IRGenerator implements ASTVisitor {
     }
 
     @Override
+    public void visit(FuncCallExprNode funcCallExprNode) {
+        String funcName = "NotFuncName";
+        if (funcCallExprNode.getFunction() instanceof IDExprNode) {
+            funcName = ((IDExprNode) funcCallExprNode.getFunction()).getId();
+        }
+
+        List<IntValue> intValueList = new ArrayList<>();
+        for (ExprNode exprNode : funcCallExprNode.getParameters()){
+            exprNode.accept(this);
+            intValueList.add(exprLinkedList.pop());
+        }
+
+        currentBlock.append(new Call(funcName, intValueList));
+        exprLinkedList.push(new Register(Register.RegisterName.RAX));
+    }
+
+    @Override
     public void visit(ArrayIndexExprNode arrayIndexExprNode) {
 
     }
@@ -422,11 +434,6 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(ClassThisExprNode classThisExprNode) {
-
-    }
-
-    @Override
-    public void visit(FuncCallExprNode funcCallExprNode) {
 
     }
 
