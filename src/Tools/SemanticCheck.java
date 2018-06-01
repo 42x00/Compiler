@@ -172,6 +172,11 @@ public class SemanticCheck implements ASTVisitor{
     @Override
     public void visit(ArrayTypeNode arrayTypeNode) {
         arrayTypeNode.getArrayelement().accept(this);
+        if (arrayTypeNode.getArraysizeexpr() !=null) {
+            arrayTypeNode.getArraysizeexpr().accept(this);
+            if (arrayTypeNode.getArraysizeexpr().getExprtype().getBasetype() != Type.Types.INT)
+                throw new Error("New Array Index with nonInt");
+        }
     }
 
     @Override
@@ -429,8 +434,7 @@ public class SemanticCheck implements ASTVisitor{
 
     @Override
     public void visit(NewExprNode newExprNode) {
-        if (newExprNode.getExprtype() instanceof ClassTypeNode)
-            newExprNode.getExprtype().accept(this);
+        newExprNode.getExprtype().accept(this);
         if (newExprNode.isClassConstruct() && !(newExprNode.getExprtype() instanceof  ClassTypeNode))
             throw new Error("New ClassConstruct with nonClass");
         newExprNode.setLvalue(false);

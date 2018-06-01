@@ -150,7 +150,7 @@ public class CodeGenerator implements IRVisitor {
             if (declNode instanceof VarDeclNode) {
                 VarDeclNode varDeclNode = (VarDeclNode) declNode;
                 if (!(varDeclNode.getVartype() instanceof ArrayTypeNode
-                || varDeclNode.getVartype() instanceof ClassTypeNode)) {
+                        || varDeclNode.getVartype() instanceof ClassTypeNode)) {
                     if (varDeclNode.getVartype().getBasetype() != Type.Types.STRING) {
                         out.println(varDeclNode.getVarname() + ": dq 0");
                         err.println(varDeclNode.getVarname() + ": dq 0");
@@ -487,12 +487,18 @@ public class CodeGenerator implements IRVisitor {
                 err.printf("xor %s, 1\n\t", uni.getObj().accept(this));
                 break;
         }
-        //mov rcx, *
-        out.printf("mov rcx, %s\n\t", uni.getObj().accept(this));
-        err.printf("mov rcx, %s\n\t", uni.getObj().accept(this));
-        //mov r, rcx
-        out.printf("mov %s, rcx\n", uni.getAns().accept(this));
-        err.printf("mov %s, rcx\n", uni.getAns().accept(this));
+
+        out.println();
+        err.println();
+
+        if (uni.getObj() != uni.getAns()) {
+            //mov rcx, *
+            out.printf("mov rcx, %s\n\t", uni.getObj().accept(this));
+            err.printf("mov rcx, %s\n\t", uni.getObj().accept(this));
+            //mov r, rcx
+            out.printf("mov %s, rcx\n", uni.getAns().accept(this));
+            err.printf("mov %s, rcx\n", uni.getAns().accept(this));
+        }
     }
 
     @Override
@@ -503,9 +509,14 @@ public class CodeGenerator implements IRVisitor {
     @Override
     public String visit(MemAddr memAddr) {
         String addr = "[" + memAddr.getBaseAddr().accept(this);
-        if (memAddr.getOffset() != null)
-            addr += " + " + memAddr.getOffset().accept(this) + "*8]";
-        else addr += "]";
+        if (memAddr.getOffset() != null) {
+            if (memAddr.getOffset() instanceof ConstValue) {
+                ConstValue constValue = (ConstValue) memAddr.getOffset();
+                if (constValue.getAnInt() == 0)
+                    addr += "]";
+                else addr += " + " + Integer.toString(constValue.getAnInt() * 8) + "]";
+            } else addr += " + " + memAddr.getOffset().accept(this) + "*8]";
+        } else addr += "]";
         return addr;
     }
 
@@ -521,9 +532,6 @@ public class CodeGenerator implements IRVisitor {
 
     @Override
     public void visit(ReturnInst returnInst) {
-//        //mov rax, r:*
-//        out.printf("mov rax, %s\n\t", returnInst.getIntValue().accept(this));
-//        err.printf("mov rax, %s\n\t", returnInst.getIntValue().accept(this));
         if (!isPrintMain) {
             //pop rbp, rbx, r12, r13, r14, r15
             out.print("pop r15\n\t" +

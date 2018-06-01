@@ -16,6 +16,7 @@ import Type.Type;
 
 import javax.swing.text.rtf.RTFEditorKit;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class IRGenerator implements ASTVisitor {
     static private boolean stopVisit = false;
@@ -427,21 +428,68 @@ public class IRGenerator implements ASTVisitor {
     public void visit(NewExprNode newExprNode) {
         if (newExprNode.getExprtype() instanceof ArrayTypeNode) {
             ArrayTypeNode arrayTypeNode = (ArrayTypeNode) newExprNode.getExprtype();
-            arrayTypeNode.getArraysizeexpr().accept(this);
 
+            //Array start addr for return
+            Register register = new Register();
+
+            arrayTypeNode.getArraysizeexpr().accept(this);
             //[intValue]
             IntValue intValue = exprLinkedList.pop();
-            Register register = new Register();
+
             //r = intValue << 3
             currentBlock.append(new Bin(BinaryExprNode.BinaryOP.SHL, intValue, new ConstValue(3), register));
             //r = r + 8
             currentBlock.append(new Bin(BinaryExprNode.BinaryOP.ADD, register, new ConstValue(8), register));
+
             //call malloc r bytes
             currentBlock.append(new Call("malloc", register));
+
             //[rax] = intValue
             currentBlock.append(new Assign(new MemAddr(new Register(Register.RegisterName.RAX), null), intValue));
             //r = rax + 8
             currentBlock.append(new Bin(BinaryExprNode.BinaryOP.ADD, new Register(Register.RegisterName.RAX), new ConstValue(8), register));
+
+            if (arrayTypeNode.getArrayelement() instanceof ArrayTypeNode) {
+                ArrayTypeNode arrayTypeNode1 = (ArrayTypeNode) arrayTypeNode.getArrayelement();
+                if (arrayTypeNode1.getArraysizeexpr() != null) {
+                    if (intValue instanceof ConstValue) {
+                        ConstValue constValue = (ConstValue) intValue;
+                        for (int i = 0; i < constValue.getAnInt(); ++i) {
+                            (new NewExprNode(arrayTypeNode.getArrayelement())).accept(this);
+                            currentBlock.append(new Assign(new Register(Register.RegisterName.RDX), register));
+                            currentBlock.append(new Assign(new MemAddr(new Register(Register.RegisterName.RDX), new ConstValue(i)), exprLinkedList.pop()));
+                        }
+                    } else {
+                        BasicBlock condBlock = new BasicBlock();
+                        BasicBlock forBlock = new BasicBlock();
+                        BasicBlock endBlock = new BasicBlock();
+                        //int i
+                        Register register1 = new Register();
+
+                        currentBlock.append(new Assign(register1, new ConstValue(0)));
+                        currentBlock.append(new Jump(condBlock));
+                        currentBlock = condBlock;
+
+                        //condBlock
+                        Register jumpRegister = new Register();
+                        currentBlock.append(new Bin(BinaryExprNode.BinaryOP.LESS, register1, intValue, jumpRegister));
+                        currentBlock.append(new Cjump(jumpRegister, forBlock, endBlock));
+
+                        //forBlock
+                        currentBlock = forBlock;
+                        (new NewExprNode(arrayTypeNode.getArrayelement())).accept(this);
+                        currentBlock.append(new Assign(new Register(Register.RegisterName.RDX), register));
+                        currentBlock.append(new Assign(new Register(Register.RegisterName.R8), register1));
+                        currentBlock.append(new Assign(new MemAddr(new Register(Register.RegisterName.RDX), new Register(Register.RegisterName.R8)), exprLinkedList.pop()));
+                        currentBlock.append(new Uni(UnaryExprNode.UnaryOP.SELF_INC, register1, register1));
+                        currentBlock.append(new Jump(condBlock));
+
+                        //endBlock
+                        currentBlock = endBlock;
+                    }
+                }
+            }
+
             exprLinkedList.push(register);
         }
     }
@@ -450,6 +498,10 @@ public class IRGenerator implements ASTVisitor {
     public void visit(ArrayIndexExprNode arrayIndexExprNode) {
         arrayIndexExprNode.getArray().accept(this);
         currentBlock.append(new Assign(new Register(Register.RegisterName.RDX), exprLinkedList.pop()));
+        if (arrayIndexExprNode.getIndex() == null) {
+            exprLinkedList.push(new MemAddr(new Register(Register.RegisterName.RDX), null));
+            return;
+        }
         arrayIndexExprNode.getIndex().accept(this);
         currentBlock.append(new Assign(new Register(Register.RegisterName.R8), exprLinkedList.pop()));
         exprLinkedList.push(new MemAddr(new Register(Register.RegisterName.RDX), new Register(Register.RegisterName.R8)));

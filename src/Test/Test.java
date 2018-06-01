@@ -44,9 +44,6 @@ public class Test {
             err.println(e);
         }
 
-//        ASTViewer viewer = new ASTViewer();
-//        viewer.visit(ast);
-
         IRGenerator irGenerator = new IRGenerator();
         irGenerator.visit(ast);
 

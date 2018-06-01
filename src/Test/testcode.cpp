@@ -1,7 +1,27 @@
-int[] x;
-int main()
-{
-    x = new int[10];
-    x[1] = 2;
-    return x[1];
+int main() {
+    int la = 5;
+    int[][] a = new int[la][2];
+    a[4][1] = 2;
+    return a[4][1];
 }
+
+
+
+
+/*!! metadata:
+=== comment ===
+array3.mx
+=== assert ===
+exitcode
+=== timeout ===
+0.1
+=== input ===
+
+=== phase ===
+codegen pretest
+=== is_public ===
+True
+=== exitcode ===
+15
+
+!!*/
