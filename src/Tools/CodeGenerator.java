@@ -13,6 +13,10 @@ import IR.IRNodes.*;
 import IR.IRVisitor;
 import Type.Type;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,13 +58,45 @@ public class CodeGenerator implements IRVisitor {
         }
     }
 
+    private void setBuiltInFunction(){
+        try {
+            StringBuffer sb= new StringBuffer("");
+            FileReader reader = new FileReader("D:\\LYK\\Class\\Compiler\\LMx_Compiler\\Compiler\\src\\BuiltinFunction.asm");
+            BufferedReader br = new BufferedReader(reader);
+            String str = null;
+            while((str = br.readLine()) != null) {
+                sb.append(str+"\n");
+                out.println(str);
+            }
+            br.close();
+            reader.close();
+        }
+        catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void generate(IRGenerator irGenerator, ProgNode progNode) {
         cntRegisterMap = irGenerator.getRegisterCntMap();
         funcBlockMap = irGenerator.getFuncBlockMap();
 
-        //extern malloc
+        //extern malloc, printf
+        out.println("extern malloc\nextern printf\nextern puts\n ");
+        out.println("extern puts");
+        out.println("extern getchar");
+        out.println("extern putchar");
+        out.println("extern sprintf");
+        out.println("extern __stack_chk_fail");
         out.println("extern malloc");
-        err.println("extern malloc");
+        out.println("extern printf");
+        out.println("extern strlen");
+        out.println("extern memcpy");
+        out.println("extern scanf");
+
+
         //global main
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (!(declNode instanceof ClassDeclNode)) {
@@ -68,6 +104,8 @@ public class CodeGenerator implements IRVisitor {
                 err.println("global " + declNode.getDeclname());
             }
         }
+        out.println();
+        err.println();
         //SECTION .text
         out.println("SECTION .text");
         err.println("SECTION .text");
@@ -142,9 +180,20 @@ public class CodeGenerator implements IRVisitor {
                 isPrintMain = false;
             }
         }
+
+        setBuiltInFunction();
+
         //SECTION .data
         out.println("SECTION .data");
         err.println("SECTION .data");
+
+        out.println("intbuffer:");
+        out.println("	dq 0");
+        out.println("format1:");
+        out.println("	db\"%lld\",0");
+        out.println("format2:");
+        out.println("	db\"%s\",0");
+
         //x: dq 0
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof VarDeclNode) {
@@ -158,9 +207,14 @@ public class CodeGenerator implements IRVisitor {
                 }
             }
         }
+
         //SECTION .data
         out.println("SECTION .bss");
         err.println("SECTION .bss");
+
+        out.println("stringbuffer:");
+        out.println("	resb 256");
+
         //x: dq 0
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof VarDeclNode) {

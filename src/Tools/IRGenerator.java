@@ -410,6 +410,14 @@ public class IRGenerator implements ASTVisitor {
         String funcName = "NotFuncName";
         if (funcCallExprNode.getFunction() instanceof IDExprNode) {
             funcName = ((IDExprNode) funcCallExprNode.getFunction()).getId();
+            switch (funcName){
+                case "println":
+                    funcName = "puts";
+                    break;
+                case "print":
+                    funcName = "printf";
+                    break;
+            }
         }
 
         List<IntValue> intValueList = new ArrayList<>();

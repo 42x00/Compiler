@@ -1,27 +1,29 @@
-int main() {
-    int la = 5;
-    int[][] a = new int[la][2];
-    a[4][1] = 2;
-    return a[4][1];
+int[] a = new int[4];
+int main()
+{
+    int[] b = new int[4];
+    b[2]=2;
+    a=b;
+    println(toString(a[2]));
+    return 0;
 }
-
 
 
 
 /*!! metadata:
 === comment ===
-array3.mx
-=== assert ===
-exitcode
-=== timeout ===
-0.1
+lvalue2-5110379024-wuhang.mx
 === input ===
 
+=== assert ===
+output
+=== timeout ===
+0.1
+=== output ===
+2
 === phase ===
 codegen pretest
 === is_public ===
 True
-=== exitcode ===
-15
 
 !!*/

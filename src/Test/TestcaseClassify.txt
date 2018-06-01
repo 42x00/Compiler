@@ -2,16 +2,16 @@ Now:
 
 
 ShortCut:
-593
-585
+593 ok
+585 ok
 
 FuncCall:
-582
+582 ok
 
 Array:
-583 ok!
-591 ok!
-592 ok!
+583 ok
+591 ok
+592 ok
 541
 531
 523
