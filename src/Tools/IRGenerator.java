@@ -414,9 +414,6 @@ public class IRGenerator implements ASTVisitor {
                 case "println":
                     funcName = "puts";
                     break;
-                case "print":
-                    funcName = "printf";
-                    break;
             }
         }
 
