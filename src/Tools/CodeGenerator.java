@@ -61,7 +61,7 @@ public class CodeGenerator implements IRVisitor {
     private void setBuiltInFunction(){
         try {
             StringBuffer sb= new StringBuffer("");
-            FileReader reader = new FileReader("src\\BuiltinFunction.asm");
+            FileReader reader = new FileReader("src/BuiltinFunction.asm");
             BufferedReader br = new BufferedReader(reader);
             String str = null;
             while((str = br.readLine()) != null) {
