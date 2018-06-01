@@ -6,6 +6,8 @@ import AST_Node.DeclNodes.FuncDeclNode;
 import AST_Node.DeclNodes.VarDeclNode;
 import AST_Node.ExprNodes.UnaryExprNode;
 import AST_Node.ProgNode;
+import AST_Node.TypeNodes.ArrayTypeNode;
+import AST_Node.TypeNodes.ClassTypeNode;
 import AST_Node.TypeNodes.TypeNode;
 import IR.IRNodes.*;
 import IR.IRVisitor;
@@ -56,6 +58,9 @@ public class CodeGenerator implements IRVisitor {
         cntRegisterMap = irGenerator.getRegisterCntMap();
         funcBlockMap = irGenerator.getFuncBlockMap();
 
+        //extern malloc
+        out.println("extern malloc");
+        err.println("extern malloc");
         //global main
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (!(declNode instanceof ClassDeclNode)) {
@@ -144,11 +149,26 @@ public class CodeGenerator implements IRVisitor {
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof VarDeclNode) {
                 VarDeclNode varDeclNode = (VarDeclNode) declNode;
-                if (varDeclNode.getVartype() instanceof TypeNode) {
+                if (!(varDeclNode.getVartype() instanceof ArrayTypeNode
+                || varDeclNode.getVartype() instanceof ClassTypeNode)) {
                     if (varDeclNode.getVartype().getBasetype() != Type.Types.STRING) {
                         out.println(varDeclNode.getVarname() + ": dq 0");
                         err.println(varDeclNode.getVarname() + ": dq 0");
                     }
+                }
+            }
+        }
+        //SECTION .data
+        out.println("SECTION .bss");
+        err.println("SECTION .bss");
+        //x: dq 0
+        for (DeclNode declNode : progNode.getDeclarations()) {
+            if (declNode instanceof VarDeclNode) {
+                VarDeclNode varDeclNode = (VarDeclNode) declNode;
+                if (varDeclNode.getVartype() instanceof ArrayTypeNode ||
+                        (varDeclNode.getVartype() instanceof TypeNode && varDeclNode.getVartype().getBasetype() == Type.Types.STRING)) {
+                    out.println(varDeclNode.getVarname() + ": dq 0");
+                    err.println(varDeclNode.getVarname() + ": dq 0");
                 }
             }
         }
@@ -482,7 +502,11 @@ public class CodeGenerator implements IRVisitor {
 
     @Override
     public String visit(MemAddr memAddr) {
-        return "[ mem ]";
+        String addr = "[" + memAddr.getBaseAddr().accept(this);
+        if (memAddr.getOffset() != null)
+            addr += " + " + memAddr.getOffset().accept(this) + "*8]";
+        else addr += "]";
+        return addr;
     }
 
     @Override

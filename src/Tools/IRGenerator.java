@@ -14,6 +14,7 @@ import AST_Node.TypeNodes.TypeNode;
 import IR.IRNodes.*;
 import Type.Type;
 
+import javax.swing.text.rtf.RTFEditorKit;
 import java.util.*;
 
 public class IRGenerator implements ASTVisitor {
@@ -77,7 +78,7 @@ public class IRGenerator implements ASTVisitor {
             funcReturnBlock = new BasicBlock();
             funcReturnBlock.append(new ReturnInst());
             Register.resetCnt();
-            for (VarDeclNode varDeclNode : funcDeclNode.getFunctionParameterList().getVardeclnodeList()){
+            for (VarDeclNode varDeclNode : funcDeclNode.getFunctionParameterList().getVardeclnodeList()) {
                 varDeclNode.setIntValue(new Register());
             }
             funcDeclNode.getFunctionStatements().accept(this);
@@ -411,7 +412,7 @@ public class IRGenerator implements ASTVisitor {
         }
 
         List<IntValue> intValueList = new ArrayList<>();
-        for (ExprNode exprNode : funcCallExprNode.getParameters()){
+        for (ExprNode exprNode : funcCallExprNode.getParameters()) {
             exprNode.accept(this);
             intValueList.add(exprLinkedList.pop());
         }
@@ -423,14 +424,42 @@ public class IRGenerator implements ASTVisitor {
     }
 
     @Override
-    public void visit(ArrayIndexExprNode arrayIndexExprNode) {
+    public void visit(NewExprNode newExprNode) {
+        if (newExprNode.getExprtype() instanceof ArrayTypeNode) {
+            ArrayTypeNode arrayTypeNode = (ArrayTypeNode) newExprNode.getExprtype();
+            arrayTypeNode.getArraysizeexpr().accept(this);
 
+            //[intValue]
+            IntValue intValue = exprLinkedList.pop();
+            Register register = new Register();
+            //r = intValue << 3
+            currentBlock.append(new Bin(BinaryExprNode.BinaryOP.SHL, intValue, new ConstValue(3), register));
+            //r = r + 8
+            currentBlock.append(new Bin(BinaryExprNode.BinaryOP.ADD, register, new ConstValue(8), register));
+            //call malloc r bytes
+            currentBlock.append(new Call("malloc", register));
+            //[rax] = intValue
+            currentBlock.append(new Assign(new MemAddr(new Register(Register.RegisterName.RAX), null), intValue));
+            //r = rax + 8
+            currentBlock.append(new Bin(BinaryExprNode.BinaryOP.ADD, new Register(Register.RegisterName.RAX), new ConstValue(8), register));
+            exprLinkedList.push(register);
+        }
+    }
+
+    @Override
+    public void visit(ArrayIndexExprNode arrayIndexExprNode) {
+        arrayIndexExprNode.getArray().accept(this);
+        currentBlock.append(new Assign(new Register(Register.RegisterName.RDX), exprLinkedList.pop()));
+        arrayIndexExprNode.getIndex().accept(this);
+        currentBlock.append(new Assign(new Register(Register.RegisterName.R8), exprLinkedList.pop()));
+        exprLinkedList.push(new MemAddr(new Register(Register.RegisterName.RDX), new Register(Register.RegisterName.R8)));
     }
 
     @Override
     public void visit(ArrayTypeNode arrayTypeNode) {
 
     }
+
 
     @Override
     public void visit(ClassDeclNode classDeclNode) {
@@ -449,11 +478,6 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(ClassThisExprNode classThisExprNode) {
-
-    }
-
-    @Override
-    public void visit(NewExprNode newExprNode) {
 
     }
 

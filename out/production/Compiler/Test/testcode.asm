@@ -1,76 +1,57 @@
+extern malloc
+global x
 global main
 SECTION .text
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 96
-	mov rcx, 5
-	mov qword [rbp - 8], rcx
-	mov rcx, 0
-	mov qword [rbp - 16], rcx
-	mov rcx, 20
-	mov qword [rbp - 24], rcx
-	mov rbx, qword [rbp - 24]
+	sub rsp, 16
+	mov rbx, 10
+	mov rcx, 3
+	mov qword [rbp - 8], rbx
+	sal qword [rbp - 8], cl
+	mov rbx, qword [rbp - 8]
+	mov rcx, 8
+	mov qword [rbp - 8], rbx
+	add qword [rbp - 8], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rdi, qword [rbp - 8]
+	call malloc
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
 	mov rcx, 10
-	cmp rbx, rcx
-	sete byte [rbp - 64]
-	jmp L_7
-L_7:
-	cmp byte [rbp - 64], 0
-	jz L_6
-L_8:
-	mov rbx, qword [rbp - 8]
-	mov rcx, qword [rbp - 16]
-	mov rax, rbx
-	cdq
-	idiv rcx
-	mov qword [rbp - 72], rax
-	mov rbx, qword [rbp - 72]
-	mov rcx, 0
-	cmp rbx, rcx
-	sete byte [rbp - 80]
-	jmp L_9
-L_9:
-	cmp byte [rbp - 80], 0
-	jz L_6
-L_10:
+	mov [rax], rcx
+	mov rbx, rax
+	mov rcx, 8
+	mov qword [rbp - 8], rbx
+	add qword [rbp - 8], rcx
+	mov rcx, qword [rbp - 8]
+	mov qword [x], rcx
+	mov rcx, qword [x]
+	mov rdx, rcx
 	mov rcx, 1
-	mov qword [rbp - 56], rcx
-	jmp L_4
-L_4:
-	cmp byte [rbp - 56], 0
-	jz L_3
-L_5:
-	mov rbx, qword [rbp - 8]
-	mov rcx, 5
-	cmp rbx, rcx
-	sete byte [rbp - 88]
-	jmp L_11
-L_11:
-	cmp byte [rbp - 88], 0
-	jz L_3
-L_12:
+	mov r8, rcx
+	mov rcx, 2
+	mov [rdx + r8*8, rcx
+	mov rcx, qword [x]
+	mov rdx, rcx
 	mov rcx, 1
-	mov qword [rbp - 48], rcx
-	jmp L_2
-L_2:
-	xor qword [rbp - 48], 1
-	mov rcx, qword [rbp - 48]
-	mov qword [rbp - 40], rcx
-	mov rcx, qword [rbp - 40]
-	mov qword [rbp - 32], rcx
-	mov rcx, qword [rbp - 32]
+	mov r8, rcx
+	mov rcx, [rdx + r8*8
 	mov rax, rcx
 	jmp L_1
 L_1:
 	leave
 	ret
-L_3:
-	mov rcx, 0
-	mov qword [rbp - 48], rcx
-	jmp L_2
-L_6:
-	mov rcx, 0
-	mov qword [rbp - 56], rcx
-	jmp L_4
 SECTION .data
+SECTION .bss
+x: dq 0

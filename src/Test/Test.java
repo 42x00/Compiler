@@ -23,7 +23,7 @@ import static java.lang.System.err;
 
 public class Test {
     public static void main(String[] args) throws Exception {
-        String inputFile = "D:\\LYK\\Class\\Compiler\\LMx_Compiler\\Compiler\\src\\Test\\testcode.txt";
+        String inputFile = "D:\\LYK\\Class\\Compiler\\LMx_Compiler\\Compiler\\src\\Test\\testcode.cpp";
         String outputFile = "D:\\LYK\\Class\\Compiler\\LMx_Compiler\\Compiler\\src\\Test\\testcode.asm";
         PrintStream ps = new PrintStream(new FileOutputStream(outputFile));
         System.setOut(ps);

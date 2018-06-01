@@ -2,6 +2,7 @@ package IR.IRNodes;
 
 import IR.IRVisitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Call extends Inst{
@@ -11,6 +12,17 @@ public class Call extends Inst{
     public Call(String funcName, List<IntValue> intValues) {
         this.funcName = funcName;
         this.intValues = intValues;
+    }
+
+    public Call(String funcName, IntValue intValue){
+        this.funcName = funcName;
+        this.intValues = new ArrayList<>();
+        this.intValues.add(intValue);
+    }
+
+    public Call(String funcName) {
+        this.funcName = funcName;
+        this.intValues = new ArrayList<>();
     }
 
     public String getFuncName() {
