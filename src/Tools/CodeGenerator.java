@@ -121,18 +121,20 @@ public class CodeGenerator implements IRVisitor {
                     isPrintMain = true;
                 else {
                     //push rbp, rbx, r12, r13, r14, r15
-                    out.print("\t" +
-                            "push rbx\n\t" +
-                            "push r12\n\t" +
-                            "push r13\n\t" +
-                            "push r14\n\t" +
-                            "push r15\n\t");
-                    err.print("\t" +
-                            "push rbx\n\t" +
-                            "push r12\n\t" +
-                            "push r13\n\t" +
-                            "push r14\n\t" +
-                            "push r15\n\t");
+//                    out.print("\t" +
+//                            "push rbx\n\t" +
+//                            "push r12\n\t" +
+//                            "push r13\n\t" +
+//                            "push r14\n\t" +
+//                            "push r15\n\t");
+//                    err.print("\t" +
+//                            "push rbx\n\t" +
+//                            "push r12\n\t" +
+//                            "push r13\n\t" +
+//                            "push r14\n\t" +
+//                            "push r15\n\t");
+                    out.print('\t');
+                    err.print('\t');
                     List<VarDeclNode> varDeclNodeList = ((FuncDeclNode) declNode).getFunctionParameterList().getVardeclnodeList();
                     for (int index = varDeclNodeList.size() - 1; index >= 0; --index) {
                         if (index > 5) {
@@ -323,18 +325,18 @@ public class CodeGenerator implements IRVisitor {
     @Override
     public void visit(Call call) {
         //push rdi, rsi, rdx, rcx, r8, r9
-        out.print("push rdi\n\t" +
-                "push rsi\n\t" +
-                "push rdx\n\t" +
-                "push rcx\n\t" +
-                "push r8\n\t" +
-                "push r9\n\t");
-        err.print("push rdi\n\t" +
-                "push rsi\n\t" +
-                "push rdx\n\t" +
-                "push rcx\n\t" +
-                "push r8\n\t" +
-                "push r9\n\t");
+//        out.print("push rdi\n\t" +
+//                "push rsi\n\t" +
+//                "push rdx\n\t" +
+//                "push rcx\n\t" +
+//                "push r8\n\t" +
+//                "push r9\n\t");
+//        err.print("push rdi\n\t" +
+//                "push rsi\n\t" +
+//                "push rdx\n\t" +
+//                "push rcx\n\t" +
+//                "push r8\n\t" +
+//                "push r9\n\t");
         //mov rdi, rsi, rdx, rcx, r8, r9  args*
         //push args*
         List<IntValue> intValueList = call.getIntValues();
@@ -372,21 +374,21 @@ public class CodeGenerator implements IRVisitor {
             }
         }
         //call f
-        out.printf("call %s\n\t", call.getFuncName());
-        err.printf("call %s\n\t", call.getFuncName());
+        out.printf("call %s\n", call.getFuncName());
+        err.printf("call %s\n", call.getFuncName());
         //pop args*
-        out.print("pop r9\n\t" +
-                "pop r8\n\t" +
-                "pop rcx\n\t" +
-                "pop rdx\n\t" +
-                "pop rsi\n\t" +
-                "pop rdi\n");
-        err.print("pop r9\n\t" +
-                "pop r8\n\t" +
-                "pop rcx\n\t" +
-                "pop rdx\n\t" +
-                "pop rsi\n\t" +
-                "pop rdi\n");
+//        out.print("pop r9\n\t" +
+//                "pop r8\n\t" +
+//                "pop rcx\n\t" +
+//                "pop rdx\n\t" +
+//                "pop rsi\n\t" +
+//                "pop rdi\n");
+//        err.print("pop r9\n\t" +
+//                "pop r8\n\t" +
+//                "pop rcx\n\t" +
+//                "pop rdx\n\t" +
+//                "pop rsi\n\t" +
+//                "pop rdi\n");
     }
 
     @Override
@@ -565,35 +567,32 @@ public class CodeGenerator implements IRVisitor {
         switch (uni.getUnaryOP()) {
             case SELF_INC:
                 //inc *
-                out.printf("inc %s\n\t", uni.getObj().accept(this));
-                err.printf("inc %s\n\t", uni.getObj().accept(this));
+                out.printf("inc %s\n", uni.getObj().accept(this));
+                err.printf("inc %s\n", uni.getObj().accept(this));
                 break;
             case SELF_DEC:
                 //dec *
-                out.printf("dec %s\n\t", uni.getObj().accept(this));
-                err.printf("dec %s\n\t", uni.getObj().accept(this));
+                out.printf("dec %s\n", uni.getObj().accept(this));
+                err.printf("dec %s\n", uni.getObj().accept(this));
                 break;
             case POSI:
                 break;
             case NEGE:
                 //neg *
-                out.printf("neg %s\n\t", uni.getObj().accept(this));
-                err.printf("neg %s\n\t", uni.getObj().accept(this));
+                out.printf("neg %s\n", uni.getObj().accept(this));
+                err.printf("neg %s\n", uni.getObj().accept(this));
                 break;
             case BIT_NOT:
                 //not *
-                out.printf("not %s\n\t", uni.getObj().accept(this));
-                err.printf("not %s\n\t", uni.getObj().accept(this));
+                out.printf("not %s\n", uni.getObj().accept(this));
+                err.printf("not %s\n", uni.getObj().accept(this));
                 break;
             case LOGIC_NOT:
                 //xor *, 1
-                out.printf("xor %s, 1\n\t", uni.getObj().accept(this));
-                err.printf("xor %s, 1\n\t", uni.getObj().accept(this));
+                out.printf("xor %s, 1\n", uni.getObj().accept(this));
+                err.printf("xor %s, 1\n", uni.getObj().accept(this));
                 break;
         }
-
-        out.println();
-        err.println();
 
         if (uni.getObj() != uni.getAns()) {
             //mov rcx, *
@@ -639,16 +638,16 @@ public class CodeGenerator implements IRVisitor {
     public void visit(ReturnInst returnInst) {
         if (!isPrintMain) {
             //pop rbp, rbx, r12, r13, r14, r15
-            out.print("pop r15\n\t" +
-                    "pop r14\n\t" +
-                    "pop r13\n\t" +
-                    "pop r12\n\t" +
-                    "pop rbx\n\t");
-            err.print("pop r15\n\t" +
-                    "pop r14\n\t" +
-                    "pop r13\n\t" +
-                    "pop r12\n\t" +
-                    "pop rbx\n\t");
+//            out.print("pop r15\n\t" +
+//                    "pop r14\n\t" +
+//                    "pop r13\n\t" +
+//                    "pop r12\n\t" +
+//                    "pop rbx\n\t");
+//            err.print("pop r15\n\t" +
+//                    "pop r14\n\t" +
+//                    "pop r13\n\t" +
+//                    "pop r12\n\t" +
+//                    "pop rbx\n\t");
         }
         //leave
         //ret

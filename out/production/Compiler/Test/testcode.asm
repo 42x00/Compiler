@@ -12,59 +12,126 @@ extern printf
 extern strlen
 extern memcpy
 extern scanf
+global a
+global b
 global main
 
 SECTION .text
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 40
+	sub rsp, 16
+	mov rbx, 3
+	mov rcx, 3
+	mov rax, rbx
+	sal rax, cl
+	mov rbx, rax
+	mov rcx, 8
+	mov rax, rbx
+	add rax, rcx
+	mov rdi, rax
+	call malloc
+	mov rbx, 3
+	mov qword [rax], rbx
+	mov rbx, rax
+	mov rcx, 8
+	mov rax, rbx
+	add rax, rcx
+	mov rbx, 4
+	mov rcx, 3
+	mov rcx, rbx
+	sal rcx, cl
+	mov rbx, rcx
+	mov rcx, 8
+	mov rcx, rbx
+	add rcx, rcx
+	mov rdi, rcx
+	call malloc
+	mov rbx, 4
+	mov qword [rax], rbx
+	mov rbx, rax
+	mov rcx, 8
+	mov rcx, rbx
+	add rcx, rcx
+	mov rbx, rax
+	mov rdi, rbx
+	mov rbx, rcx
+	mov qword [rdi], rbx
+	mov rbx, 4
+	mov rcx, 3
+	mov rdx, rbx
+	sal rdx, cl
+	mov rbx, rdx
+	mov rcx, 8
+	mov rdx, rbx
+	add rdx, rcx
+	mov rdi, rdx
+	call malloc
+	mov rbx, 4
+	mov qword [rax], rbx
+	mov rbx, rax
+	mov rcx, 8
+	mov rdx, rbx
+	add rdx, rcx
+	mov rbx, rax
+	mov rdi, rbx
+	mov rbx, rdx
+	mov qword [rdi + 8], rbx
+	mov rbx, 4
+	mov rcx, 3
+	mov rbx, rbx
+	sal rbx, cl
+	mov rbx, rbx
+	mov rcx, 8
+	mov rbx, rbx
+	add rbx, rcx
+	mov rdi, rbx
+	call malloc
+	mov rbx, 4
+	mov qword [rax], rbx
+	mov rbx, rax
+	mov rcx, 8
+	mov rbx, rbx
+	add rbx, rcx
+	mov rbx, rax
+	mov rdi, rbx
+	mov rbx, rbx
+	mov qword [rdi + 16], rbx
+	mov rbx, rax
+	mov qword [a], rbx
 	mov rbx, 5
 	mov rcx, 3
-	mov qword [rbp - 16], rbx
-	sal qword [rbp - 16], cl
-	mov rbx, qword [rbp - 16]
+	mov rsi, rbx
+	sal rsi, cl
+	mov rbx, rsi
 	mov rcx, 8
-	mov qword [rbp - 16], rbx
-	add qword [rbp - 16], rcx
-	push rdi
-	push rsi
-	push rdx
-	push rcx
-	push r8
-	push r9
-	mov rdi, qword [rbp - 16]
+	mov rsi, rbx
+	add rsi, rcx
+	mov rdi, rsi
 	call malloc
-	pop r9
-	pop r8
-	pop rcx
-	pop rdx
-	pop rsi
-	pop rdi
 	mov rbx, 5
 	mov qword [rax], rbx
 	mov rbx, rax
 	mov rcx, 8
-	mov qword [rbp - 16], rbx
-	add qword [rbp - 16], rcx
-	mov rbx, qword [rbp - 16]
-	mov qword [rbp - 8], rbx
-	mov rbx, 1
-	mov qword [rbp - 24], rbx
-	mov rbx, 2
-	mov qword [rbp - 32], rbx
-	
-	mov rbx, qword [rbp - 32]
 	mov rsi, rbx
-	mov rbx, qword [rbp - 8]
+	add rsi, rcx
+	mov rbx, rsi
+	mov qword [b], rbx
+	mov rbx, 10086
+	mov qword [rbp - 8], rbx
+	mov rbx, qword [a]
 	mov rdi, rbx
+	mov rbx, 1
+	mov rsi, rbx
+	mov rbx, qword [rdi + rsi*8]
+	mov rdi, rbx
+	mov rbx, 2
+	mov rsi, rbx
 	mov rbx, qword [rdi + rsi*8]
 	mov rsi, rbx
-	mov rbx, qword [rbp - 8]
+	mov rbx, qword [b]
 	mov rdi, rbx
-	mov rbx, 1
-	mov qword [rdi + rsi*8], rbx
-	mov rbx, 0
+	mov rbx, qword [rdi + rsi*8]
 	mov rax, rbx
 	jmp L_1
 L_1:
@@ -799,3 +866,5 @@ format1: db "%lld", 0
 format2: db "%s", 0
 SECTION .bss
 stringbuffer: resb 256
+a: dq 0
+b: dq 0
