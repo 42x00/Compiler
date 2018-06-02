@@ -13,14 +13,20 @@
     <SUITE FILE_PATH="coverage/Compiler$Test.ic" NAME="Test Coverage Results" MODIFIED="1525153307166" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file leaf-file-name="CodeGenerator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Tools/CodeGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="67" column="36" lean-forward="true" selection-start-line="67" selection-start-column="36" selection-end-line="67" selection-end-column="36" />
+            <state relative-caret-position="220">
+              <caret line="162" column="39" lean-forward="true" selection-start-line="162" selection-start-column="39" selection-end-line="162" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#21953#21954#0" expanded="true" />
+                <element signature="e#22015#22016#0" expanded="true" />
+                <element signature="e#22682#22683#0" expanded="true" />
+                <element signature="e#22724#22725#0" expanded="true" />
+                <element signature="e#22784#22785#0" expanded="true" />
+                <element signature="e#22847#22848#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -29,12 +35,55 @@
       <file leaf-file-name="IRGenerator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Tools/IRGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8316">
-              <caret line="413" column="31" lean-forward="true" selection-start-line="413" selection-start-column="31" selection-end-line="413" selection-end-column="31" />
+            <state relative-caret-position="624">
+              <caret line="555" lean-forward="true" selection-start-line="555" selection-end-line="555" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#15071#15072#0" expanded="true" />
-                <element signature="e#15149#15150#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CompStmtNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/AST_Node/StmtNodes/CompStmtNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="31" selection-start-line="31" selection-end-line="31" />
+              <folding>
+                <element signature="e#689#690#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IfStmtNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/AST_Node/StmtNodes/IfStmtNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="113">
+              <caret line="43" selection-start-line="43" selection-end-line="43" />
+              <folding>
+                <element signature="e#920#921#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Cjump.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Cjump.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Uni.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Uni.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="418">
+              <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
+              <folding>
+                <element signature="e#566#567#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -52,13 +101,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>this</find>
-      <find>Bina</find>
-      <find>Comp</find>
-      <find>If</find>
-      <find>IDEx</find>
-      <find>err</find>
-      <find>err.print</find>
       <find>ID</find>
       <find>Bin</find>
       <find>Assign</find>
@@ -76,12 +118,19 @@
       <find>rbp</find>
       <find>IDExp</find>
       <find>NewEx</find>
-      <find>Uni</find>
       <find>ArrayType</find>
       <find>new MemAddr</find>
       <find>register1</find>
       <find>FuncCa</find>
       <find>FuncCall</find>
+      <find>Uni</find>
+      <find>IfExpr</find>
+      <find>shortcut2</find>
+      <find>shortcutBlock</find>
+      <find>MemAddr</find>
+      <find>RDX</find>
+      <find>rdx</find>
+      <find>r8</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -114,7 +163,6 @@
         <option value="$PROJECT_DIR$/src/IR/IRNodes/IRVisitor.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/Inst.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/Jump.java" />
-        <option value="$PROJECT_DIR$/src/IR/IRNodes/Cjump.java" />
         <option value="$PROJECT_DIR$/src/AST_Node/DeclNodes/DeclNode.java" />
         <option value="$PROJECT_DIR$/src/AST_Node/DeclNodes/VarDeclNode.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/CondSet.java" />
@@ -133,14 +181,15 @@
         <option value="$PROJECT_DIR$/src/IR/IRNodes/Pop.java" />
         <option value="$PROJECT_DIR$/src/IR/IRVisitor.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/ReturnInst.java" />
-        <option value="$PROJECT_DIR$/src/IR/IRNodes/Uni.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/Register.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/Call.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/MemAddr.java" />
         <option value="$PROJECT_DIR$/src/Test/Test.java" />
         <option value="$PROJECT_DIR$/src/Tools/SemanticCheck.java" />
-        <option value="$PROJECT_DIR$/src/Tools/IRGenerator.java" />
+        <option value="$PROJECT_DIR$/src/IR/IRNodes/Uni.java" />
+        <option value="$PROJECT_DIR$/src/IR/IRNodes/Cjump.java" />
         <option value="$PROJECT_DIR$/src/Tools/CodeGenerator.java" />
+        <option value="$PROJECT_DIR$/src/Tools/IRGenerator.java" />
       </list>
     </option>
   </component>
@@ -152,7 +201,7 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="205" />
-    <option name="y" value="151" />
+    <option name="y" value="150" />
     <option name="width" value="1850" />
     <option name="height" value="1100" />
   </component>
@@ -163,8 +212,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -181,12 +228,14 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://D:/LYK/Class/Compiler/LMx_Compiler/Compiler/src/AST_Node/TypeNodes/ArrayTypeNode.java" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="full.screen.before.presentation.mode" value="false" />
+    <property name="full.screen.before.presentation.mode" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
@@ -334,39 +383,43 @@
       <workItem from="1527770104358" duration="5908000" />
       <workItem from="1527783071530" duration="11004000" />
       <workItem from="1527822903304" duration="20080000" />
-      <workItem from="1527870539344" duration="3775000" />
+      <workItem from="1527870539344" duration="4080000" />
+      <workItem from="1527903656470" duration="1047000" />
+      <workItem from="1527905815791" duration="5722000" />
+      <workItem from="1527916948111" duration="2389000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="355896000" />
+    <option name="totallyTimeSpent" value="365359000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="64" y="-7" width="1479" height="878" extended-state="6" />
+    <frame x="64" y="-7" width="1063" height="854" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.48247978" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" weight="0.32941177" />
-      <window_info anchor="right" id="Maven Projects" order="5" weight="0.32938856" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.7560647" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32994923" />
+      <window_info anchor="right" id="Maven Projects" order="6" weight="0.32935324" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.75487465" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.3286908" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3286908" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16959888" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.17313433" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.49056605" />
+      <window_info anchor="right" id="Ant Build" order="4" weight="0.24975124" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4902507" />
       <window_info id="Favorites" order="4" side_tool="true" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24966079" />
-      <window_info anchor="right" id="Coverage" order="6" side_tool="true" weight="0.32937062" />
+      <window_info anchor="right" id="Palette" order="2" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="1" weight="0.24966079" />
+      <window_info anchor="right" id="Coverage" order="5" side_tool="true" weight="0.32937062" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Tool Output" order="8" />
+      <window_info anchor="bottom" id="Inspection Results" order="13" weight="0.32729805" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="ANTLR Preview" order="11" />
       <window_info id="UI Designer" order="3" />
+      <window_info anchor="bottom" id="Tool Output" order="8" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.4699074" />
@@ -374,7 +427,9 @@
     <layout-to-restore>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24966079" />
+      <window_info anchor="right" id="Coverage" order="6" side_tool="true" weight="0.32937062" />
       <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Tool Output" order="8" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27408853" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -382,19 +437,17 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.7601078" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.48328692" />
       <window_info id="Designer" order="2" />
-      <window_info anchor="bottom" id="ANTLR Preview" order="11" />
       <window_info id="UI Designer" order="3" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.4703504" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.5188679" />
       <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Coverage" order="6" side_tool="true" weight="0.32937062" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32994923" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" weight="0.32941177" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32994923" />
+      <window_info anchor="bottom" id="ANTLR Preview" order="11" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.48328692" />
       <window_info anchor="right" id="Maven Projects" order="5" weight="0.32938856" />
       <window_info id="Favorites" order="4" side_tool="true" />
     </layout-to-restore>
@@ -404,8 +457,12 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="198" />
+      <option name="time" value="205" />
     </breakpoint-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -461,13 +518,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/AST_Node/DeclNodes/VarDeclListNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/CondSet.java" />
     <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Bin.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -664,13 +714,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Test/testcode.txt" />
-    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Cjump.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Assign.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -729,13 +772,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Uni.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Call.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="406">
@@ -769,13 +805,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AST_Node/StmtNodes/CompStmtNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="30" selection-start-line="30" selection-end-line="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AST_Node/StmtNodes/VarDeclStmtNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="64">
@@ -787,13 +816,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="109">
           <caret line="69" selection-start-line="69" selection-end-line="69" />
-          <folding>
-            <element signature="e#1329#1330#0" expanded="true" />
-            <element signature="e#1359#1360#0" expanded="true" />
-            <element signature="e#1765#1766#0" expanded="true" />
-            <element signature="e#2069#2070#0" expanded="true" />
-            <element signature="e#2104#2105#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -836,10 +858,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9130">
           <caret line="436" selection-start-line="436" selection-end-line="436" />
-          <folding>
-            <element signature="e#10050#10051#0" expanded="true" />
-            <element signature="e#10111#10112#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -847,11 +865,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
           <caret line="20" selection-start-line="20" selection-end-line="20" />
-          <folding>
-            <element signature="e#475#476#0" expanded="true" />
-            <element signature="e#640#641#0" expanded="true" />
-            <element signature="e#675#676#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -859,21 +872,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="550">
           <caret line="34" selection-start-line="34" selection-end-line="34" />
-          <folding>
-            <element signature="e#391#392#0" expanded="true" />
-            <element signature="e#419#420#0" expanded="true" />
-            <element signature="e#732#733#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/BasicBlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
-          <folding>
-            <element signature="e#884#885#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -881,30 +879,79 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Uni.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
           <folding>
-            <element signature="e#235#236#0" expanded="true" />
+            <element signature="e#566#567#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/Cjump.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AST_Node/StmtNodes/CompStmtNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
+          <folding>
+            <element signature="e#689#690#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AST_Node/StmtNodes/IfStmtNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="43" selection-start-line="43" selection-end-line="43" />
+          <folding>
+            <element signature="e#920#921#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IR/IRNodes/BasicBlock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="33" column="27" lean-forward="true" selection-start-line="33" selection-start-column="27" selection-end-line="33" selection-end-column="27" />
+          <folding>
+            <element signature="e#884#885#0" expanded="true" />
+            <element signature="e#919#920#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Tools/IRGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8316">
-          <caret line="413" column="31" lean-forward="true" selection-start-line="413" selection-start-column="31" selection-end-line="413" selection-end-column="31" />
+        <state relative-caret-position="624">
+          <caret line="555" lean-forward="true" selection-start-line="555" selection-end-line="555" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#15071#15072#0" expanded="true" />
-            <element signature="e#15149#15150#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Tools/CodeGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="67" column="36" lean-forward="true" selection-start-line="67" selection-start-column="36" selection-end-line="67" selection-end-column="36" />
+        <state relative-caret-position="220">
+          <caret line="162" column="39" lean-forward="true" selection-start-line="162" selection-start-column="39" selection-end-line="162" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#21953#21954#0" expanded="true" />
+            <element signature="e#22015#22016#0" expanded="true" />
+            <element signature="e#22682#22683#0" expanded="true" />
+            <element signature="e#22724#22725#0" expanded="true" />
+            <element signature="e#22784#22785#0" expanded="true" />
+            <element signature="e#22847#22848#0" expanded="true" />
           </folding>
         </state>
       </provider>

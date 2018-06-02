@@ -17,10 +17,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.System.out;
 import static java.lang.System.err;
@@ -41,6 +38,7 @@ public class CodeGenerator implements IRVisitor {
         if (labelSet.contains(basicBlock.getOrd())) return false;
         labelSet.add(basicBlock.getOrd());
         basicBlock.setLabel();
+        basicBlock.accept(this);
         return true;
     }
 
@@ -58,23 +56,21 @@ public class CodeGenerator implements IRVisitor {
         }
     }
 
-    private void setBuiltInFunction(){
+    private void setBuiltInFunction() {
         try {
-            StringBuffer sb= new StringBuffer("");
+            StringBuffer sb = new StringBuffer("");
             FileReader reader = new FileReader("src/BuiltinFunction.asm");
             BufferedReader br = new BufferedReader(reader);
             String str = null;
-            while((str = br.readLine()) != null) {
-                sb.append(str+"\n");
+            while ((str = br.readLine()) != null) {
+                sb.append(str + "\n");
                 out.println(str);
             }
             br.close();
             reader.close();
-        }
-        catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -242,8 +238,7 @@ public class CodeGenerator implements IRVisitor {
         //jmp L_*
         out.println("jmp " + jump.getNxtBlock().toLabel());
         err.println("jmp " + jump.getNxtBlock().toLabel());
-        if (trySetLabel(jump.getNxtBlock()))
-            jump.getNxtBlock().accept(this);
+        trySetLabel(jump.getNxtBlock());
     }
 
     @Override
@@ -254,10 +249,8 @@ public class CodeGenerator implements IRVisitor {
         //jz L_*
         out.println("jz " + cjump.getElseBlock().toLabel());
         err.println("jz " + cjump.getElseBlock().toLabel());
-        if (trySetLabel(cjump.getThenBlock()))
-            cjump.getThenBlock().accept(this);
-        if (trySetLabel(cjump.getElseBlock()))
-            cjump.getElseBlock().accept(this);
+        trySetLabel(cjump.getThenBlock());
+        trySetLabel(cjump.getElseBlock());
     }
 
     @Override
@@ -547,8 +540,8 @@ public class CodeGenerator implements IRVisitor {
 
         if (uni.getObj() != uni.getAns()) {
             //mov rcx, *
-            out.printf("mov rcx, %s\n\t", uni.getObj().accept(this));
-            err.printf("mov rcx, %s\n\t", uni.getObj().accept(this));
+            out.printf("\tmov rcx, %s\n\t", uni.getObj().accept(this));
+            err.printf("\tmov rcx, %s\n\t", uni.getObj().accept(this));
             //mov r, rcx
             out.printf("mov %s, rcx\n", uni.getAns().accept(this));
             err.printf("mov %s, rcx\n", uni.getAns().accept(this));
@@ -562,7 +555,7 @@ public class CodeGenerator implements IRVisitor {
 
     @Override
     public String visit(MemAddr memAddr) {
-        String addr = "[" + memAddr.getBaseAddr().accept(this);
+        String addr = "qword [" + memAddr.getBaseAddr().accept(this);
         if (memAddr.getOffset() != null) {
             if (memAddr.getOffset() instanceof ConstValue) {
                 ConstValue constValue = (ConstValue) memAddr.getOffset();

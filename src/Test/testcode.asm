@@ -12,215 +12,178 @@ extern printf
 extern strlen
 extern memcpy
 extern scanf
-global tak
+global N
+global b
+global resultCount
 global main
 
 SECTION .text
-tak:
-	push rbp
-	mov rbp, rsp
-	sub rsp, 104
-	push rbx
-	push r12
-	push r13
-	push r14
-	push r15
-	mov qword [rbp - 24], rdx
-	mov qword [rbp - 16], rsi
-	mov qword [rbp - 8], rdi
-	mov rbx, qword [rbp - 16]
-	mov rcx, qword [rbp - 8]
-	cmp rbx, rcx
-	setl byte [rbp - 32]
-	cmp byte [rbp - 32], 0
-	jz L_3
-L_2:
-	mov rbx, qword [rbp - 8]
-	mov rcx, 1
-	mov qword [rbp - 40], rbx
-	sub qword [rbp - 40], rcx
-	push rdi
-	push rsi
-	push rdx
-	push rcx
-	push r8
-	push r9
-	mov rdx, qword [rbp - 24]
-	mov rsi, qword [rbp - 16]
-	mov rdi, qword [rbp - 40]
-	call tak
-	pop r9
-	pop r8
-	pop rcx
-	pop rdx
-	pop rsi
-	pop rdi
-	mov rcx, rax
-	mov qword [rbp - 48], rcx
-	mov rbx, qword [rbp - 16]
-	mov rcx, 1
-	mov qword [rbp - 56], rbx
-	sub qword [rbp - 56], rcx
-	push rdi
-	push rsi
-	push rdx
-	push rcx
-	push r8
-	push r9
-	mov rdx, qword [rbp - 8]
-	mov rsi, qword [rbp - 24]
-	mov rdi, qword [rbp - 56]
-	call tak
-	pop r9
-	pop r8
-	pop rcx
-	pop rdx
-	pop rsi
-	pop rdi
-	mov rcx, rax
-	mov qword [rbp - 64], rcx
-	mov rbx, qword [rbp - 24]
-	mov rcx, 1
-	mov qword [rbp - 72], rbx
-	sub qword [rbp - 72], rcx
-	push rdi
-	push rsi
-	push rdx
-	push rcx
-	push r8
-	push r9
-	mov rdx, qword [rbp - 16]
-	mov rsi, qword [rbp - 8]
-	mov rdi, qword [rbp - 72]
-	call tak
-	pop r9
-	pop r8
-	pop rcx
-	pop rdx
-	pop rsi
-	pop rdi
-	mov rcx, rax
-	mov qword [rbp - 80], rcx
-	push rdi
-	push rsi
-	push rdx
-	push rcx
-	push r8
-	push r9
-	mov rdx, qword [rbp - 80]
-	mov rsi, qword [rbp - 64]
-	mov rdi, qword [rbp - 48]
-	call tak
-	pop r9
-	pop r8
-	pop rcx
-	pop rdx
-	pop rsi
-	pop rdi
-	mov rcx, rax
-	mov qword [rbp - 88], rcx
-	mov rbx, 1
-	mov rcx, qword [rbp - 88]
-	mov qword [rbp - 96], rbx
-	add qword [rbp - 96], rcx
-	mov rcx, qword [rbp - 96]
-	mov rax, rcx
-	jmp L_1
-L_1:
-	pop r15
-	pop r14
-	pop r13
-	pop r12
-	pop rbx
-	leave
-	ret
-	jmp L_4
-L_4:
-L_3:
-	mov rcx, qword [rbp - 24]
-	mov rax, rcx
-	jmp L_1
-	jmp L_4
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 80
+	sub rsp, 144
+	mov rcx, 15000
+	mov qword [N], rcx
+	mov rbx, 15001
+	mov rcx, 3
+	mov rax, rbx
+	sal rax, cl
+	mov rbx, rax
+	mov rcx, 8
+	mov rax, rbx
+	add rax, rcx
 	push rdi
 	push rsi
 	push rdx
 	push rcx
 	push r8
 	push r9
-	call getInt
+	mov rdi, rax
+	call malloc
 	pop r9
 	pop r8
 	pop rcx
 	pop rdx
 	pop rsi
 	pop rdi
+	mov rcx, 15001
+	mov qword [rax], rcx
+	mov rbx, rax
+	mov rcx, 8
+	mov rax, rbx
+	add rax, rcx
 	mov rcx, rax
-	mov qword [rbp - 32], rcx
-	mov rcx, qword [rbp - 32]
+	mov qword [b], rcx
+	mov rcx, 0
+	mov qword [resultCount], rcx
+	mov rcx, 1
 	mov qword [rbp - 8], rcx
-	push rdi
-	push rsi
-	push rdx
-	push rcx
-	push r8
-	push r9
-	call getInt
-	pop r9
-	pop r8
-	pop rcx
-	pop rdx
-	pop rsi
-	pop rdi
-	mov rcx, rax
-	mov qword [rbp - 40], rcx
-	mov rcx, qword [rbp - 40]
-	mov qword [rbp - 16], rcx
-	push rdi
-	push rsi
-	push rdx
-	push rcx
-	push r8
-	push r9
-	call getInt
-	pop r9
-	pop r8
-	pop rcx
-	pop rdx
-	pop rsi
-	pop rdi
-	mov rcx, rax
-	mov qword [rbp - 48], rcx
-	mov rcx, qword [rbp - 48]
+	jmp L_2
+L_2:
+	mov rbx, qword [rbp - 8]
+	mov rcx, qword [N]
+	cmp rbx, rcx
+	setle byte [rbp - 16]
+	cmp byte [rbp - 16], 0
+	jz L_4
+L_3:
+	mov rcx, qword [b]
+	mov rdi, rcx
+	mov rcx, qword [rbp - 8]
+	mov rsi, rcx
+	mov rcx, 1
+	mov qword [rdi + rsi*8], rcx
+	mov rcx, qword [rbp - 8]
 	mov qword [rbp - 24], rcx
+	inc qword [rbp - 8]
+	
+	jmp L_2
+L_4:
+	mov rcx, 2
+	mov qword [rbp - 8], rcx
+	jmp L_5
+L_5:
+	mov rbx, qword [rbp - 8]
+	mov rcx, qword [N]
+	cmp rbx, rcx
+	setle byte [rbp - 32]
+	cmp byte [rbp - 32], 0
+	jz L_7
+L_6:
+	mov rcx, qword [b]
+	mov rdi, rcx
+	mov rcx, qword [rbp - 8]
+	mov rsi, rcx
+	cmp byte [rdi + rsi*8], 0
+	jz L_9
+L_8:
+	mov rcx, 2
+	mov qword [rbp - 40], rcx
+	mov rbx, qword [rbp - 8]
+	mov rcx, 3
+	cmp rbx, rcx
+	setg byte [rbp - 56]
+	jmp L_13
+L_13:
+	cmp byte [rbp - 56], 0
+	jz L_12
+L_14:
+	mov rcx, qword [b]
+	mov rdi, rcx
+	mov rbx, qword [rbp - 8]
+	mov rcx, 2
+	mov qword [rbp - 64], rbx
+	sub qword [rbp - 64], rcx
+	mov rcx, qword [rbp - 64]
+	mov rsi, rcx
+	jmp L_15
+L_15:
+	cmp byte [rdi + rsi*8], 0
+	jz L_12
+L_16:
+	mov rcx, 1
+	mov qword [rbp - 48], rcx
+	cmp byte [rbp - 48], 0
+	jz L_11
+L_10:
+	mov rcx, qword [resultCount]
+	mov qword [rbp - 72], rcx
+	inc qword [resultCount]
+	
+	jmp L_11
+L_11:
+	mov rcx, 10086
+	mov qword [rbp - 80], rcx
+	jmp L_17
+L_17:
+	mov rbx, qword [rbp - 8]
+	mov rcx, qword [rbp - 40]
+	mov rax, rbx
+	imul rcx
+	mov qword [rbp - 88], rax
+	mov rbx, qword [rbp - 88]
+	mov rcx, qword [N]
+	cmp rbx, rcx
+	setle byte [rbp - 96]
+	cmp byte [rbp - 96], 0
+	jz L_19
+L_18:
+	mov rcx, qword [b]
+	mov rdi, rcx
+	mov rbx, qword [rbp - 8]
+	mov rcx, qword [rbp - 40]
+	mov rax, rbx
+	imul rcx
+	mov qword [rbp - 104], rax
+	mov rcx, qword [rbp - 104]
+	mov rsi, rcx
+	mov rcx, 0
+	mov qword [rdi + rsi*8], rcx
+	mov rcx, qword [rbp - 40]
+	mov qword [rbp - 112], rcx
+	inc qword [rbp - 40]
+	
+	jmp L_17
+L_19:
+	jmp L_9
+L_9:
+	mov rcx, qword [rbp - 8]
+	mov qword [rbp - 120], rcx
+	inc qword [rbp - 8]
+	
+	jmp L_5
+L_12:
+	mov rcx, 0
+	mov qword [rbp - 48], rcx
+	jmp L_11
+L_7:
 	push rdi
 	push rsi
 	push rdx
 	push rcx
 	push r8
 	push r9
-	mov rdx, qword [rbp - 24]
-	mov rsi, qword [rbp - 16]
-	mov rdi, qword [rbp - 8]
-	call tak
-	pop r9
-	pop r8
-	pop rcx
-	pop rdx
-	pop rsi
-	pop rdi
-	mov rcx, rax
-	mov qword [rbp - 56], rcx
-	push rdi
-	push rsi
-	push rdx
-	push rcx
-	push r8
-	push r9
-	mov rdi, qword [rbp - 56]
+	mov rdi, qword [resultCount]
 	call toString
 	pop r9
 	pop r8
@@ -229,14 +192,14 @@ main:
 	pop rsi
 	pop rdi
 	mov rcx, rax
-	mov qword [rbp - 64], rcx
+	mov qword [rbp - 128], rcx
 	push rdi
 	push rsi
 	push rdx
 	push rcx
 	push r8
 	push r9
-	mov rdi, qword [rbp - 64]
+	mov rdi, qword [rbp - 128]
 	call puts
 	pop r9
 	pop r8
@@ -245,11 +208,11 @@ main:
 	pop rsi
 	pop rdi
 	mov rcx, rax
-	mov qword [rbp - 72], rcx
+	mov qword [rbp - 136], rcx
 	mov rcx, 0
 	mov rax, rcx
-	jmp L_6
-L_6:
+	jmp L_1
+L_1:
 	leave
 	ret
 toString:
@@ -982,6 +945,9 @@ format1:
 	db"%lld",0
 format2:
 	db"%s",0
+N: dq 0
+resultCount: dq 0
 SECTION .bss
 stringbuffer:
 	resb 256
+b: dq 0

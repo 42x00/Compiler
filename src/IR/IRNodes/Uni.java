@@ -6,9 +6,9 @@ import IR.IRVisitor;
 public class Uni extends Inst{
     private UnaryExprNode.UnaryOP unaryOP;
     private IntValue obj;
-    private Register ans;
+    private IntValue ans;
 
-    public Uni(UnaryExprNode.UnaryOP unaryOP, IntValue obj, Register ans) {
+    public Uni(UnaryExprNode.UnaryOP unaryOP, IntValue obj, IntValue ans) {
         this.unaryOP = unaryOP;
         this.obj = obj;
         this.ans = ans;
@@ -22,7 +22,7 @@ public class Uni extends Inst{
         return obj;
     }
 
-    public Register getAns() {
+    public IntValue getAns() {
         return ans;
     }
 

@@ -28,4 +28,5 @@ public class Cjump extends Inst{
     public BasicBlock getElseBlock() {
         return elseBlock;
     }
+
 }
