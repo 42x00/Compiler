@@ -14,12 +14,14 @@ import AST_Node.TypeNodes.TypeNode;
 import IR.IRNodes.*;
 import Type.Type;
 
-import javax.swing.text.rtf.RTFEditorKit;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class IRGenerator implements ASTVisitor {
     static private boolean stopVisit = false;
+    static private int cntString = 0;
+    static private Register registerRAX = new Register(Register.RegisterName.RAX);
+    static private Register registerRDI = new Register(Register.RegisterName.RDI);
+    static private Register registerRSI = new Register(Register.RegisterName.RSI);
 
     static private LinkedList<IntValue> exprLinkedList = new LinkedList<>();
 
@@ -28,6 +30,7 @@ public class IRGenerator implements ASTVisitor {
 
     static private Map<String, Integer> registerCntMap = new HashMap<>();
     static private Map<String, BasicBlock> funcBlockMap = new HashMap<>();
+    static private Map<String, String> stringMap = new HashMap<>();
 
     private BasicBlock currentBlock;
     private BasicBlock startBlock;
@@ -40,6 +43,14 @@ public class IRGenerator implements ASTVisitor {
 
     public Map<String, BasicBlock> getFuncBlockMap() {
         return funcBlockMap;
+    }
+
+    public Map<String, String> getStringMap() {
+        return stringMap;
+    }
+
+    private String newStringName() {
+        return "_string_" + Integer.toString(cntString++);
     }
 
     private void initGlobalVar(ProgNode progNode) {
@@ -224,7 +235,7 @@ public class IRGenerator implements ASTVisitor {
     @Override
     public void visit(ReturnStmtNode returnStmtNode) {
         returnStmtNode.getReturnexpr().accept(this);
-        currentBlock.append(new Assign(new Register(Register.RegisterName.RAX), exprLinkedList.pop()));
+        currentBlock.append(new Assign(registerRAX, exprLinkedList.pop()));
         currentBlock.append(new Jump(funcReturnBlock));
         stopVisit = true;
     }
@@ -233,34 +244,68 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(VarDeclNode varDeclNode) {
+        varDeclNode.setIntValue(new Register());
 
-//      Non-Array & Non-Class
-        if (varDeclNode.getVartype() instanceof TypeNode) {
-//          Int
-            if (varDeclNode.getVartype().getBasetype() != Type.Types.STRING) {
-                varDeclNode.setIntValue(new Register());
-                if (varDeclNode.getVarinit() != null) {
-                    if (varDeclNode.getVarinit() instanceof BinaryExprNode) {
-                        BinaryExprNode.BinaryOP binaryOP = ((BinaryExprNode) varDeclNode.getVarinit()).getExprop();
-                        if (binaryOP == BinaryExprNode.BinaryOP.LOGICAL_AND || binaryOP == BinaryExprNode.BinaryOP.LOGICAL_OR) {
-                            BasicBlock nxtBlock = new BasicBlock();
-                            shortcut2Block = nxtBlock;
-                            varDeclNode.getVarinit().accept(this);
-                            currentBlock.append(new Jump(nxtBlock));
-                            currentBlock = nxtBlock;
-                            currentBlock.append(new Assign(varDeclNode.getIntValue(), exprLinkedList.pop()));
-                            return;
-                        }
-                    }
+        if (varDeclNode.getVarinit() != null) {
+            if (varDeclNode.getVarinit() instanceof BinaryExprNode) {
+                BinaryExprNode.BinaryOP binaryOP = ((BinaryExprNode) varDeclNode.getVarinit()).getExprop();
+                if (binaryOP == BinaryExprNode.BinaryOP.LOGICAL_AND || binaryOP == BinaryExprNode.BinaryOP.LOGICAL_OR) {
+                    BasicBlock nxtBlock = new BasicBlock();
+                    shortcut2Block = nxtBlock;
                     varDeclNode.getVarinit().accept(this);
+                    currentBlock.append(new Jump(nxtBlock));
+                    currentBlock = nxtBlock;
                     currentBlock.append(new Assign(varDeclNode.getIntValue(), exprLinkedList.pop()));
+                    return;
                 }
             }
+            varDeclNode.getVarinit().accept(this);
+            currentBlock.append(new Assign(varDeclNode.getIntValue(), exprLinkedList.pop()));
         }
     }
 
     @Override
     public void visit(BinaryExprNode binaryExprNode) {
+        if (binaryExprNode.getLhs().getExprtype().isEqual(Type.Types.STRING)) {
+            List<IntValue> intValueList = new ArrayList<>();
+            binaryExprNode.getLhs().accept(this);
+            intValueList.add(exprLinkedList.pop());
+            binaryExprNode.getRhs().accept(this);
+            intValueList.add(exprLinkedList.pop());
+
+            Register register = new Register();
+
+            switch (binaryExprNode.getExprop()) {
+                case ASSIGN:
+                    currentBlock.append(new Assign(intValueList.get(0), intValueList.get(1)));
+                    exprLinkedList.push(new ConstValue(0));
+                    return;
+
+                case ADD:
+                    currentBlock.append(new Call("string.add", intValueList));
+                    break;
+                case EQUAL:
+                    currentBlock.append(new Call("string.eq", intValueList));
+                    break;
+                case GREATER:
+                    currentBlock.append(new Call("string.g", intValueList));
+                    break;
+                case LESS:
+                    currentBlock.append(new Call("string.s", intValueList));
+                    break;
+                case GREATER_EQUAL:
+                    currentBlock.append(new Call("string.ge", intValueList));
+                    break;
+                case LESS_EQUAL:
+                    currentBlock.append(new Call("string.le", intValueList));
+                    break;
+                default:
+                    throw new Error("String with ub OP!");
+            }
+            currentBlock.append(new Assign(register, registerRAX));
+            exprLinkedList.push(register);
+            return;
+        }
         switch (binaryExprNode.getExprop()) {
             case LOGICAL_AND: {
                 Register register = new Register();
@@ -408,16 +453,33 @@ public class IRGenerator implements ASTVisitor {
     @Override
     public void visit(FuncCallExprNode funcCallExprNode) {
         String funcName = "NotFuncName";
+        List<IntValue> intValueList = new ArrayList<>();
+
         if (funcCallExprNode.getFunction() instanceof IDExprNode) {
+            //f()
             funcName = ((IDExprNode) funcCallExprNode.getFunction()).getId();
-            switch (funcName){
+            switch (funcName) {
                 case "println":
                     funcName = "puts";
                     break;
             }
+        } else {
+            //s.length()
+            ClassMethodExprNode classMethodExprNode = (ClassMethodExprNode) funcCallExprNode.getFunction();
+            classMethodExprNode.getClassexpr().accept(this);
+            intValueList.add(exprLinkedList.pop());
+            TypeNode typeNode = classMethodExprNode.getExprtype();
+            if (typeNode instanceof ClassTypeNode) {
+                funcName = ((ClassTypeNode) typeNode).getClassname();
+            } else if (typeNode instanceof ArrayTypeNode) {
+                funcName = "array";
+            } else {
+                funcName = "string";
+            }
+            funcName += "." + classMethodExprNode.getMethodname();
         }
 
-        List<IntValue> intValueList = new ArrayList<>();
+
         for (ExprNode exprNode : funcCallExprNode.getParameters()) {
             exprNode.accept(this);
             intValueList.add(exprLinkedList.pop());
@@ -425,7 +487,7 @@ public class IRGenerator implements ASTVisitor {
 
         currentBlock.append(new Call(funcName, intValueList));
         Register register = new Register();
-        currentBlock.append(new Assign(register, new Register(Register.RegisterName.RAX)));
+        currentBlock.append(new Assign(register, registerRAX));
         exprLinkedList.push(register);
     }
 
@@ -450,9 +512,9 @@ public class IRGenerator implements ASTVisitor {
             currentBlock.append(new Call("malloc", register));
 
             //[rax] = intValue
-            currentBlock.append(new Assign(new MemAddr(new Register(Register.RegisterName.RAX), null), intValue));
+            currentBlock.append(new Assign(new MemAddr(registerRAX, null), intValue));
             //r = rax + 8
-            currentBlock.append(new Bin(BinaryExprNode.BinaryOP.ADD, new Register(Register.RegisterName.RAX), new ConstValue(8), register));
+            currentBlock.append(new Bin(BinaryExprNode.BinaryOP.ADD, registerRAX, new ConstValue(8), register));
 
             if (arrayTypeNode.getArrayelement() instanceof ArrayTypeNode) {
                 ArrayTypeNode arrayTypeNode1 = (ArrayTypeNode) arrayTypeNode.getArrayelement();
@@ -461,8 +523,8 @@ public class IRGenerator implements ASTVisitor {
                         ConstValue constValue = (ConstValue) intValue;
                         for (int i = 0; i < constValue.getAnInt(); ++i) {
                             (new NewExprNode(arrayTypeNode.getArrayelement())).accept(this);
-                            currentBlock.append(new Assign(new Register(Register.RegisterName.RDI), register));
-                            currentBlock.append(new Assign(new MemAddr(new Register(Register.RegisterName.RDI), new ConstValue(i)), exprLinkedList.pop()));
+                            currentBlock.append(new Assign(registerRDI, register));
+                            currentBlock.append(new Assign(new MemAddr(registerRDI, new ConstValue(i)), exprLinkedList.pop()));
                         }
                     } else {
                         BasicBlock condBlock = new BasicBlock();
@@ -483,9 +545,9 @@ public class IRGenerator implements ASTVisitor {
                         //forBlock
                         currentBlock = forBlock;
                         (new NewExprNode(arrayTypeNode.getArrayelement())).accept(this);
-                        currentBlock.append(new Assign(new Register(Register.RegisterName.RDI), register));
-                        currentBlock.append(new Assign(new Register(Register.RegisterName.RSI), register1));
-                        currentBlock.append(new Assign(new MemAddr(new Register(Register.RegisterName.RDI), new Register(Register.RegisterName.RSI)), exprLinkedList.pop()));
+                        currentBlock.append(new Assign(registerRDI, register));
+                        currentBlock.append(new Assign(registerRSI, register1));
+                        currentBlock.append(new Assign(new MemAddr(registerRDI, registerRSI), exprLinkedList.pop()));
                         currentBlock.append(new Uni(UnaryExprNode.UnaryOP.SELF_INC, register1, register1));
                         currentBlock.append(new Jump(condBlock));
 
@@ -502,29 +564,30 @@ public class IRGenerator implements ASTVisitor {
     @Override
     public void visit(ArrayIndexExprNode arrayIndexExprNode) {
         arrayIndexExprNode.getArray().accept(this);
-        currentBlock.append(new Assign(new Register(Register.RegisterName.RDI), exprLinkedList.pop()));
+        currentBlock.append(new Assign(registerRDI, exprLinkedList.pop()));
         if (arrayIndexExprNode.getIndex() == null) {
-            exprLinkedList.push(new MemAddr(new Register(Register.RegisterName.RDI), null));
+            exprLinkedList.push(new MemAddr(registerRDI, null));
             return;
         }
         arrayIndexExprNode.getIndex().accept(this);
-        currentBlock.append(new Assign(new Register(Register.RegisterName.RSI), exprLinkedList.pop()));
-        exprLinkedList.push(new MemAddr(new Register(Register.RegisterName.RDI), new Register(Register.RegisterName.RSI)));
-    }
-
-    @Override
-    public void visit(ArrayTypeNode arrayTypeNode) {
-
+        currentBlock.append(new Assign(registerRSI, exprLinkedList.pop()));
+        exprLinkedList.push(new MemAddr(registerRDI, registerRSI));
     }
 
 
     @Override
-    public void visit(ClassDeclNode classDeclNode) {
-
+    public void visit(StringExprNode stringExprNode) {
+        String string = newStringName();
+        stringMap.put(string, stringExprNode.getStringexpr());
+        exprLinkedList.push(new GloalVar(string, true));
     }
 
     @Override
     public void visit(ClassMethodExprNode classMethodExprNode) {
+    }
+
+    @Override
+    public void visit(ClassDeclNode classDeclNode) {
 
     }
 
@@ -544,7 +607,7 @@ public class IRGenerator implements ASTVisitor {
     }
 
     @Override
-    public void visit(StringExprNode stringExprNode) {
+    public void visit(ArrayTypeNode arrayTypeNode) {
 
     }
 

@@ -12,179 +12,61 @@ extern printf
 extern strlen
 extern memcpy
 extern scanf
-global N
-global b
-global resultCount
 global main
 
 SECTION .text
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 144
-	mov rcx, 15000
-	mov qword [N], rcx
-	mov rbx, 15001
-	mov rcx, 3
-	mov rax, rbx
-	sal rax, cl
-	mov rbx, rax
-	mov rcx, 8
-	mov rax, rbx
-	add rax, rcx
+	sub rsp, 64
+	mov rcx, _string_0
+	mov qword [rbp - 8], rcx
+	mov rcx, _string_1
+	mov qword [rbp - 16], rcx
 	push rdi
 	push rsi
 	push rdx
 	push rcx
 	push r8
 	push r9
-	mov rdi, rax
-	call malloc
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 8]
+	call string.add
 	pop r9
 	pop r8
 	pop rcx
 	pop rdx
 	pop rsi
 	pop rdi
-	mov rcx, 15001
-	mov qword [rax], rcx
-	mov rbx, rax
-	mov rcx, 8
-	mov rax, rbx
-	add rax, rcx
 	mov rcx, rax
-	mov qword [b], rcx
-	mov rcx, 0
-	mov qword [resultCount], rcx
-	mov rcx, 1
-	mov qword [rbp - 8], rcx
-	jmp L_2
-L_2:
-	mov rbx, qword [rbp - 8]
-	mov rcx, qword [N]
-	cmp rbx, rcx
-	setle byte [rbp - 16]
-	cmp byte [rbp - 16], 0
-	jz L_4
-L_3:
-	mov rcx, qword [b]
-	mov rdi, rcx
-	mov rcx, qword [rbp - 8]
-	mov r8, rcx
-	mov rcx, 1
-	mov qword [rdi + r8*8], rcx
-	mov rcx, qword [rbp - 8]
+	mov qword [rbp - 32], rcx
+	mov rcx, qword [rbp - 32]
 	mov qword [rbp - 24], rcx
-	inc qword [rbp - 8]
-	
-	jmp L_2
-L_4:
-	mov rcx, 2
-	mov qword [rbp - 8], rcx
-	jmp L_5
-L_5:
-	mov rbx, qword [rbp - 8]
-	mov rcx, qword [N]
-	cmp rbx, rcx
-	setle byte [rbp - 32]
-	cmp byte [rbp - 32], 0
-	jz L_7
-L_6:
-	mov rcx, qword [b]
-	mov rdi, rcx
-	mov rcx, qword [rbp - 8]
-	mov r8, rcx
-	cmp byte [rdi + r8*8], 0
-	jz L_9
-L_8:
-	mov rcx, 2
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, 5
+	mov rdi, qword [rbp - 24]
+	call string.ord
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
 	mov qword [rbp - 40], rcx
-	mov rbx, qword [rbp - 8]
-	mov rcx, 3
-	cmp rbx, rcx
-	setg byte [rbp - 56]
-	jmp L_13
-L_13:
-	cmp byte [rbp - 56], 0
-	jz L_12
-L_14:
-	mov rcx, qword [b]
-	mov rdi, rcx
-	mov rbx, qword [rbp - 8]
-	mov rcx, 2
-	mov qword [rbp - 64], rbx
-	sub qword [rbp - 64], rcx
-	mov rcx, qword [rbp - 64]
-	mov r8, rcx
-	jmp L_15
-L_15:
-	cmp byte [rdi + r8*8], 0
-	jz L_12
-L_16:
-	mov rcx, 1
-	mov qword [rbp - 48], rcx
-	cmp byte [rbp - 48], 0
-	jz L_11
-L_10:
-	mov rcx, qword [resultCount]
-	mov qword [rbp - 72], rcx
-	inc qword [resultCount]
-	
-	jmp L_11
-L_11:
-	mov rcx, 10086
-	mov qword [rbp - 80], rcx
-	jmp L_17
-L_17:
-	mov rbx, qword [rbp - 8]
-	mov rcx, qword [rbp - 40]
-	mov rax, rbx
-	imul rcx
-	mov qword [rbp - 88], rax
-	mov rbx, qword [rbp - 88]
-	mov rcx, qword [N]
-	cmp rbx, rcx
-	setle byte [rbp - 96]
-	cmp byte [rbp - 96], 0
-	jz L_19
-L_18:
-	mov rcx, qword [b]
-	mov rdi, rcx
-	mov rbx, qword [rbp - 8]
-	mov rcx, qword [rbp - 40]
-	mov rax, rbx
-	imul rcx
-	mov qword [rbp - 104], rax
-	mov rcx, qword [rbp - 104]
-	mov r8, rcx
-	mov rcx, 0
-	mov qword [rdi + r8*8], rcx
-	mov rcx, qword [rbp - 40]
-	mov qword [rbp - 112], rcx
-	inc qword [rbp - 40]
-	
-	jmp L_17
-L_19:
-	jmp L_9
-L_9:
-	mov rcx, qword [rbp - 8]
-	mov qword [rbp - 120], rcx
-	inc qword [rbp - 8]
-	
-	jmp L_5
-L_12:
-	mov rcx, 0
-	mov qword [rbp - 48], rcx
-	jmp L_11
-L_7:
 	push rdi
 	push rsi
 	push rdx
 	push rcx
 	push r8
 	push r9
-	mov rdi, qword [resultCount]
-	call toString
+	mov rdi, qword [rbp - 24]
+	call string.length
 	pop r9
 	pop r8
 	pop rcx
@@ -192,24 +74,12 @@ L_7:
 	pop rsi
 	pop rdi
 	mov rcx, rax
-	mov qword [rbp - 128], rcx
-	push rdi
-	push rsi
-	push rdx
-	push rcx
-	push r8
-	push r9
-	mov rdi, qword [rbp - 128]
-	call puts
-	pop r9
-	pop r8
-	pop rcx
-	pop rdx
-	pop rsi
-	pop rdi
-	mov rcx, rax
-	mov qword [rbp - 136], rcx
-	mov rcx, 0
+	mov qword [rbp - 48], rcx
+	mov rbx, qword [rbp - 48]
+	mov rcx, qword [rbp - 40]
+	mov qword [rbp - 56], rbx
+	add qword [rbp - 56], rcx
+	mov rcx, qword [rbp - 56]
 	mov rax, rcx
 	jmp L_1
 L_1:
@@ -939,15 +809,12 @@ Llege_022:  pop     rbp
 
 
 SECTION .data
-intbuffer:
-	dq 0
-format1:
-	db"%lld",0
-format2:
-	db"%s",0
-N: dq 0
-resultCount: dq 0
+intbuffer: dq 0
+format1: db "%lld", 0
+format2: db "%s", 0
+_string_1_size: dq 5
+_string_1: db 98, 98, 98, 98, 98, 0
+_string_0_size: dq 3
+_string_0: db 97, 97, 97, 0
 SECTION .bss
-stringbuffer:
-	resb 256
-b: dq 0
+stringbuffer: resb 256

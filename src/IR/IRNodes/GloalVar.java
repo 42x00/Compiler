@@ -4,9 +4,16 @@ import IR.IRVisitor;
 
 public class GloalVar extends IntValue{
     private String declname;
+    private boolean isAddr;
 
     public GloalVar(String declname) {
         this.declname = declname;
+        this.isAddr = false;
+    }
+
+    public GloalVar(String declname, boolean isAddr) {
+        this.declname = declname;
+        this.isAddr = isAddr;
     }
 
     public String getDeclname() {
@@ -15,6 +22,10 @@ public class GloalVar extends IntValue{
 
     public void setDeclname(String declname) {
         this.declname = declname;
+    }
+
+    public boolean isAddr() {
+        return isAddr;
     }
 
     @Override

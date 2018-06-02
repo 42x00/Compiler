@@ -1,5 +1,6 @@
 package Test;
 
+import AST_Node.ASTVisitor;
 import AST_Node.ProgNode;
 import Frontend.ASTBuilder;
 import Parser.LMxLexer;
@@ -35,6 +36,11 @@ public class Test {
 
         ASTBuilder builder = new ASTBuilder();
         ProgNode ast = (ProgNode) builder.visit(parsetree);
+
+        ASTVisitor astVisitor = new ASTViewer();
+        astVisitor.visit(ast);
+
+        err.println();
 
         SemanticCheck scoper = new SemanticCheck();
         try {

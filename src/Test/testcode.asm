@@ -12,179 +12,231 @@ extern printf
 extern strlen
 extern memcpy
 extern scanf
-global N
-global b
-global resultCount
 global main
 
 SECTION .text
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 144
-	mov rcx, 15000
-	mov qword [N], rcx
-	mov rbx, 15001
-	mov rcx, 3
-	mov rax, rbx
-	sal rax, cl
-	mov rbx, rax
-	mov rcx, 8
-	mov rax, rbx
-	add rax, rcx
+	sub rsp, 832
+	mov rcx, _string_0
+	mov qword [rbp - 8], rcx
+	mov rcx, _string_1
+	mov qword [rbp - 16], rcx
+	mov rcx, _string_2
+	mov qword [rbp - 24], rcx
 	push rdi
 	push rsi
 	push rdx
 	push rcx
 	push r8
 	push r9
-	mov rdi, rax
-	call malloc
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 24]
+	call string.add
 	pop r9
 	pop r8
 	pop rcx
 	pop rdx
 	pop rsi
 	pop rdi
-	mov rcx, 15001
-	mov qword [rax], rcx
-	mov rbx, rax
-	mov rcx, 8
-	mov rax, rbx
-	add rax, rcx
 	mov rcx, rax
-	mov qword [b], rcx
-	mov rcx, 0
-	mov qword [resultCount], rcx
-	mov rcx, 1
-	mov qword [rbp - 8], rcx
-	jmp L_2
-L_2:
-	mov rbx, qword [rbp - 8]
-	mov rcx, qword [N]
-	cmp rbx, rcx
-	setle byte [rbp - 16]
-	cmp byte [rbp - 16], 0
-	jz L_4
-L_3:
-	mov rcx, qword [b]
-	mov rdi, rcx
-	mov rcx, qword [rbp - 8]
-	mov rsi, rcx
-	mov rcx, 1
-	mov qword [rdi + rsi*8], rcx
-	mov rcx, qword [rbp - 8]
-	mov qword [rbp - 24], rcx
-	inc qword [rbp - 8]
-	
-	jmp L_2
-L_4:
-	mov rcx, 2
-	mov qword [rbp - 8], rcx
-	jmp L_5
-L_5:
-	mov rbx, qword [rbp - 8]
-	mov rcx, qword [N]
-	cmp rbx, rcx
-	setle byte [rbp - 32]
-	cmp byte [rbp - 32], 0
-	jz L_7
-L_6:
-	mov rcx, qword [b]
-	mov rdi, rcx
-	mov rcx, qword [rbp - 8]
-	mov rsi, rcx
-	cmp byte [rdi + rsi*8], 0
-	jz L_9
-L_8:
-	mov rcx, 2
-	mov qword [rbp - 40], rcx
-	mov rbx, qword [rbp - 8]
-	mov rcx, 3
-	cmp rbx, rcx
-	setg byte [rbp - 56]
-	jmp L_13
-L_13:
-	cmp byte [rbp - 56], 0
-	jz L_12
-L_14:
-	mov rcx, qword [b]
-	mov rdi, rcx
-	mov rbx, qword [rbp - 8]
-	mov rcx, 2
-	mov qword [rbp - 64], rbx
-	sub qword [rbp - 64], rcx
-	mov rcx, qword [rbp - 64]
-	mov rsi, rcx
-	jmp L_15
-L_15:
-	cmp byte [rdi + rsi*8], 0
-	jz L_12
-L_16:
-	mov rcx, 1
-	mov qword [rbp - 48], rcx
-	cmp byte [rbp - 48], 0
-	jz L_11
-L_10:
-	mov rcx, qword [resultCount]
-	mov qword [rbp - 72], rcx
-	inc qword [resultCount]
-	
-	jmp L_11
-L_11:
-	mov rcx, 10086
-	mov qword [rbp - 80], rcx
-	jmp L_17
-L_17:
-	mov rbx, qword [rbp - 8]
-	mov rcx, qword [rbp - 40]
-	mov rax, rbx
-	imul rcx
-	mov qword [rbp - 88], rax
-	mov rbx, qword [rbp - 88]
-	mov rcx, qword [N]
-	cmp rbx, rcx
-	setle byte [rbp - 96]
-	cmp byte [rbp - 96], 0
-	jz L_19
-L_18:
-	mov rcx, qword [b]
-	mov rdi, rcx
-	mov rbx, qword [rbp - 8]
-	mov rcx, qword [rbp - 40]
-	mov rax, rbx
-	imul rcx
-	mov qword [rbp - 104], rax
-	mov rcx, qword [rbp - 104]
-	mov rsi, rcx
-	mov rcx, 0
-	mov qword [rdi + rsi*8], rcx
-	mov rcx, qword [rbp - 40]
-	mov qword [rbp - 112], rcx
-	inc qword [rbp - 40]
-	
-	jmp L_17
-L_19:
-	jmp L_9
-L_9:
-	mov rcx, qword [rbp - 8]
-	mov qword [rbp - 120], rcx
-	inc qword [rbp - 8]
-	
-	jmp L_5
-L_12:
-	mov rcx, 0
-	mov qword [rbp - 48], rcx
-	jmp L_11
-L_7:
+	mov qword [rbp - 32], rcx
 	push rdi
 	push rsi
 	push rdx
 	push rcx
 	push r8
 	push r9
-	mov rdi, qword [resultCount]
-	call toString
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 32]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 40], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 40]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 48], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 48]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 56], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 56]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 64], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 64]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 72], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 72]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 80], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 80]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 88], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 88]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 96], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rdi, qword [rbp - 96]
+	call print
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 104], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 24]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 112], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 112]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 120], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 120]
+	call string.add
 	pop r9
 	pop r8
 	pop rcx
@@ -199,8 +251,9 @@ L_7:
 	push rcx
 	push r8
 	push r9
+	mov rsi, qword [rbp - 8]
 	mov rdi, qword [rbp - 128]
-	call puts
+	call string.add
 	pop r9
 	pop r8
 	pop rcx
@@ -209,6 +262,1459 @@ L_7:
 	pop rdi
 	mov rcx, rax
 	mov qword [rbp - 136], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 136]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 144], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 144]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 152], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 152]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 160], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 160]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 168], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 168]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 176], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rdi, qword [rbp - 176]
+	call print
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 184], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 16]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 192], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 192]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 200], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 200]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 208], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 208]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 216], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 216]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 224], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 224]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 232], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 232]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 240], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 240]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 248], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 248]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 256], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rdi, qword [rbp - 256]
+	call print
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 264], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 16]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 272], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 272]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 280], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 280]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 288], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 288]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 296], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 296]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 304], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 304]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 312], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 312]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 320], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 320]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 328], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 328]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 336], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rdi, qword [rbp - 336]
+	call print
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 344], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 16]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 352], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 352]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 360], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 360]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 368], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 368]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 376], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 376]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 384], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 384]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 392], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 392]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 400], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 400]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 408], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 408]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 416], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rdi, qword [rbp - 416]
+	call print
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 424], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 8]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 432], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 432]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 440], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 440]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 448], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 448]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 456], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 456]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 464], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 464]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 472], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 472]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 480], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 480]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 488], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 488]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 496], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rdi, qword [rbp - 496]
+	call print
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 504], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 16]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 512], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 512]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 520], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 520]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 528], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 528]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 536], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 536]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 544], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 544]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 552], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 552]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 560], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 560]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 568], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 568]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 576], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rdi, qword [rbp - 576]
+	call print
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 584], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 8]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 592], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 592]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 600], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 600]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 608], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 608]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 616], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 616]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 624], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 624]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 632], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 632]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 640], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 640]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 648], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 648]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 656], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rdi, qword [rbp - 656]
+	call print
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 664], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 24]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 672], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 672]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 680], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 680]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 688], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 688]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 696], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 696]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 704], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 704]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 712], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 712]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 720], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 720]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 728], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 728]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 736], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rdi, qword [rbp - 736]
+	call print
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 744], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 8]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 752], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 752]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 760], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 760]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 768], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 768]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 776], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 776]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 784], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 784]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 792], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 792]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 800], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 16]
+	mov rdi, qword [rbp - 800]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 808], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rsi, qword [rbp - 24]
+	mov rdi, qword [rbp - 808]
+	call string.add
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 816], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rdi, qword [rbp - 816]
+	call print
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, rax
+	mov qword [rbp - 824], rcx
 	mov rcx, 0
 	mov rax, rcx
 	jmp L_1
@@ -939,15 +2445,14 @@ Llege_022:  pop     rbp
 
 
 SECTION .data
-intbuffer:
-	dq 0
-format1:
-	db"%lld",0
-format2:
-	db"%s",0
-N: dq 0
-resultCount: dq 0
+intbuffer: dq 0
+format1: db "%lld", 0
+format2: db "%s", 0
+_string_1_size: dq 20
+_string_1: db 92, 97, 98, 10, 97, 99, 34, 34, 97, 100, 100, 10, 34, 10, 97, 99, 10, 100, 98, 34, 0
+_string_2_size: dq 20
+_string_2: db 10, 97, 98, 98, 100, 98, 100, 100, 92, 92, 34, 100, 34, 99, 92, 97, 100, 99, 34, 99, 0
+_string_0_size: dq 20
+_string_0: db 34, 10, 98, 100, 97, 92, 34, 10, 100, 98, 100, 92, 99, 34, 92, 34, 99, 92, 99, 34, 0
 SECTION .bss
-stringbuffer:
-	resb 256
-b: dq 0
+stringbuffer: resb 256

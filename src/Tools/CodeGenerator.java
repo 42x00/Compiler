@@ -183,12 +183,9 @@ public class CodeGenerator implements IRVisitor {
         out.println("SECTION .data");
         err.println("SECTION .data");
 
-        out.println("intbuffer:");
-        out.println("	dq 0");
-        out.println("format1:");
-        out.println("	db\"%lld\",0");
-        out.println("format2:");
-        out.println("	db\"%s\",0");
+        out.println("intbuffer: dq 0");
+        out.println("format1: db \"%lld\", 0");
+        out.println("format2: db \"%s\", 0");
 
         //x: dq 0
         for (DeclNode declNode : progNode.getDeclarations()) {
@@ -204,12 +201,73 @@ public class CodeGenerator implements IRVisitor {
             }
         }
 
+        //_string_1: dq *, 0
+        for (Map.Entry<String, String> entry : irGenerator.getStringMap().entrySet()) {
+            String stringDecl = entry.getKey() + ": db ";
+            String valueString = entry.getValue();
+            int index = 1;
+            int rawLength = valueString.length() - 1;
+            int stringLength = 0;
+            while (index < rawLength) {
+                if (valueString.charAt(index) == '\\') {
+                    ++index;
+                    switch (valueString.charAt(index)) {
+                        case 'a':
+                            stringDecl += Integer.toString(7) + ", ";
+                            break;
+                        case 'b':
+                            stringDecl += Integer.toString(8) + ", ";
+                            break;
+                        case 'f':
+                            stringDecl += Integer.toString(12) + ", ";
+                            break;
+                        case 'n':
+                            stringDecl += Integer.toString(10) + ", ";
+                            break;
+                        case 'r':
+                            stringDecl += Integer.toString(13) + ", ";
+                            break;
+                        case 't':
+                            stringDecl += Integer.toString(9) + ", ";
+                            break;
+                        case 'v':
+                            stringDecl += Integer.toString(11) + ", ";
+                            break;
+                        case '\\':
+                            stringDecl += Integer.toString(92) + ", ";
+                            break;
+                        case '\'':
+                            stringDecl += Integer.toString(39) + ", ";
+                            break;
+                        case '\"':
+                            stringDecl += Integer.toString(34) + ", ";
+                            break;
+                        case '?':
+                            stringDecl += Integer.toString(63) + ", ";
+                            break;
+                        case '0':
+                            stringDecl += Integer.toString(0) + ", ";
+                            break;
+                    }
+                }
+                else {
+                    int char2Int = (int) valueString.charAt(index);
+                    stringDecl += Integer.toString(char2Int) + ", ";
+                }
+                ++stringLength;
+                ++index;
+            }
+            stringDecl += "0";
+
+            out.println(entry.getKey() + "_size: dq " + Integer.toString(stringLength));
+            out.println(stringDecl);
+        }
+
         //SECTION .data
         out.println("SECTION .bss");
         err.println("SECTION .bss");
 
-        out.println("stringbuffer:");
-        out.println("	resb 256");
+        out.println("stringbuffer: resb 256");
 
         //x: dq 0
         for (DeclNode declNode : progNode.getDeclarations()) {
@@ -222,7 +280,6 @@ public class CodeGenerator implements IRVisitor {
                 }
             }
         }
-
     }
 
     @Override
@@ -574,6 +631,7 @@ public class CodeGenerator implements IRVisitor {
 
     @Override
     public String visit(GloalVar gloalVar) {
+        if (gloalVar.isAddr()) return gloalVar.getDeclname();
         return "qword [" + gloalVar.getDeclname() + ']';
     }
 

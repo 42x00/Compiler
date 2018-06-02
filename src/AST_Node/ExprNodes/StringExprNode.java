@@ -16,6 +16,10 @@ public class StringExprNode extends ExprNode{
         this.exprtype.setBasetype(Type.Types.STRING);
     }
 
+    public String getStringexpr() {
+        return stringexpr;
+    }
+
     @Override
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
