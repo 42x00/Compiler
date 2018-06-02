@@ -17,7 +17,7 @@ println:
 	ret
 
 array.size:
-	mov	rax, qword [rdi]
+	mov	rax, qword [rdi - 8]
 	ret
 
 string.add:

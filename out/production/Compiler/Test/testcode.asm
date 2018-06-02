@@ -18,20 +18,45 @@ SECTION .text
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 64
-	mov rcx, _string_0
+	sub rsp, 32
+	mov rbx, 20
+	mov rcx, 3
+	mov qword [rbp - 16], rbx
+	sal qword [rbp - 16], cl
+	mov rbx, qword [rbp - 16]
+	mov rcx, 8
+	mov qword [rbp - 16], rbx
+	add qword [rbp - 16], rcx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rdi, qword [rbp - 16]
+	call malloc
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rcx, 20
+	mov qword [rax], rcx
+	mov rbx, rax
+	mov rcx, 8
+	mov qword [rbp - 16], rbx
+	add qword [rbp - 16], rcx
+	mov rcx, qword [rbp - 16]
 	mov qword [rbp - 8], rcx
-	mov rcx, _string_1
-	mov qword [rbp - 16], rcx
 	push rdi
 	push rsi
 	push rdx
 	push rcx
 	push r8
 	push r9
-	mov rsi, qword [rbp - 16]
 	mov rdi, qword [rbp - 8]
-	call string.add
+	call array.size
 	pop r9
 	pop r8
 	pop rcx
@@ -39,47 +64,8 @@ main:
 	pop rsi
 	pop rdi
 	mov rcx, rax
-	mov qword [rbp - 32], rcx
-	mov rcx, qword [rbp - 32]
 	mov qword [rbp - 24], rcx
-	push rdi
-	push rsi
-	push rdx
-	push rcx
-	push r8
-	push r9
-	mov rsi, 5
-	mov rdi, qword [rbp - 24]
-	call string.ord
-	pop r9
-	pop r8
-	pop rcx
-	pop rdx
-	pop rsi
-	pop rdi
-	mov rcx, rax
-	mov qword [rbp - 40], rcx
-	push rdi
-	push rsi
-	push rdx
-	push rcx
-	push r8
-	push r9
-	mov rdi, qword [rbp - 24]
-	call string.length
-	pop r9
-	pop r8
-	pop rcx
-	pop rdx
-	pop rsi
-	pop rdi
-	mov rcx, rax
-	mov qword [rbp - 48], rcx
-	mov rbx, qword [rbp - 48]
-	mov rcx, qword [rbp - 40]
-	mov qword [rbp - 56], rbx
-	add qword [rbp - 56], rcx
-	mov rcx, qword [rbp - 56]
+	mov rcx, qword [rbp - 24]
 	mov rax, rcx
 	jmp L_1
 L_1:
@@ -812,9 +798,5 @@ SECTION .data
 intbuffer: dq 0
 format1: db "%lld", 0
 format2: db "%s", 0
-_string_1_size: dq 5
-_string_1: db 98, 98, 98, 98, 98, 0
-_string_0_size: dq 3
-_string_0: db 97, 97, 97, 0
 SECTION .bss
 stringbuffer: resb 256

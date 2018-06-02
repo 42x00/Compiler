@@ -468,7 +468,7 @@ public class IRGenerator implements ASTVisitor {
             ClassMethodExprNode classMethodExprNode = (ClassMethodExprNode) funcCallExprNode.getFunction();
             classMethodExprNode.getClassexpr().accept(this);
             intValueList.add(exprLinkedList.pop());
-            TypeNode typeNode = classMethodExprNode.getExprtype();
+            TypeNode typeNode = classMethodExprNode.getClassexpr().getExprtype();
             if (typeNode instanceof ClassTypeNode) {
                 funcName = ((ClassTypeNode) typeNode).getClassname();
             } else if (typeNode instanceof ArrayTypeNode) {
