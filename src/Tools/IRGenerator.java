@@ -97,7 +97,7 @@ public class IRGenerator implements ASTVisitor {
                 varDeclNode.setIntValue(new Register());
             }
             funcDeclNode.getFunctionStatements().accept(this);
-            if (!hasReturn){
+            if (!hasReturn) {
                 currentBlock.append(new Assign(registerRAX, new ConstValue(0)));
                 currentBlock.append(new Jump(funcReturnBlock));
             }
@@ -203,20 +203,24 @@ public class IRGenerator implements ASTVisitor {
                 varDeclNode.accept(this);
             }
         }
+
         currentBlock.append(new Jump(condBlock));
         currentBlock = condBlock;
 
-        shortcut2Block = endBlock;
-        forStmtNode.getForexprend().accept(this);
 
-        currentBlock.append(new Cjump(exprLinkedList.pop(), forBlock, endBlock));
+        if (forStmtNode.getForexprend() != null) {
+            shortcut2Block = endBlock;
+            forStmtNode.getForexprend().accept(this);
+            currentBlock.append(new Cjump(exprLinkedList.pop(), forBlock, endBlock));
+        } else currentBlock.append(new Jump(forBlock));
 
         continueLinkedList.push(condBlock);
         breakLinkedList.push(endBlock);
 
         currentBlock = forBlock;
         forStmtNode.getForstmt().accept(this);
-        forStmtNode.getForexprupdate().accept(this);
+        if (forStmtNode.getForexprupdate() != null)
+            forStmtNode.getForexprupdate().accept(this);
         currentBlock.append(new Jump(condBlock));
 
         continueLinkedList.pop();
@@ -227,12 +231,12 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(BreakStmtNode breakStmtNode) {
-        currentBlock.append(new Jump(breakLinkedList.getLast()));
+        currentBlock.append(new Jump(breakLinkedList.getFirst()));
     }
 
     @Override
     public void visit(ContinueStmtNode continueStmtNode) {
-        currentBlock.append(new Jump(continueLinkedList.getLast()));
+        currentBlock.append(new Jump(continueLinkedList.getFirst()));
     }
 
     @Override
@@ -363,7 +367,7 @@ public class IRGenerator implements ASTVisitor {
                 break;
             }
             case ASSIGN: {
-                if (binaryExprNode.getLhs() instanceof  ArrayIndexExprNode && binaryExprNode.getRhs() instanceof ArrayIndexExprNode){
+                if (binaryExprNode.getLhs() instanceof ArrayIndexExprNode && binaryExprNode.getRhs() instanceof ArrayIndexExprNode) {
                     binaryExprNode.getRhs().accept(this);
                     IntValue rhs = exprLinkedList.pop();
                     currentBlock.append(new Assign(registerRCX, rhs));
@@ -579,7 +583,7 @@ public class IRGenerator implements ASTVisitor {
             arrayIndexExprNode.getArray().accept(this);
             return;
         }
-        if (arrayIndexExprNode.getIndex() instanceof ArrayIndexExprNode){
+        if (arrayIndexExprNode.getIndex() instanceof ArrayIndexExprNode) {
             arrayIndexExprNode.getIndex().accept(this);
             currentBlock.append(new Assign(registerRSI, exprLinkedList.pop()));
             arrayIndexExprNode.getArray().accept(this);
