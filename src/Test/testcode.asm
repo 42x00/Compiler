@@ -18,8 +18,8 @@ SECTION .text
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 32
-	mov rbx, 20
+	sub rsp, 56
+	mov rbx, 5
 	mov rcx, 3
 	mov qword [rbp - 16], rbx
 	sal qword [rbp - 16], cl
@@ -41,32 +41,66 @@ main:
 	pop rdx
 	pop rsi
 	pop rdi
-	mov rcx, 20
-	mov qword [rax], rcx
+	mov rbx, 5
+	mov qword [rax], rbx
 	mov rbx, rax
 	mov rcx, 8
 	mov qword [rbp - 16], rbx
 	add qword [rbp - 16], rcx
-	mov rcx, qword [rbp - 16]
-	mov qword [rbp - 8], rcx
+	mov rbx, qword [rbp - 16]
+	mov qword [rbp - 8], rbx
+	mov rbx, 1
+	mov qword [rbp - 24], rbx
+	mov rbx, 2
+	mov qword [rbp - 32], rbx
+	mov rbx, qword [rbp - 32]
+	mov rsi, rbx
+	mov rbx, qword [rbp - 8]
+	mov rdi, rbx
+	mov rbx, qword [rdi + rsi*8]
+	mov rsi, rbx
+	mov rbx, qword [rbp - 8]
+	mov rdi, rbx
+	mov rbx, 3
+	mov qword [rdi + rsi*8], rbx
+	mov rbx, 0
+	mov rsi, rbx
+	mov rbx, qword [rbp - 8]
+	mov rdi, rbx
 	push rdi
 	push rsi
 	push rdx
 	push rcx
 	push r8
 	push r9
-	mov rdi, qword [rbp - 8]
-	call array.size
+	mov rdi, qword [rdi + rsi*8]
+	call toString
 	pop r9
 	pop r8
 	pop rcx
 	pop rdx
 	pop rsi
 	pop rdi
-	mov rcx, rax
-	mov qword [rbp - 24], rcx
-	mov rcx, qword [rbp - 24]
-	mov rax, rcx
+	mov rbx, rax
+	mov qword [rbp - 40], rbx
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+	push r8
+	push r9
+	mov rdi, qword [rbp - 40]
+	call puts
+	pop r9
+	pop r8
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+	mov rbx, rax
+	mov qword [rbp - 48], rbx
+	mov rbx, 0
+	mov rax, rbx
 	jmp L_1
 L_1:
 	leave

@@ -22,6 +22,7 @@ public class IRGenerator implements ASTVisitor {
     static private Register registerRAX = new Register(Register.RegisterName.RAX);
     static private Register registerRDI = new Register(Register.RegisterName.RDI);
     static private Register registerRSI = new Register(Register.RegisterName.RSI);
+    static private Register registerRCX = new Register(Register.RegisterName.RCX);
 
     static private LinkedList<IntValue> exprLinkedList = new LinkedList<>();
 
@@ -360,6 +361,16 @@ public class IRGenerator implements ASTVisitor {
                 break;
             }
             case ASSIGN: {
+                if (binaryExprNode.getLhs() instanceof  ArrayIndexExprNode && binaryExprNode.getRhs() instanceof ArrayIndexExprNode){
+                    binaryExprNode.getRhs().accept(this);
+                    IntValue rhs = exprLinkedList.pop();
+                    currentBlock.append(new Assign(registerRCX, rhs));
+                    binaryExprNode.getLhs().accept(this);
+                    IntValue lhs = exprLinkedList.pop();
+                    currentBlock.append(new Assign(lhs, registerRCX));
+                    exprLinkedList.push(new ConstValue(0));
+                    return;
+                }
                 binaryExprNode.getRhs().accept(this);
                 IntValue rhs = exprLinkedList.pop();
                 binaryExprNode.getLhs().accept(this);
@@ -517,8 +528,7 @@ public class IRGenerator implements ASTVisitor {
             currentBlock.append(new Bin(BinaryExprNode.BinaryOP.ADD, registerRAX, new ConstValue(8), register));
 
             if (arrayTypeNode.getArrayelement() instanceof ArrayTypeNode) {
-                ArrayTypeNode arrayTypeNode1 = (ArrayTypeNode) arrayTypeNode.getArrayelement();
-                if (arrayTypeNode1.getArraysizeexpr() != null) {
+                if (((ArrayTypeNode) arrayTypeNode.getArrayelement()).getArraysizeexpr() != null) {
                     if (intValue instanceof ConstValue) {
                         ConstValue constValue = (ConstValue) intValue;
                         for (int i = 0; i < constValue.getAnInt(); ++i) {
@@ -563,14 +573,14 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(ArrayIndexExprNode arrayIndexExprNode) {
-        arrayIndexExprNode.getArray().accept(this);
-        currentBlock.append(new Assign(registerRDI, exprLinkedList.pop()));
         if (arrayIndexExprNode.getIndex() == null) {
-            exprLinkedList.push(new MemAddr(registerRDI, null));
+            arrayIndexExprNode.getArray().accept(this);
             return;
         }
         arrayIndexExprNode.getIndex().accept(this);
         currentBlock.append(new Assign(registerRSI, exprLinkedList.pop()));
+        arrayIndexExprNode.getArray().accept(this);
+        currentBlock.append(new Assign(registerRDI, exprLinkedList.pop()));
         exprLinkedList.push(new MemAddr(registerRDI, registerRSI));
     }
 

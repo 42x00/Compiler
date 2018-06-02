@@ -312,12 +312,12 @@ public class CodeGenerator implements IRVisitor {
 
     @Override
     public void visit(Assign assign) {
-        //mov rcx, r:*
-        out.printf("mov rcx, %s\n\t", assign.getRhs().accept(this));
-        err.printf("mov rcx, %s\n\t", assign.getRhs().accept(this));
-        //mov l:*, rcx
-        out.printf("mov %s, rcx\n", assign.getLhs().accept(this));
-        err.printf("mov %s, rcx\n", assign.getLhs().accept(this));
+        //mov rbx, r:*
+        out.printf("mov rbx, %s\n\t", assign.getRhs().accept(this));
+        err.printf("mov rbx, %s\n\t", assign.getRhs().accept(this));
+        //mov l:*, rbx
+        out.printf("mov %s, rbx\n", assign.getLhs().accept(this));
+        err.printf("mov %s, rbx\n", assign.getLhs().accept(this));
     }
 
     @Override

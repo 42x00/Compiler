@@ -1,24 +1,8 @@
-int main() {
-    int[] a = new int[20];
-    return a.size();
+int main(){
+  int[] a = new int[5];
+  int i = 1;
+  int j = 2;
+  a[a[j]] = 3;
+  println(toString(a[0]));
+  return 0;
 }
-
-
-
-/*!! metadata:
-=== comment ===
-builtin1.mx
-=== assert ===
-exitcode
-=== timeout ===
-0.1
-=== input ===
-
-=== phase ===
-codegen pretest
-=== is_public ===
-True
-=== exitcode ===
-20
-
-!!*/
