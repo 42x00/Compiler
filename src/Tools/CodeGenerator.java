@@ -186,6 +186,77 @@ public class CodeGenerator implements IRVisitor {
             }
         }
 
+        for (DeclNode declNode : progNode.getDeclarations()) {
+            if (declNode instanceof ClassDeclNode) {
+                ClassDeclNode classDeclNode = (ClassDeclNode) declNode;
+                for (DeclNode declNode1 : classDeclNode.getClassdecllist()) {
+                    if (declNode1 instanceof FuncDeclNode) {
+                        String funcName = classDeclNode.getDeclname() + "." + declNode1.getDeclname();
+                        //_class._f:
+                        //     push rbp
+                        //     move rbp, rsp
+                        out.printf("_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", funcName);
+                        err.printf("_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", funcName);
+                        int cntRegister = cntRegisterMap.get(funcName);
+                        //     sub rsp, 8
+                        out.printf("sub rsp, %d\n", cntRegister * 8);
+                        err.printf("sub rsp, %d\n", cntRegister * 8);
+                        //push rbp, rbx, r12, r13, r14, r15
+//                    out.print("\t" +
+//                            "push rbx\n\t" +
+//                            "push r12\n\t" +
+//                            "push r13\n\t" +
+//                            "push r14\n\t" +
+//                            "push r15\n\t");
+//                    err.print("\t" +
+//                            "push rbx\n\t" +
+//                            "push r12\n\t" +
+//                            "push r13\n\t" +
+//                            "push r14\n\t" +
+//                            "push r15\n\t");
+                        out.print('\t');
+                        err.print('\t');
+                        List<VarDeclNode> varDeclNodeList = ((FuncDeclNode) declNode1).getFunctionParameterList().getVardeclnodeList();
+                        for (int index = varDeclNodeList.size() - 1; index >= 0; --index) {
+                            if (index > 4) {
+                                (new Assign(varDeclNodeList.get(index).getIntValue(),
+                                        new MemAddr(new Register(Register.RegisterName.RBP),
+                                                new ConstValue(index - 3)))).accept(this);
+                                indent();
+                            } else {
+                                switch (index) {
+                                    case 0:
+                                        out.printf("mov %s, rsi\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                        err.printf("mov %s, rsi\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                        break;
+                                    case 1:
+                                        out.printf("mov %s, rdx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                        err.printf("mov %s, rdx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                        break;
+                                    case 2:
+                                        out.printf("mov %s, rcx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                        err.printf("mov %s, rcx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                        break;
+                                    case 3:
+                                        out.printf("mov %s, r8\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                        err.printf("mov %s, r8\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                        break;
+                                    case 4:
+                                        out.printf("mov %s, r9\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                        err.printf("mov %s, r9\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
+                                        break;
+                                }
+                            }
+                        }
+                        out.printf("mov %s, rdi\n\t", classDeclNode.getIntValue());
+                        err.printf("mov %s, rdi\n\t", classDeclNode.getIntValue());
+                        funcBlockMap.get(funcName).accept(this);
+                        isPrintMain = false;
+                    }
+                }
+            }
+        }
+
         setBuiltInFunction();
 
         //SECTION .data
@@ -197,7 +268,10 @@ public class CodeGenerator implements IRVisitor {
         out.println("format2: db \"%s\", 0");
 
         //x: dq 0
-        for (DeclNode declNode : progNode.getDeclarations()) {
+        for (
+                DeclNode declNode : progNode.getDeclarations())
+
+        {
             if (declNode instanceof VarDeclNode) {
                 VarDeclNode varDeclNode = (VarDeclNode) declNode;
                 if (!(varDeclNode.getVartype() instanceof ArrayTypeNode
@@ -211,7 +285,12 @@ public class CodeGenerator implements IRVisitor {
         }
 
         //_string_1: dq *, 0
-        for (Map.Entry<String, String> entry : irGenerator.getStringMap().entrySet()) {
+        for (
+                Map.Entry<String, String> entry : irGenerator.getStringMap().
+
+                entrySet())
+
+        {
             String stringDecl = entry.getKey() + ": db ";
             String valueString = entry.getValue();
             int index = 1;
@@ -278,7 +357,10 @@ public class CodeGenerator implements IRVisitor {
         out.println("stringbuffer: resb 256");
 
         //x: dq 0
-        for (DeclNode declNode : progNode.getDeclarations()) {
+        for (
+                DeclNode declNode : progNode.getDeclarations())
+
+        {
             if (declNode instanceof VarDeclNode) {
                 VarDeclNode varDeclNode = (VarDeclNode) declNode;
                 if (varDeclNode.getVartype() instanceof ArrayTypeNode ||
@@ -288,6 +370,7 @@ public class CodeGenerator implements IRVisitor {
                 }
             }
         }
+
     }
 
     @Override

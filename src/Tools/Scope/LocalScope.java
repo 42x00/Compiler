@@ -32,6 +32,10 @@ public class LocalScope extends Scope{
         declarations.put(varDeclNode.getVarname(),varDeclNode);
     }
 
+    public DeclNode find(String string){
+        return declarations.get(string);
+    }
+
     @Override
     public DeclNode get(String string) {
         DeclNode d = declarations.get(string);

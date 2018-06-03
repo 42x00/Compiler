@@ -1,59 +1,122 @@
-int hashsize = 100;
-class node
+class point
 {
-    int key;
-    int data;
-    node next;
-} node[] table;
-int getHash(int n)
-{
-    return (n * 237) % hashsize;
-}
-void put(int key, int data)
-{
-    int p;
-    node ptr = null;
-    p = getHash(key);
-    if (table[p] == null)
+    int x;
+    int y;
+    int z;
+    point()
     {
-        table[p] = new node;
-        table[p].key = key;
-        table[p].data = data;
-        table[p].next = null;
-        return;
+        x = 0;
+        y = 0;
+        z = 0;
     }
-    ptr = table[p];
-    while (ptr.key != key)
+    void set(int a_x, int a_y, int a_z)
     {
-        if (ptr.next == null)
-        {
-            ptr.next = new node;
-            ptr.next.key = key;
-            ptr.next.next = null;
-        }
-        ptr = ptr.next;
+        x = a_x;
+        y = a_y;
+        z = a_z;
     }
-    ptr.data = data;
-}
-int get(int key)
-{
-    node ptr = null;
-    ptr = table[getHash(key)];
-    while (ptr.key != key)
+    int sqrLen()
     {
-        ptr = ptr.next;
+        return x * x + y * y + z * z;
     }
-    return ptr.data;
+    int sqrDis(point other)
+    {
+        return (x - other.x) * (x - other.x) + (y - other.y) * (y - other.y) + (z - other.z) * (z - other.z);
+    }
+    int dot(point other)
+    {
+        return x * other.x + y * other.y + z * other.z;
+    }
+    point cross(point other)
+    {
+        point retval = new point;
+        retval.set(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x);
+        return retval;
+    }
+    point add(point other)
+    {
+        x = x + other.x;
+        y = y + other.y;
+        z = z + other.z;
+        return this;
+    }
+    point sub(point other)
+    {
+        x = x - other.x;
+        y = y - other.y;
+        z = z - other.z;
+        return this;
+    }
+    void printPoint()
+    {
+        println("(" + toString(x) + ", " + toString(y) + ", " + toString(z) + ")");
+    }
 }
-int main()
+
+int
+main()
 {
-    int i;
-    table = new node[100];
-    for (i = 0; i < hashsize; i++)
-        table[i] = null;
-    for (i = 0; i < 1000; i++)
-        put(i, i);
-    for (i = 0; i < 1000; i++)
-        println(toString(i) + " " + toString(get(i)));
+    point a = new point;
+    point b = new point;
+    point c = new point;
+    point d = new point;
+    a.printPoint();
+    a.set(849, -463, 480);
+    b.set(-208, 585, -150);
+    c.set(360, -670, -742);
+    d.set(-29, -591, -960);
+    a.add(b);
+    b.add(c);
+    d.add(c);
+    c.sub(a);
+    b.sub(d);
+    d.sub(c);
+    c.add(b);
+    a.add(b);
+    b.add(b);
+    c.add(c);
+    a.sub(d);
+    a.add(b);
+    b.sub(c);
+    println(toString(a.sqrLen()));
+    println(toString(b.sqrLen()));
+    println(toString(b.sqrDis(c)));
+    println(toString(d.sqrDis(a)));
+    println(toString(c.dot(a)));
+    b.cross(d).printPoint();
+    a.printPoint();
+    b.printPoint();
+    c.printPoint();
+    d.printPoint();
     return 0;
 }
+
+/*!! metadata:
+=== comment ===
+point-5140309561-sunxingyuan.txt
+=== is_public ===
+True
+=== assert ===
+output
+=== timeout ===
+0.1
+=== input ===
+
+=== phase ===
+codegen extended
+=== output ===
+(0, 0, 0)
+28716325
+7421636
+9980404
+38464544
+1854392
+(7616, 1666188, -1232986)
+(-508, 4119, 3390)
+(562, 1584, 2144)
+(-920, 768, -524)
+(612, -469, -630)
+=== exitcode ===
+
+
+!!*/

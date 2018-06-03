@@ -1,6 +1,7 @@
 package AST_Node.DeclNodes;
 
 import AST_Node.ASTVisitor;
+import IR.IRNodes.IntValue;
 import Tools.Scope.LocalScope;
 import Tools.Scope.Scope;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -10,6 +11,7 @@ import java.util.List;
 
 public class ClassDeclNode extends DeclNode {
     private List<DeclNode> classdecllist;
+    private IntValue intValue;
     private LocalScope localScope;
     private int size;
 
@@ -44,6 +46,14 @@ public class ClassDeclNode extends DeclNode {
 
     public void setLocalScope(LocalScope localScope) {
         this.localScope = localScope;
+    }
+
+    public IntValue getIntValue() {
+        return intValue;
+    }
+
+    public void setIntValue(IntValue intValue) {
+        this.intValue = intValue;
     }
 
     @Override
