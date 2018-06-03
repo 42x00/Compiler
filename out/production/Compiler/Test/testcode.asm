@@ -1,8 +1,6 @@
 extern malloc
 extern printf
 extern puts
- 
-extern puts
 extern getchar
 extern putchar
 extern sprintf
@@ -12,12 +10,13 @@ extern printf
 extern strlen
 extern memcpy
 extern scanf
-global a
-global f
-global main
+
+global _a
+global _f
+global _main
 
 SECTION .text
-f:
+_f:
 	push rbp
 	mov rbp, rsp
 	sub rsp, 64
@@ -43,7 +42,7 @@ f:
 L_1:
 	leave
 	ret
-main:
+_main:
 	push rbp
 	mov rbp, rsp
 	sub rsp, 16
@@ -64,12 +63,12 @@ main:
 	mov qword [rbp - 8], rbx
 	add qword [rbp - 8], rcx
 	mov rbx, qword [rbp - 8]
-	mov qword [a], rbx
+	mov qword [_a], rbx
 	mov rcx, 4
 	mov rdx, 3
 	mov rsi, 2
 	mov rdi, 1
-	call f
+	call _f
 	mov rbx, rax
 	mov qword [rbp - 8], rbx
 	mov rbx, 0
@@ -807,4 +806,4 @@ format1: db "%lld", 0
 format2: db "%s", 0
 SECTION .bss
 stringbuffer: resb 256
-a: dq 0
+_a: dq 0

@@ -17,8 +17,8 @@
       <file leaf-file-name="CodeGenerator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Tools/CodeGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="101" column="22" lean-forward="true" selection-start-line="101" selection-start-column="22" selection-end-line="101" selection-end-column="22" />
+            <state relative-caret-position="219">
+              <caret line="132" column="38" lean-forward="true" selection-start-line="132" selection-start-column="38" selection-end-line="132" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -116,7 +116,7 @@
       <find>MemAdd</find>
       <find>Assign</find>
       <find>MemAddr</find>
-      <find />
+      <find>new MemAddr(</find>
       <find>rbx</find>
       <find>rcx</find>
       <find>Bin</find>
@@ -124,7 +124,7 @@
       <find>Call</find>
       <find>_global_</find>
       <find>FuncCal</find>
-      <find />
+      <find>new Register(Register.RegisterName.RBP)</find>
       <find>RBP</find>
       <find>name</find>
     </findStrings>
@@ -184,8 +184,8 @@
         <option value="$PROJECT_DIR$/src/IR/IRNodes/Cjump.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/BasicBlock.java" />
         <option value="$PROJECT_DIR$/src/IR/IRNodes/Register.java" />
-        <option value="$PROJECT_DIR$/src/Tools/CodeGenerator.java" />
         <option value="$PROJECT_DIR$/src/Tools/IRGenerator.java" />
+        <option value="$PROJECT_DIR$/src/Tools/CodeGenerator.java" />
       </list>
     </option>
   </component>
@@ -196,8 +196,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-2200" />
-    <option name="y" value="187" />
+    <option name="x" value="197" />
+    <option name="y" value="242" />
     <option name="width" value="1325" />
     <option name="height" value="1059" />
   </component>
@@ -410,12 +410,12 @@
       <workItem from="1527916948111" duration="2887000" />
       <workItem from="1527921473709" duration="1196000" />
       <workItem from="1527927209813" duration="20603000" />
-      <workItem from="1527993390984" duration="4079000" />
+      <workItem from="1527993390984" duration="4385000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="401040000" />
+    <option name="totallyTimeSpent" value="401346000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-7" width="1479" height="878" extended-state="6" />
@@ -986,8 +986,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Tools/CodeGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="101" column="22" lean-forward="true" selection-start-line="101" selection-start-column="22" selection-end-line="101" selection-end-column="22" />
+        <state relative-caret-position="219">
+          <caret line="132" column="38" lean-forward="true" selection-start-line="132" selection-start-column="38" selection-end-line="132" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

@@ -94,8 +94,13 @@ public class CodeGenerator implements IRVisitor {
         //global main
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (!(declNode instanceof ClassDeclNode)) {
-                out.println("global " + "_" + declNode.getDeclname());
-                err.println("global " + "_" + declNode.getDeclname());
+                if (declNode.getDeclname().equals("main")) {
+                    out.println("global " + declNode.getDeclname());
+                    err.println("global " + declNode.getDeclname());
+                } else {
+                    out.println("global " + "_" + declNode.getDeclname());
+                    err.println("global " + "_" + declNode.getDeclname());
+                }
             }
         }
 
@@ -110,8 +115,13 @@ public class CodeGenerator implements IRVisitor {
                 //main:
                 //     push rbp
                 //     move rbp, rsp
-                out.printf("_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
-                err.printf("_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
+                if (declNode.getDeclname().equals("main")) {
+                    out.printf("%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
+                    err.printf("%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
+                } else {
+                    out.printf("_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
+                    err.printf("_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
+                }
                 int cntRegister = cntRegisterMap.get(declNode.getDeclname());
                 //     sub rsp, 8
                 out.printf("sub rsp, %d\n", cntRegister * 8);
@@ -293,7 +303,7 @@ public class CodeGenerator implements IRVisitor {
         //jmp L_*
         out.println("jmp " + jump.getNxtBlock().toLabel());
         err.println("jmp " + jump.getNxtBlock().toLabel());
-        if (!trySetLabel(jump.getNxtBlock())){
+        if (!trySetLabel(jump.getNxtBlock())) {
             labelSet.add(jump.getNxtBlock().getOrd());
             jump.getNxtBlock().setLabel();
             jump.getNxtBlock().accept(this);
@@ -309,7 +319,7 @@ public class CodeGenerator implements IRVisitor {
         if (trySetLabel(cjump.getThenBlock())) {
             out.println("jnz " + cjump.getThenBlock().toLabel());
             err.println("jnz " + cjump.getThenBlock().toLabel());
-            if (!trySetLabel(cjump.getElseBlock())){
+            if (!trySetLabel(cjump.getElseBlock())) {
                 labelSet.add(cjump.getElseBlock().getOrd());
                 cjump.getElseBlock().setLabel();
                 cjump.getElseBlock().accept(this);
@@ -321,7 +331,7 @@ public class CodeGenerator implements IRVisitor {
         labelSet.add(cjump.getThenBlock().getOrd());
         cjump.getThenBlock().setLabel();
         cjump.getThenBlock().accept(this);
-        if (!trySetLabel(cjump.getElseBlock())){
+        if (!trySetLabel(cjump.getElseBlock())) {
             labelSet.add(cjump.getElseBlock().getOrd());
             cjump.getElseBlock().setLabel();
             cjump.getElseBlock().accept(this);

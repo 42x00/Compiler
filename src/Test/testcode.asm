@@ -13,7 +13,7 @@ extern scanf
 
 global _a
 global _f
-global _main
+global main
 
 SECTION .text
 _f:
@@ -42,7 +42,7 @@ _f:
 L_1:
 	leave
 	ret
-_main:
+main:
 	push rbp
 	mov rbp, rsp
 	sub rsp, 16
