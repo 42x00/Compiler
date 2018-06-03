@@ -177,7 +177,11 @@ public class IRGenerator implements ASTVisitor {
         currentBlock.append(new Jump(condBlock));
         currentBlock = condBlock;
 
-        shortcut2Block = endBlock;
+        if (whileStmtNode.getWhileexpr() instanceof BinaryExprNode) {
+            BinaryExprNode binaryExprNode = (BinaryExprNode) whileStmtNode.getWhileexpr();
+            if (binaryExprNode.getExprop() == BinaryExprNode.BinaryOP.LOGICAL_AND) shortcut2Block = endBlock;
+            else if (binaryExprNode.getExprop() == BinaryExprNode.BinaryOP.LOGICAL_OR) shortcut2Block = whileBlock;
+        }
         whileStmtNode.getWhileexpr().accept(this);
 
         currentBlock.append(new Cjump(exprLinkedList.pop(), whileBlock, endBlock));
@@ -214,7 +218,11 @@ public class IRGenerator implements ASTVisitor {
 
 
         if (forStmtNode.getForexprend() != null) {
-            shortcut2Block = endBlock;
+            if (forStmtNode.getForexprend() instanceof BinaryExprNode) {
+                BinaryExprNode binaryExprNode = (BinaryExprNode) forStmtNode.getForexprend();
+                if (binaryExprNode.getExprop() == BinaryExprNode.BinaryOP.LOGICAL_AND) shortcut2Block = endBlock;
+                else if (binaryExprNode.getExprop() == BinaryExprNode.BinaryOP.LOGICAL_OR) shortcut2Block = forBlock;
+            }
             forStmtNode.getForexprend().accept(this);
             currentBlock.append(new Cjump(exprLinkedList.pop(), forBlock, endBlock));
         } else currentBlock.append(new Jump(forBlock));
@@ -247,6 +255,19 @@ public class IRGenerator implements ASTVisitor {
     @Override
     public void visit(ReturnStmtNode returnStmtNode) {
         hasReturn = true;
+        if (returnStmtNode.getReturnexpr() instanceof BinaryExprNode) {
+            BinaryExprNode.BinaryOP binaryOP = ((BinaryExprNode) returnStmtNode.getReturnexpr()).getExprop();
+            if (binaryOP == BinaryExprNode.BinaryOP.LOGICAL_AND || binaryOP == BinaryExprNode.BinaryOP.LOGICAL_OR) {
+                BasicBlock nxtBlock = new BasicBlock();
+                shortcut2Block = nxtBlock;
+                returnStmtNode.getReturnexpr().accept(this);
+                currentBlock.append(new Jump(nxtBlock));
+                currentBlock = nxtBlock;
+                currentBlock.append(new Assign(registerRAX, exprLinkedList.pop()));
+                currentBlock.append(new Jump(funcReturnBlock));
+                return;
+            }
+        }
         returnStmtNode.getReturnexpr().accept(this);
         currentBlock.append(new Assign(registerRAX, exprLinkedList.pop()));
         currentBlock.append(new Jump(funcReturnBlock));
@@ -523,7 +544,17 @@ public class IRGenerator implements ASTVisitor {
 
 
         for (ExprNode exprNode : funcCallExprNode.getParameters()) {
-            exprNode.accept(this);
+            if (exprNode instanceof BinaryExprNode) {
+                BinaryExprNode.BinaryOP binaryOP = ((BinaryExprNode) exprNode).getExprop();
+                if (binaryOP == BinaryExprNode.BinaryOP.LOGICAL_AND || binaryOP == BinaryExprNode.BinaryOP.LOGICAL_OR) {
+                    BasicBlock nxtBlock = new BasicBlock();
+                    shortcut2Block = nxtBlock;
+                    exprNode.accept(this);
+                    currentBlock.append(new Jump(nxtBlock));
+                    currentBlock = nxtBlock;
+                } else exprNode.accept(this);
+            } else
+                exprNode.accept(this);
             intValueList.add(exprLinkedList.pop());
         }
 
