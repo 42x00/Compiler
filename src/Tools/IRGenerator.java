@@ -19,7 +19,7 @@ import java.util.*;
 public class IRGenerator implements ASTVisitor {
     static private int cntString = 0;
     static private boolean hasReturn;
-    static private boolean isReturnAddr;
+    static private boolean isReturnAddr = false;
 
     static private Register registerRAX = new Register(Register.RegisterName.RAX);
     static private Register registerR10 = new Register(Register.RegisterName.R10);
@@ -433,6 +433,7 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(SuffixExprNode suffixExprNode) {
+        isReturnAddr = true;
         suffixExprNode.getSuffixexpr().accept(this);
 
         IntValue intValue = exprLinkedList.pop();
@@ -464,6 +465,7 @@ public class IRGenerator implements ASTVisitor {
                 return;
             }
         }
+        isReturnAddr = true;
         unaryExprNode.getUnaryexpr().accept(this);
         IntValue intValue = exprLinkedList.pop();
         if (unaryExprNode.getExprop() == UnaryExprNode.UnaryOP.POSI) {
