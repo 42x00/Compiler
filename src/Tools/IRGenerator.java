@@ -18,7 +18,7 @@ import java.util.*;
 
 public class IRGenerator implements ASTVisitor {
     static private int cntString = 0;
-    static private boolean hasReturn;
+//    static private boolean hasReturn;
     static private boolean isReturnAddr = false;
 
     static private Register registerRAX = new Register(Register.RegisterName.RAX);
@@ -89,21 +89,24 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(FuncDeclNode funcDeclNode) {
-        if (funcDeclNode.getFunctionStatements() != null) {
-            hasReturn = false;
-            funcReturnBlock = new BasicBlock();
-            funcReturnBlock.append(new ReturnInst());
-            Register.resetCnt();
-            for (VarDeclNode varDeclNode : funcDeclNode.getFunctionParameterList().getVardeclnodeList()) {
-                varDeclNode.setIntValue(new Register());
-            }
-            funcDeclNode.getFunctionStatements().accept(this);
-            if (!hasReturn) {
-                currentBlock.append(new Assign(registerRAX, new ConstValue(0)));
-                currentBlock.append(new Jump(funcReturnBlock));
-            }
-            registerCntMap.put(funcDeclNode.getFunctionName(), Register.getCntRegister() - 15);
+        List<StmtNode> stmtNodeList = funcDeclNode.getFunctionStatements().getStmtNodeList();
+        int lastIndex = stmtNodeList.size() - 1;
+        if (!(stmtNodeList.get(lastIndex) instanceof ReturnStmtNode)) {
+            stmtNodeList.add(new ReturnStmtNode(new IntExprNode(0)));
         }
+//        hasReturn = false;
+        funcReturnBlock = new BasicBlock();
+        funcReturnBlock.append(new ReturnInst());
+        Register.resetCnt();
+        for (VarDeclNode varDeclNode : funcDeclNode.getFunctionParameterList().getVardeclnodeList()) {
+            varDeclNode.setIntValue(new Register());
+        }
+        funcDeclNode.getFunctionStatements().accept(this);
+//        if (!hasReturn) {
+//            currentBlock.append(new Assign(registerRAX, new ConstValue(0)));
+//            currentBlock.append(new Jump(funcReturnBlock));
+//        }
+        registerCntMap.put(funcDeclNode.getFunctionName(), Register.getCntRegister() - 15);
     }
 
     @Override
@@ -254,7 +257,11 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(ReturnStmtNode returnStmtNode) {
-        hasReturn = true;
+//        hasReturn = true;
+        if (returnStmtNode.getReturnexpr() == null) {
+            currentBlock.append(new Jump(funcReturnBlock));
+            return;
+        }
         if (returnStmtNode.getReturnexpr() instanceof BinaryExprNode) {
             BinaryExprNode.BinaryOP binaryOP = ((BinaryExprNode) returnStmtNode.getReturnexpr()).getExprop();
             if (binaryOP == BinaryExprNode.BinaryOP.LOGICAL_AND || binaryOP == BinaryExprNode.BinaryOP.LOGICAL_OR) {
