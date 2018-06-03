@@ -77,7 +77,8 @@ public class CodeGenerator implements IRVisitor {
         funcBlockMap = irGenerator.getFuncBlockMap();
 
         //extern malloc, printf
-        out.println("extern malloc\nextern printf\nextern puts\n ");
+        out.println("extern malloc");
+        out.println("extern printf");
         out.println("extern puts");
         out.println("extern getchar");
         out.println("extern putchar");
@@ -88,15 +89,16 @@ public class CodeGenerator implements IRVisitor {
         out.println("extern strlen");
         out.println("extern memcpy");
         out.println("extern scanf");
-
+        out.println();
 
         //global main
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (!(declNode instanceof ClassDeclNode)) {
-                out.println("global " + declNode.getDeclname());
-                err.println("global " + declNode.getDeclname());
+                out.println("global " + "_" + declNode.getDeclname());
+                err.println("global " + "_" + declNode.getDeclname());
             }
         }
+
         out.println();
         err.println();
         //SECTION .text
@@ -108,8 +110,8 @@ public class CodeGenerator implements IRVisitor {
                 //main:
                 //     push rbp
                 //     move rbp, rsp
-                out.printf("%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
-                err.printf("%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
+                out.printf("_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
+                err.printf("_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
                 int cntRegister = cntRegisterMap.get(declNode.getDeclname());
                 //     sub rsp, 8
                 out.printf("sub rsp, %d\n", cntRegister * 8);
@@ -139,12 +141,6 @@ public class CodeGenerator implements IRVisitor {
                                     new MemAddr(new Register(Register.RegisterName.RBP),
                                             new ConstValue(index - 4)))).accept(this);
                             indent();
-//                            out.printf("mov %s, qword [rbp + %d]\n\t",
-//                                    varDeclNodeList.get(index).getIntValue().accept(this),
-//                                    (index - 4) * 8);
-//                            err.printf("mov %s, qword [rbp + %d]\n\t",
-//                                    varDeclNodeList.get(index).getIntValue().accept(this),
-//                                    (index - 4) * 8);
                         } else {
                             switch (index) {
                                 case 0:
@@ -197,8 +193,8 @@ public class CodeGenerator implements IRVisitor {
                 if (!(varDeclNode.getVartype() instanceof ArrayTypeNode
                         || varDeclNode.getVartype() instanceof ClassTypeNode)) {
                     if (varDeclNode.getVartype().getBasetype() != Type.Types.STRING) {
-                        out.println(varDeclNode.getVarname() + ": dq 0");
-                        err.println(varDeclNode.getVarname() + ": dq 0");
+                        out.println("_" + varDeclNode.getVarname() + ": dq 0");
+                        err.println("_" + varDeclNode.getVarname() + ": dq 0");
                     }
                 }
             }
@@ -265,7 +261,7 @@ public class CodeGenerator implements IRVisitor {
             out.println(stringDecl);
         }
 
-        //SECTION .data
+        //SECTION .bss
         out.println("SECTION .bss");
         err.println("SECTION .bss");
 
@@ -277,8 +273,8 @@ public class CodeGenerator implements IRVisitor {
                 VarDeclNode varDeclNode = (VarDeclNode) declNode;
                 if (varDeclNode.getVartype() instanceof ArrayTypeNode ||
                         (varDeclNode.getVartype() instanceof TypeNode && varDeclNode.getVartype().getBasetype() == Type.Types.STRING)) {
-                    out.println(varDeclNode.getVarname() + ": dq 0");
-                    err.println(varDeclNode.getVarname() + ": dq 0");
+                    out.println("_" + varDeclNode.getVarname() + ": dq 0");
+                    err.println("_" + varDeclNode.getVarname() + ": dq 0");
                 }
             }
         }

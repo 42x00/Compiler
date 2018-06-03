@@ -12,96 +12,70 @@ extern printf
 extern strlen
 extern memcpy
 extern scanf
+global a
+global f
 global main
 
 SECTION .text
-main:
+f:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 120
-	mov rbx, 5
-	mov %la, rbx
-	mov rbx, %la
-	mov rcx, 3
-	mov qword [rbp - 24], rbx
-	sal qword [rbp - 24], cl
-	mov rbx, qword [rbp - 24]
-	mov rcx, 8
-	mov qword [rbp - 24], rbx
-	add qword [rbp - 24], rcx
-	mov rdi, qword [rbp - 24]
-	call malloc
-	mov rbx, %la
-	mov qword [rax], rbx
+	sub rsp, 64
+	mov qword [rbp - 32], rcx
+	mov qword [rbp - 24], rdx
+	mov qword [rbp - 16], rsi
+	mov qword [rbp - 8], rdi
+	mov rbx, qword [rbp - 32]
+	mov rcx, 2
+	mov qword [rbp - 40], rbx
+	add qword [rbp - 40], rcx
+	mov rdi, qword [rbp - 40]
+	call toString
 	mov rbx, rax
-	mov rcx, 8
-	mov qword [rbp - 24], rbx
-	add qword [rbp - 24], rcx
-	mov rbx, qword [rbp - 24]
-	mov qword [rbp - 16], rbx
+	mov qword [rbp - 48], rbx
+	mov rdi, qword [rbp - 48]
+	call puts
+	mov rbx, rax
+	mov qword [rbp - 56], rbx
 	mov rbx, 0
-	mov qword [rbp - 32], rbx
-	mov rbx, 0
-	mov qword [rbp - 40], rbx
-	jmp L_2
-L_2:
-	mov rbx, qword [rbp - 40]
-	mov rcx, %la
-	cmp rbx, rcx
-	setl byte [rbp - 48]
-	cmp byte [rbp - 48], 0
-	jz L_4
-L_3:
-	inc qword [rbp - 32]
-	mov rcx, qword [rbp - 32]
-	mov qword [rbp - 56], rcx
-	mov rbx, qword [rbp - 16]
-	mov rdi, rbx
-	mov rbx, qword [rbp - 40]
-	mov rsi, rbx
-	mov rbx, qword [rdi + rsi*8]
-	mov qword [rbp - 64], rbx
-	mov rbx, qword [rbp - 56]
-	mov qword [rbp - 64], rbx
-	inc qword [rbp - 40]
-	mov rcx, qword [rbp - 40]
-	mov qword [rbp - 72], rcx
-	jmp L_2
-L_4:
-	mov rbx, 0
-	mov qword [rbp - 80], rbx
-	mov rbx, 0
-	mov qword [rbp - 40], rbx
-	jmp L_5
-L_5:
-	mov rbx, qword [rbp - 40]
-	mov rcx, %la
-	cmp rbx, rcx
-	setl byte [rbp - 88]
-	cmp byte [rbp - 88], 0
-	jz L_7
-L_6:
-	mov rbx, qword [rbp - 16]
-	mov rdi, rbx
-	mov rbx, qword [rbp - 40]
-	mov rsi, rbx
-	mov rbx, qword [rdi + rsi*8]
-	mov qword [rbp - 96], rbx
-	mov rbx, qword [rbp - 80]
-	mov rcx, qword [rbp - 96]
-	mov qword [rbp - 104], rbx
-	add qword [rbp - 104], rcx
-	mov rbx, qword [rbp - 104]
-	mov qword [rbp - 80], rbx
-	inc qword [rbp - 40]
-	mov rcx, qword [rbp - 40]
-	mov qword [rbp - 112], rcx
-	jmp L_5
-L_7:
-	mov rbx, qword [rbp - 80]
 	mov rax, rbx
 	jmp L_1
 L_1:
+	leave
+	ret
+main:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 16
+	mov rbx, 10
+	mov rcx, 3
+	mov qword [rbp - 8], rbx
+	sal qword [rbp - 8], cl
+	mov rbx, qword [rbp - 8]
+	mov rcx, 8
+	mov qword [rbp - 8], rbx
+	add qword [rbp - 8], rcx
+	mov rdi, qword [rbp - 8]
+	call malloc
+	mov rbx, 10
+	mov qword [rax], rbx
+	mov rbx, rax
+	mov rcx, 8
+	mov qword [rbp - 8], rbx
+	add qword [rbp - 8], rcx
+	mov rbx, qword [rbp - 8]
+	mov qword [a], rbx
+	mov rcx, 4
+	mov rdx, 3
+	mov rsi, 2
+	mov rdi, 1
+	call f
+	mov rbx, rax
+	mov qword [rbp - 8], rbx
+	mov rbx, 0
+	mov rax, rbx
+	jmp L_3
+L_3:
 	leave
 	ret
 toString:
@@ -833,3 +807,4 @@ format1: db "%lld", 0
 format2: db "%s", 0
 SECTION .bss
 stringbuffer: resb 256
+a: dq 0

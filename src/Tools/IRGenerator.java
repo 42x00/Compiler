@@ -24,7 +24,6 @@ public class IRGenerator implements ASTVisitor {
     static private Register registerRAX = new Register(Register.RegisterName.RAX);
     static private Register registerR10 = new Register(Register.RegisterName.R10);
     static private Register registerR11 = new Register(Register.RegisterName.R11);
-    static private Register registerRCX = new Register(Register.RegisterName.RCX);
 
     static private LinkedList<IntValue> exprLinkedList = new LinkedList<>();
 
@@ -73,7 +72,7 @@ public class IRGenerator implements ASTVisitor {
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof VarDeclNode) {
                 VarDeclNode varDeclNode = (VarDeclNode) declNode;
-                varDeclNode.setIntValue(new GloalVar(varDeclNode.getVarname()));
+                varDeclNode.setIntValue(new GloalVar("_" + varDeclNode.getVarname()));
             }
         }
         for (DeclNode declNode : progNode.getDeclarations()) {
@@ -133,7 +132,7 @@ public class IRGenerator implements ASTVisitor {
             BasicBlock thenBlock = new BasicBlock();
             BasicBlock endBlock = new BasicBlock();
 
-            if (ifStmtNode.getIfexpr() instanceof BinaryExprNode){
+            if (ifStmtNode.getIfexpr() instanceof BinaryExprNode) {
                 BinaryExprNode binaryExprNode = (BinaryExprNode) ifStmtNode.getIfexpr();
                 if (binaryExprNode.getExprop() == BinaryExprNode.BinaryOP.LOGICAL_AND) shortcut2Block = endBlock;
                 else if (binaryExprNode.getExprop() == BinaryExprNode.BinaryOP.LOGICAL_OR) shortcut2Block = thenBlock;
@@ -467,12 +466,23 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(FuncCallExprNode funcCallExprNode) {
-        String funcName = "NotFuncName";
+        String funcName = "_";
         List<IntValue> intValueList = new ArrayList<>();
 
         if (funcCallExprNode.getFunction() instanceof IDExprNode) {
             //f()
-            funcName = ((IDExprNode) funcCallExprNode.getFunction()).getId();
+            String rawFuncName = ((IDExprNode) funcCallExprNode.getFunction()).getId();
+            switch (rawFuncName) {
+                case "print":
+                case "println":
+                case "getString":
+                case "getInt":
+                case "toString":
+                    funcName = rawFuncName;
+                    break;
+                default:
+                    funcName = "_" + rawFuncName;
+            }
             switch (funcName) {
                 case "println":
                     funcName = "puts";
@@ -485,13 +495,12 @@ public class IRGenerator implements ASTVisitor {
             intValueList.add(exprLinkedList.pop());
             TypeNode typeNode = classMethodExprNode.getClassexpr().getExprtype();
             if (typeNode instanceof ClassTypeNode) {
-                funcName = ((ClassTypeNode) typeNode).getClassname();
+                funcName += ((ClassTypeNode) typeNode).getClassname() + "._" + classMethodExprNode.getMethodname();
             } else if (typeNode instanceof ArrayTypeNode) {
-                funcName = "array";
+                funcName = "array." + classMethodExprNode.getMethodname();
             } else {
-                funcName = "string";
+                funcName = "string." + classMethodExprNode.getMethodname();
             }
-            funcName += "." + classMethodExprNode.getMethodname();
         }
 
 
