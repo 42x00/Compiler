@@ -122,7 +122,7 @@ public class IRGenerator implements ASTVisitor {
         funcDeclNode.getFunctionStatements().accept(this);
         if (currentClass != null)
             registerCntMap.put(currentClass.getDeclname() + "." + funcDeclNode.getFunctionName(), Register.getCntRegister() - 15);
-        //------------------- Can be set in FuncDeclNode -------------------//
+            //------------------- Can be set in FuncDeclNode -------------------//
         else registerCntMap.put(funcDeclNode.getFunctionName(), Register.getCntRegister() - 15);
     }
 
@@ -300,6 +300,7 @@ public class IRGenerator implements ASTVisitor {
     public void visit(ReturnStmtNode returnStmtNode) {
         if (returnStmtNode.getReturnexpr() == null) {
             currentBlock.append(new Jump(funcReturnBlock));
+            currentBlock = new BasicBlock();
             return;
         }
         if (returnStmtNode.getReturnexpr() instanceof BinaryExprNode) {
@@ -313,6 +314,7 @@ public class IRGenerator implements ASTVisitor {
                 currentBlock = nxtBlock;
                 currentBlock.append(new Assign(registerRAX, exprLinkedList.pop()));
                 currentBlock.append(new Jump(funcReturnBlock));
+                currentBlock = new BasicBlock();
                 return;
             }
         }
@@ -321,6 +323,7 @@ public class IRGenerator implements ASTVisitor {
         returnStmtNode.getReturnexpr().accept(this);
         currentBlock.append(new Assign(registerRAX, exprLinkedList.pop()));
         currentBlock.append(new Jump(funcReturnBlock));
+        currentBlock = new BasicBlock();
     }
 
     //  ***************************** Stmt Over ***************************** //
@@ -627,14 +630,14 @@ public class IRGenerator implements ASTVisitor {
                     currentBlock.append(new Assign(registerR10, currentClass.getIntValue()));
                     currentBlock.append(new Assign(registerR11,
                             new ConstValue(offsetIndexMap.get(currentClass.getDeclname() + "." + d.getDeclname()))));
-                    exprLinkedList.push(new MemAddr(registerR10,registerR11));
+                    exprLinkedList.push(new MemAddr(registerR10, registerR11));
                     return;
                 }
                 currentBlock.append(new Assign(registerR10, currentClass.getIntValue()));
                 currentBlock.append(new Assign(registerR11,
                         new ConstValue(offsetIndexMap.get(currentClass.getDeclname() + "." + d.getDeclname()))));
                 Register register = new Register();
-                currentBlock.append(new Assign(register, new MemAddr(registerR10,registerR11)));
+                currentBlock.append(new Assign(register, new MemAddr(registerR10, registerR11)));
                 exprLinkedList.push(register);
                 return;
             }
@@ -650,10 +653,11 @@ public class IRGenerator implements ASTVisitor {
         if (funcCallExprNode.getFunction() instanceof IDExprNode) {
             //f()
             String rawFuncName = ((IDExprNode) funcCallExprNode.getFunction()).getId();
-            if (currentClass != null){
+            if (currentClass != null) {
                 DeclNode d = currentClass.getLocalScope().find(rawFuncName);
-                if (d != null){
+                if (d != null) {
                     rawFuncName = currentClass.getDeclname() + "." + d.getDeclname();
+                    intValueList.add(currentClass.getIntValue());
                 }
             }
             switch (rawFuncName) {
@@ -782,7 +786,7 @@ public class IRGenerator implements ASTVisitor {
             exprLinkedList.push(register);
         } else {
             ClassDeclNode classDeclNode = (ClassDeclNode) toplevelScope.get(((ClassTypeNode) newExprNode.getExprtype()).getClassname());
-            currentBlock.append(new Call("malloc", new ConstValue(classDeclNode.getSize())));
+            currentBlock.append(new Call("malloc", new ConstValue(classDeclNode.getSize() * 8)));
             exprLinkedList.push(registerRAX);
         }
     }

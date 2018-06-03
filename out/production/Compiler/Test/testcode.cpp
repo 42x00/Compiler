@@ -1,99 +1,148 @@
-class point
+//
+// Naive vector class for Mx*.
+// Without any guarantee for robustness.
+//
+class vector
 {
-    int x;
-    int y;
-    int z;
-    point()
+    int[] data;
+    vector add(vector rhs)
     {
-        x = 0;
-        y = 0;
-        z = 0;
+        if (getDim() != rhs.getDim() || getDim() == 0)
+            return null;
+        vector temp = new vector;
+        int i;
+        temp.data = new int[getDim()];
+        for (i = 0; i < getDim(); ++i)
+        {
+            temp.data[i] = data[i] + rhs.data[i];
+        }
+        return temp;
     }
-    void set(int a_x, int a_y, int a_z)
+    void init(int[] vec)
     {
-        x = a_x;
-        y = a_y;
-        z = a_z;
+        // init the vector from an array
+        if (vec == null)
+            return;
+        data = new int[vec.size()];
+        int i;
+        for (i = 0; i < vec.size(); ++i)
+        {
+            data[i] = vec[i];
+        }
     }
-    int sqrLen()
+
+    int getDim()
     {
-        return x * x + y * y + z * z;
+        if (data == null)
+            return 0;
+        return data.size();
     }
-    int sqrDis(point other)
+
+    int dot(vector rhs)
     {
-        return (x - other.x) * (x - other.x) + (y - other.y) * (y - other.y) + (z - other.z) * (z - other.z);
+        int i = 0;
+        int result = 0;
+        while (i < getDim())
+        {
+            //result = data[i] * rhs[i];
+            result = data[i] * rhs.data[i];
+            ++i;
+        }
+        return result;
     }
-    int dot(point other)
+
+    vector scalarInPlaceMultiply(int c)
     {
-        return x * other.x + y * other.y + z * other.z;
-    }
-    point cross(point other)
-    {
-        point retval = new point;
-        retval.set(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x);
-        return retval;
-    }
-    point add(point other)
-    {
-        x = x + other.x;
-        y = y + other.y;
-        z = z + other.z;
+        if (data == null)
+            return null;
+        int i;
+        for (i = 0; i < getDim(); ++i)
+        {
+            this.data[i] = c * this.data[i];
+        }
         return this;
     }
-    point sub(point other)
+
+    bool set(int idx, int value)
     {
-        x = x - other.x;
-        y = y - other.y;
-        z = z - other.z;
-        return this;
+        if (getDim() < idx)
+            return false;
+        data[idx] = value;
+        return true;
     }
-    void printPoint()
+
+    string tostring()
     {
-        println("(" + toString(x) + ", " + toString(y) + ", " + toString(z) + ")");
+        string temp = "( ";
+        if (getDim() > 0)
+        {
+            temp = temp + toString(data[0]);
+        }
+        int i;
+        for (i = 1; i < getDim(); ++i)
+        {
+            temp = temp + ", " + toString(data[i]);
+        }
+        temp = temp + " )";
+        return temp;
+    }
+
+    bool copy(vector rhs)
+    {
+        if (rhs == null)
+            return false;
+        if (rhs.getDim() == 0)
+        {
+            data = null;
+        }
+        else
+        {
+            data = new int[rhs.getDim()];
+            int i;
+            for (i = 0; i < getDim(); ++i)
+            {
+                data[i] = rhs.data[i];
+            }
+        }
+        return true;
     }
 }
 
 int
 main()
 {
-    point a = new point;
-    point b = new point;
-    point c = new point;
-    point d = new point;
-    a.printPoint();
-    a.set(849, -463, 480);
-    b.set(-208, 585, -150);
-    c.set(360, -670, -742);
-    d.set(-29, -591, -960);
-    a.add(b);
-    b.add(c);
-    d.add(c);
-    c.sub(a);
-    b.sub(d);
-    d.sub(c);
-    c.add(b);
-    a.add(b);
-    b.add(b);
-    c.add(c);
-    a.sub(d);
-    a.add(b);
-    b.sub(c);
-    println(toString(a.sqrLen()));
-    println(toString(b.sqrLen()));
-    println(toString(b.sqrDis(c)));
-    println(toString(d.sqrDis(a)));
-    println(toString(c.dot(a)));
-    b.cross(d).printPoint();
-    a.printPoint();
-    b.printPoint();
-    c.printPoint();
-    d.printPoint();
+    vector x = new vector;
+    int[] a = new int[10];
+    int i;
+    for (i = 0; i < 10; ++i)
+    {
+        a[i] = 9 - i;
+    }
+    x.init(a);
+    print("vector x: ");
+    println(x.tostring());
+
+    // println("ok!");
+    vector y = new vector;
+    y.copy(x);
+    if (y.set(3, 817))
+    {
+        println("excited!");
+    }
+    print("vector y: ");
+    println(y.tostring());
+    print("x + y: ");
+    println((x.add(y)).tostring());
+    print("x * y: ");
+    println(toString(x.dot(y)));
+    print("(1 << 3) * y: ");
+    println(y.scalarInPlaceMultiply(1 << 3).tostring());
     return 0;
 }
 
 /*!! metadata:
 === comment ===
-point-5140309561-sunxingyuan.txt
+vector-5140519064-youyurong.txtNaive vector class for Mx*.Without any guarantee for robustness.
 === is_public ===
 True
 === assert ===
@@ -105,17 +154,12 @@ output
 === phase ===
 codegen extended
 === output ===
-(0, 0, 0)
-28716325
-7421636
-9980404
-38464544
-1854392
-(7616, 1666188, -1232986)
-(-508, 4119, 3390)
-(562, 1584, 2144)
-(-920, 768, -524)
-(612, -469, -630)
+vector x: ( 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 )
+excited!
+vector y: ( 9, 8, 7, 817, 5, 4, 3, 2, 1, 0 )
+x + y: ( 18, 16, 14, 823, 10, 8, 6, 4, 2, 0 )
+x * y: 0
+(1 << 3) * y: ( 72, 64, 56, 6536, 40, 32, 24, 16, 8, 0 )
 === exitcode ===
 
 
