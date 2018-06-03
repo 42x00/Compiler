@@ -18,7 +18,7 @@ import java.util.*;
 
 public class IRGenerator implements ASTVisitor {
     static private int cntString = 0;
-//    static private boolean hasReturn;
+    //    static private boolean hasReturn;
     static private boolean isReturnAddr = false;
 
     static private Register registerRAX = new Register(Register.RegisterName.RAX);
@@ -60,6 +60,7 @@ public class IRGenerator implements ASTVisitor {
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof VarDeclNode) {
                 if (((VarDeclNode) declNode).getVarinit() != null) {
+                    isReturnAddr = false;
                     ((VarDeclNode) declNode).getVarinit().accept(this);
                     currentBlock.append(new Assign(((VarDeclNode) declNode).getIntValue(), exprLinkedList.pop()));
                 }
@@ -140,6 +141,7 @@ public class IRGenerator implements ASTVisitor {
                 if (binaryExprNode.getExprop() == BinaryExprNode.BinaryOP.LOGICAL_AND) shortcut2Block = endBlock;
                 else if (binaryExprNode.getExprop() == BinaryExprNode.BinaryOP.LOGICAL_OR) shortcut2Block = thenBlock;
             }
+            isReturnAddr = false;
             ifStmtNode.getIfexpr().accept(this);
 
             currentBlock.append(new Cjump(exprLinkedList.pop(), thenBlock, endBlock));
@@ -155,6 +157,7 @@ public class IRGenerator implements ASTVisitor {
             BasicBlock endBlock = new BasicBlock();
 
             shortcut2Block = elseBlock;
+            isReturnAddr = false;
             ifStmtNode.getIfexpr().accept(this);
 
             currentBlock.append(new Cjump(exprLinkedList.pop(), thenBlock, elseBlock));
@@ -185,6 +188,7 @@ public class IRGenerator implements ASTVisitor {
             if (binaryExprNode.getExprop() == BinaryExprNode.BinaryOP.LOGICAL_AND) shortcut2Block = endBlock;
             else if (binaryExprNode.getExprop() == BinaryExprNode.BinaryOP.LOGICAL_OR) shortcut2Block = whileBlock;
         }
+        isReturnAddr = false;
         whileStmtNode.getWhileexpr().accept(this);
 
         currentBlock.append(new Cjump(exprLinkedList.pop(), whileBlock, endBlock));
@@ -226,6 +230,7 @@ public class IRGenerator implements ASTVisitor {
                 if (binaryExprNode.getExprop() == BinaryExprNode.BinaryOP.LOGICAL_AND) shortcut2Block = endBlock;
                 else if (binaryExprNode.getExprop() == BinaryExprNode.BinaryOP.LOGICAL_OR) shortcut2Block = forBlock;
             }
+            isReturnAddr = false;
             forStmtNode.getForexprend().accept(this);
             currentBlock.append(new Cjump(exprLinkedList.pop(), forBlock, endBlock));
         } else currentBlock.append(new Jump(forBlock));
@@ -267,6 +272,7 @@ public class IRGenerator implements ASTVisitor {
             if (binaryOP == BinaryExprNode.BinaryOP.LOGICAL_AND || binaryOP == BinaryExprNode.BinaryOP.LOGICAL_OR) {
                 BasicBlock nxtBlock = new BasicBlock();
                 shortcut2Block = nxtBlock;
+                isReturnAddr = false;
                 returnStmtNode.getReturnexpr().accept(this);
                 currentBlock.append(new Jump(nxtBlock));
                 currentBlock = nxtBlock;
@@ -275,6 +281,8 @@ public class IRGenerator implements ASTVisitor {
                 return;
             }
         }
+        //consider!!!
+        isReturnAddr = true;
         returnStmtNode.getReturnexpr().accept(this);
         currentBlock.append(new Assign(registerRAX, exprLinkedList.pop()));
         currentBlock.append(new Jump(funcReturnBlock));
@@ -292,6 +300,7 @@ public class IRGenerator implements ASTVisitor {
                 if (binaryOP == BinaryExprNode.BinaryOP.LOGICAL_AND || binaryOP == BinaryExprNode.BinaryOP.LOGICAL_OR) {
                     BasicBlock nxtBlock = new BasicBlock();
                     shortcut2Block = nxtBlock;
+                    isReturnAddr = false;
                     varDeclNode.getVarinit().accept(this);
                     currentBlock.append(new Jump(nxtBlock));
                     currentBlock = nxtBlock;
@@ -299,6 +308,7 @@ public class IRGenerator implements ASTVisitor {
                     return;
                 }
             }
+            isReturnAddr = false;
             varDeclNode.getVarinit().accept(this);
             currentBlock.append(new Assign(varDeclNode.getIntValue(), exprLinkedList.pop()));
         }
@@ -308,8 +318,10 @@ public class IRGenerator implements ASTVisitor {
     public void visit(BinaryExprNode binaryExprNode) {
         if (binaryExprNode.getLhs().getExprtype().isEqual(Type.Types.STRING)) {
             List<IntValue> intValueList = new ArrayList<>();
+            isReturnAddr = true;
             binaryExprNode.getLhs().accept(this);
             intValueList.add(exprLinkedList.pop());
+            isReturnAddr = true;
             binaryExprNode.getRhs().accept(this);
             intValueList.add(exprLinkedList.pop());
 
@@ -356,6 +368,7 @@ public class IRGenerator implements ASTVisitor {
                 BasicBlock jumpBlock = new BasicBlock();
                 BasicBlock nxtBlock = new BasicBlock();
                 shortcut2Block = jumpBlock;
+                isReturnAddr = false;
                 binaryExprNode.getLhs().accept(this);
                 currentBlock.append(new Jump(jumpBlock));
                 jumpBlock.append(new Cjump(exprLinkedList.pop(), nxtBlock, shortCutBlock));
@@ -364,6 +377,7 @@ public class IRGenerator implements ASTVisitor {
                 jumpBlock = new BasicBlock();
                 nxtBlock = new BasicBlock();
                 shortcut2Block = jumpBlock;
+                isReturnAddr = false;
                 binaryExprNode.getRhs().accept(this);
                 currentBlock.append(new Jump(jumpBlock));
                 jumpBlock.append(new Cjump(exprLinkedList.pop(), nxtBlock, shortCutBlock));
@@ -382,6 +396,7 @@ public class IRGenerator implements ASTVisitor {
                 BasicBlock jumpBlock = new BasicBlock();
                 BasicBlock nxtBlock = new BasicBlock();
                 shortcut2Block = jumpBlock;
+                isReturnAddr = false;
                 binaryExprNode.getLhs().accept(this);
                 currentBlock.append(new Jump(jumpBlock));
                 jumpBlock.append(new Cjump(exprLinkedList.pop(), shortCutBlock, nxtBlock));
@@ -390,6 +405,7 @@ public class IRGenerator implements ASTVisitor {
                 jumpBlock = new BasicBlock();
                 nxtBlock = new BasicBlock();
                 shortcut2Block = jumpBlock;
+                isReturnAddr = false;
                 binaryExprNode.getRhs().accept(this);
                 currentBlock.append(new Jump(jumpBlock));
                 jumpBlock.append(new Cjump(exprLinkedList.pop(), shortCutBlock, nxtBlock));
@@ -426,8 +442,10 @@ public class IRGenerator implements ASTVisitor {
             case MUL:
             case MOD:
             case DIV: {
+                isReturnAddr = false;
                 binaryExprNode.getRhs().accept(this);
                 IntValue rhs = exprLinkedList.pop();
+                isReturnAddr = false;
                 binaryExprNode.getLhs().accept(this);
                 IntValue lhs = exprLinkedList.pop();
                 Register register = new Register();
@@ -464,6 +482,7 @@ public class IRGenerator implements ASTVisitor {
             if (binaryOP == BinaryExprNode.BinaryOP.LOGICAL_AND || binaryOP == BinaryExprNode.BinaryOP.LOGICAL_OR) {
                 BasicBlock nxtBlock = new BasicBlock();
                 shortcut2Block = nxtBlock;
+                isReturnAddr = false;
                 unaryExprNode.getUnaryexpr().accept(this);
                 currentBlock.append(new Jump(nxtBlock));
                 currentBlock = nxtBlock;
@@ -539,6 +558,7 @@ public class IRGenerator implements ASTVisitor {
         } else {
             //s.length()
             ClassMethodExprNode classMethodExprNode = (ClassMethodExprNode) funcCallExprNode.getFunction();
+            isReturnAddr = true;
             classMethodExprNode.getClassexpr().accept(this);
             intValueList.add(exprLinkedList.pop());
             TypeNode typeNode = classMethodExprNode.getClassexpr().getExprtype();
@@ -558,12 +578,15 @@ public class IRGenerator implements ASTVisitor {
                 if (binaryOP == BinaryExprNode.BinaryOP.LOGICAL_AND || binaryOP == BinaryExprNode.BinaryOP.LOGICAL_OR) {
                     BasicBlock nxtBlock = new BasicBlock();
                     shortcut2Block = nxtBlock;
+                    isReturnAddr = false;
                     exprNode.accept(this);
                     currentBlock.append(new Jump(nxtBlock));
                     currentBlock = nxtBlock;
                 } else exprNode.accept(this);
-            } else
+            } else {
+                isReturnAddr = false;
                 exprNode.accept(this);
+            }
             intValueList.add(exprLinkedList.pop());
         }
 
@@ -581,6 +604,7 @@ public class IRGenerator implements ASTVisitor {
             //Array start addr for return
             Register register = new Register();
 
+            isReturnAddr = false;
             arrayTypeNode.getArraysizeexpr().accept(this);
             //[intValue]
             IntValue intValue = exprLinkedList.pop();
@@ -649,7 +673,7 @@ public class IRGenerator implements ASTVisitor {
             return;
         }
         if (isReturnAddr) {
-            isReturnAddr = false;
+
             arrayIndexExprNode.getIndex().accept(this);
             IntValue index = exprLinkedList.pop();
             arrayIndexExprNode.getArray().accept(this);

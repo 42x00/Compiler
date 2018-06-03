@@ -11,111 +11,49 @@ extern strlen
 extern memcpy
 extern scanf
 
-global _foo
+global _f
 global main
 
 SECTION .text
-_foo:
+_f:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 152
-	mov qword [rbp - 24], rdx
-	mov qword [rbp - 16], rsi
-	mov qword [rbp - 8], rdi
-	mov rbx, qword [rbp - 16]
-	mov rcx, 10
-	mov rax, rbx
-	imul rcx
-	mov qword [rbp - 32], rax
+	sub rsp, 16
+		mov rbx, 5
+	mov rcx, 3
+	mov qword [rbp - 8], rbx
+	sal qword [rbp - 8], cl
 	mov rbx, qword [rbp - 8]
-	mov rcx, 1000
-	mov rax, rbx
-	imul rcx
-	mov qword [rbp - 40], rax
-	mov rbx, qword [rbp - 40]
-	mov rcx, qword [rbp - 32]
-	mov qword [rbp - 48], rbx
-	add qword [rbp - 48], rcx
-	mov rbx, qword [rbp - 48]
-	mov rcx, qword [rbp - 24]
-	mov qword [rbp - 56], rbx
-	add qword [rbp - 56], rcx
-	mov rdi, qword [rbp - 56]
-	call toString
+	mov rcx, 8
+	mov qword [rbp - 8], rbx
+	add qword [rbp - 8], rcx
+	mov rdi, qword [rbp - 8]
+	call malloc
+	mov rbx, 5
+	mov qword [rax], rbx
 	mov rbx, rax
-	mov qword [rbp - 64], rbx
-	mov rdi, qword [rbp - 64]
-	call puts
-	mov rbx, rax
-	mov qword [rbp - 72], rbx
+	mov rcx, 8
+	mov qword [rbp - 8], rbx
+	add qword [rbp - 8], rcx
 	mov rbx, qword [rbp - 8]
-	mov rcx, 1
-	cmp rbx, rcx
-	sete byte [rbp - 80]
-	cmp byte [rbp - 80], 0
-	jz L_3
-L_2:
+	mov rax, rbx
 	jmp L_1
 L_1:
 	leave
 	ret
-	jmp L_3
-L_3:
-	mov rbx, qword [rbp - 16]
-	mov qword [rbp - 88], rbx
-	mov rbx, qword [rbp - 24]
-	mov qword [rbp - 16], rbx
-	mov rbx, qword [rbp - 88]
-	mov qword [rbp - 24], rbx
-	mov rdx, qword [rbp - 24]
-	mov rsi, qword [rbp - 16]
-	mov rdi, 1
-	call _foo
-	mov rbx, rax
-	mov qword [rbp - 96], rbx
-	mov rbx, qword [rbp - 16]
-	mov rcx, 10
-	mov rax, rbx
-	imul rcx
-	mov qword [rbp - 104], rax
-	mov rbx, qword [rbp - 8]
-	mov rcx, 1000
-	mov rax, rbx
-	imul rcx
-	mov qword [rbp - 112], rax
-	mov rbx, qword [rbp - 112]
-	mov rcx, qword [rbp - 104]
-	mov qword [rbp - 120], rbx
-	add qword [rbp - 120], rcx
-	mov rbx, qword [rbp - 120]
-	mov rcx, qword [rbp - 24]
-	mov qword [rbp - 128], rbx
-	add qword [rbp - 128], rcx
-	mov rdi, qword [rbp - 128]
-	call toString
-	mov rbx, rax
-	mov qword [rbp - 136], rbx
-	mov rdi, qword [rbp - 136]
-	call puts
-	mov rbx, rax
-	mov qword [rbp - 144], rbx
-	mov rbx, 0
-	mov rax, rbx
-	jmp L_1
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 16
-	mov rdx, 3
-	mov rsi, 5
-	mov rdi, 7
-	call _foo
+	sub rsp, 24
+	call _f
 	mov rbx, rax
+	mov qword [rbp - 16], rbx
+	mov rbx, qword [rbp - 16]
 	mov qword [rbp - 8], rbx
 	mov rbx, 0
 	mov rax, rbx
-	jmp L_5
-L_5:
+	jmp L_3
+L_3:
 	leave
 	ret
 toString:
