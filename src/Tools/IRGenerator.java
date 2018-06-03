@@ -282,7 +282,7 @@ public class IRGenerator implements ASTVisitor {
             }
         }
         //consider!!!
-        isReturnAddr = true;
+        //isReturnAddr = true;
         returnStmtNode.getReturnexpr().accept(this);
         currentBlock.append(new Assign(registerRAX, exprLinkedList.pop()));
         currentBlock.append(new Jump(funcReturnBlock));
@@ -318,10 +318,8 @@ public class IRGenerator implements ASTVisitor {
     public void visit(BinaryExprNode binaryExprNode) {
         if (binaryExprNode.getLhs().getExprtype().isEqual(Type.Types.STRING)) {
             List<IntValue> intValueList = new ArrayList<>();
-            isReturnAddr = true;
             binaryExprNode.getLhs().accept(this);
             intValueList.add(exprLinkedList.pop());
-            isReturnAddr = true;
             binaryExprNode.getRhs().accept(this);
             intValueList.add(exprLinkedList.pop());
 
@@ -673,7 +671,7 @@ public class IRGenerator implements ASTVisitor {
             return;
         }
         if (isReturnAddr) {
-
+            isReturnAddr = false;
             arrayIndexExprNode.getIndex().accept(this);
             IntValue index = exprLinkedList.pop();
             arrayIndexExprNode.getArray().accept(this);
