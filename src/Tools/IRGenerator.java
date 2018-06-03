@@ -60,7 +60,6 @@ public class IRGenerator implements ASTVisitor {
 
     private void initGlobalVar(ProgNode progNode) {
         Register.resetCnt();
-        toplevelScope = progNode.getToplevelScope();
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof VarDeclNode) {
                 if (((VarDeclNode) declNode).getVarinit() != null) {
@@ -72,20 +71,9 @@ public class IRGenerator implements ASTVisitor {
         }
     }
 
-    private void buildClass(ClassDeclNode classDeclNode) {
-        int nowOffset = 0;
-        for (DeclNode declNode : classDeclNode.getClassdecllist()) {
-            if (declNode instanceof VarDeclNode) {
-                ((VarDeclNode) declNode).setOffsetIndex(nowOffset);
-                offsetIndexMap.put(classDeclNode.getDeclname() + "." + declNode.getDeclname(), nowOffset);
-                ++nowOffset;
-            }
-        }
-        classDeclNode.setSize(nowOffset);
-    }
-
     @Override
     public void visit(ProgNode progNode) {
+        toplevelScope = progNode.getToplevelScope();
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof VarDeclNode) {
                 VarDeclNode varDeclNode = (VarDeclNode) declNode;
@@ -94,7 +82,7 @@ public class IRGenerator implements ASTVisitor {
         }
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof ClassDeclNode) {
-                buildClass((ClassDeclNode) declNode);
+                declNode.accept(this);
             }
         }
         for (DeclNode declNode : progNode.getDeclarations()) {
@@ -129,6 +117,19 @@ public class IRGenerator implements ASTVisitor {
 //            currentBlock.append(new Jump(funcReturnBlock));
 //        }
         registerCntMap.put(funcDeclNode.getFunctionName(), Register.getCntRegister() - 15);
+    }
+
+    @Override
+    public void visit(ClassDeclNode classDeclNode) {
+        int nowOffset = 0;
+        for (DeclNode declNode : classDeclNode.getClassdecllist()) {
+            if (declNode instanceof VarDeclNode) {
+                ((VarDeclNode) declNode).setOffsetIndex(nowOffset);
+                offsetIndexMap.put(classDeclNode.getDeclname() + "." + declNode.getDeclname(), nowOffset);
+                ++nowOffset;
+            }
+        }
+        classDeclNode.setSize(nowOffset);
     }
 
     @Override
@@ -746,9 +747,11 @@ public class IRGenerator implements ASTVisitor {
     }
 
     @Override
-    public void visit(ClassDeclNode classDeclNode) {
-
+    public void visit(NullExprNode nullExprNode) {
+        exprLinkedList.push(new ConstValue(0));
     }
+
+
 
     @Override
     public void visit(ClassTypeNode classTypeNode) {
@@ -760,10 +763,6 @@ public class IRGenerator implements ASTVisitor {
 
     }
 
-    @Override
-    public void visit(NullExprNode nullExprNode) {
-
-    }
 
     @Override
     public void visit(ArrayTypeNode arrayTypeNode) {

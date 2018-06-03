@@ -29,8 +29,8 @@
       <file leaf-file-name="IRGenerator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Tools/IRGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="98" column="9" selection-start-line="98" selection-start-column="9" selection-end-line="98" selection-end-column="9" />
+            <state relative-caret-position="332">
+              <caret line="89" column="46" lean-forward="true" selection-start-line="89" selection-start-column="46" selection-end-line="89" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#4807#4808#0" expanded="true" />
@@ -41,6 +41,20 @@
                 <element signature="e#20861#20862#0" expanded="true" />
                 <element signature="e#20923#20924#0" expanded="true" />
                 <element signature="e#21001#21002#0" expanded="true" />
+                <element signature="e#31047#31048#0" expanded="true" />
+                <element signature="e#31101#31102#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LinkedList.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/java/util/LinkedList.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="31">
+              <caret line="804" selection-start-line="804" selection-end-line="804" />
+              <folding>
+                <element signature="e#23554#23555#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -113,7 +127,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Assign</find>
       <find>MemAddr</find>
       <find />
       <find>rbx</find>
@@ -143,6 +156,7 @@
       <find>setClassConstruct</find>
       <find>NewExpr</find>
       <find>Func</find>
+      <find>Null</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -211,9 +225,9 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="415" />
-    <option name="y" value="290" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="80" />
+    <option name="y" value="-9" />
     <option name="width" value="1325" />
     <option name="height" value="810" />
   </component>
@@ -449,12 +463,12 @@
       <workItem from="1527993390984" duration="10646000" />
       <workItem from="1528004591326" duration="13473000" />
       <workItem from="1528021388594" duration="2798000" />
-      <workItem from="1528027527587" duration="3305000" />
+      <workItem from="1528027527587" duration="3937000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="427183000" />
+    <option name="totallyTimeSpent" value="427815000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-7" width="1479" height="878" extended-state="6" />
@@ -465,14 +479,14 @@
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" weight="0.32884097" />
       <window_info anchor="right" id="Maven Projects" order="6" weight="0.32908848" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.79514825" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.79380053" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.3286908" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3286908" />
       <window_info id="Designer" order="2" />
       <window_info content_ui="combo" id="Project" order="0" weight="0.18930331" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="4" weight="0.24975124" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.48746517" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4865229" />
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="right" id="Palette" order="2" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="1" weight="0.24966079" />
@@ -520,11 +534,20 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="227" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Tools/IRGenerator.java</url>
+          <line>685</line>
+          <properties />
+          <option name="timeStamp" value="228" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="229" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="breakLinkedList" language="JAVA" />
+        <watch expression="toplevelScope" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>
@@ -534,6 +557,11 @@
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
+      <expression>
+        <expression-string>toplevelScope</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>breakLinkedList</expression-string>
         <language-id>JAVA</language-id>
@@ -547,17 +575,17 @@
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>varDeclNode.getVartype() instanceof ArrayTypeNode</expression-string>
+        <expression-string />
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>((FuncDeclNode) declNode).getFunctionName().equals(&quot;main&quot;)</expression-string>
+        <expression-string />
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>((FuncDeclNode) declNode).getFunctionName() == &quot;main&quot;</expression-string>
+        <expression-string />
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -598,13 +626,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
           <caret line="4" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/java/util/LinkedList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="65">
-          <caret line="804" selection-start-line="804" selection-end-line="804" />
         </state>
       </provider>
     </entry>
@@ -972,10 +993,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/java/util/LinkedList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="31">
+          <caret line="804" selection-start-line="804" selection-end-line="804" />
+          <folding>
+            <element signature="e#23554#23555#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Tools/IRGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="98" column="9" selection-start-line="98" selection-start-column="9" selection-end-line="98" selection-end-column="9" />
+        <state relative-caret-position="332">
+          <caret line="89" column="46" lean-forward="true" selection-start-line="89" selection-start-column="46" selection-end-line="89" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#4807#4808#0" expanded="true" />
@@ -986,6 +1017,8 @@
             <element signature="e#20861#20862#0" expanded="true" />
             <element signature="e#20923#20924#0" expanded="true" />
             <element signature="e#21001#21002#0" expanded="true" />
+            <element signature="e#31047#31048#0" expanded="true" />
+            <element signature="e#31101#31102#0" expanded="true" />
           </folding>
         </state>
       </provider>

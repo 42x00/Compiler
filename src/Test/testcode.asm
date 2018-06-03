@@ -11,38 +11,359 @@ extern strlen
 extern memcpy
 extern scanf
 
+global _hashsize
+global _table
+global _getHash
+global _put
+global _get
 global main
 
 SECTION .text
-main:
+_getHash:
 	push rbp
 	mov rbp, rsp
 	sub rsp, 32
-	mov rdi, 1
-	call malloc
-	mov rbx, rax
-	mov qword [rbp - 8], rbx
+	mov qword [rbp - 8], rdi
 	mov rbx, qword [rbp - 8]
-	mov r10, rbx
-	mov rbx, 0
-	mov r11, rbx
-	mov rbx, 10
-	mov qword [r10 + r11*8], rbx
-	mov rbx, qword [rbp - 8]
-	mov r10, rbx
-	mov rbx, 0
-	mov r11, rbx
-	mov rbx, qword [r10 + r11*8]
-	mov qword [rbp - 16], rbx
-	mov rbx, 2
-	mov rcx, qword [rbp - 16]
+	mov rcx, 237
 	mov rax, rbx
 	imul rcx
-	mov qword [rbp - 24], rax
+	mov qword [rbp - 16], rax
+	mov rbx, qword [rbp - 16]
+	mov rcx, qword [_hashsize]
+	mov rax, rbx
+	cdq
+	idiv rcx
+	mov qword [rbp - 24], rdx
 	mov rbx, qword [rbp - 24]
 	mov rax, rbx
 	jmp L_1
 L_1:
+	leave
+	ret
+_put:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 112
+	mov qword [rbp - 16], rsi
+	mov qword [rbp - 8], rdi
+	mov rbx, 0
+	mov qword [rbp - 32], rbx
+	mov rdi, qword [rbp - 8]
+	call _getHash
+	mov rbx, rax
+	mov qword [rbp - 40], rbx
+	mov rbx, qword [rbp - 40]
+	mov qword [rbp - 24], rbx
+	mov rbx, qword [_table]
+	mov r10, rbx
+	mov rbx, qword [rbp - 24]
+	mov r11, rbx
+	mov rbx, qword [r10 + r11*8]
+	mov qword [rbp - 48], rbx
+	mov rbx, qword [rbp - 48]
+	mov rcx, 0
+	cmp rbx, rcx
+	sete byte [rbp - 56]
+	cmp byte [rbp - 56], 0
+	jz L_5
+L_4:
+	mov rdi, 3
+	call malloc
+	mov rbx, qword [_table]
+	mov r10, rbx
+	mov rbx, qword [rbp - 24]
+	mov r11, rbx
+	mov rbx, rax
+	mov qword [r10 + r11*8], rbx
+	mov rbx, qword [_table]
+	mov r10, rbx
+	mov rbx, qword [rbp - 24]
+	mov r11, rbx
+	mov rbx, qword [r10 + r11*8]
+	mov r10, rbx
+	mov rbx, 0
+	mov r11, rbx
+	mov rbx, qword [rbp - 8]
+	mov qword [r10 + r11*8], rbx
+	mov rbx, qword [_table]
+	mov r10, rbx
+	mov rbx, qword [rbp - 24]
+	mov r11, rbx
+	mov rbx, qword [r10 + r11*8]
+	mov r10, rbx
+	mov rbx, 1
+	mov r11, rbx
+	mov rbx, qword [rbp - 16]
+	mov qword [r10 + r11*8], rbx
+	mov rbx, qword [_table]
+	mov r10, rbx
+	mov rbx, qword [rbp - 24]
+	mov r11, rbx
+	mov rbx, qword [r10 + r11*8]
+	mov r10, rbx
+	mov rbx, 2
+	mov r11, rbx
+	mov rbx, 0
+	mov qword [r10 + r11*8], rbx
+	jmp L_3
+L_3:
+	leave
+	ret
+	jmp L_5
+L_5:
+	mov rbx, qword [_table]
+	mov r10, rbx
+	mov rbx, qword [rbp - 24]
+	mov r11, rbx
+	mov rbx, qword [r10 + r11*8]
+	mov qword [rbp - 64], rbx
+	mov rbx, qword [rbp - 64]
+	mov qword [rbp - 32], rbx
+	jmp L_6
+L_6:
+	mov rbx, qword [rbp - 32]
+	mov r10, rbx
+	mov rbx, 0
+	mov r11, rbx
+	mov rbx, qword [r10 + r11*8]
+	mov qword [rbp - 72], rbx
+	mov rbx, qword [rbp - 72]
+	mov rcx, qword [rbp - 8]
+	cmp rbx, rcx
+	setne byte [rbp - 80]
+	cmp byte [rbp - 80], 0
+	jz L_8
+L_7:
+	mov rbx, qword [rbp - 32]
+	mov r10, rbx
+	mov rbx, 2
+	mov r11, rbx
+	mov rbx, qword [r10 + r11*8]
+	mov qword [rbp - 88], rbx
+	mov rbx, qword [rbp - 88]
+	mov rcx, 0
+	cmp rbx, rcx
+	sete byte [rbp - 96]
+	cmp byte [rbp - 96], 0
+	jz L_10
+L_9:
+	mov rdi, 3
+	call malloc
+	mov rbx, qword [rbp - 32]
+	mov r10, rbx
+	mov rbx, 2
+	mov r11, rbx
+	mov rbx, rax
+	mov qword [r10 + r11*8], rbx
+	mov rbx, qword [rbp - 32]
+	mov r10, rbx
+	mov rbx, 2
+	mov r11, rbx
+	mov rbx, qword [r10 + r11*8]
+	mov r10, rbx
+	mov rbx, 0
+	mov r11, rbx
+	mov rbx, qword [rbp - 8]
+	mov qword [r10 + r11*8], rbx
+	mov rbx, qword [rbp - 32]
+	mov r10, rbx
+	mov rbx, 2
+	mov r11, rbx
+	mov rbx, qword [r10 + r11*8]
+	mov r10, rbx
+	mov rbx, 2
+	mov r11, rbx
+	mov rbx, 0
+	mov qword [r10 + r11*8], rbx
+	jmp L_10
+L_10:
+	mov rbx, qword [rbp - 32]
+	mov r10, rbx
+	mov rbx, 2
+	mov r11, rbx
+	mov rbx, qword [r10 + r11*8]
+	mov qword [rbp - 104], rbx
+	mov rbx, qword [rbp - 104]
+	mov qword [rbp - 32], rbx
+	jmp L_6
+L_8:
+	mov rbx, qword [rbp - 32]
+	mov r10, rbx
+	mov rbx, 1
+	mov r11, rbx
+	mov rbx, qword [rbp - 16]
+	mov qword [r10 + r11*8], rbx
+	mov rbx, 0
+	mov rax, rbx
+	jmp L_3
+_get:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 64
+	mov qword [rbp - 8], rdi
+	mov rbx, 0
+	mov qword [rbp - 16], rbx
+	mov rdi, qword [rbp - 8]
+	call _getHash
+	mov rbx, rax
+	mov qword [rbp - 24], rbx
+	mov rbx, qword [_table]
+	mov r10, rbx
+	mov rbx, qword [rbp - 24]
+	mov r11, rbx
+	mov rbx, qword [r10 + r11*8]
+	mov qword [rbp - 32], rbx
+	mov rbx, qword [rbp - 32]
+	mov qword [rbp - 16], rbx
+	jmp L_13
+L_13:
+	mov rbx, qword [rbp - 16]
+	mov r10, rbx
+	mov rbx, 0
+	mov r11, rbx
+	mov rbx, qword [r10 + r11*8]
+	mov qword [rbp - 40], rbx
+	mov rbx, qword [rbp - 40]
+	mov rcx, qword [rbp - 8]
+	cmp rbx, rcx
+	setne byte [rbp - 48]
+	cmp byte [rbp - 48], 0
+	jz L_15
+L_14:
+	mov rbx, qword [rbp - 16]
+	mov r10, rbx
+	mov rbx, 2
+	mov r11, rbx
+	mov rbx, qword [r10 + r11*8]
+	mov qword [rbp - 56], rbx
+	mov rbx, qword [rbp - 56]
+	mov qword [rbp - 16], rbx
+	jmp L_13
+L_15:
+	mov rbx, qword [rbp - 16]
+	mov r10, rbx
+	mov rbx, 1
+	mov r11, rbx
+	mov rbx, qword [r10 + r11*8]
+	mov rax, rbx
+	jmp L_12
+L_12:
+	leave
+	ret
+main:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 128
+	mov rbx, 100
+	mov qword [_hashsize], rbx
+	mov rbx, 100
+	mov rcx, 3
+	mov qword [rbp - 16], rbx
+	sal qword [rbp - 16], cl
+	mov rbx, qword [rbp - 16]
+	mov rcx, 8
+	mov qword [rbp - 16], rbx
+	add qword [rbp - 16], rcx
+	mov rdi, qword [rbp - 16]
+	call malloc
+	mov rbx, 100
+	mov qword [rax], rbx
+	mov rbx, rax
+	mov rcx, 8
+	mov qword [rbp - 16], rbx
+	add qword [rbp - 16], rcx
+	mov rbx, qword [rbp - 16]
+	mov qword [_table], rbx
+	mov rbx, 0
+	mov qword [rbp - 8], rbx
+	jmp L_18
+L_18:
+	mov rbx, qword [rbp - 8]
+	mov rcx, qword [_hashsize]
+	cmp rbx, rcx
+	setl byte [rbp - 24]
+	cmp byte [rbp - 24], 0
+	jz L_20
+L_19:
+	mov rbx, qword [_table]
+	mov r10, rbx
+	mov rbx, qword [rbp - 8]
+	mov r11, rbx
+	mov rbx, 0
+	mov qword [r10 + r11*8], rbx
+	mov rbx, qword [rbp - 8]
+	mov qword [rbp - 32], rbx
+	inc qword [rbp - 8]
+	jmp L_18
+L_20:
+	mov rbx, 0
+	mov qword [rbp - 8], rbx
+	jmp L_21
+L_21:
+	mov rbx, qword [rbp - 8]
+	mov rcx, 1000
+	cmp rbx, rcx
+	setl byte [rbp - 40]
+	cmp byte [rbp - 40], 0
+	jz L_23
+L_22:
+	mov rsi, qword [rbp - 8]
+	mov rdi, qword [rbp - 8]
+	call _put
+	mov rbx, rax
+	mov qword [rbp - 48], rbx
+	mov rbx, qword [rbp - 8]
+	mov qword [rbp - 56], rbx
+	inc qword [rbp - 8]
+	jmp L_21
+L_23:
+	mov rbx, 0
+	mov qword [rbp - 8], rbx
+	jmp L_24
+L_24:
+	mov rbx, qword [rbp - 8]
+	mov rcx, 1000
+	cmp rbx, rcx
+	setl byte [rbp - 64]
+	cmp byte [rbp - 64], 0
+	jz L_26
+L_25:
+	mov rdi, qword [rbp - 8]
+	call toString
+	mov rbx, rax
+	mov qword [rbp - 72], rbx
+	mov rsi, _string_0
+	mov rdi, qword [rbp - 72]
+	call string.add
+	mov rbx, rax
+	mov qword [rbp - 80], rbx
+	mov rdi, qword [rbp - 8]
+	call _get
+	mov rbx, rax
+	mov qword [rbp - 88], rbx
+	mov rdi, qword [rbp - 88]
+	call toString
+	mov rbx, rax
+	mov qword [rbp - 96], rbx
+	mov rsi, qword [rbp - 96]
+	mov rdi, qword [rbp - 80]
+	call string.add
+	mov rbx, rax
+	mov qword [rbp - 104], rbx
+	mov rdi, qword [rbp - 104]
+	call puts
+	mov rbx, rax
+	mov qword [rbp - 112], rbx
+	mov rbx, qword [rbp - 8]
+	mov qword [rbp - 120], rbx
+	inc qword [rbp - 8]
+	jmp L_24
+L_26:
+	mov rbx, 0
+	mov rax, rbx
+	jmp L_17
+L_17:
 	leave
 	ret
 toString:
@@ -772,5 +1093,9 @@ SECTION .data
 intbuffer: dq 0
 format1: db "%lld", 0
 format2: db "%s", 0
+_hashsize: dq 0
+_string_0_size: dq 1
+_string_0: db 32, 0
 SECTION .bss
 stringbuffer: resb 256
+_table: dq 0
