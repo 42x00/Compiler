@@ -105,6 +105,7 @@ public class SemanticCheck implements ASTVisitor{
     @Override
     public void visit(ProgNode progNode) {
         toplevelScope = new ToplevelScope();
+        progNode.setToplevelScope(toplevelScope);
         scopeStack.addLast(toplevelScope);
         setBuiltInFunction();
 
@@ -130,6 +131,7 @@ public class SemanticCheck implements ASTVisitor{
     public void visit(ClassDeclNode classDeclNode) {
         currentClass = new ClassTypeNode(classDeclNode.getDeclname());
         LocalScope localScope = new LocalScope(currentScope(),classDeclNode.getClassdecllist());
+        classDeclNode.setLocalScope(localScope);
         scopeStack.addLast(localScope);
 
         for (DeclNode declNode : classDeclNode.getClassdecllist())

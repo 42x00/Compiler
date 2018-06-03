@@ -12,14 +12,16 @@ import AST_Node.TypeNodes.ArrayTypeNode;
 import AST_Node.TypeNodes.ClassTypeNode;
 import AST_Node.TypeNodes.TypeNode;
 import IR.IRNodes.*;
+import Tools.Scope.ToplevelScope;
 import Type.Type;
 
 import java.util.*;
 
 public class IRGenerator implements ASTVisitor {
     static private int cntString = 0;
-    //    static private boolean hasReturn;
     static private boolean isReturnAddr = false;
+
+    static private ToplevelScope toplevelScope;
 
     static private Register registerRAX = new Register(Register.RegisterName.RAX);
     static private Register registerR10 = new Register(Register.RegisterName.R10);
@@ -33,6 +35,7 @@ public class IRGenerator implements ASTVisitor {
     static private Map<String, Integer> registerCntMap = new HashMap<>();
     static private Map<String, BasicBlock> funcBlockMap = new HashMap<>();
     static private Map<String, String> stringMap = new HashMap<>();
+    static private Map<String, Integer> offsetIndexMap = new HashMap<>();
 
     private BasicBlock currentBlock;
     private BasicBlock startBlock;
@@ -57,6 +60,7 @@ public class IRGenerator implements ASTVisitor {
 
     private void initGlobalVar(ProgNode progNode) {
         Register.resetCnt();
+        toplevelScope = progNode.getToplevelScope();
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof VarDeclNode) {
                 if (((VarDeclNode) declNode).getVarinit() != null) {
@@ -68,12 +72,29 @@ public class IRGenerator implements ASTVisitor {
         }
     }
 
+    private void buildClass(ClassDeclNode classDeclNode) {
+        int nowOffset = 0;
+        for (DeclNode declNode : classDeclNode.getClassdecllist()) {
+            if (declNode instanceof VarDeclNode) {
+                ((VarDeclNode) declNode).setOffsetIndex(nowOffset);
+                offsetIndexMap.put(classDeclNode.getDeclname() + "." + declNode.getDeclname(), nowOffset);
+                ++nowOffset;
+            }
+        }
+        classDeclNode.setSize(nowOffset);
+    }
+
     @Override
     public void visit(ProgNode progNode) {
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof VarDeclNode) {
                 VarDeclNode varDeclNode = (VarDeclNode) declNode;
                 varDeclNode.setIntValue(new GloalVar("_" + varDeclNode.getVarname()));
+            }
+        }
+        for (DeclNode declNode : progNode.getDeclarations()) {
+            if (declNode instanceof ClassDeclNode) {
+                buildClass((ClassDeclNode) declNode);
             }
         }
         for (DeclNode declNode : progNode.getDeclarations()) {
@@ -262,7 +283,6 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(ReturnStmtNode returnStmtNode) {
-//        hasReturn = true;
         if (returnStmtNode.getReturnexpr() == null) {
             currentBlock.append(new Jump(funcReturnBlock));
             return;
@@ -661,6 +681,10 @@ public class IRGenerator implements ASTVisitor {
             }
 
             exprLinkedList.push(register);
+        } else {
+            ClassDeclNode classDeclNode = (ClassDeclNode) toplevelScope.get(((ClassTypeNode) newExprNode.getExprtype()).getClassname());
+            currentBlock.append(new Call("malloc", new ConstValue(classDeclNode.getSize())));
+            exprLinkedList.push(registerRAX);
         }
     }
 
@@ -702,6 +726,23 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(ClassMethodExprNode classMethodExprNode) {
+        if (isReturnAddr) {
+            classMethodExprNode.getClassexpr().accept(this);
+            currentBlock.append(new Assign(registerR10, exprLinkedList.pop()));
+            ClassTypeNode classTypeNode = (ClassTypeNode) classMethodExprNode.getClassexpr().getExprtype();
+            String nameForMap = classTypeNode.getClassname() + "." + classMethodExprNode.getMethodname();
+            currentBlock.append(new Assign(registerR11, new ConstValue(offsetIndexMap.get(nameForMap))));
+            exprLinkedList.push(new MemAddr(registerR10, registerR11));
+            return;
+        }
+        classMethodExprNode.getClassexpr().accept(this);
+        currentBlock.append(new Assign(registerR10, exprLinkedList.pop()));
+        ClassTypeNode classTypeNode = (ClassTypeNode) classMethodExprNode.getClassexpr().getExprtype();
+        String nameForMap = classTypeNode.getClassname() + "." + classMethodExprNode.getMethodname();
+        currentBlock.append(new Assign(registerR11, new ConstValue(offsetIndexMap.get(nameForMap))));
+        Register register = new Register();
+        currentBlock.append(new Assign(register, new MemAddr(registerR10,registerR11)));
+        exprLinkedList.push(register);
     }
 
     @Override

@@ -7,12 +7,11 @@ import IR.IRNodes.IntValue;
 import Type.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import static java.lang.System.err;
-
 public class VarDeclNode extends DeclNode {
     private TypeNode vartype;
     private ExprNode varinit;
     private IntValue intValue;
+    private int offsetIndex;
 
     public VarDeclNode(String varname, ExprNode varinit) {
         this.declname = varname;
@@ -80,6 +79,14 @@ public class VarDeclNode extends DeclNode {
 
     public void setIntValue(IntValue intValue) {
         this.intValue = intValue;
+    }
+
+    public void setOffsetIndex(int offsetIndex) {
+        this.offsetIndex = offsetIndex;
+    }
+
+    public int getOffsetIndex() {
+        return offsetIndex;
     }
 
     @Override
