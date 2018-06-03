@@ -444,7 +444,25 @@ public class IRGenerator implements ASTVisitor {
             }
         }
         unaryExprNode.getUnaryexpr().accept(this);
-        currentBlock.append(new Uni(unaryExprNode.getExprop(), exprLinkedList.pop(), register));
+        IntValue intValue = exprLinkedList.pop();
+        if (unaryExprNode.getExprop() == UnaryExprNode.UnaryOP.POSI) {
+            exprLinkedList.push(intValue);
+            return;
+        }
+        if (intValue instanceof ConstValue) {
+            switch (unaryExprNode.getExprop()) {
+                case NEGE:
+                    exprLinkedList.push(((ConstValue) intValue).toNeg());
+                    break;
+                case BIT_NOT:
+                    exprLinkedList.push(((ConstValue) intValue).toBitNot());
+                    throw new Error("Const OP with ^!");
+                default:
+                    throw new Error("Wrong OP with Const!");
+            }
+            return;
+        }
+        currentBlock.append(new Uni(unaryExprNode.getExprop(), intValue, register));
         exprLinkedList.push(register);
     }
 

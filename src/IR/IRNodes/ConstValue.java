@@ -13,6 +13,15 @@ public class ConstValue extends IntValue{
         this.anInt = anInt;
     }
 
+    public ConstValue toNeg(){
+        anInt = -anInt;
+        return this;
+    }
+
+    public ConstValue toBitNot(){
+        return this;
+    }
+
     @Override
     public String accept(IRVisitor visitor) {
        return visitor.visit(this);
