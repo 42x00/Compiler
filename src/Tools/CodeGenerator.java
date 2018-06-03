@@ -31,7 +31,6 @@ public class CodeGenerator implements IRVisitor {
 
     private void indent() {
         out.print('\t');
-        err.print('\t');
     }
 
     private boolean trySetLabel(BasicBlock basicBlock) {
@@ -40,6 +39,9 @@ public class CodeGenerator implements IRVisitor {
     }
 
     private String c8t1(String s) {
+        if (s.equals("1")) {
+            int lyk = 1;
+        }
         if (s.startsWith("qword")) {
             return "byte" + s.substring(5);
         }
@@ -96,19 +98,15 @@ public class CodeGenerator implements IRVisitor {
             if (!(declNode instanceof ClassDeclNode)) {
                 if (declNode.getDeclname().equals("main")) {
                     out.println("global " + declNode.getDeclname());
-                    err.println("global " + declNode.getDeclname());
                 } else {
-                    out.println("global " + "_" + declNode.getDeclname());
-                    err.println("global " + "_" + declNode.getDeclname());
+                    out.println("global " + "_global_" + declNode.getDeclname());
                 }
             }
         }
 
         out.println();
-        err.println();
         //SECTION .text
         out.println("SECTION .text");
-        err.println("SECTION .text");
         //f:
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof FuncDeclNode) {
@@ -117,15 +115,12 @@ public class CodeGenerator implements IRVisitor {
                 //     move rbp, rsp
                 if (declNode.getDeclname().equals("main")) {
                     out.printf("%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
-                    err.printf("%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
                 } else {
-                    out.printf("_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
-                    err.printf("_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
+                    out.printf("_global_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
                 }
                 int cntRegister = cntRegisterMap.get(declNode.getDeclname());
                 //     sub rsp, 8
                 out.printf("sub rsp, %d\n", cntRegister * 8);
-                err.printf("sub rsp, %d\n", cntRegister * 8);
                 if (declNode.getDeclname().equals("main"))
                     isPrintMain = true;
                 else {
@@ -136,14 +131,7 @@ public class CodeGenerator implements IRVisitor {
 //                            "push r13\n\t" +
 //                            "push r14\n\t" +
 //                            "push r15\n\t");
-//                    err.print("\t" +
-//                            "push rbx\n\t" +
-//                            "push r12\n\t" +
-//                            "push r13\n\t" +
-//                            "push r14\n\t" +
-//                            "push r15\n\t");
                     out.print('\t');
-                    err.print('\t');
                     List<VarDeclNode> varDeclNodeList = ((FuncDeclNode) declNode).getFunctionParameterList().getVardeclnodeList();
                     for (int index = varDeclNodeList.size() - 1; index >= 0; --index) {
                         if (index > 5) {
@@ -155,27 +143,21 @@ public class CodeGenerator implements IRVisitor {
                             switch (index) {
                                 case 0:
                                     out.printf("mov %s, rdi\n", varDeclNodeList.get(index).getIntValue().accept(this));
-                                    err.printf("mov %s, rdi\n", varDeclNodeList.get(index).getIntValue().accept(this));
                                     break;
                                 case 1:
                                     out.printf("mov %s, rsi\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
-                                    err.printf("mov %s, rsi\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
                                     break;
                                 case 2:
                                     out.printf("mov %s, rdx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
-                                    err.printf("mov %s, rdx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
                                     break;
                                 case 3:
                                     out.printf("mov %s, rcx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
-                                    err.printf("mov %s, rcx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
                                     break;
                                 case 4:
                                     out.printf("mov %s, r8\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
-                                    err.printf("mov %s, r8\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
                                     break;
                                 case 5:
                                     out.printf("mov %s, r9\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
-                                    err.printf("mov %s, r9\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
                                     break;
                             }
                         }
@@ -195,12 +177,10 @@ public class CodeGenerator implements IRVisitor {
                         //_class._f:
                         //     push rbp
                         //     move rbp, rsp
-                        out.printf("_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", funcName);
-                        err.printf("_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", funcName);
+                        out.printf("_global_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", funcName);
                         int cntRegister = cntRegisterMap.get(funcName);
                         //     sub rsp, 8
                         out.printf("sub rsp, %d\n", cntRegister * 8);
-                        err.printf("sub rsp, %d\n", cntRegister * 8);
                         //push rbp, rbx, r12, r13, r14, r15
 //                    out.print("\t" +
 //                            "push rbx\n\t" +
@@ -208,14 +188,7 @@ public class CodeGenerator implements IRVisitor {
 //                            "push r13\n\t" +
 //                            "push r14\n\t" +
 //                            "push r15\n\t");
-//                    err.print("\t" +
-//                            "push rbx\n\t" +
-//                            "push r12\n\t" +
-//                            "push r13\n\t" +
-//                            "push r14\n\t" +
-//                            "push r15\n\t");
                         out.print('\t');
-                        err.print('\t');
                         List<VarDeclNode> varDeclNodeList = ((FuncDeclNode) declNode1).getFunctionParameterList().getVardeclnodeList();
                         for (int index = varDeclNodeList.size() - 1; index >= 0; --index) {
                             if (index > 4) {
@@ -227,29 +200,23 @@ public class CodeGenerator implements IRVisitor {
                                 switch (index) {
                                     case 0:
                                         out.printf("mov %s, rsi\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
-                                        err.printf("mov %s, rsi\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
                                         break;
                                     case 1:
                                         out.printf("mov %s, rdx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
-                                        err.printf("mov %s, rdx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
                                         break;
                                     case 2:
                                         out.printf("mov %s, rcx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
-                                        err.printf("mov %s, rcx\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
                                         break;
                                     case 3:
                                         out.printf("mov %s, r8\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
-                                        err.printf("mov %s, r8\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
                                         break;
                                     case 4:
                                         out.printf("mov %s, r9\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
-                                        err.printf("mov %s, r9\n\t", varDeclNodeList.get(index).getIntValue().accept(this));
                                         break;
                                 }
                             }
                         }
                         out.printf("mov %s, rdi\n\t", classDeclNode.getIntValue());
-                        err.printf("mov %s, rdi\n\t", classDeclNode.getIntValue());
                         funcBlockMap.get(funcName).accept(this);
                         isPrintMain = false;
                     }
@@ -261,7 +228,6 @@ public class CodeGenerator implements IRVisitor {
 
         //SECTION .data
         out.println("SECTION .data");
-        err.println("SECTION .data");
 
         out.println("intbuffer: dq 0");
         out.println("format1: db \"%lld\", 0");
@@ -277,8 +243,7 @@ public class CodeGenerator implements IRVisitor {
                 if (!(varDeclNode.getVartype() instanceof ArrayTypeNode
                         || varDeclNode.getVartype() instanceof ClassTypeNode)) {
                     if (varDeclNode.getVartype().getBasetype() != Type.Types.STRING) {
-                        out.println("_" + varDeclNode.getVarname() + ": dq 0");
-                        err.println("_" + varDeclNode.getVarname() + ": dq 0");
+                        out.println("_global_" + varDeclNode.getVarname() + ": dq 0");
                     }
                 }
             }
@@ -352,7 +317,6 @@ public class CodeGenerator implements IRVisitor {
 
         //SECTION .bss
         out.println("SECTION .bss");
-        err.println("SECTION .bss");
 
         out.println("stringbuffer: resb 256");
 
@@ -365,8 +329,7 @@ public class CodeGenerator implements IRVisitor {
                 VarDeclNode varDeclNode = (VarDeclNode) declNode;
                 if (varDeclNode.getVartype() instanceof ArrayTypeNode ||
                         (varDeclNode.getVartype() instanceof TypeNode && varDeclNode.getVartype().getBasetype() == Type.Types.STRING)) {
-                    out.println("_" + varDeclNode.getVarname() + ": dq 0");
-                    err.println("_" + varDeclNode.getVarname() + ": dq 0");
+                    out.println("_global_" + varDeclNode.getVarname() + ": dq 0");
                 }
             }
         }
@@ -385,7 +348,6 @@ public class CodeGenerator implements IRVisitor {
     public void visit(Jump jump) {
         //jmp L_*
         out.println("jmp " + jump.getNxtBlock().toLabel());
-        err.println("jmp " + jump.getNxtBlock().toLabel());
         if (!trySetLabel(jump.getNxtBlock())) {
             labelSet.add(jump.getNxtBlock().getOrd());
             jump.getNxtBlock().setLabel();
@@ -397,11 +359,9 @@ public class CodeGenerator implements IRVisitor {
     public void visit(Cjump cjump) {
         //cmp r, 0
         out.printf("cmp %s, 0\n\t", c8t1(cjump.getCond().accept(this)));
-        err.printf("cmp %s, 0\n\t", c8t1(cjump.getCond().accept(this)));
         //jz L_*
         if (trySetLabel(cjump.getThenBlock())) {
             out.println("jnz " + cjump.getThenBlock().toLabel());
-            err.println("jnz " + cjump.getThenBlock().toLabel());
             if (!trySetLabel(cjump.getElseBlock())) {
                 labelSet.add(cjump.getElseBlock().getOrd());
                 cjump.getElseBlock().setLabel();
@@ -410,7 +370,6 @@ public class CodeGenerator implements IRVisitor {
             return;
         }
         out.println("jz " + cjump.getElseBlock().toLabel());
-        err.println("jz " + cjump.getElseBlock().toLabel());
         labelSet.add(cjump.getThenBlock().getOrd());
         cjump.getThenBlock().setLabel();
         cjump.getThenBlock().accept(this);
@@ -425,10 +384,8 @@ public class CodeGenerator implements IRVisitor {
     public void visit(Assign assign) {
         //mov rbx, r:*
         out.printf("mov rbx, %s\n\t", assign.getRhs().accept(this));
-        err.printf("mov rbx, %s\n\t", assign.getRhs().accept(this));
         //mov l:*, rbx
         out.printf("mov %s, rbx\n", assign.getLhs().accept(this));
-        err.printf("mov %s, rbx\n", assign.getLhs().accept(this));
     }
 
     @Override
@@ -440,51 +397,37 @@ public class CodeGenerator implements IRVisitor {
 //                "push rcx\n\t" +
 //                "push r8\n\t" +
 //                "push r9\n\t");
-//        err.print("push rdi\n\t" +
-//                "push rsi\n\t" +
-//                "push rdx\n\t" +
-//                "push rcx\n\t" +
-//                "push r8\n\t" +
-//                "push r9\n\t");
         //mov rdi, rsi, rdx, rcx, r8, r9  args*
         //push args*
         List<IntValue> intValueList = call.getIntValues();
         for (int index = intValueList.size() - 1; index >= 0; --index) {
             if (index > 5) {
                 out.printf("push %s\n\t", intValueList.get(index).accept(this));
-                err.printf("push %s\n\t", intValueList.get(index).accept(this));
             } else {
                 switch (index) {
                     case 0:
                         out.printf("mov rdi, %s\n\t", intValueList.get(index).accept(this));
-                        err.printf("mov rdi, %s\n\t", intValueList.get(index).accept(this));
                         break;
                     case 1:
                         out.printf("mov rsi, %s\n\t", intValueList.get(index).accept(this));
-                        err.printf("mov rsi, %s\n\t", intValueList.get(index).accept(this));
                         break;
                     case 2:
                         out.printf("mov rdx, %s\n\t", intValueList.get(index).accept(this));
-                        err.printf("mov rdx, %s\n\t", intValueList.get(index).accept(this));
                         break;
                     case 3:
                         out.printf("mov rcx, %s\n\t", intValueList.get(index).accept(this));
-                        err.printf("mov rcx, %s\n\t", intValueList.get(index).accept(this));
                         break;
                     case 4:
                         out.printf("mov r8, %s\n\t", intValueList.get(index).accept(this));
-                        err.printf("mov r8, %s\n\t", intValueList.get(index).accept(this));
                         break;
                     case 5:
                         out.printf("mov r9, %s\n\t", intValueList.get(index).accept(this));
-                        err.printf("mov r9, %s\n\t", intValueList.get(index).accept(this));
                         break;
                 }
             }
         }
         //call f
         out.printf("call %s\n", call.getFuncName());
-        err.printf("call %s\n", call.getFuncName());
         //pop args*
 //        out.print("pop r9\n\t" +
 //                "pop r8\n\t" +
@@ -504,89 +447,69 @@ public class CodeGenerator implements IRVisitor {
     public void visit(Bin bin) {
         //mov rbx, l:*
         out.printf("mov rbx, %s\n\t", bin.getLhs().accept(this));
-        err.printf("mov rbx, %s\n\t", bin.getLhs().accept(this));
         //mov rcx, r:*
         out.printf("mov rcx, %s\n\t", bin.getRhs().accept(this));
-        err.printf("mov rcx, %s\n\t", bin.getRhs().accept(this));
 
         switch (bin.getBinaryOP()) {
             case GREATER_EQUAL:
                 //cmp rbx, rcx
                 out.print("cmp rbx, rcx\n\t");
-                err.print("cmp rbx, rcx\n\t");
                 //setge r
                 out.printf("setge %s\n", c8t1(bin.getAns().accept(this)));
-                err.printf("setge %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case LESS_EQUAL:
                 //cmp rbx, rcx
                 out.print("cmp rbx, rcx\n\t");
-                err.print("cmp rbx, rcx\n\t");
                 //setle r
                 out.printf("setle %s\n", c8t1(bin.getAns().accept(this)));
-                err.printf("setle %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case EQUAL:
                 //cmp rbx, rcx
                 out.print("cmp rbx, rcx\n\t");
-                err.print("cmp rbx, rcx\n\t");
                 //sete r
                 out.printf("sete %s\n", c8t1(bin.getAns().accept(this)));
-                err.printf("sete %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case INEQUAL:
                 //cmp rbx, rcx
                 out.print("cmp rbx, rcx\n\t");
-                err.print("cmp rbx, rcx\n\t");
                 //setne r
                 out.printf("setne %s\n", c8t1(bin.getAns().accept(this)));
-                err.printf("setne %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case GREATER:
                 //cmp rbx, rcx
                 out.print("cmp rbx, rcx\n\t");
-                err.print("cmp rbx, rcx\n\t");
                 //setg r
                 out.printf("setg %s\n", c8t1(bin.getAns().accept(this)));
-                err.printf("setg %s\n", c8t1(bin.getAns().accept(this)));
                 break;
             case LESS:
                 //cmp rbx, rcx
                 out.print("cmp rbx, rcx\n\t");
-                err.print("cmp rbx, rcx\n\t");
                 //setl r
                 out.printf("setl %s\n", c8t1(bin.getAns().accept(this)));
-                err.printf("setl %s\n", c8t1(bin.getAns().accept(this)));
                 break;
 
             case BIT_XOR: {
                 String r = bin.getAns().accept(this);
                 //mov r, rbx
                 out.printf("mov %s, rbx\n\t", r);
-                err.printf("mov %s, rbx\n\t", r);
                 //xor r, rcx
                 out.printf("xor %s, rcx\n", r);
-                err.printf("xor %s, rcx\n", r);
                 break;
             }
             case BIT_AND: {
                 String r = bin.getAns().accept(this);
                 //mov r, rbx
                 out.printf("mov %s, rbx\n\t", r);
-                err.printf("mov %s, rbx\n\t", r);
                 //and r, rcx
                 out.printf("and %s, rcx\n", r);
-                err.printf("and %s, rcx\n", r);
                 break;
             }
             case BIR_OR: {
                 String r = bin.getAns().accept(this);
                 //mov r, rbx
                 out.printf("mov %s, rbx\n\t", r);
-                err.printf("mov %s, rbx\n\t", r);
                 //or r, rcx
                 out.printf("or %s, rcx\n", r);
-                err.printf("or %s, rcx\n", r);
                 break;
             }
 
@@ -594,20 +517,16 @@ public class CodeGenerator implements IRVisitor {
                 String r = bin.getAns().accept(this);
                 //mov r, rbx
                 out.printf("mov %s, rbx\n\t", r);
-                err.printf("mov %s, rbx\n\t", r);
                 //sar r, cl
                 out.printf("sar %s, cl\n", r);
-                err.printf("sar %s, cl\n", r);
                 break;
             }
             case SHL: {
                 String r = bin.getAns().accept(this);
                 //mov r, rbx
                 out.printf("mov %s, rbx\n\t", r);
-                err.printf("mov %s, rbx\n\t", r);
                 //sal r, cl
                 out.printf("sal %s, cl\n", r);
-                err.printf("sal %s, cl\n", r);
                 break;
             }
 
@@ -615,101 +534,93 @@ public class CodeGenerator implements IRVisitor {
                 String r = bin.getAns().accept(this);
                 //mov r, rbx
                 out.printf("mov %s, rbx\n\t", r);
-                err.printf("mov %s, rbx\n\t", r);
                 //add r, rcx
                 out.printf("add %s, rcx\n", r);
-                err.printf("add %s, rcx\n", r);
                 break;
             }
             case SUB: {
                 String r = bin.getAns().accept(this);
                 //mov r, rbx
                 out.printf("mov %s, rbx\n\t", r);
-                err.printf("mov %s, rbx\n\t", r);
                 //sub r, rcx
                 out.printf("sub %s, rcx\n", r);
-                err.printf("sub %s, rcx\n", r);
                 break;
             }
 
             case MUL:
                 //mov rax, rbx
                 out.print("mov rax, rbx\n\t");
-                err.print("mov rax, rbx\n\t");
                 //imul rcx
                 out.print("imul rcx\n\t");
-                err.print("imul rcx\n\t");
                 //mov r, rax
                 out.printf("mov %s, rax\n", bin.getAns().accept(this));
-                err.printf("mov %s, rax\n", bin.getAns().accept(this));
                 break;
 
             case MOD:
                 //mov rax, rbx
                 out.print("mov rax, rbx\n\t");
-                err.print("mov rax, rbx\n\t");
                 //cdq
                 //idiv rcx
                 out.print("cdq\n\tidiv rcx\n\t");
-                err.print("cdq\n\tidiv rcx\n\t");
                 //mov r, rdx
                 out.printf("mov %s, rdx\n", bin.getAns().accept(this));
-                err.printf("mov %s, rdx\n", bin.getAns().accept(this));
                 break;
             case DIV:
                 //mov rax, rbx
                 out.print("mov rax, rbx\n\t");
-                err.print("mov rax, rbx\n\t");
                 //cdq
                 //idiv rcx
                 out.print("cdq\n\tidiv rcx\n\t");
-                err.print("cdq\n\tidiv rcx\n\t");
                 //mov r, rax
                 out.printf("mov %s, rax\n", bin.getAns().accept(this));
-                err.printf("mov %s, rax\n", bin.getAns().accept(this));
                 break;
         }
     }
 
     @Override
     public void visit(Uni uni) {
+        if (uni.getUnaryOP() == UnaryExprNode.UnaryOP.SELF_INC) {
+            out.printf("inc %s\n", uni.getObj().accept(this));
+            if (uni.getObj() != uni.getAns()) {
+                //mov rcx, *
+                out.printf("mov rcx, %s\n\t", uni.getObj().accept(this));
+                //mov r, rcx
+                out.printf("mov %s, rcx\n", uni.getAns().accept(this));
+            }
+            return;
+        }
+        if (uni.getUnaryOP() == UnaryExprNode.UnaryOP.SELF_DEC) {
+            out.printf("dec %s\n", uni.getObj().accept(this));
+            if (uni.getObj() != uni.getAns()) {
+                //mov rcx, *
+                out.printf("mov rcx, %s\n\t", uni.getObj().accept(this));
+                //mov r, rcx
+                out.printf("mov %s, rcx\n", uni.getAns().accept(this));
+            }
+            return;
+        }
+        if (uni.getObj() != uni.getAns()) {
+            //mov rcx, *
+            out.printf("mov rcx, %s\n\t", uni.getObj().accept(this));
+            //mov r, rcx
+            out.printf("mov %s, rcx\n", uni.getAns().accept(this));
+        }
         switch (uni.getUnaryOP()) {
-            case SELF_INC:
-                //inc *
-                out.printf("inc %s\n", uni.getObj().accept(this));
-                err.printf("inc %s\n", uni.getObj().accept(this));
-                break;
-            case SELF_DEC:
-                //dec *
-                out.printf("dec %s\n", uni.getObj().accept(this));
-                err.printf("dec %s\n", uni.getObj().accept(this));
-                break;
             case POSI:
+                //neg *
                 break;
             case NEGE:
                 //neg *
-                out.printf("neg %s\n", uni.getObj().accept(this));
-                err.printf("neg %s\n", uni.getObj().accept(this));
-                break;
+                out.printf("neg %s\n", uni.getAns().accept(this));
+                return;
             case BIT_NOT:
                 //not *
-                out.printf("not %s\n", uni.getObj().accept(this));
-                err.printf("not %s\n", uni.getObj().accept(this));
+                out.printf("not %s\n", uni.getAns().accept(this));
                 break;
             case LOGIC_NOT:
                 //xor *, 1
-                out.printf("xor %s, 1\n", uni.getObj().accept(this));
-                err.printf("xor %s, 1\n", uni.getObj().accept(this));
+                out.printf("xor %s, 1\n", uni.getAns().accept(this));
                 break;
-        }
-
-        if (uni.getObj() != uni.getAns()) {
-            //mov rcx, *
-            out.printf("\tmov rcx, %s\n\t", uni.getObj().accept(this));
-            err.printf("\tmov rcx, %s\n\t", uni.getObj().accept(this));
-            //mov r, rcx
-            out.printf("mov %s, rcx\n", uni.getAns().accept(this));
-            err.printf("mov %s, rcx\n", uni.getAns().accept(this));
         }
     }
 
@@ -761,7 +672,6 @@ public class CodeGenerator implements IRVisitor {
         //leave
         //ret
         out.println("leave\n\tret");
-        err.println("leave\n\tret");
     }
 
 }

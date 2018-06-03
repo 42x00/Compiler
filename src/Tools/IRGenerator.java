@@ -73,13 +73,23 @@ public class IRGenerator implements ASTVisitor {
         }
     }
 
+    private void optimConstCond(BasicBlock thenBlock, BasicBlock elseBlock) {
+        IntValue mayConst = exprLinkedList.pop();
+        if (mayConst instanceof ConstValue) {
+            if (((ConstValue) mayConst).getAnInt() == 1) {
+                currentBlock.append(new Jump(thenBlock));
+            } else currentBlock.append(new Jump(elseBlock));
+    } else
+            currentBlock.append(new Cjump(mayConst, thenBlock, elseBlock));
+    }
+
     @Override
     public void visit(ProgNode progNode) {
         toplevelScope = progNode.getToplevelScope();
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof VarDeclNode) {
                 VarDeclNode varDeclNode = (VarDeclNode) declNode;
-                varDeclNode.setIntValue(new GloalVar("_" + varDeclNode.getVarname()));
+                varDeclNode.setIntValue(new GloalVar("_global_" + varDeclNode.getVarname()));
             }
         }
         for (DeclNode declNode : progNode.getDeclarations()) {
@@ -180,7 +190,7 @@ public class IRGenerator implements ASTVisitor {
             isReturnAddr = false;
             ifStmtNode.getIfexpr().accept(this);
 
-            currentBlock.append(new Cjump(exprLinkedList.pop(), thenBlock, endBlock));
+            optimConstCond(thenBlock,endBlock);
 
             currentBlock = thenBlock;
             ifStmtNode.getIfstmt().accept(this);
@@ -196,7 +206,7 @@ public class IRGenerator implements ASTVisitor {
             isReturnAddr = false;
             ifStmtNode.getIfexpr().accept(this);
 
-            currentBlock.append(new Cjump(exprLinkedList.pop(), thenBlock, elseBlock));
+            optimConstCond(thenBlock,elseBlock);
 
             currentBlock = thenBlock;
             ifStmtNode.getIfstmt().accept(this);
@@ -227,7 +237,7 @@ public class IRGenerator implements ASTVisitor {
         isReturnAddr = false;
         whileStmtNode.getWhileexpr().accept(this);
 
-        currentBlock.append(new Cjump(exprLinkedList.pop(), whileBlock, endBlock));
+        optimConstCond(whileBlock,endBlock);
 
         continueLinkedList.push(condBlock);
         breakLinkedList.push(endBlock);
@@ -268,7 +278,7 @@ public class IRGenerator implements ASTVisitor {
             }
             isReturnAddr = false;
             forStmtNode.getForexprend().accept(this);
-            currentBlock.append(new Cjump(exprLinkedList.pop(), forBlock, endBlock));
+            optimConstCond(forBlock,endBlock);
         } else currentBlock.append(new Jump(forBlock));
 
         continueLinkedList.push(condBlock);
@@ -589,10 +599,10 @@ public class IRGenerator implements ASTVisitor {
         isReturnAddr = true;
         unaryExprNode.getUnaryexpr().accept(this);
         IntValue intValue = exprLinkedList.pop();
-        if (unaryExprNode.getExprop() == UnaryExprNode.UnaryOP.POSI) {
-            exprLinkedList.push(intValue);
-            return;
-        }
+//        if (unaryExprNode.getExprop() == UnaryExprNode.UnaryOP.POSI) {
+//            exprLinkedList.push(intValue);
+//            return;
+//        }
         if (intValue instanceof ConstValue) {
             switch (unaryExprNode.getExprop()) {
                 case NEGE:
@@ -647,7 +657,7 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(FuncCallExprNode funcCallExprNode) {
-        String funcName = "_";
+        String funcName = "_global_";
         List<IntValue> intValueList = new ArrayList<>();
 
         if (funcCallExprNode.getFunction() instanceof IDExprNode) {
@@ -669,7 +679,7 @@ public class IRGenerator implements ASTVisitor {
                     funcName = rawFuncName;
                     break;
                 default:
-                    funcName = "_" + rawFuncName;
+                    funcName = "_global_" + rawFuncName;
             }
             switch (funcName) {
                 case "println":
@@ -745,7 +755,7 @@ public class IRGenerator implements ASTVisitor {
 
             if (arrayTypeNode.getArrayelement() instanceof ArrayTypeNode) {
                 if (((ArrayTypeNode) arrayTypeNode.getArrayelement()).getArraysizeexpr() != null) {
-                    if (intValue instanceof ConstValue) {
+                    if (intValue instanceof ConstValue && ((ConstValue) intValue).getAnInt() < 10) {
                         ConstValue constValue = (ConstValue) intValue;
                         for (int i = 0; i < constValue.getAnInt(); ++i) {
                             (new NewExprNode(arrayTypeNode.getArrayelement())).accept(this);

@@ -33,7 +33,6 @@ public class BasicBlock{
 
     public void setLabel(){
         out.println(toLabel() + ":");
-        err.println(toLabel() + ":");
     }
 
     public List<Inst> getInstList() {
