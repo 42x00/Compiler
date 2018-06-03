@@ -35,11 +35,8 @@ public class CodeGenerator implements IRVisitor {
     }
 
     private boolean trySetLabel(BasicBlock basicBlock) {
-        if (labelSet.contains(basicBlock.getOrd())) return false;
-        labelSet.add(basicBlock.getOrd());
-        basicBlock.setLabel();
-        basicBlock.accept(this);
-        return true;
+        if (labelSet.contains(basicBlock.getOrd())) return true;
+        return false;
     }
 
     private String c8t1(String s) {
@@ -138,12 +135,16 @@ public class CodeGenerator implements IRVisitor {
                     List<VarDeclNode> varDeclNodeList = ((FuncDeclNode) declNode).getFunctionParameterList().getVardeclnodeList();
                     for (int index = varDeclNodeList.size() - 1; index >= 0; --index) {
                         if (index > 5) {
-                            out.printf("mov %s, qword [rbp + %d]\n\t",
-                                    varDeclNodeList.get(index).getIntValue().accept(this),
-                                    (index - 4) * 8);
-                            err.printf("mov %s, qword [rbp + %d]\n\t",
-                                    varDeclNodeList.get(index).getIntValue().accept(this),
-                                    (index - 4) * 8);
+                            (new Assign(varDeclNodeList.get(index).getIntValue(),
+                                    new MemAddr(new Register(Register.RegisterName.RBP),
+                                            new ConstValue(index - 4)))).accept(this);
+                            indent();
+//                            out.printf("mov %s, qword [rbp + %d]\n\t",
+//                                    varDeclNodeList.get(index).getIntValue().accept(this),
+//                                    (index - 4) * 8);
+//                            err.printf("mov %s, qword [rbp + %d]\n\t",
+//                                    varDeclNodeList.get(index).getIntValue().accept(this),
+//                                    (index - 4) * 8);
                         } else {
                             switch (index) {
                                 case 0:
@@ -251,8 +252,7 @@ public class CodeGenerator implements IRVisitor {
                             stringDecl += Integer.toString(0) + ", ";
                             break;
                     }
-                }
-                else {
+                } else {
                     int char2Int = (int) valueString.charAt(index);
                     stringDecl += Integer.toString(char2Int) + ", ";
                 }
@@ -297,7 +297,11 @@ public class CodeGenerator implements IRVisitor {
         //jmp L_*
         out.println("jmp " + jump.getNxtBlock().toLabel());
         err.println("jmp " + jump.getNxtBlock().toLabel());
-        trySetLabel(jump.getNxtBlock());
+        if (!trySetLabel(jump.getNxtBlock())){
+            labelSet.add(jump.getNxtBlock().getOrd());
+            jump.getNxtBlock().setLabel();
+            jump.getNxtBlock().accept(this);
+        }
     }
 
     @Override
@@ -306,10 +310,26 @@ public class CodeGenerator implements IRVisitor {
         out.printf("cmp %s, 0\n\t", c8t1(cjump.getCond().accept(this)));
         err.printf("cmp %s, 0\n\t", c8t1(cjump.getCond().accept(this)));
         //jz L_*
+        if (trySetLabel(cjump.getThenBlock())) {
+            out.println("jnz " + cjump.getThenBlock().toLabel());
+            err.println("jnz " + cjump.getThenBlock().toLabel());
+            if (!trySetLabel(cjump.getElseBlock())){
+                labelSet.add(cjump.getElseBlock().getOrd());
+                cjump.getElseBlock().setLabel();
+                cjump.getElseBlock().accept(this);
+            }
+            return;
+        }
         out.println("jz " + cjump.getElseBlock().toLabel());
         err.println("jz " + cjump.getElseBlock().toLabel());
-        trySetLabel(cjump.getThenBlock());
-        trySetLabel(cjump.getElseBlock());
+        labelSet.add(cjump.getThenBlock().getOrd());
+        cjump.getThenBlock().setLabel();
+        cjump.getThenBlock().accept(this);
+        if (!trySetLabel(cjump.getElseBlock())){
+            labelSet.add(cjump.getElseBlock().getOrd());
+            cjump.getElseBlock().setLabel();
+            cjump.getElseBlock().accept(this);
+        }
     }
 
     @Override

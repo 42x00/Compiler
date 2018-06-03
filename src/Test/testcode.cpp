@@ -1,35 +1,7 @@
-int main() {
-    int la = 5;
-    int[] a = new int[la];
-
-    int cnt = 0;
-    int i;
-    for (i = 0; i < la; ++i)
-        a[i] = ++cnt;
-
-    int sum = 0;
-    for (i = 0; i < la; ++i) sum = sum + a[i];
-    
-    return sum;
+int[] a = new int[10];
+int f(int b, int c, int d, int g){
+    println(toString(g + 2));
 }
-
-
-
-
-/*!! metadata:
-=== comment ===
-array3.mx
-=== assert ===
-exitcode
-=== timeout ===
-0.1
-=== input ===
-
-=== phase ===
-codegen pretest
-=== is_public ===
-True
-=== exitcode ===
-15
-
-!!*/
+int main(){
+    f(1,2,3,4);
+}

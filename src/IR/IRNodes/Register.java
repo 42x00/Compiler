@@ -15,7 +15,7 @@ public class Register extends IntValue {
         cntRegister = 16;
     }
 
-    public static int getCntRegister() {
+    static public int getCntRegister() {
         return cntRegister;
     }
 

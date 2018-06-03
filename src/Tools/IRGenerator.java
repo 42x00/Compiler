@@ -22,8 +22,8 @@ public class IRGenerator implements ASTVisitor {
     static private boolean isReturnAddr;
 
     static private Register registerRAX = new Register(Register.RegisterName.RAX);
-    static private Register registerRDI = new Register(Register.RegisterName.RDI);
-    static private Register registerRSI = new Register(Register.RegisterName.RSI);
+    static private Register registerR10 = new Register(Register.RegisterName.R10);
+    static private Register registerR11 = new Register(Register.RegisterName.R11);
     static private Register registerRCX = new Register(Register.RegisterName.RCX);
 
     static private LinkedList<IntValue> exprLinkedList = new LinkedList<>();
@@ -57,6 +57,7 @@ public class IRGenerator implements ASTVisitor {
     }
 
     private void initGlobalVar(ProgNode progNode) {
+        Register.resetCnt();
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof VarDeclNode) {
                 if (((VarDeclNode) declNode).getVarinit() != null) {
@@ -132,7 +133,11 @@ public class IRGenerator implements ASTVisitor {
             BasicBlock thenBlock = new BasicBlock();
             BasicBlock endBlock = new BasicBlock();
 
-            shortcut2Block = endBlock;
+            if (ifStmtNode.getIfexpr() instanceof BinaryExprNode){
+                BinaryExprNode binaryExprNode = (BinaryExprNode) ifStmtNode.getIfexpr();
+                if (binaryExprNode.getExprop() == BinaryExprNode.BinaryOP.LOGICAL_AND) shortcut2Block = endBlock;
+                else if (binaryExprNode.getExprop() == BinaryExprNode.BinaryOP.LOGICAL_OR) shortcut2Block = thenBlock;
+            }
             ifStmtNode.getIfexpr().accept(this);
 
             currentBlock.append(new Cjump(exprLinkedList.pop(), thenBlock, endBlock));
@@ -368,16 +373,6 @@ public class IRGenerator implements ASTVisitor {
                 break;
             }
             case ASSIGN: {
-//                if (binaryExprNode.getLhs() instanceof ArrayIndexExprNode && binaryExprNode.getRhs() instanceof ArrayIndexExprNode) {
-//                    binaryExprNode.getRhs().accept(this);
-//                    IntValue rhs = exprLinkedList.pop();
-//                    currentBlock.append(new Assign(registerRCX, rhs));
-//                    binaryExprNode.getLhs().accept(this);
-//                    IntValue lhs = exprLinkedList.pop();
-//                    currentBlock.append(new Assign(lhs, registerRCX));
-//                    exprLinkedList.push(new ConstValue(0));
-//                    return;
-//                }
                 isReturnAddr = false;
                 binaryExprNode.getRhs().accept(this);
                 IntValue rhs = exprLinkedList.pop();
@@ -542,8 +537,8 @@ public class IRGenerator implements ASTVisitor {
                         ConstValue constValue = (ConstValue) intValue;
                         for (int i = 0; i < constValue.getAnInt(); ++i) {
                             (new NewExprNode(arrayTypeNode.getArrayelement())).accept(this);
-                            currentBlock.append(new Assign(registerRDI, register));
-                            currentBlock.append(new Assign(new MemAddr(registerRDI, new ConstValue(i)), exprLinkedList.pop()));
+                            currentBlock.append(new Assign(registerR10, register));
+                            currentBlock.append(new Assign(new MemAddr(registerR10, new ConstValue(i)), exprLinkedList.pop()));
                         }
                     } else {
                         BasicBlock condBlock = new BasicBlock();
@@ -564,9 +559,9 @@ public class IRGenerator implements ASTVisitor {
                         //forBlock
                         currentBlock = forBlock;
                         (new NewExprNode(arrayTypeNode.getArrayelement())).accept(this);
-                        currentBlock.append(new Assign(registerRDI, register));
-                        currentBlock.append(new Assign(registerRSI, register1));
-                        currentBlock.append(new Assign(new MemAddr(registerRDI, registerRSI), exprLinkedList.pop()));
+                        currentBlock.append(new Assign(registerR10, register));
+                        currentBlock.append(new Assign(registerR11, register1));
+                        currentBlock.append(new Assign(new MemAddr(registerR10, registerR11), exprLinkedList.pop()));
                         currentBlock.append(new Uni(UnaryExprNode.UnaryOP.SELF_INC, register1, register1));
                         currentBlock.append(new Jump(condBlock));
 
@@ -592,19 +587,19 @@ public class IRGenerator implements ASTVisitor {
             IntValue index = exprLinkedList.pop();
             arrayIndexExprNode.getArray().accept(this);
             IntValue array = exprLinkedList.pop();
-            currentBlock.append(new Assign(registerRDI, array));
-            currentBlock.append(new Assign(registerRSI, index));
-            exprLinkedList.push(new MemAddr(registerRDI, registerRSI));
+            currentBlock.append(new Assign(registerR10, array));
+            currentBlock.append(new Assign(registerR11, index));
+            exprLinkedList.push(new MemAddr(registerR10, registerR11));
             return;
         }
         arrayIndexExprNode.getIndex().accept(this);
         IntValue index = exprLinkedList.pop();
         arrayIndexExprNode.getArray().accept(this);
         IntValue array = exprLinkedList.pop();
-        currentBlock.append(new Assign(registerRDI, array));
-        currentBlock.append(new Assign(registerRSI, index));
+        currentBlock.append(new Assign(registerR10, array));
+        currentBlock.append(new Assign(registerR11, index));
         Register register = new Register();
-        currentBlock.append(new Assign(register, new MemAddr(registerRDI, registerRSI)));
+        currentBlock.append(new Assign(register, new MemAddr(registerR10, registerR11)));
         exprLinkedList.push(register);
     }
 
