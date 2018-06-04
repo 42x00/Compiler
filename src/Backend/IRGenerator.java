@@ -1,4 +1,4 @@
-package Tools;
+package Backend;
 
 import AST_Node.ASTVisitor;
 import AST_Node.DeclNodes.ClassDeclNode;
@@ -34,8 +34,6 @@ public class IRGenerator implements ASTVisitor {
     static private LinkedList<BasicBlock> breakLinkedList = new LinkedList<>();
     static private LinkedList<BasicBlock> continueLinkedList = new LinkedList<>();
 
-    static private Map<String, Integer> registerCntMap = new HashMap<>();
-    static private Map<String, BasicBlock> funcBlockMap = new HashMap<>();
     static private Map<String, String> stringMap = new HashMap<>();
     static private Map<String, Integer> offsetIndexMap = new HashMap<>();
 
@@ -43,14 +41,6 @@ public class IRGenerator implements ASTVisitor {
     private BasicBlock startBlock;
     private BasicBlock shortcut2Block;
     private BasicBlock funcReturnBlock;
-
-    public Map<String, Integer> getRegisterCntMap() {
-        return registerCntMap;
-    }
-
-    public Map<String, BasicBlock> getFuncBlockMap() {
-        return funcBlockMap;
-    }
 
     public Map<String, String> getStringMap() {
         return stringMap;
@@ -78,9 +68,21 @@ public class IRGenerator implements ASTVisitor {
         if (mayConst instanceof ConstValue) {
             if (((ConstValue) mayConst).getAnInt() == 1) {
                 currentBlock.append(new Jump(thenBlock));
-            } else currentBlock.append(new Jump(elseBlock));
-    } else
+                setLink(currentBlock, thenBlock);
+            } else {
+                currentBlock.append(new Jump(elseBlock));
+                setLink(currentBlock, elseBlock);
+            }
+        } else {
             currentBlock.append(new Cjump(mayConst, thenBlock, elseBlock));
+            setLink(currentBlock, thenBlock);
+            setLink(currentBlock, elseBlock);
+        }
+    }
+
+    private void setLink(BasicBlock thisBlock, BasicBlock jumpBlock) {
+        thisBlock.pushSucc(jumpBlock);
+        jumpBlock.pushPred(thisBlock);
     }
 
     @Override
@@ -99,10 +101,11 @@ public class IRGenerator implements ASTVisitor {
         }
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof FuncDeclNode) {
+                FuncDeclNode funcDeclNode =(FuncDeclNode) declNode;
                 startBlock = new BasicBlock();
-                funcBlockMap.put(declNode.getDeclname(), startBlock);
+                funcDeclNode.setStartBlock(startBlock);
                 currentBlock = startBlock;
-                if (((FuncDeclNode) declNode).getFunctionName().equals("main"))
+                if (funcDeclNode.getFunctionName().equals("main"))
                     initGlobalVar(progNode);
                 declNode.accept(this);
             }
@@ -130,10 +133,8 @@ public class IRGenerator implements ASTVisitor {
         }
         //visit {}
         funcDeclNode.getFunctionStatements().accept(this);
-        if (currentClass != null)
-            registerCntMap.put(currentClass.getDeclname() + "." + funcDeclNode.getFunctionName(), Register.getCntRegister() - 15);
-            //------------------- Can be set in FuncDeclNode -------------------//
-        else registerCntMap.put(funcDeclNode.getFunctionName(), Register.getCntRegister() - 15);
+        funcDeclNode.setCntRegister(Register.getCntRegister() - 15);
+        funcDeclNode.setOverBlock(funcReturnBlock);
     }
 
     @Override
@@ -146,7 +147,7 @@ public class IRGenerator implements ASTVisitor {
                 ++nowOffset;
             } else {
                 startBlock = new BasicBlock();
-                funcBlockMap.put(classDeclNode.getDeclname() + "." + declNode.getDeclname(), startBlock);
+                ((FuncDeclNode) declNode).setStartBlock(startBlock);
                 currentBlock = startBlock;
                 currentClass = classDeclNode;
                 declNode.accept(this);
@@ -190,11 +191,12 @@ public class IRGenerator implements ASTVisitor {
             isReturnAddr = false;
             ifStmtNode.getIfexpr().accept(this);
 
-            optimConstCond(thenBlock,endBlock);
+            optimConstCond(thenBlock, endBlock);
 
             currentBlock = thenBlock;
             ifStmtNode.getIfstmt().accept(this);
             currentBlock.append(new Jump(endBlock));
+            setLink(currentBlock, endBlock);
 
             currentBlock = endBlock;
         } else {
@@ -206,15 +208,17 @@ public class IRGenerator implements ASTVisitor {
             isReturnAddr = false;
             ifStmtNode.getIfexpr().accept(this);
 
-            optimConstCond(thenBlock,elseBlock);
+            optimConstCond(thenBlock, elseBlock);
 
             currentBlock = thenBlock;
             ifStmtNode.getIfstmt().accept(this);
             currentBlock.append(new Jump(endBlock));
+            setLink(currentBlock, endBlock);
 
             currentBlock = elseBlock;
             ifStmtNode.getElsestmt().accept(this);
             currentBlock.append(new Jump(endBlock));
+            setLink(currentBlock, endBlock);
 
             currentBlock = endBlock;
         }
@@ -227,6 +231,7 @@ public class IRGenerator implements ASTVisitor {
         BasicBlock endBlock = new BasicBlock();
 
         currentBlock.append(new Jump(condBlock));
+        setLink(currentBlock, condBlock);
         currentBlock = condBlock;
 
         if (whileStmtNode.getWhileexpr() instanceof BinaryExprNode) {
@@ -237,7 +242,7 @@ public class IRGenerator implements ASTVisitor {
         isReturnAddr = false;
         whileStmtNode.getWhileexpr().accept(this);
 
-        optimConstCond(whileBlock,endBlock);
+        optimConstCond(whileBlock, endBlock);
 
         continueLinkedList.push(condBlock);
         breakLinkedList.push(endBlock);
@@ -245,6 +250,7 @@ public class IRGenerator implements ASTVisitor {
         currentBlock = whileBlock;
         whileStmtNode.getWhilestmt().accept(this);
         currentBlock.append(new Jump(condBlock));
+        setLink(currentBlock, endBlock);
 
         continueLinkedList.pop();
         breakLinkedList.pop();
@@ -267,6 +273,7 @@ public class IRGenerator implements ASTVisitor {
         }
 
         currentBlock.append(new Jump(condBlock));
+        setLink(currentBlock, condBlock);
         currentBlock = condBlock;
 
 
@@ -278,9 +285,11 @@ public class IRGenerator implements ASTVisitor {
             }
             isReturnAddr = false;
             forStmtNode.getForexprend().accept(this);
-            optimConstCond(forBlock,endBlock);
-        } else currentBlock.append(new Jump(forBlock));
-
+            optimConstCond(forBlock, endBlock);
+        } else {
+            currentBlock.append(new Jump(forBlock));
+            setLink(currentBlock, forBlock);
+        }
         continueLinkedList.push(condBlock);
         breakLinkedList.push(endBlock);
 
@@ -289,6 +298,7 @@ public class IRGenerator implements ASTVisitor {
         if (forStmtNode.getForexprupdate() != null)
             forStmtNode.getForexprupdate().accept(this);
         currentBlock.append(new Jump(condBlock));
+        setLink(currentBlock, condBlock);
 
         continueLinkedList.pop();
         breakLinkedList.pop();
@@ -298,18 +308,23 @@ public class IRGenerator implements ASTVisitor {
 
     @Override
     public void visit(BreakStmtNode breakStmtNode) {
-        currentBlock.append(new Jump(breakLinkedList.getFirst()));
+        BasicBlock outBlock = breakLinkedList.getFirst();
+        currentBlock.append(new Jump(outBlock));
+        setLink(currentBlock, outBlock);
     }
 
     @Override
     public void visit(ContinueStmtNode continueStmtNode) {
-        currentBlock.append(new Jump(continueLinkedList.getFirst()));
+        BasicBlock outBlock = continueLinkedList.getFirst();
+        currentBlock.append(new Jump(outBlock));
+        setLink(currentBlock, outBlock);
     }
 
     @Override
     public void visit(ReturnStmtNode returnStmtNode) {
         if (returnStmtNode.getReturnexpr() == null) {
             currentBlock.append(new Jump(funcReturnBlock));
+            setLink(currentBlock, funcReturnBlock);
             currentBlock = new BasicBlock();
             return;
         }
@@ -321,9 +336,11 @@ public class IRGenerator implements ASTVisitor {
                 isReturnAddr = false;
                 returnStmtNode.getReturnexpr().accept(this);
                 currentBlock.append(new Jump(nxtBlock));
+                setLink(currentBlock, nxtBlock);
                 currentBlock = nxtBlock;
                 currentBlock.append(new Assign(registerRAX, exprLinkedList.pop()));
                 currentBlock.append(new Jump(funcReturnBlock));
+                setLink(currentBlock, funcReturnBlock);
                 currentBlock = new BasicBlock();
                 return;
             }
@@ -333,6 +350,7 @@ public class IRGenerator implements ASTVisitor {
         returnStmtNode.getReturnexpr().accept(this);
         currentBlock.append(new Assign(registerRAX, exprLinkedList.pop()));
         currentBlock.append(new Jump(funcReturnBlock));
+        setLink(currentBlock, funcReturnBlock);
         currentBlock = new BasicBlock();
     }
 
@@ -351,6 +369,7 @@ public class IRGenerator implements ASTVisitor {
                     isReturnAddr = false;
                     varDeclNode.getVarinit().accept(this);
                     currentBlock.append(new Jump(nxtBlock));
+                    setLink(currentBlock, nxtBlock);
                     currentBlock = nxtBlock;
                     currentBlock.append(new Assign(varDeclNode.getIntValue(), exprLinkedList.pop()));
                     return;
@@ -480,6 +499,7 @@ public class IRGenerator implements ASTVisitor {
                 BasicBlock shortCutBlock = new BasicBlock();
                 shortCutBlock.append(new Assign(register, new ConstValue(0)));
                 shortCutBlock.append(new Jump(shortcut2Block));
+                setLink(shortCutBlock, shortcut2Block);
 
                 BasicBlock jumpBlock = new BasicBlock();
                 BasicBlock nxtBlock = new BasicBlock();
@@ -487,7 +507,10 @@ public class IRGenerator implements ASTVisitor {
                 isReturnAddr = false;
                 binaryExprNode.getLhs().accept(this);
                 currentBlock.append(new Jump(jumpBlock));
+                setLink(currentBlock, jumpBlock);
                 jumpBlock.append(new Cjump(exprLinkedList.pop(), nxtBlock, shortCutBlock));
+                setLink(currentBlock, nxtBlock);
+                setLink(currentBlock, shortCutBlock);
                 currentBlock = nxtBlock;
 
                 jumpBlock = new BasicBlock();
@@ -496,7 +519,10 @@ public class IRGenerator implements ASTVisitor {
                 isReturnAddr = false;
                 binaryExprNode.getRhs().accept(this);
                 currentBlock.append(new Jump(jumpBlock));
+                setLink(currentBlock, jumpBlock);
                 jumpBlock.append(new Cjump(exprLinkedList.pop(), nxtBlock, shortCutBlock));
+                setLink(currentBlock, nxtBlock);
+                setLink(currentBlock, shortCutBlock);
                 currentBlock = nxtBlock;
 
                 currentBlock.append(new Assign(register, new ConstValue(1)));
@@ -508,6 +534,7 @@ public class IRGenerator implements ASTVisitor {
                 BasicBlock shortCutBlock = new BasicBlock();
                 shortCutBlock.append(new Assign(register, new ConstValue(1)));
                 shortCutBlock.append(new Jump(shortcut2Block));
+                setLink(shortCutBlock, shortcut2Block);
 
                 BasicBlock jumpBlock = new BasicBlock();
                 BasicBlock nxtBlock = new BasicBlock();
@@ -515,7 +542,10 @@ public class IRGenerator implements ASTVisitor {
                 isReturnAddr = false;
                 binaryExprNode.getLhs().accept(this);
                 currentBlock.append(new Jump(jumpBlock));
+                setLink(currentBlock, jumpBlock);
                 jumpBlock.append(new Cjump(exprLinkedList.pop(), shortCutBlock, nxtBlock));
+                setLink(currentBlock, shortCutBlock);
+                setLink(currentBlock, nxtBlock);
                 currentBlock = nxtBlock;
 
                 jumpBlock = new BasicBlock();
@@ -524,7 +554,10 @@ public class IRGenerator implements ASTVisitor {
                 isReturnAddr = false;
                 binaryExprNode.getRhs().accept(this);
                 currentBlock.append(new Jump(jumpBlock));
+                setLink(currentBlock, jumpBlock);
                 jumpBlock.append(new Cjump(exprLinkedList.pop(), shortCutBlock, nxtBlock));
+                setLink(currentBlock, shortCutBlock);
+                setLink(currentBlock, nxtBlock);
                 currentBlock = nxtBlock;
 
                 currentBlock.append(new Assign(register, new ConstValue(0)));
@@ -590,6 +623,7 @@ public class IRGenerator implements ASTVisitor {
                 isReturnAddr = false;
                 unaryExprNode.getUnaryexpr().accept(this);
                 currentBlock.append(new Jump(nxtBlock));
+                setLink(currentBlock,nxtBlock);
                 currentBlock = nxtBlock;
                 currentBlock.append(new Uni(unaryExprNode.getExprop(), exprLinkedList.pop(), register));
                 exprLinkedList.push(register);
@@ -712,6 +746,7 @@ public class IRGenerator implements ASTVisitor {
                     isReturnAddr = false;
                     exprNode.accept(this);
                     currentBlock.append(new Jump(nxtBlock));
+                    setLink(currentBlock,nxtBlock);
                     currentBlock = nxtBlock;
                 } else exprNode.accept(this);
             } else {
@@ -771,12 +806,15 @@ public class IRGenerator implements ASTVisitor {
 
                         currentBlock.append(new Assign(register1, new ConstValue(0)));
                         currentBlock.append(new Jump(condBlock));
+                        setLink(currentBlock,condBlock);
                         currentBlock = condBlock;
 
                         //condBlock
                         Register jumpRegister = new Register();
                         currentBlock.append(new Bin(BinaryExprNode.BinaryOP.LESS, register1, intValue, jumpRegister));
                         currentBlock.append(new Cjump(jumpRegister, forBlock, endBlock));
+                        setLink(currentBlock,forBlock);
+                        setLink(currentBlock,endBlock);
 
                         //forBlock
                         currentBlock = forBlock;
@@ -786,6 +824,7 @@ public class IRGenerator implements ASTVisitor {
                         currentBlock.append(new Assign(new MemAddr(registerR10, registerR11), exprLinkedList.pop()));
                         currentBlock.append(new Uni(UnaryExprNode.UnaryOP.SELF_INC, register1, register1));
                         currentBlock.append(new Jump(condBlock));
+                        setLink(currentBlock,condBlock);
 
                         //endBlock
                         currentBlock = endBlock;

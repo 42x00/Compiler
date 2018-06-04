@@ -6,19 +6,17 @@ import Frontend.ASTBuilder;
 import Parser.LMxLexer;
 import Parser.LMxParser;
 import Tools.ASTViewer;
-import Tools.CodeGenerator;
-import Tools.IRGenerator;
-import Tools.SemanticCheck;
+import Backend.CodeGenerator;
+import Backend.IRGenerator;
+import Backend.SemanticCheck;
+import Tools.DataFlowAnalysis;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static java.lang.System.out;
 import static org.antlr.v4.runtime.CharStreams.fromFileName;
 import static java.lang.System.err;
 
@@ -55,5 +53,8 @@ public class Test {
 
         CodeGenerator codeGenerator = new CodeGenerator();
         codeGenerator.generate(irGenerator, ast);
+
+//        DataFlowAnalysis dataFlowAnalysis = new DataFlowAnalysis();
+//        dataFlowAnalysis.analysis(irGenerator, ast);
     }
 }

@@ -1,4 +1,4 @@
-package Tools;
+package Backend;
 
 import AST_Node.DeclNodes.ClassDeclNode;
 import AST_Node.DeclNodes.DeclNode;
@@ -20,13 +20,10 @@ import java.io.IOException;
 import java.util.*;
 
 import static java.lang.System.out;
-import static java.lang.System.err;
 
 public class CodeGenerator implements IRVisitor {
     static private Set<Integer> labelSet = new HashSet<>();
 
-    static private Map<String, Integer> cntRegisterMap;
-    static private Map<String, BasicBlock> funcBlockMap;
     private boolean isPrintMain = false;
 
     private void indent() {
@@ -75,9 +72,6 @@ public class CodeGenerator implements IRVisitor {
     }
 
     public void generate(IRGenerator irGenerator, ProgNode progNode) {
-        cntRegisterMap = irGenerator.getRegisterCntMap();
-        funcBlockMap = irGenerator.getFuncBlockMap();
-
         //extern malloc, printf
         out.println("extern malloc");
         out.println("extern printf");
@@ -118,7 +112,7 @@ public class CodeGenerator implements IRVisitor {
                 } else {
                     out.printf("_global_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", declNode.getDeclname());
                 }
-                int cntRegister = cntRegisterMap.get(declNode.getDeclname());
+                int cntRegister = ((FuncDeclNode) declNode).getCntRegister();
                 //     sub rsp, 8
                 out.printf("sub rsp, %d\n", cntRegister * 8);
                 if (declNode.getDeclname().equals("main"))
@@ -163,7 +157,7 @@ public class CodeGenerator implements IRVisitor {
                         }
                     }
                 }
-                funcBlockMap.get(declNode.getDeclname()).accept(this);
+                ((FuncDeclNode) declNode).getStartBlock().accept(this);
                 isPrintMain = false;
             }
         }
@@ -171,14 +165,14 @@ public class CodeGenerator implements IRVisitor {
         for (DeclNode declNode : progNode.getDeclarations()) {
             if (declNode instanceof ClassDeclNode) {
                 ClassDeclNode classDeclNode = (ClassDeclNode) declNode;
-                for (DeclNode declNode1 : classDeclNode.getClassdecllist()) {
-                    if (declNode1 instanceof FuncDeclNode) {
-                        String funcName = classDeclNode.getDeclname() + "." + declNode1.getDeclname();
+                for (DeclNode declNodeInClass : classDeclNode.getClassdecllist()) {
+                    if (declNodeInClass instanceof FuncDeclNode) {
+                        String funcName = classDeclNode.getDeclname() + "." + declNodeInClass.getDeclname();
                         //_class._f:
                         //     push rbp
                         //     move rbp, rsp
                         out.printf("_global_%s:\n\tpush rbp\n\tmov rbp, rsp\n\t", funcName);
-                        int cntRegister = cntRegisterMap.get(funcName);
+                        int cntRegister = ((FuncDeclNode) declNodeInClass).getCntRegister();
                         //     sub rsp, 8
                         out.printf("sub rsp, %d\n", cntRegister * 8);
                         //push rbp, rbx, r12, r13, r14, r15
@@ -189,7 +183,7 @@ public class CodeGenerator implements IRVisitor {
 //                            "push r14\n\t" +
 //                            "push r15\n\t");
                         out.print('\t');
-                        List<VarDeclNode> varDeclNodeList = ((FuncDeclNode) declNode1).getFunctionParameterList().getVardeclnodeList();
+                        List<VarDeclNode> varDeclNodeList = ((FuncDeclNode) declNodeInClass).getFunctionParameterList().getVardeclnodeList();
                         for (int index = varDeclNodeList.size() - 1; index >= 0; --index) {
                             if (index > 4) {
                                 (new Assign(varDeclNodeList.get(index).getIntValue(),
@@ -217,7 +211,7 @@ public class CodeGenerator implements IRVisitor {
                             }
                         }
                         out.printf("mov %s, rdi\n\t", classDeclNode.getIntValue());
-                        funcBlockMap.get(funcName).accept(this);
+                        ((FuncDeclNode) declNodeInClass).getStartBlock().accept(this);
                         isPrintMain = false;
                     }
                 }
@@ -380,8 +374,21 @@ public class CodeGenerator implements IRVisitor {
         }
     }
 
+    private boolean isRealRegister(IntValue intValue){
+        if (intValue instanceof Register){
+            if (((Register) intValue).getOrd() < 16)
+                return true;
+            return false;
+        }
+        return false;
+    }
+
     @Override
     public void visit(Assign assign) {
+        if (isRealRegister(assign.getLhs()) || isRealRegister(assign.getRhs())){
+            out.printf("mov %s, %s\n\t",assign.getLhs().accept(this), assign.getRhs().accept(this));
+            return;
+        }
         //mov rbx, r:*
         out.printf("mov rbx, %s\n\t", assign.getRhs().accept(this));
         //mov l:*, rbx

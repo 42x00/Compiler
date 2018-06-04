@@ -1,188 +1,84 @@
-int[] b = new int[500005];
-int[] now = new int[500005];
-int[] t = new int[500005];
-int[] a = new int[200005];
-int n;
-int m;
-int p;
-int op;
-int L = 1;
-int[] flag = new int[500005];
-int[][] s = new int[500005][80];
-int[] sum = new int[500005];
-int ans = 0;
+int[][] make;
+int[] color = new int[10];
+int[] count = new int[1];
+int i;
+int j;
 
-int square(int x) {
-    return (x % p) * (x % p) ;
-}
-
-int gcd(int x, int y)
+void origin(int N)
 {
-    if(y == 0) return x;
-    if(x < y)
-        return gcd(y,x);
-    else
-        return gcd(y, x % y);
+	make = new int[N][];
+    for (i = 0; i < N; i ++ ) {
+		make[i] = new int[N];
+        for (j = 0; j < N; j ++ )
+        make[i][j] = 0;
+    }	
 }
 
-int lcm(int a, int b) {
-    return a / gcd(a, b) * b;
-}
-
-int aa=13131;
-int bb=5353;
-int MOD=(2<<14) - 7;
-int no=1;
-
-int lyk()
+int search(int x, int y, int z)
 {
-    int i = 1;
-    for(i=1;i<3;i++)
-        no=(no * aa + bb) % MOD;
-    if(no < 0){
-        no = -no;
+	int s;
+	int i;
+	int j;
+    if ((y > 0 || y < 0) || x == 0 || make[x-1][0] + make[x-1][1] + make[x-1][2] == 15)
+    {
+        if (x == 2 && y == 2) {
+            make[2][2] = 45 - z;
+            s = make[0][0] + make[0][1] + make[0][2];
+            if  (make[1][0] + make[1][1] + make[1][2] == s &&
+                    make[2][0] + make[2][1] + make[2][2] == s &&
+                    make[0][0] + make[1][0] + make[2][0] == s &&
+                    make[0][1] + make[1][1] + make[2][1] == s &&
+                    make[0][2] + make[1][2] + make[2][2] == s &&
+                    make[0][0] + make[1][1] + make[2][2] == s &&
+                    make[2][0] + make[1][1] + make[0][2] == s)
+            {
+                count[0] = count[0] + 1;
+                for (i = 0;i <= 2;i ++)
+                {
+                	for (j = 0;j <= 2;j ++)
+                    {
+                        print(toString(make[i][j]));
+                        print(" ");
+                    }
+                    print("\n");
+                }
+               print("\n");
+            }
+       }
+       else {
+            if (y == 2) {
+                make[x][y] = 15 - make[x][0] - make[x][1];
+                if (make[x][y] > 0 && make[x][y] < 10 && color[make[x][y]] == 0) {
+                    color[make[x][y]] = 1;
+                    if (y == 2)
+                        search(x + 1, 0, z+make[x][y]);
+                    else
+                        search(x, y+1, z+make[x][y]);
+                    color[make[x][y]] = 0;
+            	}
+            }
+            else {
+                for (i = 1;i <= 9;i ++) {
+                    if (color[i] == 0) {
+                        color[i] = 1;
+                        make[x][y] = i;
+                        if (y == 2)
+                            search(x + 1, 0, z+i);
+                        else
+                            search(x, y+1, z+i);
+                        make[x][y] = 0;
+                        color[i] = 0;
+                    }
+                }
+            }
+    	}
     }
-    return no;
 }
-
-int RandRange(int low, int high)
+int main()
 {
-    return low + lyk() % (high - low + 1) + 1;
-}
-
-
-void init() {
-    int[] c = new int[140005];
-    int i = 0;
-    int j = 0;
-    for(i = 2; i < p; ++i) c[i] = i;
-    for(i = 2; i < p; ++i)
-        for(j = 1; j <= 15; ++j)
-            c[i] = square(c[i]) % p;
-    for(i = 2; i < p; ++i) {
-        int j;
-        int x = c[i];
-        for(j = 1; ;++j) {
-            x = square(x) % p;
-            b[x] = 1;
-            if(x == c[i]) break;
-        }
-        L = lcm(L, j);
-    }
-    b[0] = 1;
-	b[1] = 1;
-}
-
-void build(int o, int l, int r) {
-    int i = 0;
-    if(l == r) {
-        sum[o] = a[l];
-        if(a[l] < p && a[l] >= 0  && b[a[l] % p] > 0) {
-            flag[o] = 1;
-            s[o][0] = a[l];
-            for(i = 1; i < L; ++i)
-                s[o][i] = square(s[o][i - 1]) % p;
-        }
-        now[o] = 0;
-    } else {
-        int lc = o * 2;
-        int rc = o * 2 + 1;
-        int mid = (l + r) / 2;
-        build(lc, l, mid);
-        build(rc, mid + 1, r);
-        sum[o] = sum[lc] + sum[rc];
-        flag[o] = flag[lc] & flag[rc];
-        if(flag[o]>0){
-            for(i = 0; i < L; ++i)
-                s[o][i] = s[lc][i] + s[rc][i];
-            now[0] = 0;
-        }
-    }
-}
-
-void pushdown(int o) {
-    if(t[o]>0) {
-        int lc = o * 2;
-        int rc = o * 2 + 1;
-        now[lc] = (now[lc] + t[o]) % L;
-        sum[lc] = s[lc][now[lc]];
-        t[lc] = (t[lc] + t[o]) % L;
-        now[rc] = (now[rc] + t[o]) % L;
-        sum[rc] = s[rc][now[rc]];
-        t[rc] = (t[rc] + t[o]) % L;
-        t[o] = 0;
-    }
-}
-
-int pl = 0;
-int pr = 0;
-//
-void update(int o, int l, int r) {
-    if (pl <= l && pr >= r && flag[o]>0) {
-        now[o] = (now[o] + 1) % L;
-        sum[o] = s[o][now[o]];
-        t[o] = (t[o] + 1) % L;
-        return;
-    }
-    if(l == r) {
-        sum[o] = square(sum[o]) % p;
-        if(b[sum[o]]>0) {
-            flag[o] = 1;
-            s[o][0] = sum[o];
-            int i = 0;
-            for(i = 1; i < L; ++i)
-                s[o][i] = square(s[o][i - 1]) % p;
-        }
-        return;
-    }
-    if(t[o]>0) pushdown(o);
-    int lc = o * 2;
-    int rc = o * 2 + 1;
-    int mid = (l + r) / 2;
-    if(pl <= mid) update(lc, l, mid);
-    if(pr >= mid + 1) update(rc, mid + 1, r);
-    sum[o] = sum[lc] + sum[rc];
-    flag[o] = flag[lc] & flag[rc];
-    if(flag[o]>0){
-        int i = 0;
-        for(i = 0; i < L; ++i)
-            s[o][i] = s[lc][(i + now[lc]) % L] + s[rc][(i + now[rc]) % L];
-        now[o] = 0;
-    }
-}
-
-int query(int o, int l, int r) {
-    if (pl <= l && pr >= r) return sum[o];
-    int lc = o * 2;
-    int rc = o * 2 + 1;
-    int mid = (l + r) / 2;
-    int ss = 0;
-    if(t[o]>0) pushdown(o);
-    if(pl <= mid) ss = (ss + query(lc, l, mid)) % MOD;
-    if(pr >= mid + 1) ss = (ss + query(rc, mid + 1, r)) % MOD;
-    return ss;
-}
-
-int main() {
-    n = getInt();
-    m = getInt();
-    p = getInt();
-    int i = 1;
-    for(i = 1; i <= n; ++i)
-        a[i] = RandRange(0, p);
-    init();
-    build(1, 1, n);
-    while(m>0) {
-        op = lyk() % 2;
-        pl = RandRange(1, n);
-        pr = RandRange(1, n);
-        while(pr <= pl)
-            pr = RandRange(1, n);
-        if(op == 0) update(1, 1, n);
-        if(op == 1) ans = (ans + query(1, 1, n))%MOD;
-        m --;
-    }
-    print(toString(ans));
+	origin(3);
+    search(0, 0, 0);
+    println(toString(count[0]));
     return 0;
 }
 
@@ -190,22 +86,50 @@ int main() {
 
 /*!! metadata:
 === comment ===
-segtree-515030910592-lijinning.txt
-=== is_public ===
-True
+magic-5100309153-yanghuan.mx
+=== input ===
+
 === assert ===
 output
 === timeout ===
-1.5
-=== input ===
-40000
-40000
-9977
-=== phase ===
-optim pretest
+0.1
 === output ===
-21523
-=== exitcode ===
+2 7 6 
+9 5 1 
+4 3 8 
 
+2 9 4 
+7 5 3 
+6 1 8 
+
+4 3 8 
+9 5 1 
+2 7 6 
+
+4 9 2 
+3 5 7 
+8 1 6 
+
+6 1 8 
+7 5 3 
+2 9 4 
+
+6 7 2 
+1 5 9 
+8 3 4 
+
+8 1 6 
+3 5 7 
+4 9 2 
+
+8 3 4 
+1 5 9 
+6 7 2 
+
+8
+=== phase ===
+codegen pretest
+=== is_public ===
+True
 
 !!*/

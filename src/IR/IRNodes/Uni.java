@@ -3,7 +3,7 @@ package IR.IRNodes;
 import AST_Node.ExprNodes.UnaryExprNode;
 import IR.IRVisitor;
 
-public class Uni extends Inst{
+public class Uni extends Inst {
     private UnaryExprNode.UnaryOP unaryOP;
     private IntValue obj;
     private IntValue ans;

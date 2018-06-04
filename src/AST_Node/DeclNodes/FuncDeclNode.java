@@ -3,6 +3,7 @@ package AST_Node.DeclNodes;
 import AST_Node.ASTVisitor;
 import AST_Node.StmtNodes.CompStmtNode;
 import AST_Node.TypeNodes.TypeNode;
+import IR.IRNodes.BasicBlock;
 import Tools.Scope.Scope;
 import org.antlr.v4.runtime.ParserRuleContext;
 
@@ -13,6 +14,9 @@ public class FuncDeclNode extends DeclNode{
     private TypeNode functionReturnType;
     private VarDeclListNode functionParameterList;
     private CompStmtNode functionStatements;
+    private int cntRegister;
+    private BasicBlock startBlock;
+    private BasicBlock overBlock;
 
     public FuncDeclNode(){
         isConstructFunction = false;
@@ -79,6 +83,30 @@ public class FuncDeclNode extends DeclNode{
 
     public void setFunctionParameterList(VarDeclListNode functionParameterList) {
         this.functionParameterList = functionParameterList;
+    }
+
+    public int getCntRegister() {
+        return cntRegister;
+    }
+
+    public void setCntRegister(int cntRegister) {
+        this.cntRegister = cntRegister;
+    }
+
+    public BasicBlock getOverBlock() {
+        return overBlock;
+    }
+
+    public void setOverBlock(BasicBlock overBlock) {
+        this.overBlock = overBlock;
+    }
+
+    public BasicBlock getStartBlock() {
+        return startBlock;
+    }
+
+    public void setStartBlock(BasicBlock startBlock) {
+        this.startBlock = startBlock;
     }
 
     public void setFunctionStatements(CompStmtNode functionStatements) {
