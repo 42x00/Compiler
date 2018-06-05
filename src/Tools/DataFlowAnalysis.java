@@ -42,12 +42,7 @@ public class DataFlowAnalysis {
             bin.addUse(bin.getLhs());
             bin.addUse(bin.getRhs());
             bin.addDef(bin.getAns());
-        } else if (inst instanceof Call) {
-            Call call = (Call) inst;
-            for (IntValue intValue : call.getIntValues()) {
-                call.addUse(intValue);
-            }
-        } else if (inst instanceof Cjump) {
+        }  else if (inst instanceof Cjump) {
             Cjump cjump = (Cjump) inst;
             cjump.addUse(cjump.getCond());
         } else if (inst instanceof Uni) {

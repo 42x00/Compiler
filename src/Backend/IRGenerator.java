@@ -87,6 +87,19 @@ public class IRGenerator implements ASTVisitor {
         jumpBlock.pushPred(thisBlock);
     }
 
+    private void callBuiltInFunc(String funcName, IntValue lhs, IntValue rhs) {
+        //push
+        currentBlock.append(new Assign(new Register(Register.RegisterName.RDI), lhs));
+        currentBlock.append(new Assign(new Register(Register.RegisterName.RSI), rhs));
+        currentBlock.append(new Call(funcName));
+    }
+
+    private void callBuiltInFunc(String funcName, IntValue intValue) {
+        //push
+        currentBlock.append(new Assign(new Register(Register.RegisterName.RDI), intValue));
+        currentBlock.append(new Call(funcName));
+    }
+
     @Override
     public void visit(ProgNode progNode) {
         toplevelScope = progNode.getToplevelScope();
@@ -457,7 +470,6 @@ public class IRGenerator implements ASTVisitor {
             return;
         }
         if (binaryExprNode.getLhs().getExprtype().isEqual(Type.Types.STRING)) {
-            List<IntValue> intValueList = new ArrayList<>();
             switch (binaryExprNode.getExprop()) {
                 case ADD: {
                     isReturnAddr = false;
@@ -466,10 +478,8 @@ public class IRGenerator implements ASTVisitor {
                     isReturnAddr = false;
                     binaryExprNode.getLhs().accept(this);
                     IntValue lhs = exprLinkedList.pop();
-                    intValueList.add(lhs);
-                    intValueList.add(rhs);
                     Register register = new Register();
-                    currentBlock.append(new Call("string.add", intValueList));
+                    callBuiltInFunc("string.add", lhs, rhs);
                     currentBlock.append(new Assign(register, registerRAX));
                     exprLinkedList.push(register);
                     break;
@@ -481,10 +491,8 @@ public class IRGenerator implements ASTVisitor {
                     isReturnAddr = false;
                     binaryExprNode.getLhs().accept(this);
                     IntValue lhs = exprLinkedList.pop();
-                    intValueList.add(lhs);
-                    intValueList.add(rhs);
                     Register register = new Register();
-                    currentBlock.append(new Call("string.eq", intValueList));
+                    callBuiltInFunc("string.eq", lhs, rhs);
                     currentBlock.append(new Assign(register, registerRAX));
                     exprLinkedList.push(register);
                     break;
@@ -496,10 +504,8 @@ public class IRGenerator implements ASTVisitor {
                     isReturnAddr = false;
                     binaryExprNode.getLhs().accept(this);
                     IntValue lhs = exprLinkedList.pop();
-                    intValueList.add(lhs);
-                    intValueList.add(rhs);
                     Register register = new Register();
-                    currentBlock.append(new Call("string.g", intValueList));
+                    callBuiltInFunc("string.g", lhs, rhs);
                     currentBlock.append(new Assign(register, registerRAX));
                     exprLinkedList.push(register);
                     break;
@@ -511,10 +517,8 @@ public class IRGenerator implements ASTVisitor {
                     isReturnAddr = false;
                     binaryExprNode.getLhs().accept(this);
                     IntValue lhs = exprLinkedList.pop();
-                    intValueList.add(lhs);
-                    intValueList.add(rhs);
                     Register register = new Register();
-                    currentBlock.append(new Call("string.s", intValueList));
+                    callBuiltInFunc("string.s", lhs, rhs);
                     currentBlock.append(new Assign(register, registerRAX));
                     exprLinkedList.push(register);
                     break;
@@ -526,10 +530,8 @@ public class IRGenerator implements ASTVisitor {
                     isReturnAddr = false;
                     binaryExprNode.getLhs().accept(this);
                     IntValue lhs = exprLinkedList.pop();
-                    intValueList.add(lhs);
-                    intValueList.add(rhs);
                     Register register = new Register();
-                    currentBlock.append(new Call("string.ge", intValueList));
+                    callBuiltInFunc("string.ge", lhs, rhs);
                     currentBlock.append(new Assign(register, registerRAX));
                     exprLinkedList.push(register);
                     break;
@@ -541,10 +543,8 @@ public class IRGenerator implements ASTVisitor {
                     isReturnAddr = false;
                     binaryExprNode.getLhs().accept(this);
                     IntValue lhs = exprLinkedList.pop();
-                    intValueList.add(lhs);
-                    intValueList.add(rhs);
                     Register register = new Register();
-                    currentBlock.append(new Call("string.le", intValueList));
+                    callBuiltInFunc("string.le", lhs, rhs);
                     currentBlock.append(new Assign(register, registerRAX));
                     exprLinkedList.push(register);
                     break;
@@ -845,7 +845,7 @@ public class IRGenerator implements ASTVisitor {
             }
         }
 
-        currentBlock.append(new Call(funcName, intValueList));
+        currentBlock.append(new Call(funcName));
         Register register = new Register();
         currentBlock.append(new Assign(register, registerRAX));
         exprLinkedList.push(register);
@@ -870,7 +870,7 @@ public class IRGenerator implements ASTVisitor {
             currentBlock.append(new Bin(BinaryExprNode.BinaryOP.ADD, register, new ConstValue(8), register));
 
             //call malloc r bytes
-            currentBlock.append(new Call("malloc", register));
+            callBuiltInFunc("malloc",register);
 
             //[rax] = intValue
             currentBlock.append(new Assign(new MemAddr(registerRAX, null), intValue));
@@ -924,7 +924,7 @@ public class IRGenerator implements ASTVisitor {
             exprLinkedList.push(register);
         } else {
             ClassDeclNode classDeclNode = (ClassDeclNode) toplevelScope.get(((ClassTypeNode) newExprNode.getExprtype()).getClassname());
-            currentBlock.append(new Call("malloc", new ConstValue(classDeclNode.getSize() * 8)));
+            callBuiltInFunc("malloc", new ConstValue(classDeclNode.getSize() * 8));
             exprLinkedList.push(registerRAX);
         }
     }

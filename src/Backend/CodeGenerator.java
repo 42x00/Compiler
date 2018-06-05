@@ -359,12 +359,6 @@ public class CodeGenerator implements IRVisitor {
 //                "pop rdx\n\t" +
 //                "pop rsi\n\t" +
 //                "pop rdi\n");
-//        err.print("pop r9\n\t" +
-//                "pop r8\n\t" +
-//                "pop rcx\n\t" +
-//                "pop rdx\n\t" +
-//                "pop rsi\n\t" +
-//                "pop rdi\n");
     }
 
     @Override
