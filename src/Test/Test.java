@@ -51,10 +51,11 @@ public class Test {
         IRGenerator irGenerator = new IRGenerator();
         irGenerator.visit(ast);
 
+        DataFlowAnalysis dataFlowAnalysis = new DataFlowAnalysis();
+        dataFlowAnalysis.analysis(irGenerator, ast);
+
         CodeGenerator codeGenerator = new CodeGenerator();
         codeGenerator.generate(irGenerator, ast);
 
-//        DataFlowAnalysis dataFlowAnalysis = new DataFlowAnalysis();
-//        dataFlowAnalysis.analysis(irGenerator, ast);
     }
 }

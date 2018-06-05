@@ -38,11 +38,19 @@ abstract public class Inst {
         this.out = new HashSet<>();
     }
 
-    public void addUse(IntValue intValue){
-        this.use.add((Register) intValue);
+    public void addUse(IntValue intValue) {
+        if (intValue instanceof Register) {
+            Register register = (Register) intValue;
+            if (register.getOrd() > 15)
+                this.use.add((Register) intValue);
+        }
     }
 
-    public void addDef(IntValue intValue){
-        this.def.add((Register) intValue);
+    public void addDef(IntValue intValue) {
+        if (intValue instanceof Register) {
+            Register register = (Register) intValue;
+            if (register.getOrd() > 15)
+                this.def.add((Register) intValue);
+        }
     }
 }

@@ -9,50 +9,92 @@ import IR.IRNodes.*;
 
 import java.util.*;
 
+import static java.lang.System.err;
+
 public class DataFlowAnalysis {
-    static private List<BasicBlock> reverseOrderBlockList;
+    private static class VirtualRegisterInfo {
+        Set<Register> neighbour = new HashSet<>();
+        int degree = 0;
+        int color = 0;
+        boolean deleted = false;
+
+        void addEdge(Register register) {
+            neighbour.add(register);
+            ++degree;
+        }
+    }
+
+    private Map<Register, VirtualRegisterInfo> virtualRegisterInfoMap;
+    private LinkedList<Register> registerStack;
+    private List<BasicBlock> reverseOrderBlockList;
+    private Set<Register> virtualRegisters;
+
+    private int cntColor = 4;
 
     private void setDefUse(Inst inst) {
         if (inst instanceof Assign) {
             Assign assign = (Assign) inst;
             assign.addDef(assign.getLhs());
-            assign.addDef(assign.getRhs());
-        }
-        else if (inst instanceof Bin) {
+            assign.addUse(assign.getRhs());
+        } else if (inst instanceof Bin) {
             Bin bin = (Bin) inst;
             bin.addUse(bin.getLhs());
             bin.addUse(bin.getRhs());
             bin.addDef(bin.getAns());
-        }
-        else if (inst instanceof Call) {
+        } else if (inst instanceof Call) {
             Call call = (Call) inst;
-            for (IntValue intValue : call.getIntValues()){
+            for (IntValue intValue : call.getIntValues()) {
                 call.addUse(intValue);
             }
-        }
-        else if (inst instanceof Cjump) {
+        } else if (inst instanceof Cjump) {
             Cjump cjump = (Cjump) inst;
             cjump.addUse(cjump.getCond());
-        }
-        else if (inst instanceof Uni) {
+        } else if (inst instanceof Uni) {
             Uni uni = (Uni) inst;
             uni.addUse(uni.getObj());
             uni.addDef(uni.getAns());
         }
     }
 
-    private void setReverseOrder(BasicBlock basicBlock) {
-        reverseOrderBlockList.add(basicBlock);
-        LinkedList<BasicBlock> pred = basicBlock.getPred();
-        for (Iterator<BasicBlock> iter = pred.iterator(); iter.hasNext(); ) {
-            setReverseOrder(iter.next());
+    private void setConflictEdge(Inst inst) {
+        IntValue intValue = null;
+        if (inst instanceof Assign) {
+            intValue = ((Assign) inst).getLhs();
+        } else if (inst instanceof Bin) {
+            intValue = ((Bin) inst).getAns();
+        } else if (inst instanceof Uni) {
+            intValue = ((Uni) inst).getAns();
+        }
+        if (intValue != null && intValue instanceof Register) {
+            Register register = (Register) intValue;
+            if (register.getOrd() > 15) {
+                Register outRegister;
+                for (Iterator<Register> iter = inst.getOut().iterator(); iter.hasNext(); ) {
+                    outRegister = iter.next();
+                    addEdge(register, outRegister);
+                }
+            }
         }
     }
 
-    private void analysisFunc(FuncDeclNode funcDeclNode) {
-        //set reverse order
+    private void setReverseOrder(BasicBlock basicBlock) {
+        basicBlock.setReverseVisit();
+        reverseOrderBlockList.add(basicBlock);
+        LinkedList<BasicBlock> pred = basicBlock.getPred();
+        if (pred == null) return;
+        for (Iterator<BasicBlock> iter = pred.iterator(); iter.hasNext(); ) {
+            BasicBlock preBlock = iter.next();
+            if (!preBlock.isReverseVisit())
+                setReverseOrder(preBlock);
+        }
+    }
+
+    private void livenessAnalysis(FuncDeclNode funcDeclNode) {
         reverseOrderBlockList = new ArrayList<>();
+
+        //set reverse order
         setReverseOrder(funcDeclNode.getOverBlock());
+        reverseOrderBlockList.remove(0);
 
         //set def & use
         for (BasicBlock nowBlock : reverseOrderBlockList) {
@@ -63,32 +105,156 @@ public class DataFlowAnalysis {
 
         Set<Register> tmpIn;
         Set<Register> tmpOut;
-        boolean flag;
+
+        boolean flag = false;
         //slove the equation
         do {
             flag = true;
-            for (BasicBlock nowBlock : reverseOrderBlockList){
-                for (Inst inst : nowBlock.getInstList()){
+            for (BasicBlock nowBlock : reverseOrderBlockList) {
+                for (int index = nowBlock.getInstList().size() - 1; index >= 0; --index) {
+                    Inst inst = nowBlock.getInstList().get(index);
                     //in' = in
                     tmpIn = inst.getIn();
                     //out' = out
                     tmpOut = inst.getOut();
-                    inst.clearOut();
-
-                    
-
-                    //in = use V (out - def)
-                    inst.getOut().removeAll(inst.getDef());
-                    inst.clearIn();
-                    inst.getIn().addAll(inst.getUse());
-                    inst.getIn().addAll(inst.getOut());
                     //out = V succ in
-
-
+                    inst.clearOut();
+                    if (inst instanceof Jump) {
+                        Jump jump = (Jump) inst;
+                        inst.getOut().addAll(jump.getNxtBlock().getIn());
+                    } else if (inst instanceof Cjump) {
+                        Cjump cjump = (Cjump) inst;
+                        inst.getOut().addAll(cjump.getThenBlock().getIn());
+                        inst.getOut().addAll(cjump.getElseBlock().getIn());
+                    } else
+                        inst.getOut().addAll((nowBlock.getInstList().get(index + 1)).getIn());
+                    //in = use V (out - def)
+                    inst.clearIn();
+                    inst.getIn().addAll(inst.getOut());
+                    inst.getIn().removeAll(inst.getDef());
+                    inst.getIn().addAll(inst.getUse());
+                    if (!inst.getIn().equals(tmpIn) || !inst.getOut().equals(tmpOut))
+                        flag = false;
                 }
             }
         }
-        while (true);
+        while (!flag);
+    }
+
+    private VirtualRegisterInfo getInfo(Register register) {
+        return virtualRegisterInfoMap.get(register);
+    }
+
+    private void addEdge(Register x, Register y) {
+        getInfo(x).addEdge(y);
+        getInfo(y).addEdge(x);
+    }
+
+    private void deleteNode(Register register) {
+        registerStack.push(register);
+        VirtualRegisterInfo virtualRegisterInfo = getInfo(register);
+        virtualRegisterInfo.deleted = true;
+        Register neighbour;
+        for (Iterator<Register> iter = virtualRegisterInfo.neighbour.iterator(); iter.hasNext(); ) {
+            neighbour = iter.next();
+            --getInfo(neighbour).degree;
+        }
+    }
+
+    private boolean tryColor(Register register, int tryColor) {
+        VirtualRegisterInfo virtualRegisterInfo = getInfo(register);
+        for (Register neighbour : virtualRegisterInfo.neighbour) {
+            if (tryColor == getInfo(neighbour).color)
+                return false;
+        }
+        virtualRegisterInfo.color = tryColor;
+        return true;
+    }
+
+    private void buildRIG(FuncDeclNode funcDeclNode) {
+        registerStack = new LinkedList<>();
+        //collect viturl register
+        virtualRegisters = new HashSet<>();
+        for (BasicBlock basicBlock : reverseOrderBlockList) {
+            for (Inst inst : basicBlock.getInstList()) {
+                virtualRegisters.addAll(inst.getDef());
+            }
+        }
+
+        //set Map
+        virtualRegisterInfoMap = new HashMap<>();
+        for (Iterator<Register> iter = virtualRegisters.iterator(); iter.hasNext(); )
+            virtualRegisterInfoMap.put(iter.next(), new VirtualRegisterInfo());
+
+
+        //add conflict edges
+        for (BasicBlock basicBlock : reverseOrderBlockList) {
+            for (Inst inst : basicBlock.getInstList()) {
+                setConflictEdge(inst);
+            }
+        }
+
+        //coloring graph
+        VirtualRegisterInfo virtualRegisterInfo;
+        Register registerWithLowDegree;
+        boolean flag;
+        int cntLeft = virtualRegisters.size();
+        while (cntLeft > 0) {
+            flag = false;
+            for (Iterator<Register> iter = virtualRegisters.iterator(); iter.hasNext(); ) {
+                registerWithLowDegree = iter.next();
+                virtualRegisterInfo = getInfo(registerWithLowDegree);
+                if (virtualRegisterInfo.deleted) continue;
+                if (virtualRegisterInfo.degree < cntColor) {
+                    deleteNode(registerWithLowDegree);
+                    flag = true;
+                    --cntLeft;
+                    break;
+                }
+            }
+            if (flag) continue;
+            for (Iterator<Register> iter = virtualRegisters.iterator(); iter.hasNext(); ) {
+                registerWithLowDegree = iter.next();
+                virtualRegisterInfo = getInfo(registerWithLowDegree);
+                if (virtualRegisterInfo.deleted) continue;
+                deleteNode(registerWithLowDegree);
+                --cntLeft;
+                break;
+            }
+        }
+
+        //color stack
+        while (registerStack.size() > 0) {
+            Register register = registerStack.pop();
+            for (int colorIndex = 1; colorIndex <= cntColor && !tryColor(register, colorIndex); ++colorIndex) ;
+        }
+    }
+
+    private void setPhysicalRegister() {
+        for (Register register : virtualRegisters) {
+            int setColor = getInfo(register).color;
+            err.println(register.toString() + " " + Integer.toString(setColor));
+            switch (setColor) {
+                case 1:
+                    register.setOrd(Register.RegisterName.R12);
+                    break;
+                case 2:
+                    register.setOrd(Register.RegisterName.R13);
+                    break;
+                case 3:
+                    register.setOrd(Register.RegisterName.R14);
+                    break;
+                case 4:
+                    register.setOrd(Register.RegisterName.R15);
+                    break;
+            }
+        }
+    }
+
+    private void analysisFunc(FuncDeclNode funcDeclNode) {
+        livenessAnalysis(funcDeclNode);
+        buildRIG(funcDeclNode);
+        setPhysicalRegister();
     }
 
     public void analysis(IRGenerator irGenerator, ProgNode progNode) {
@@ -104,4 +270,6 @@ public class DataFlowAnalysis {
             }
         }
     }
+
+
 }

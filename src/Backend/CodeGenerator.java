@@ -119,12 +119,12 @@ public class CodeGenerator implements IRVisitor {
                     isPrintMain = true;
                 else {
                     //push rbp, rbx, r12, r13, r14, r15
-//                    out.print("\t" +
+                    out.print("\t" +
 //                            "push rbx\n\t" +
-//                            "push r12\n\t" +
-//                            "push r13\n\t" +
-//                            "push r14\n\t" +
-//                            "push r15\n\t");
+                            "push r12\n\t" +
+                            "push r13\n\t" +
+                            "push r14\n\t" +
+                            "push r15\n\t");
                     out.print('\t');
                     List<VarDeclNode> varDeclNodeList = ((FuncDeclNode) declNode).getFunctionParameterList().getVardeclnodeList();
                     for (int index = varDeclNodeList.size() - 1; index >= 0; --index) {
@@ -176,12 +176,12 @@ public class CodeGenerator implements IRVisitor {
                         //     sub rsp, 8
                         out.printf("sub rsp, %d\n", cntRegister * 8);
                         //push rbp, rbx, r12, r13, r14, r15
-//                    out.print("\t" +
+                    out.print("\t" +
 //                            "push rbx\n\t" +
-//                            "push r12\n\t" +
-//                            "push r13\n\t" +
-//                            "push r14\n\t" +
-//                            "push r15\n\t");
+                            "push r12\n\t" +
+                            "push r13\n\t" +
+                            "push r14\n\t" +
+                            "push r15\n\t");
                         out.print('\t');
                         List<VarDeclNode> varDeclNodeList = ((FuncDeclNode) declNodeInClass).getFunctionParameterList().getVardeclnodeList();
                         for (int index = varDeclNodeList.size() - 1; index >= 0; --index) {

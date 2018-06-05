@@ -5,6 +5,7 @@ import Parser.LMxParser;
 import Backend.CodeGenerator;
 import Backend.IRGenerator;
 import Backend.SemanticCheck;
+import Tools.DataFlowAnalysis;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -39,6 +40,9 @@ public class Main {
 
         IRGenerator irGenerator = new IRGenerator();
         irGenerator.visit(ast);
+
+        DataFlowAnalysis dataFlowAnalysis = new DataFlowAnalysis();
+        dataFlowAnalysis.analysis(irGenerator, ast);
 
         CodeGenerator codeGenerator = new CodeGenerator();
         codeGenerator.generate(irGenerator, ast);
