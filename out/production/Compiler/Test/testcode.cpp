@@ -1,16 +1,25 @@
+int tak(int x, int y, int z)
+{
+    if (y < x)
+    {
+        return 1 + tak(tak(x - 1, y, z),
+                       tak(y - 1, z, x),
+                       tak(z - 1, x, y));
+    }
+    else
+    {
+        return z;
+    }
+}
+
 int main()
 {
-    int n = 5;
-    int sum = 0;
-    int i;
-    for (i = 1; i <= n; ++i)
-        sum = sum + i;
-    return sum;
+    return tak(18, 12, 6);
 }
 
 /*!! metadata:
 === comment ===
-loop3.mx
+function2.mx
 === assert ===
 exitcode
 === timeout ===
@@ -22,6 +31,6 @@ codegen pretest
 === is_public ===
 True
 === exitcode ===
-75
+13
 
 !!*/

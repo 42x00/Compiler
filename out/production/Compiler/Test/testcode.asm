@@ -11,38 +11,135 @@ extern strlen
 extern memcpy
 extern scanf
 
+global _global_a
 global main
 
 SECTION .text
+_global_a:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 240
+	push r12
+	push r13
+	push r14
+	push r15
+	mov rbx, qword [rbp + 80]
+	mov qword [rbp - 120], rbx
+	mov rbx, qword [rbp + 72]
+	mov qword [rbp - 112], rbx
+	mov rbx, qword [rbp + 64]
+	mov qword [rbp - 104], rbx
+	mov r12, qword [rbp + 56]
+	mov rbx, qword [rbp + 48]
+	mov qword [rbp - 88], rbx
+	mov rbx, qword [rbp + 40]
+	mov qword [rbp - 80], rbx
+	mov rbx, qword [rbp + 32]
+	mov qword [rbp - 72], rbx
+	mov r14, qword [rbp + 24]
+	mov rbx, qword [rbp + 16]
+	mov qword [rbp - 56], rbx
+	mov qword [rbp - 48], r9
+	mov r15, r8
+	mov qword [rbp - 32], rcx
+	mov qword [rbp - 24], rdx
+	mov qword [rbp - 16], rsi
+	mov r13, rdi
+	mov rbx, r13
+	mov rcx, qword [rbp - 16]
+	mov r13, rbx
+	add r13, rcx
+	mov rbx, r13
+	mov rcx, qword [rbp - 24]
+	mov r13, rbx
+	add r13, rcx
+	mov rbx, r13
+	mov rcx, qword [rbp - 32]
+	mov r13, rbx
+	add r13, rcx
+	mov rbx, r13
+	mov rcx, r15
+	mov r13, rbx
+	add r13, rcx
+	mov rbx, r13
+	mov rcx, qword [rbp - 48]
+	mov r13, rbx
+	add r13, rcx
+	mov rbx, r13
+	mov rcx, qword [rbp - 56]
+	mov r13, rbx
+	add r13, rcx
+	mov rbx, r13
+	mov rcx, r14
+	mov r13, rbx
+	add r13, rcx
+	mov rbx, r13
+	mov rcx, qword [rbp - 72]
+	mov r13, rbx
+	add r13, rcx
+	mov rbx, r13
+	mov rcx, qword [rbp - 80]
+	mov r13, rbx
+	add r13, rcx
+	mov rbx, r13
+	mov rcx, qword [rbp - 88]
+	mov r13, rbx
+	add r13, rcx
+	mov rbx, r13
+	mov rcx, r12
+	mov r12, rbx
+	add r12, rcx
+	mov rbx, r12
+	mov rcx, qword [rbp - 104]
+	mov r12, rbx
+	add r12, rcx
+	mov rbx, r12
+	mov rcx, qword [rbp - 112]
+	mov r12, rbx
+	add r12, rcx
+	mov rbx, r12
+	mov rcx, qword [rbp - 120]
+	mov r12, rbx
+	add r12, rcx
+	mov rax, r12
+	jmp L_1
+L_1:
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	leave
+	ret
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 56
-	mov r14, 5
-		mov r15, 0
-		mov r12, 1
-		jmp L_2
-L_2:
-	mov rbx, r12
-	mov rcx, r14
-	cmp rbx, rcx
-	setle r13b
-	cmp r13b, 0
-	jz L_4
-L_3:
-	mov rbx, r15
-	mov rcx, r12
-	mov r13, rbx
-	add r13, rcx
-	mov r15, r13
-		inc r12
-mov rcx, r12
-	mov r13, rcx
-	jmp L_2
+	sub rsp, 32
+	push 15
+	push 14
+	push 13
+	push 12
+	push 11
+	push 10
+	push 9
+	push 8
+	push 7
+	mov r9, 6
+	mov r8, 5
+	mov rcx, 4
+	mov rdx, 3
+	mov rsi, 2
+	mov rdi, 1
+	call _global_a
+	mov r12, rax
+	mov rdi, r12
+	call toString
+	mov r12, rax
+	mov rdi, r12
+	call puts
+	mov r12, rax
+	mov rax, 0
+	jmp L_4
 L_4:
-	mov rax, r15
-		jmp L_1
-L_1:
 	leave
 	ret
 toString:

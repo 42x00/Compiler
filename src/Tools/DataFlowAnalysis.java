@@ -3,6 +3,7 @@ package Tools;
 import AST_Node.DeclNodes.ClassDeclNode;
 import AST_Node.DeclNodes.DeclNode;
 import AST_Node.DeclNodes.FuncDeclNode;
+import AST_Node.DeclNodes.VarDeclNode;
 import AST_Node.ProgNode;
 import Backend.IRGenerator;
 import IR.IRNodes.*;
@@ -53,6 +54,9 @@ public class DataFlowAnalysis {
             Uni uni = (Uni) inst;
             uni.addUse(uni.getObj());
             uni.addDef(uni.getAns());
+        } else if (inst instanceof Push){
+            Push push = (Push) inst;
+            push.addUse(push.getIntValue());
         }
     }
 
@@ -179,6 +183,9 @@ public class DataFlowAnalysis {
             for (Inst inst : basicBlock.getInstList()) {
                 virtualRegisters.addAll(inst.getDef());
             }
+        }
+        for (VarDeclNode varDeclNode : funcDeclNode.getFunctionParameterList().getVardeclnodeList()){
+            virtualRegisters.add((Register) varDeclNode.getIntValue());
         }
 
         //set Map

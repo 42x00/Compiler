@@ -12,6 +12,7 @@ public interface IRVisitor{
     String visit(GloalVar gloalVar);
     void visit(Jump jump);
     String visit(MemAddr memAddr);
+    void visit(Push push);
     String visit(Register register);
     void visit(ReturnInst returnInst);
     void visit(Uni uni);
