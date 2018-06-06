@@ -316,14 +316,7 @@ public class CodeGenerator implements IRVisitor {
 
     @Override
     public void visit(Assign assign) {
-        if (isRealRegister(assign.getLhs()) || isRealRegister(assign.getRhs())) {
-            codePrinter.add(Printer.PrintKind.MOV, assign.getLhs().accept(this), assign.getRhs().accept(this));
-            return;
-        }
-        //mov rbx, r:*
-        codePrinter.add(Printer.PrintKind.MOV, "rbx", assign.getRhs().accept(this));
-        //mov l:*, rbx
-        codePrinter.add(Printer.PrintKind.MOV, assign.getLhs().accept(this), "rbx");
+        codePrinter.add(Printer.PrintKind.MOV, assign.getLhs().accept(this), assign.getRhs().accept(this));
     }
 
     @Override
@@ -347,9 +340,9 @@ public class CodeGenerator implements IRVisitor {
     @Override
     public void visit(Bin bin) {
 //        //mov rbx, l:*
-        codePrinter.add(Printer.PrintKind.MOV, "rbx", bin.getLhs().accept(this));
-        //mov rcx, r:*
-        codePrinter.add(Printer.PrintKind.MOV, "rcx", bin.getRhs().accept(this));
+//        codePrinter.add(Printer.PrintKind.MOV, "rbx", bin.getLhs().accept(this));
+//        //mov rcx, r:*
+//        codePrinter.add(Printer.PrintKind.MOV, "rcx", bin.getRhs().accept(this));
 
         switch (bin.getBinaryOP()) {
             case GREATER_EQUAL:
@@ -393,8 +386,8 @@ public class CodeGenerator implements IRVisitor {
             case BIT_XOR: {
                 String r = bin.getAns().accept(this);
                 String rhs = bin.getRhs().accept(this);
-                if (r.equals(rhs)){
-                    codePrinter.add(Printer.PrintKind.MOV,"rcx", rhs);
+                if (r.equals(rhs)) {
+                    codePrinter.add(Printer.PrintKind.MOV, "rcx", rhs);
                     rhs = "rcx";
                 }
                 //mov r, rbx
@@ -406,8 +399,8 @@ public class CodeGenerator implements IRVisitor {
             case BIT_AND: {
                 String r = bin.getAns().accept(this);
                 String rhs = bin.getRhs().accept(this);
-                if (r.equals(rhs)){
-                    codePrinter.add(Printer.PrintKind.MOV,"rcx", rhs);
+                if (r.equals(rhs)) {
+                    codePrinter.add(Printer.PrintKind.MOV, "rcx", rhs);
                     rhs = "rcx";
                 }
                 //mov r, rbx
@@ -419,8 +412,8 @@ public class CodeGenerator implements IRVisitor {
             case BIR_OR: {
                 String r = bin.getAns().accept(this);
                 String rhs = bin.getRhs().accept(this);
-                if (r.equals(rhs)){
-                    codePrinter.add(Printer.PrintKind.MOV,"rcx", rhs);
+                if (r.equals(rhs)) {
+                    codePrinter.add(Printer.PrintKind.MOV, "rcx", rhs);
                     rhs = "rcx";
                 }
                 //mov r, rbx
@@ -433,8 +426,8 @@ public class CodeGenerator implements IRVisitor {
             case SHR: {
                 String r = bin.getAns().accept(this);
                 String rhs = bin.getRhs().accept(this);
-                if (r.equals(rhs)){
-                    codePrinter.add(Printer.PrintKind.MOV,"rcx", rhs);
+                if (r.equals(rhs)) {
+                    codePrinter.add(Printer.PrintKind.MOV, "rcx", rhs);
                     rhs = "rcx";
                 }
                 //mov r, rbx
@@ -446,8 +439,8 @@ public class CodeGenerator implements IRVisitor {
             case SHL: {
                 String r = bin.getAns().accept(this);
                 String rhs = bin.getRhs().accept(this);
-                if (r.equals(rhs)){
-                    codePrinter.add(Printer.PrintKind.MOV,"rcx", rhs);
+                if (r.equals(rhs)) {
+                    codePrinter.add(Printer.PrintKind.MOV, "rcx", rhs);
                     rhs = "rcx";
                 }
                 //mov r, rbx
@@ -460,8 +453,8 @@ public class CodeGenerator implements IRVisitor {
             case ADD: {
                 String r = bin.getAns().accept(this);
                 String rhs = bin.getRhs().accept(this);
-                if (r.equals(rhs)){
-                    codePrinter.add(Printer.PrintKind.MOV,"rcx", rhs);
+                if (r.equals(rhs)) {
+                    codePrinter.add(Printer.PrintKind.MOV, "rcx", rhs);
                     rhs = "rcx";
                 }
                 //mov r, rbx
@@ -473,8 +466,8 @@ public class CodeGenerator implements IRVisitor {
             case SUB: {
                 String r = bin.getAns().accept(this);
                 String rhs = bin.getRhs().accept(this);
-                if (r.equals(rhs)){
-                    codePrinter.add(Printer.PrintKind.MOV,"rcx", rhs);
+                if (r.equals(rhs)) {
+                    codePrinter.add(Printer.PrintKind.MOV, "rcx", rhs);
                     rhs = "rcx";
                 }
                 //mov r, rbx

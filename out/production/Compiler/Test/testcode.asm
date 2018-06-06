@@ -40,7 +40,8 @@ _global_calc:
 	mov r12, rax
 		mov rbx, 1
 	mov rcx, r12
-	cmp 1, qword [_global_N]
+	mov rcx, 1
+	cmp rcx, r12
 	sete r13b
 	cmp r13b, 0
 	jz L_3

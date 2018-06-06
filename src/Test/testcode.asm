@@ -38,9 +38,7 @@ _global_calc:
 	pop rsi
 	pop rdi
 	mov r12, rax
-		mov rbx, 1
-	mov rcx, r12
-	mov rcx, 1
+		mov rcx, 1
 	cmp rcx, r12
 	sete r13b
 	cmp r13b, 0
@@ -55,16 +53,12 @@ L_1:
 	leave
 	ret
 L_3:
-	mov rbx, r12
-	mov rcx, 2
 	mov rax, r12
 	cdq
 	mov rcx, 2
 	idiv rcx
 	mov r13, rax
 	mov qword [rbp - 40], r13
-	mov rbx, qword [rbp - 40]
-	mov rcx, 1
 	mov r13, qword [rbp - 40]
 	sub r13, 1
 	push rdi
@@ -92,8 +86,6 @@ L_3:
 	pop rdi
 	mov r13, rax
 	mov r15, r13
-	mov rbx, r12
-	mov rcx, 1
 		sub r12, 1
 	push rdi
 	push rsi
@@ -188,9 +180,7 @@ L_9:
 	pop rsi
 	pop rdi
 	mov r14, rax
-		mov rbx, r13
-	mov rcx, r14
-	cmp r13, r14
+		cmp r13, r14
 	setl r13b
 	cmp r13b, 0
 	jz L_13
@@ -319,8 +309,6 @@ main:
 	pop rsi
 	pop rdi
 	mov r12, rax
-	mov rbx, r12
-	mov rcx, qword [_global_N]
 	cmp r12, qword [_global_N]
 	setl r12b
 	cmp r12b, 0
@@ -342,8 +330,6 @@ L_21:
 	leave
 	ret
 L_23:
-	mov rbx, qword [_global_N]
-	mov rcx, 1
 	mov r12, qword [_global_N]
 	sub r12, 1
 	push rdi

@@ -35,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IRGenerator.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="IRGenerator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Backend/IRGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="735">
-              <caret line="662" column="57" lean-forward="true" selection-start-line="662" selection-start-column="57" selection-end-line="662" selection-end-column="57" />
+            <state relative-caret-position="754">
+              <caret line="972" column="60" lean-forward="true" selection-start-line="972" selection-start-column="60" selection-end-line="972" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -50,8 +50,8 @@
       <file leaf-file-name="CodeGenerator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Backend/CodeGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="356" column="57" selection-start-line="356" selection-start-column="57" selection-end-line="356" selection-end-column="57" />
+            <state relative-caret-position="199">
+              <caret line="319" column="5" selection-start-line="319" selection-start-column="5" selection-end-line="319" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#12725#12726#0" expanded="true" />
@@ -65,11 +65,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Printer.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Printer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Tools/Printer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="82" column="72" lean-forward="true" selection-start-line="82" selection-start-column="72" selection-end-line="82" selection-end-column="72" />
+            <state relative-caret-position="221">
+              <caret line="88" column="27" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#645#646#0" expanded="true" />
@@ -101,7 +101,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>NewExp</find>
       <find>jump</find>
       <find>jump(</find>
       <find>ReturnIn</find>
@@ -131,6 +130,7 @@
       <find>RSP</find>
       <find>.print()</find>
       <find>Bin</find>
+      <find>rbx</find>
     </findStrings>
     <replaceStrings>
       <replace>add</replace>
@@ -191,8 +191,8 @@
         <option value="$PROJECT_DIR$/src/Backend/IRGenerator.java" />
         <option value="$PROJECT_DIR$/src/Tools/DataFlowAnalysis.java" />
         <option value="$PROJECT_DIR$/src/Test/Test.java" />
-        <option value="$PROJECT_DIR$/src/Backend/CodeGenerator.java" />
         <option value="$PROJECT_DIR$/src/Tools/Printer.java" />
+        <option value="$PROJECT_DIR$/src/Backend/CodeGenerator.java" />
       </list>
     </option>
   </component>
@@ -433,12 +433,12 @@
       <workItem from="1528129325142" duration="2210000" />
       <workItem from="1528186590161" duration="21355000" />
       <workItem from="1528267435371" duration="3632000" />
-      <workItem from="1528278524671" duration="22852000" />
+      <workItem from="1528278524671" duration="23054000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="504530000" />
+    <option name="totallyTimeSpent" value="504732000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-7" width="1479" height="878" extended-state="6" />
@@ -449,7 +449,7 @@
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" weight="0.32884097" />
       <window_info anchor="right" id="Maven Projects" order="6" weight="0.32908848" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.31940702" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.31940702" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.3286908" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3286908" />
       <window_info id="Designer" order="2" />
@@ -989,16 +989,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/IRGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="662" column="57" lean-forward="true" selection-start-line="662" selection-start-column="57" selection-end-line="662" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Test/Test.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="257">
@@ -1006,26 +996,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/CodeGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="356" column="57" selection-start-line="356" selection-start-column="57" selection-end-line="356" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#12725#12726#0" expanded="true" />
-            <element signature="e#12812#12813#0" expanded="true" />
-            <element signature="e#19849#19850#0" expanded="true" />
-            <element signature="e#19911#19912#0" expanded="true" />
-            <element signature="e#20578#20579#0" expanded="true" />
-            <element signature="e#20620#20621#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Tools/Printer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="82" column="72" lean-forward="true" selection-start-line="82" selection-start-column="72" selection-end-line="82" selection-end-column="72" />
+        <state relative-caret-position="221">
+          <caret line="88" column="27" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#645#646#0" expanded="true" />
@@ -1040,6 +1014,32 @@
             <element signature="e#4477#4478#0" expanded="true" />
             <element signature="e#4450#4451#0" expanded="true" />
             <element signature="e#4496#4497#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/CodeGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="319" column="5" selection-start-line="319" selection-start-column="5" selection-end-line="319" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#12725#12726#0" expanded="true" />
+            <element signature="e#12812#12813#0" expanded="true" />
+            <element signature="e#19849#19850#0" expanded="true" />
+            <element signature="e#19911#19912#0" expanded="true" />
+            <element signature="e#20578#20579#0" expanded="true" />
+            <element signature="e#20620#20621#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/IRGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="754">
+          <caret line="972" column="60" lean-forward="true" selection-start-line="972" selection-start-column="60" selection-end-line="972" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
