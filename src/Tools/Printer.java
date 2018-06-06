@@ -106,7 +106,7 @@ public class Printer {
                 case DIV:
                 case MOD:
                 case MUL:
-                    if (notRegister(line.string1)){
+                    if (notRegister(line.string1)) {
                         codeLines.add(index, new CodeLine(PrintKind.MOV, "rcx", line.string1));
                         line.string1 = "rcx";
                         ++index;
@@ -137,7 +137,7 @@ public class Printer {
         return string.startsWith("q");
     }
 
-    public boolean notRegister(String string){
+    public boolean notRegister(String string) {
         return !string.startsWith("r");
     }
 
@@ -233,7 +233,8 @@ public class Printer {
                     out.printf("jnz %s\n", line.string1);
                     break;
                 case MOV:
-                    out.printf("mov %s, %s\n", line.string1, line.string2);
+                    if (!line.string1.equals(line.string2))
+                        out.printf("mov %s, %s\n", line.string1, line.string2);
                     break;
                 case POP:
                     out.printf("pop %s\n", line.string1);

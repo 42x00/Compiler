@@ -10,114 +10,216 @@ extern strlen
 extern memcpy
 extern scanf
 
-global _global_qpow
 global main
 
 SECTION .text
-_global_qpow:
-	push rbp
-	mov rbp, rsp
-	sub rsp, 112
-	push r12
-	push r13
-	push r14
-	push r15
-	mov r13, rdi
-	mov r14, rsi
-	mov r12, rdx
-	mov r15, 1
-	mov qword [rbp - 40], r13
-L_2:
-	cmp r14, 0
-	setg r13b
-	cmp r13b, 0
-	jz L_4
-L_3:
-	mov r13, r14
-	and r13, 1
-	cmp r13, 1
-	sete r13b
-	cmp r13b, 0
-	jz L_6
-L_5:
-	mov rax, r15
-	mov rcx, qword [rbp - 40]
-	imul rcx
-	mov r13, rax
-	mov rax, r13
-	cdq
-	idiv r12
-	mov r13, rdx
-	mov r15, r13
-L_6:
-	mov rax, qword [rbp - 40]
-	mov rcx, qword [rbp - 40]
-	imul rcx
-	mov r13, rax
-	mov rax, r13
-	cdq
-	idiv r12
-	mov r13, rdx
-	mov qword [rbp - 40], r13
-	mov rax, r14
-	cdq
-	mov rcx, 2
-	idiv rcx
-	mov r13, rax
-	mov r14, r13
-	jmp L_2
-L_4:
-	mov rax, r15
-L_1:
-	pop r15
-	pop r14
-	pop r13
-	pop r12
-	leave
-	ret
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 32
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdx, 10000
-	mov rsi, 10
-	mov rdi, 2
-	call _global_qpow
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r12, rax
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdi, r12
-	call toString
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r12, rax
+	sub rsp, 256
+	mov rbx, 10000
+	mov qword [rbp - 8], rbx
+	mov rbx, 0
+	mov qword [rbp - 16], rbx
+	mov rbx, 2800
+	mov qword [rbp - 24], rbx
+	mov r15, 0
+	mov rbx, 0
+	mov qword [rbp - 40], rbx
+	mov rbx, 2801
+	mov rcx, 3
+	mov r12, 2801
+	shl r12, 3
+	mov rbx, r12
+	mov rcx, 8
+		add r12, 8
 	push rdi
 	push rsi
 	push r8
 	push r9
 	mov rdi, r12
-	call puts
+	call malloc
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov rbx, 2801
+	mov qword [rax], rbx
+	mov rbx, rax
+	mov rcx, 8
+	mov r12, rax
+	add r12, 8
+		mov r14, 0
+	jmp L_2
+L_2:
+	mov rbx, qword [rbp - 16]
+	mov rcx, qword [rbp - 24]
+	mov r13, qword [rbp - 16]
+	sub r13, qword [rbp - 24]
+	mov rbx, r13
+	mov rcx, 0
+	cmp r13, 0
+	setne r13b
+	cmp r13b, false
+	jz L_4
+L_3:
+	mov rbx, qword [rbp - 8]
+	mov rcx, 5
+	mov rax, qword [rbp - 8]
+	cdq
+	idiv 5
+	mov r13, rax
+	mov r14, qword [rbp - 16]
+	inc qword [rbp - 16]
+	mov r10, r12
+	mov r11, r14
+	mov qword [r10 + r11*8], r13
+	jmp L_2
+L_4:
+	jmp L_5
+L_5:
+	jmp L_6
+L_6:
+	mov r15, 0
+	mov rbx, qword [rbp - 24]
+	mov rcx, 2
+	mov rax, qword [rbp - 24]
+	imul 2
+	mov r13, rax
+	mov r14, r13
+	mov rbx, r14
+	mov rcx, 0
+	cmp r14, 0
+	sete r13b
+	cmp r13b, false
+	jz L_9
+L_8:
+	jmp L_7
+L_7:
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, _string_0
+	call print
 	pop r9
 	pop r8
 	pop rsi
 	pop rdi
 	mov r12, rax
 	mov rax, 0
-L_9:
+	jmp L_1
+L_1:
 	leave
 	ret
+L_9:
+	mov rbx, qword [rbp - 24]
+	mov qword [rbp - 16], rbx
+	jmp L_10
+L_10:
+	jmp L_11
+L_11:
+	mov r10, r12
+	mov r11, qword [rbp - 16]
+	mov r13, qword [r10 + r11*8]
+	mov rbx, r13
+	mov rcx, qword [rbp - 8]
+	mov rax, r13
+	imul qword [rbp - 8]
+	mov r13, rax
+	mov rbx, r15
+	mov rcx, r13
+	mov rcx, r13
+	mov r13, r15
+	add r13, rcx
+	mov r15, r13
+	dec r14
+	mov rcx, r14
+	mov r13, rcx
+	mov rbx, r15
+	mov rcx, r13
+	mov rax, r15
+	cdq
+	idiv r13
+	mov r13, rdx
+	mov r10, r12
+	mov r11, qword [rbp - 16]
+	mov qword [r10 + r11*8], r13
+	mov r13, r14
+	dec r14
+	mov rbx, r15
+	mov rcx, r13
+	mov rax, r15
+	cdq
+	idiv r13
+	mov r13, rax
+	mov r15, r13
+	dec qword [rbp - 16]
+	mov rcx, qword [rbp - 16]
+	mov r13, rcx
+	mov rbx, r13
+	mov rcx, 0
+	cmp r13, 0
+	sete r13b
+	cmp r13b, false
+	jz L_14
+L_13:
+	jmp L_12
+L_12:
+	mov rbx, qword [rbp - 24]
+	mov rcx, 14
+	mov r13, qword [rbp - 24]
+	sub r13, 14
+	mov qword [rbp - 24], r13
+	mov rbx, r15
+	mov rcx, qword [rbp - 8]
+	mov rax, r15
+	cdq
+	idiv qword [rbp - 8]
+	mov r13, rax
+	mov rbx, qword [rbp - 40]
+	mov rcx, r13
+	mov rcx, r13
+	mov r13, qword [rbp - 40]
+	add r13, rcx
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r13
+	call toString
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r13, rax
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r13
+	call print
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r13, rax
+	mov rbx, r15
+	mov rcx, qword [rbp - 8]
+	mov rax, r15
+	cdq
+	idiv qword [rbp - 8]
+	mov r13, rdx
+	mov qword [rbp - 40], r13
+	jmp L_5
+L_14:
+	mov rbx, r15
+	mov rcx, qword [rbp - 16]
+	mov rax, r15
+	imul qword [rbp - 16]
+	mov r13, rax
+	mov r15, r13
+	jmp L_10
 toString:
 	push rbp
 	mov rbp,rsp
@@ -845,5 +947,7 @@ SECTION .data
 intbuffer: dq 0
 format1: db "%lld", 0
 format2: db "%s", 0
+_string_0_size: dq 1
+_string_0: db 10, 0
 SECTION .bss
 stringbuffer: resb 256

@@ -130,6 +130,9 @@ public class DataFlowAnalysis {
 
         //set def & use
         for (BasicBlock nowBlock : reverseOrderBlockList) {
+            if (nowBlock.getOrd() == 3){
+                int lyk = 1;
+            }
             for (Inst inst : nowBlock.getInstList()) {
                 setDefUse(inst);
             }
@@ -143,6 +146,9 @@ public class DataFlowAnalysis {
         do {
             flag = true;
             for (BasicBlock nowBlock : reverseOrderBlockList) {
+                if (nowBlock.getOrd() == 3){
+                    int lyk  =1 ;
+                }
                 for (int index = nowBlock.getInstList().size() - 1; index >= 0; --index) {
                     Inst inst = nowBlock.getInstList().get(index);
                     //in' = in
