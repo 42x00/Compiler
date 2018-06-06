@@ -10,118 +10,185 @@ extern strlen
 extern memcpy
 extern scanf
 
-global _global_tak
+global _global_A
+global _global_B
+global _global_C
+global _global_N
+global _global_calc
 global main
 
 SECTION .text
-_global_tak:
+_global_calc:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 104
+	sub rsp, 224
+	push rbx
 	push r12
 	push r13
 	push r14
 	push r15
-	mov rbx, rdi
-	mov r14, rsi
-	mov r13, rdx
-	cmp r14, rbx
-	setl r12b
+	mov r15, rdi
+	mov rdi, r15
+	call string.length
+	mov r12, rax
+	mov r14, r12
+	mov cl, 1
+	cmp cl, r14b
+	sete r12b
 	cmp r12b, 0
 	jz L_3
 L_2:
-	mov r12, rbx
-	sub r12, 1
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdx, r13
-	mov rsi, r14
-	mov rdi, r12
-	call _global_tak
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r15, rax
-	mov r12, r14
-	sub r12, 1
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdx, rbx
-	mov rsi, r13
-	mov rdi, r12
-	call _global_tak
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r12, rax
-		sub r13, 1
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdx, r14
-	mov rsi, rbx
-	mov rdi, r13
-	call _global_tak
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r13, rax
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdx, r13
-	mov rsi, r12
-	mov rdi, r15
-	call _global_tak
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r12, rax
-	mov rcx, r12
-	mov r12, 1
-	add r12, rcx
-	mov rax, r12
+	mov rax, r15
 L_1:
 	pop r15
 	pop r14
 	pop r13
 	pop r12
+	pop rbx
 	leave
 	ret
 L_3:
-	mov rax, r13
+	mov rax, r14
+	cdq
+	mov rcx, 2
+	idiv rcx
+	mov r12, rax
+	mov r13, r12
+	mov r12, r13
+	sub r12, 1
+	mov rdx, r12
+	mov rsi, 0
+	mov rdi, r15
+	call string.substring
+	mov r12, rax
+	mov rdi, r12
+	call _global_calc
+	mov r12, rax
+			sub r14, 1
+	mov rdx, r14
+	mov rsi, r13
+	mov rdi, r15
+	call string.substring
+	mov r13, rax
+	mov rdi, r13
+	call _global_calc
+	mov r13, rax
+	mov r15, r13
+	mov rdi, r12
+	mov rsi, r15
+	call string.s
+	mov r13, rax
+	cmp r13b, 0
+	jz L_6
+L_5:
+	mov rdi, r12
+	mov rsi, r15
+	call string.add
+	mov r12, rax
+	mov rax, r12
+	jmp L_1
+L_6:
+	mov rdi, r12
+	mov rsi, r15
+	call string.eq
+	mov r13, rax
+	cmp r13b, 0
+	jz L_10
+L_9:
+	mov rsi, 0
+	mov rdi, r12
+	call string.ord
+	mov r13, rax
+		mov rsi, 0
+	mov rdi, r15
+	call string.ord
+	mov r14, rax
+		cmp r13, r14
+	setl r13b
+	cmp r13b, 0
+	jz L_13
+L_12:
+	mov rdi, r12
+	mov rsi, r15
+	call string.add
+	mov r12, rax
+	mov rax, r12
+	jmp L_1
+L_13:
+	mov rdi, r15
+	mov rsi, r12
+	call string.add
+	mov r12, rax
+	mov rax, r12
+	jmp L_1
+L_10:
+	mov rdi, r12
+	mov rsi, r15
+	call string.g
+	mov r13, rax
+	cmp r13b, 0
+	jz L_17
+L_16:
+	mov rdi, r15
+	mov rsi, r12
+	call string.add
+	mov r12, rax
+	mov rax, r12
+	jmp L_1
+L_17:
+L_11:
+L_7:
+	mov rdi, _string_0
+	call puts
+	mov r12, rax
+	mov rax, 0
 	jmp L_1
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 16
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdx, 6
-	mov rsi, 12
-	mov rdi, 18
-	call _global_tak
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
+	sub rsp, 88
+	call getString
 	mov r12, rax
-	mov rax, r12
-L_9:
+	mov qword [_global_A], r12
+	call getString
+	mov r12, rax
+	mov qword [_global_B], r12
+	mov rdi, qword [_global_B]
+	call string.parseInt
+	mov r12, rax
+	mov qword [_global_N], r12
+	mov rdi, qword [_global_A]
+	call string.length
+	mov r12, rax
+	cmp r12, qword [_global_N]
+	setl r12b
+	cmp r12b, 0
+	jz L_23
+L_22:
+	mov rdi, _string_1
+	call puts
+	mov r12, rax
+	mov rax, 0
+L_21:
 	leave
 	ret
+L_23:
+	mov r12, qword [_global_N]
+	sub r12, 1
+	mov rdx, r12
+	mov rsi, 0
+	mov rdi, qword [_global_A]
+	call string.substring
+	mov r12, rax
+	mov rdi, r12
+	call _global_calc
+	mov r12, rax
+	mov qword [_global_C], r12
+	mov rdi, qword [_global_C]
+	call puts
+	mov r12, rax
+	mov rax, 0
+	jmp L_21
 toString:
 	push rbp
 	mov rbp,rsp
@@ -849,5 +916,13 @@ SECTION .data
 intbuffer: dq 0
 format1: db "%lld", 0
 format2: db "%s", 0
+_global_N: dq 0
+_string_1_size: dq 13
+_string_1: db 108, 101, 110, 103, 116, 104, 32, 101, 114, 114, 111, 114, 33, 0
+_string_0_size: dq 11
+_string_0: db 78, 101, 118, 101, 114, 32, 69, 118, 101, 114, 33, 0
 SECTION .bss
 stringbuffer: resb 256
+_global_A: dq 0
+_global_B: dq 0
+_global_C: dq 0

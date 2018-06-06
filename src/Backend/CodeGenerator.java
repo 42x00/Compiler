@@ -335,10 +335,10 @@ public class CodeGenerator implements IRVisitor {
         //call f
         codePrinter.add(Printer.PrintKind.CALL, call.getFuncName());
         //pop args*
-        codePrinter.add(Printer.PrintKind.POP, "r9");
-        codePrinter.add(Printer.PrintKind.POP, "r8");
-        codePrinter.add(Printer.PrintKind.POP, "rsi");
-        codePrinter.add(Printer.PrintKind.POP, "rdi");
+//        codePrinter.add(Printer.PrintKind.POP, "r9");
+//        codePrinter.add(Printer.PrintKind.POP, "r8");
+//        codePrinter.add(Printer.PrintKind.POP, "rsi");
+//        codePrinter.add(Printer.PrintKind.POP, "rdi");
     }
 
     @Override

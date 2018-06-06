@@ -10,88 +10,34 @@ extern strlen
 extern memcpy
 extern scanf
 
-global _global_tak
+global _global_N
+global _global_M
+global _global_ch
+global _global_l
+global _global_r
+global _global_w
+global _global_merge
 global main
 
 SECTION .text
-_global_tak:
+_global_merge:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 104
+	sub rsp, 112
 	push rbx
 	push r12
 	push r13
 	push r14
 	push r15
-	mov rbx, rdi
-	mov r14, rsi
-	mov r13, rdx
-	cmp r14, rbx
-	setl r12b
-	cmp r12b, 0
+	mov r12, rdi
+	mov r13, rsi
+	mov cl, 0
+	cmp cl, r12b
+	sete r14b
+	cmp r14b, 0
 	jz L_3
 L_2:
-	mov r12, rbx
-	sub r12, 1
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdx, r13
-	mov rsi, r14
-	mov rdi, r12
-	call _global_tak
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r15, rax
-	mov r12, r14
-	sub r12, 1
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdx, rbx
-	mov rsi, r13
-	mov rdi, r12
-	call _global_tak
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r12, rax
-		sub r13, 1
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdx, r14
-	mov rsi, rbx
-	mov rdi, r13
-	call _global_tak
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r13, rax
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdx, r13
-	mov rsi, r12
-	mov rdi, r15
-	call _global_tak
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r12, rax
-	mov rcx, r12
-	mov r12, 1
-	add r12, rcx
-	mov rax, r12
+	mov rax, r13
 L_1:
 	pop r15
 	pop r14
@@ -101,27 +47,242 @@ L_1:
 	leave
 	ret
 L_3:
-	mov rax, r13
+	mov cl, 0
+	cmp cl, r13b
+	sete r14b
+	cmp r14b, 0
+	jz L_6
+L_5:
+	mov rax, r12
+	jmp L_1
+L_6:
+	mov r10, qword [_global_w]
+	mov r11, r13
+	mov r15, qword [r10 + r11*8]
+	mov r10, qword [_global_w]
+	mov r11, r12
+	mov r14, qword [r10 + r11*8]
+	cmp r14, r15
+	setl r14b
+	cmp r14b, 0
+	jz L_9
+L_8:
+	mov r14, r12
+	mov r12, r13
+	mov r13, r14
+L_9:
+	mov r10, qword [_global_r]
+	mov r11, r12
+	mov r14, qword [r10 + r11*8]
+	mov rsi, r13
+	mov rdi, r14
+	call _global_merge
+	mov r13, rax
+	mov r10, qword [_global_r]
+	mov r11, r12
+	mov qword [r10 + r11*8], r13
+	mov r10, qword [_global_l]
+	mov r11, r12
+	mov r13, qword [r10 + r11*8]
+		mov r10, qword [_global_r]
+	mov r11, r12
+	mov r14, qword [r10 + r11*8]
+	mov r10, qword [_global_l]
+	mov r11, r12
+	mov qword [r10 + r11*8], r14
+	mov r10, qword [_global_r]
+	mov r11, r12
+	mov qword [r10 + r11*8], r13
+	mov rax, r12
 	jmp L_1
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 16
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdx, 6
-	mov rsi, 12
-	mov rdi, 18
-	call _global_tak
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
+	sub rsp, 392
+	call getInt
 	mov r12, rax
-	mov rax, r12
-L_9:
+	mov qword [_global_N], r12
+	call getInt
+	mov r12, rax
+	mov qword [_global_M], r12
+	call getString
+	mov r12, rax
+	mov qword [_global_ch], r12
+	mov r12, qword [_global_N]
+	add r12, qword [_global_M]
+	mov r13, r12
+	add r13, 5
+	mov r12, r13
+	mov rcx, 3
+	shl r12, cl
+		add r12, 8
+	mov rdi, r12
+	call malloc
+	mov qword [rax], r13
+	mov r12, rax
+	add r12, 8
+	mov qword [_global_l], r12
+	mov r12, qword [_global_N]
+	add r12, qword [_global_M]
+	mov r13, r12
+	add r13, 5
+	mov r12, r13
+	mov rcx, 3
+	shl r12, cl
+		add r12, 8
+	mov rdi, r12
+	call malloc
+	mov qword [rax], r13
+	mov r12, rax
+	add r12, 8
+	mov qword [_global_r], r12
+	mov r12, qword [_global_N]
+	add r12, qword [_global_M]
+	mov r13, r12
+	add r13, 5
+	mov r12, r13
+	mov rcx, 3
+	shl r12, cl
+		add r12, 8
+	mov rdi, r12
+	call malloc
+	mov qword [rax], r13
+	mov r12, rax
+	add r12, 8
+	mov qword [_global_w], r12
+	mov r12, 1
+L_13:
+	cmp r12, qword [_global_N]
+	setle r13b
+	cmp r13b, 0
+	jz L_15
+L_14:
+	call getInt
+	mov r13, rax
+	mov r10, qword [_global_w]
+	mov r11, r12
+	mov qword [r10 + r11*8], r13
+	mov r10, qword [_global_l]
+	mov r11, r12
+	mov qword [r10 + r11*8], 0
+	mov r10, qword [_global_r]
+	mov r11, r12
+	mov qword [r10 + r11*8], 0
+	mov r13, r12
+	inc r12
+		jmp L_13
+L_15:
+	mov r12, 1
+L_16:
+	cmp r12, qword [_global_M]
+	setle r13b
+	cmp r13b, 0
+	jz L_18
+L_17:
+	mov r13, r12
+	sub r13, 1
+	mov rsi, r13
+	mov rdi, qword [_global_ch]
+	call string.ord
+	mov r13, rax
+	mov r14, r12
+	add r14, qword [_global_N]
+	mov r10, qword [_global_w]
+	mov r11, r14
+	mov qword [r10 + r11*8], r13
+	mov r13, r12
+	add r13, qword [_global_N]
+	mov r10, qword [_global_l]
+	mov r11, r13
+	mov qword [r10 + r11*8], 0
+	mov r13, r12
+	add r13, qword [_global_N]
+	mov r10, qword [_global_r]
+	mov r11, r13
+	mov qword [r10 + r11*8], 0
+	mov r13, r12
+	inc r12
+		jmp L_16
+L_18:
+	mov r14, 1
+	mov r12, qword [_global_N]
+	add r12, 1
+	mov r13, r12
+	mov r12, 2
+L_19:
+	cmp r12, qword [_global_N]
+	setle r15b
+	cmp r15b, 0
+	jz L_21
+L_20:
+	mov rsi, r12
+	mov rdi, r14
+	call _global_merge
+	mov r14, rax
+		mov r15, r12
+	inc r12
+		jmp L_19
+L_21:
+	mov r12, qword [_global_N]
+	add r12, 2
+	L_22:
+	mov r15, qword [_global_N]
+	add r15, qword [_global_M]
+	cmp r12, r15
+	setle r15b
+	cmp r15b, 0
+	jz L_24
+L_23:
+	mov rsi, r12
+	mov rdi, r13
+	call _global_merge
+	mov r13, rax
+		mov r15, r12
+	inc r12
+		jmp L_22
+L_24:
+	mov r10, qword [_global_w]
+	mov r11, r14
+	mov r12, qword [r10 + r11*8]
+	mov rdi, r12
+	call toString
+	mov r12, rax
+	mov rdi, r12
+	call print
+	mov r12, rax
+	mov rdi, _string_0
+	call print
+	mov r12, rax
+	mov r12, r13
+	sub r12, qword [_global_N]
+	mov r15, r12
+	sub r15, 1
+	mov r12, r13
+	sub r12, qword [_global_N]
+		sub r12, 1
+	mov rdx, r12
+	mov rsi, r15
+	mov rdi, qword [_global_ch]
+	call string.substring
+	mov r12, rax
+	mov rdi, r12
+	call print
+	mov r12, rax
+	mov rdi, _string_1
+	call print
+	mov r12, rax
+	mov rsi, r13
+	mov rdi, r14
+	call _global_merge
+	mov r12, rax
+	mov rdi, r12
+	call toString
+	mov r12, rax
+	mov rdi, r12
+	call puts
+	mov r12, rax
+	mov rax, 0
+L_12:
 	leave
 	ret
 toString:
@@ -851,5 +1012,15 @@ SECTION .data
 intbuffer: dq 0
 format1: db "%lld", 0
 format2: db "%s", 0
+_global_N: dq 0
+_global_M: dq 0
+_string_1_size: dq 1
+_string_1: db 10, 0
+_string_0_size: dq 1
+_string_0: db 32, 0
 SECTION .bss
 stringbuffer: resb 256
+_global_ch: dq 0
+_global_l: dq 0
+_global_r: dq 0
+_global_w: dq 0

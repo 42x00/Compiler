@@ -67,6 +67,18 @@ public class Printer {
         codeLines.add(new CodeLine(printKind, string1, Integer.toString(anInt)));
     }
 
+    private String c8t1(String s) {
+        if (s.startsWith("qword")) {
+            return "byte" + s.substring(5);
+        }
+        switch (s) {
+            case "rbx":
+                return "bl";
+            default:
+                return s + 'b';
+        }
+    }
+
     public void optim() {
         int index = 0;
         while (index < codeLines.size() - 1) {
@@ -156,7 +168,7 @@ public class Printer {
         int index = 0;
         while (index < codeLines.size()) {
             CodeLine line = codeLines.get(index);
-            if (line.printKind == PrintKind.MOV && line.string1.equals("rcx") && line.string2.startsWith("byte")){
+            if (line.printKind == PrintKind.CMP && line.string1.equals("cl")){
                 int lyk = 1;
             }
             if (line.printKind != PrintKind.LABEL)
@@ -240,6 +252,7 @@ public class Printer {
                     out.printf("jz %s\n", line.string1);
                     break;
                 case CMP:
+                    if (line.string1.equals("cl")) line.string2 = c8t1(line.string2);
                     out.printf("cmp %s, %s\n", line.string1, line.string2);
                     break;
                 case JNZ:
