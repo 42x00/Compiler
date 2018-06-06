@@ -1,50 +1,30 @@
+int N = 8;
+int[] row = new int[8];
+int[][] d = new int[2][];
 
-class TA
+void search(int c)
 {
-    string state;
-    int anger;
-} int init_anger = 100;
-int work_anger = 10;
-void work(string st, TA ta)
-{
-    if (ta.anger <= 100)
-        println(st + ", " + ta.state + " enjoys this work. XD");
+    if (c == N)
+    {
+    }
     else
-        println(st + ", " + ta.state + " wants to give up!!!!!");
-    ta.anger = ta.anger + work_anger;
+    {
+        int r;
+        for (r = 0; r < N; r++)
+        {
+            if (row[r] == 0 && d[0][r + c] == 0 && d[1][r + N - 1 - c] == 0)
+            {
+                d[1][r + N - 1 - c] = 1;
+            }
+        }
+    }
 }
+
 int main()
 {
-    TA mr;
-    TA mars;
-    mr = new TA;
-    mr.state = "the leading TA";
-    mr.anger = 0;
-    mars = new TA;
-    mars.state = "the striking TA";
-    mars.anger = init_anger;
-    work("MR", mr);
-    work("Mars", mars);
-    work("Mars", mars);
+    int i;
+    for (i = 0; i < 2; i++)
+        d[i] = new int[8 + 8 - 1];
+    search(0);
     return 0;
 }
-
-/*!! metadata:
-=== comment ===
-class_test-mahaojun.mx
-=== input ===
-
-=== assert ===
-output
-=== timeout ===
-0.1
-=== output ===
-MR, the leading TA enjoys this work. XD
-Mars, the striking TA enjoys this work. XD
-Mars, the striking TA wants to give up!!!!!
-=== phase ===
-codegen pretest
-=== is_public ===
-True
-
-!!*/

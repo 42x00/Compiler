@@ -95,6 +95,27 @@ public class DataFlowAnalysis {
         setReverseOrder(funcDeclNode.getOverBlock());
         reverseOrderBlockList.remove(0);
 
+        //clear more jump
+        for (BasicBlock nowBloc : reverseOrderBlockList){
+            List<Inst> insts = nowBloc.getInstList();
+            int cnt = 0;
+            for (Inst inst : insts){
+                if (inst instanceof Jump || inst instanceof Cjump || inst instanceof ReturnInst)
+                    ++cnt;
+            }
+            if (cnt > 1){
+                int endindex = -1;
+                for (Inst inst : insts){
+                    ++endindex;
+                    if (inst instanceof Jump || inst instanceof Cjump || inst instanceof ReturnInst)
+                        break;
+                }
+                for (int index = insts.size() - 1; index > endindex; --index){
+                    insts.remove(index);
+                }
+            }
+        }
+
         //set def & use
         for (BasicBlock nowBlock : reverseOrderBlockList) {
             for (Inst inst : nowBlock.getInstList()) {
