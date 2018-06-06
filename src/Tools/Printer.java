@@ -69,12 +69,16 @@ public class Printer {
 
     public void optim() {
         int index = 0;
-        while (index < codeLines.size()) {
+        while (index < codeLines.size() - 1) {
             CodeLine line = codeLines.get(index);
-            if (line.printKind == PrintKind.JUMP && codeLines.get(index + 1).printKind == PrintKind.LABEL){
-                if (line.string1.equals(codeLines.get(index + 1).string1))
+            if (line.printKind == PrintKind.JUMP && codeLines.get(index + 1).printKind == PrintKind.LABEL) {
+                if (line.string1.equals(codeLines.get(index + 1).string1)) {
                     codeLines.remove(index);
-                continue;
+                    continue;
+                }
+            }
+            if (line.printKind == PrintKind.CMP && line.string2.equals("false")){
+                line.string2 = "0";
             }
             ++index;
         }

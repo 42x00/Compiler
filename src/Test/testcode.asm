@@ -16,47 +16,77 @@ SECTION .text
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 40
-	mov rbx, 1
-	mov rcx, 3
-	mov r12, rbx
-	shl r12, cl
-	mov rbx, r12
-	mov rcx, 8
-	mov r12, rbx
-	add r12, rcx
+	sub rsp, 88
 	push rdi
 	push rsi
 	push r8
 	push r9
-	mov rdi, r12
+	mov rdi, 32
 	call malloc
 	pop r9
 	pop r8
 	pop rsi
 	pop rdi
-	mov rbx, 1
-	mov qword [rax], rbx
-	mov rbx, rax
-	mov rcx, 8
-	mov r12, rbx
-	add r12, rcx
-	mov r12, r12
-	mov r10, r12
+	mov r13, rax
+	mov r10, r13
 	mov r11, 0
 	mov rbx, 10
 	mov qword [r10 + r11*8], rbx
-	mov r10, r12
-	mov r11, 0
+	mov r10, r13
+	mov r11, 1
+	mov rbx, 20
+	mov qword [r10 + r11*8], rbx
+	mov r10, r13
+	mov r11, 1
 	mov r12, qword [r10 + r11*8]
+	mov r10, r13
+	mov r11, 0
+	mov r14, qword [r10 + r11*8]
+	mov rbx, r14
+	mov rcx, r12
+	cmp rbx, rcx
+	setg r12b
+	mov r10, r13
+	mov r11, 2
+	mov qword [r10 + r11*8], r12
+	mov r10, r13
+	mov r11, 2
+	mov r12, qword [r10 + r11*8]
+	cmp r12b, 0
+	jz L_3
+L_2:
+	mov r10, r13
+	mov r11, 3
+	mov rbx, 40
+	mov qword [r10 + r11*8], rbx
+L_4:
+	mov r10, r13
+	mov r11, 3
+	mov r14, qword [r10 + r11*8]
+	mov r10, r13
+	mov r11, 1
+	mov r12, qword [r10 + r11*8]
+	mov r10, r13
+	mov r11, 0
+	mov r13, qword [r10 + r11*8]
+	mov rbx, r13
+	mov rcx, r12
+	mov r12, rbx
+	add r12, rcx
 	mov rbx, r12
-	mov rcx, 20
+	mov rcx, r14
 	mov r12, rbx
 	add r12, rcx
 	mov rax, r12
 L_1:
 	leave
 	ret
+L_3:
+	mov r10, r13
+	mov r11, 3
+	mov rbx, 80
+	mov qword [r10 + r11*8], rbx
+	jmp L_4
 toString:
 	push rbp
 	mov rbp,rsp

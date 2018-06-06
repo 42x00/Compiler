@@ -13,3 +13,5 @@ extern scanf
 global main
 
 SECTION .text
+main:
+	

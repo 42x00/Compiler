@@ -1,13 +1,28 @@
-int main()
+class C2
 {
-    int[] a = new int[1];
-    a[0] = 10;
-    return a[0] + 20;
+    int x;
+    int y;
+    bool b;
+    int z;
+}
+
+int
+main()
+{
+    C2 obj = new C2;
+    obj.x = 10;
+    obj.y = 20;
+    obj.b = obj.x > obj.y;
+    if (obj.b)
+        obj.z = 40;
+    else
+        obj.z = 80;
+    return obj.x + obj.y + obj.z;
 }
 
 /*!! metadata:
 === comment ===
-array2.mx
+struct3.mx
 === assert ===
 exitcode
 === timeout ===
@@ -19,6 +34,6 @@ codegen pretest
 === is_public ===
 True
 === exitcode ===
-30
+110
 
 !!*/
