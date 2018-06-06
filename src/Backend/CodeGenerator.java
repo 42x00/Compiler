@@ -121,6 +121,7 @@ public class CodeGenerator implements IRVisitor {
                     isPrintMain = true;
                 else {
                     //push rbp, rbx, r12, r13, r14, r15
+                    codePrinter.add(Printer.PrintKind.PUSH, "rbx");
                     codePrinter.add(Printer.PrintKind.PUSH, "r12");
                     codePrinter.add(Printer.PrintKind.PUSH, "r13");
                     codePrinter.add(Printer.PrintKind.PUSH, "r14");
@@ -147,6 +148,7 @@ public class CodeGenerator implements IRVisitor {
                         //     sub rsp, 8
                         codePrinter.add(Printer.PrintKind.SUB, "rsp", cntRegister * 8);
                         //push rbp, rbx, r12, r13, r14, r15
+                        codePrinter.add(Printer.PrintKind.PUSH, "rbx");
                         codePrinter.add(Printer.PrintKind.PUSH, "r12");
                         codePrinter.add(Printer.PrintKind.PUSH, "r13");
                         codePrinter.add(Printer.PrintKind.PUSH, "r14");
@@ -515,30 +517,15 @@ public class CodeGenerator implements IRVisitor {
     public void visit(Uni uni) {
         if (uni.getUnaryOP() == UnaryExprNode.UnaryOP.SELF_INC) {
             codePrinter.add(Printer.PrintKind.SELF_INC, uni.getObj().accept(this));
-            if (uni.getObj() != uni.getAns()) {
-                //mov rcx, *
-                codePrinter.add(Printer.PrintKind.MOV, "rcx", uni.getObj().accept(this));
-                //mov r, rcx
-                codePrinter.add(Printer.PrintKind.MOV, uni.getAns().accept(this), "rcx");
-            }
+            codePrinter.add(Printer.PrintKind.MOV, uni.getAns().accept(this), uni.getObj().accept(this));
             return;
         }
         if (uni.getUnaryOP() == UnaryExprNode.UnaryOP.SELF_DEC) {
             codePrinter.add(Printer.PrintKind.SELF_DEC, uni.getObj().accept(this));
-            if (uni.getObj() != uni.getAns()) {
-                //mov rcx, *
-                codePrinter.add(Printer.PrintKind.MOV, "rcx", uni.getObj().accept(this));
-                //mov r, rcx
-                codePrinter.add(Printer.PrintKind.MOV, uni.getAns().accept(this), "rcx");
-            }
+            codePrinter.add(Printer.PrintKind.MOV, uni.getAns().accept(this), uni.getObj().accept(this));
             return;
         }
-        if (uni.getObj() != uni.getAns()) {
-            //mov rcx, *
-            codePrinter.add(Printer.PrintKind.MOV, "rcx", uni.getObj().accept(this));
-            //mov r, rcx
-            codePrinter.add(Printer.PrintKind.MOV, uni.getAns().accept(this), "rcx");
-        }
+        codePrinter.add(Printer.PrintKind.MOV, uni.getAns().accept(this), uni.getObj().accept(this));
         switch (uni.getUnaryOP()) {
             case POSI:
                 //neg *
@@ -597,6 +584,7 @@ public class CodeGenerator implements IRVisitor {
             codePrinter.add(Printer.PrintKind.POP, "r14");
             codePrinter.add(Printer.PrintKind.POP, "r13");
             codePrinter.add(Printer.PrintKind.POP, "r12");
+            codePrinter.add(Printer.PrintKind.POP, "rbx");
         }
         //leave
         //ret
