@@ -392,43 +392,68 @@ public class CodeGenerator implements IRVisitor {
 
             case BIT_XOR: {
                 String r = bin.getAns().accept(this);
+                String rhs = bin.getRhs().accept(this);
+                if (r.equals(rhs)){
+                    codePrinter.add(Printer.PrintKind.MOV,"rcx", rhs);
+                    rhs = "rcx";
+                }
                 //mov r, rbx
                 codePrinter.add(Printer.PrintKind.MOV, r, bin.getLhs().accept(this));
                 //xor r, rcx
-                codePrinter.add(Printer.PrintKind.BIT_XOR, r, bin.getRhs().accept(this));
+                codePrinter.add(Printer.PrintKind.BIT_XOR, r, rhs);
                 break;
             }
             case BIT_AND: {
                 String r = bin.getAns().accept(this);
+                String rhs = bin.getRhs().accept(this);
+                if (r.equals(rhs)){
+                    codePrinter.add(Printer.PrintKind.MOV,"rcx", rhs);
+                    rhs = "rcx";
+                }
                 //mov r, rbx
                 codePrinter.add(Printer.PrintKind.MOV, r, bin.getLhs().accept(this));
                 //and r, rcx
-                codePrinter.add(Printer.PrintKind.BIT_AND, r, bin.getRhs().accept(this));
+                codePrinter.add(Printer.PrintKind.BIT_AND, r, rhs);
                 break;
             }
             case BIR_OR: {
                 String r = bin.getAns().accept(this);
+                String rhs = bin.getRhs().accept(this);
+                if (r.equals(rhs)){
+                    codePrinter.add(Printer.PrintKind.MOV,"rcx", rhs);
+                    rhs = "rcx";
+                }
                 //mov r, rbx
                 codePrinter.add(Printer.PrintKind.MOV, r, bin.getLhs().accept(this));
                 //or r, rcx
-                codePrinter.add(Printer.PrintKind.BIR_OR, r, bin.getRhs().accept(this));
+                codePrinter.add(Printer.PrintKind.BIR_OR, r, rhs);
                 break;
             }
 
             case SHR: {
                 String r = bin.getAns().accept(this);
+                String rhs = bin.getRhs().accept(this);
+                if (r.equals(rhs)){
+                    codePrinter.add(Printer.PrintKind.MOV,"rcx", rhs);
+                    rhs = "rcx";
+                }
                 //mov r, rbx
                 codePrinter.add(Printer.PrintKind.MOV, r, bin.getLhs().accept(this));
                 //sar r, cl
-                codePrinter.add(Printer.PrintKind.SHR, r, bin.getRhs().accept(this));
+                codePrinter.add(Printer.PrintKind.SHR, r, rhs);
                 break;
             }
             case SHL: {
                 String r = bin.getAns().accept(this);
+                String rhs = bin.getRhs().accept(this);
+                if (r.equals(rhs)){
+                    codePrinter.add(Printer.PrintKind.MOV,"rcx", rhs);
+                    rhs = "rcx";
+                }
                 //mov r, rbx
                 codePrinter.add(Printer.PrintKind.MOV, r, bin.getLhs().accept(this));
                 //sal r, cl
-                codePrinter.add(Printer.PrintKind.SHL, r, bin.getRhs().accept(this));
+                codePrinter.add(Printer.PrintKind.SHL, r, rhs);
                 break;
             }
 
