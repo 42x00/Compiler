@@ -346,134 +346,135 @@ public class CodeGenerator implements IRVisitor {
 
     @Override
     public void visit(Bin bin) {
-        //mov rbx, l:*
-        codePrinter.add(Printer.PrintKind.MOV, "rbx", bin.getLhs().accept(this));
-        //mov rcx, r:*
-        codePrinter.add(Printer.PrintKind.MOV, "rcx", bin.getRhs().accept(this));
+//        //mov rbx, l:*
+//        codePrinter.add(Printer.PrintKind.MOV, "rbx", bin.getLhs().accept(this));
+//        //mov rcx, r:*
+//        codePrinter.add(Printer.PrintKind.MOV, "rcx", bin.getRhs().accept(this));
 
         switch (bin.getBinaryOP()) {
             case GREATER_EQUAL:
                 //cmp rbx, rcx
-                codePrinter.add(Printer.PrintKind.CMP, "rbx", "rcx");
+                codePrinter.add(Printer.PrintKind.CMP, bin.getLhs().accept(this), bin.getRhs().accept(this));
                 //setge r
                 codePrinter.add(Printer.PrintKind.GREATER_EQUAL, c8t1(bin.getAns().accept(this)));
                 break;
             case LESS_EQUAL:
                 //cmp rbx, rcx
-                codePrinter.add(Printer.PrintKind.CMP, "rbx", "rcx");
+                codePrinter.add(Printer.PrintKind.CMP, bin.getLhs().accept(this), bin.getRhs().accept(this));
                 //setle r
                 codePrinter.add(Printer.PrintKind.LESS_EQUAL, c8t1(bin.getAns().accept(this)));
                 break;
             case EQUAL:
                 //cmp rbx, rcx
-                codePrinter.add(Printer.PrintKind.CMP, "rbx", "rcx");
+                codePrinter.add(Printer.PrintKind.CMP, bin.getLhs().accept(this), bin.getRhs().accept(this));
                 //sete r
                 codePrinter.add(Printer.PrintKind.EQUAL, c8t1(bin.getAns().accept(this)));
                 break;
             case INEQUAL:
                 //cmp rbx, rcx
-                codePrinter.add(Printer.PrintKind.CMP, "rbx", "rcx");
+                codePrinter.add(Printer.PrintKind.CMP, bin.getLhs().accept(this), bin.getRhs().accept(this));
                 //setne r
                 codePrinter.add(Printer.PrintKind.INEQUAL, c8t1(bin.getAns().accept(this)));
                 break;
             case GREATER:
                 //cmp rbx, rcx
-                codePrinter.add(Printer.PrintKind.CMP, "rbx", "rcx");
+                codePrinter.add(Printer.PrintKind.CMP, bin.getLhs().accept(this), bin.getRhs().accept(this));
                 //setg r
                 codePrinter.add(Printer.PrintKind.GREATER, c8t1(bin.getAns().accept(this)));
                 break;
             case LESS:
                 //cmp rbx, rcx
-                codePrinter.add(Printer.PrintKind.CMP, "rbx", "rcx");
+                codePrinter.add(Printer.PrintKind.CMP, bin.getLhs().accept(this), bin.getRhs().accept(this));
                 //setl r
                 codePrinter.add(Printer.PrintKind.LESS, c8t1(bin.getAns().accept(this)));
                 break;
 
+
             case BIT_XOR: {
                 String r = bin.getAns().accept(this);
                 //mov r, rbx
-                codePrinter.add(Printer.PrintKind.MOV, r, "rbx");
+                codePrinter.add(Printer.PrintKind.MOV, r, bin.getLhs().accept(this));
                 //xor r, rcx
-                codePrinter.add(Printer.PrintKind.BIT_XOR, r, "rcx");
+                codePrinter.add(Printer.PrintKind.BIT_XOR, r, bin.getRhs().accept(this));
                 break;
             }
             case BIT_AND: {
                 String r = bin.getAns().accept(this);
                 //mov r, rbx
-                codePrinter.add(Printer.PrintKind.MOV, r, "rbx");
+                codePrinter.add(Printer.PrintKind.MOV, r, bin.getLhs().accept(this));
                 //and r, rcx
-                codePrinter.add(Printer.PrintKind.BIT_AND, r, "rcx");
+                codePrinter.add(Printer.PrintKind.BIT_AND, r, bin.getRhs().accept(this));
                 break;
             }
             case BIR_OR: {
                 String r = bin.getAns().accept(this);
                 //mov r, rbx
-                codePrinter.add(Printer.PrintKind.MOV, r, "rbx");
+                codePrinter.add(Printer.PrintKind.MOV, r, bin.getLhs().accept(this));
                 //or r, rcx
-                codePrinter.add(Printer.PrintKind.BIR_OR, r, "rcx");
+                codePrinter.add(Printer.PrintKind.BIR_OR, r, bin.getRhs().accept(this));
                 break;
             }
 
             case SHR: {
                 String r = bin.getAns().accept(this);
                 //mov r, rbx
-                codePrinter.add(Printer.PrintKind.MOV, r, "rbx");
+                codePrinter.add(Printer.PrintKind.MOV, r, bin.getLhs().accept(this));
                 //sar r, cl
-                codePrinter.add(Printer.PrintKind.SHR, r, "cl");
+                codePrinter.add(Printer.PrintKind.SHR, r, bin.getRhs().accept(this));
                 break;
             }
             case SHL: {
                 String r = bin.getAns().accept(this);
                 //mov r, rbx
-                codePrinter.add(Printer.PrintKind.MOV, r, "rbx");
+                codePrinter.add(Printer.PrintKind.MOV, r, bin.getLhs().accept(this));
                 //sal r, cl
-                codePrinter.add(Printer.PrintKind.SHL, r, "cl");
+                codePrinter.add(Printer.PrintKind.SHL, r, bin.getRhs().accept(this));
                 break;
             }
 
             case ADD: {
                 String r = bin.getAns().accept(this);
                 //mov r, rbx
-                codePrinter.add(Printer.PrintKind.MOV, r, "rbx");
+                codePrinter.add(Printer.PrintKind.MOV, r, bin.getLhs().accept(this));
                 //add r, rcx
-                codePrinter.add(Printer.PrintKind.ADD, r, "rcx");
+                codePrinter.add(Printer.PrintKind.ADD, r, bin.getRhs().accept(this));
                 break;
             }
             case SUB: {
                 String r = bin.getAns().accept(this);
                 //mov r, rbx
-                codePrinter.add(Printer.PrintKind.MOV, r, "rbx");
+                codePrinter.add(Printer.PrintKind.MOV, r, bin.getLhs().accept(this));
                 //sub r, rcx
-                codePrinter.add(Printer.PrintKind.SUB,r,"rcx");
+                codePrinter.add(Printer.PrintKind.SUB,r,bin.getRhs().accept(this));
                 break;
             }
 
             case MUL:
                 //mov rax, rbx
-                codePrinter.add(Printer.PrintKind.MOV,"rax","rbx");
+                codePrinter.add(Printer.PrintKind.MOV,"rax",bin.getLhs().accept(this));
                 //imul rcx
-                codePrinter.add(Printer.PrintKind.MUL,"rcx");
+                codePrinter.add(Printer.PrintKind.MUL,bin.getRhs().accept(this));
                 //mov r, rax
                 codePrinter.add(Printer.PrintKind.MOV,bin.getAns().accept(this),"rax");
                 break;
 
             case MOD:
                 //mov rax, rbx
-                codePrinter.add(Printer.PrintKind.MOV,"rax","rbx");
+                codePrinter.add(Printer.PrintKind.MOV,"rax",bin.getLhs().accept(this));
                 //cdq
                 //idiv rcx
                 codePrinter.add(Printer.PrintKind.CDQ);
-                codePrinter.add(Printer.PrintKind.MOD,"rcx");
+                codePrinter.add(Printer.PrintKind.MOD,bin.getRhs().accept(this));
                 //mov r, rdx
                 codePrinter.add(Printer.PrintKind.MOV,bin.getAns().accept(this),"rdx");
                 break;
             case DIV:
                 //mov rax, rbx
-                codePrinter.add(Printer.PrintKind.MOV,"rax","rbx");
+                codePrinter.add(Printer.PrintKind.MOV,"rax",bin.getLhs().accept(this));
                 //cdq
                 //idiv rcx
                 codePrinter.add(Printer.PrintKind.CDQ);
-                codePrinter.add(Printer.PrintKind.DIV,"rcx");
+                codePrinter.add(Printer.PrintKind.DIV,bin.getRhs().accept(this));
                 //mov r, rax
                 codePrinter.add(Printer.PrintKind.MOV,bin.getAns().accept(this),"rax");
                 break;

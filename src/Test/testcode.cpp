@@ -1,28 +1,20 @@
-class C2
+int min(int a, int b)
 {
-    int x;
-    int y;
-    bool b;
-    int z;
+    if (a <= b)
+        return a;
+    return b;
 }
 
-int
-main()
+int main()
 {
-    C2 obj = new C2;
-    obj.x = 10;
-    obj.y = 20;
-    obj.b = obj.x > obj.y;
-    if (obj.b)
-        obj.z = 40;
-    else
-        obj.z = 80;
-    return obj.x + obj.y + obj.z;
+    int x = 10;
+    int y = 20;
+    return min(x, y);
 }
 
 /*!! metadata:
 === comment ===
-struct3.mx
+function1.mx
 === assert ===
 exitcode
 === timeout ===
@@ -34,6 +26,6 @@ codegen pretest
 === is_public ===
 True
 === exitcode ===
-110
+10
 
 !!*/

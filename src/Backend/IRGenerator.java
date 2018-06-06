@@ -87,7 +87,7 @@ public class IRGenerator implements ASTVisitor {
         jumpBlock.pushPred(thisBlock);
     }
 
-    private void callerSave(){
+    private void callerSave() {
         currentBlock.append(new Push(new Register(Register.RegisterName.RDI)));
         currentBlock.append(new Push(new Register(Register.RegisterName.RSI)));
         currentBlock.append(new Push(new Register(Register.RegisterName.R8)));
@@ -659,6 +659,72 @@ public class IRGenerator implements ASTVisitor {
                 isReturnAddr = false;
                 binaryExprNode.getLhs().accept(this);
                 IntValue lhs = exprLinkedList.pop();
+                if (lhs instanceof ConstValue && rhs instanceof ConstValue) {
+                    switch (binaryExprNode.getExprop()) {
+                        case GREATER_EQUAL:
+                            if (((ConstValue) lhs).getAnInt() >= ((ConstValue) rhs).getAnInt())
+                                exprLinkedList.push(new ConstValue(1));
+                            else exprLinkedList.push(new ConstValue(0));
+                            break;
+                        case LESS_EQUAL:
+                            if (((ConstValue) lhs).getAnInt() <= ((ConstValue) rhs).getAnInt())
+                                exprLinkedList.push(new ConstValue(1));
+                            else exprLinkedList.push(new ConstValue(0));
+                            break;
+                        case EQUAL:
+                            if (((ConstValue) lhs).getAnInt() == ((ConstValue) rhs).getAnInt())
+                                exprLinkedList.push(new ConstValue(1));
+                            else exprLinkedList.push(new ConstValue(0));
+                            break;
+                        case INEQUAL:
+                            if (((ConstValue) lhs).getAnInt() != ((ConstValue) rhs).getAnInt())
+                                exprLinkedList.push(new ConstValue(1));
+                            else exprLinkedList.push(new ConstValue(0));
+                            break;
+                        case GREATER:
+                            if (((ConstValue) lhs).getAnInt() > ((ConstValue) rhs).getAnInt())
+                                exprLinkedList.push(new ConstValue(1));
+                            else exprLinkedList.push(new ConstValue(0));
+                            break;
+                        case LESS:
+                            if (((ConstValue) lhs).getAnInt() < ((ConstValue) rhs).getAnInt())
+                                exprLinkedList.push(new ConstValue(1));
+                            else exprLinkedList.push(new ConstValue(0));
+                            break;
+                        case BIT_XOR:
+                            exprLinkedList.push(new ConstValue(((ConstValue) lhs).getAnInt() ^ ((ConstValue) rhs).getAnInt()));
+                            break;
+                        case BIT_AND:
+                            exprLinkedList.push(new ConstValue(((ConstValue) lhs).getAnInt() & ((ConstValue) rhs).getAnInt()));
+                            break;
+                        case BIR_OR:
+                            exprLinkedList.push(new ConstValue(((ConstValue) lhs).getAnInt() | ((ConstValue) rhs).getAnInt()));
+                            break;
+                        case SHR:
+                            exprLinkedList.push(new ConstValue(((ConstValue) lhs).getAnInt() >> ((ConstValue) rhs).getAnInt()));
+                            break;
+                        case SHL:
+                            exprLinkedList.push(new ConstValue(((ConstValue) lhs).getAnInt() << ((ConstValue) rhs).getAnInt()));
+                            break;
+                        case ADD:
+                            exprLinkedList.push(new ConstValue(((ConstValue) lhs).getAnInt() + ((ConstValue) rhs).getAnInt()));
+                            break;
+                        case SUB:
+                            exprLinkedList.push(new ConstValue(((ConstValue) lhs).getAnInt() - ((ConstValue) rhs).getAnInt()));
+                            break;
+                        case MUL:
+                            exprLinkedList.push(new ConstValue(((ConstValue) lhs).getAnInt() * ((ConstValue) rhs).getAnInt()));
+                            break;
+                        case MOD:
+                            exprLinkedList.push(new ConstValue(((ConstValue) lhs).getAnInt() % ((ConstValue) rhs).getAnInt()));
+                            break;
+                        case DIV:
+                            exprLinkedList.push(new ConstValue(((ConstValue) lhs).getAnInt() / ((ConstValue) rhs).getAnInt()));
+                            break;
+                        default:
+                    }
+                    return;
+                }
                 Register register = new Register();
                 currentBlock.append(new Bin(binaryExprNode.getExprop(), lhs, rhs, register));
                 exprLinkedList.push(register);
@@ -883,7 +949,7 @@ public class IRGenerator implements ASTVisitor {
             currentBlock.append(new Bin(BinaryExprNode.BinaryOP.ADD, register, new ConstValue(8), register));
 
             //call malloc r bytes
-            callBuiltInFunc("malloc",register);
+            callBuiltInFunc("malloc", register);
 
             //[rax] = intValue
             currentBlock.append(new Assign(new MemAddr(registerRAX, null), intValue));

@@ -10,83 +10,58 @@ extern strlen
 extern memcpy
 extern scanf
 
+global _global_min
 global main
 
 SECTION .text
+_global_min:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 32
+	push r12
+	push r13
+	push r14
+	push r15
+	mov r14, rdi
+	mov r12, rsi
+	cmp r14, r12
+	setle r13b
+	cmp r13b, 0
+	jz L_3
+L_2:
+	mov rax, r14
+L_1:
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	leave
+	ret
+L_3:
+	mov rax, r12
+	jmp L_1
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 88
+	sub rsp, 32
+	mov r13, 10
+	mov r12, 20
 	push rdi
 	push rsi
 	push r8
 	push r9
-	mov rdi, 32
-	call malloc
+	mov rsi, r12
+	mov rdi, r13
+	call _global_min
 	pop r9
 	pop r8
 	pop rsi
 	pop rdi
-	mov r13, rax
-	mov r10, r13
-	mov r11, 0
-	mov rbx, 10
-	mov qword [r10 + r11*8], rbx
-	mov r10, r13
-	mov r11, 1
-	mov rbx, 20
-	mov qword [r10 + r11*8], rbx
-	mov r10, r13
-	mov r11, 1
-	mov r12, qword [r10 + r11*8]
-	mov r10, r13
-	mov r11, 0
-	mov r14, qword [r10 + r11*8]
-	mov rbx, r14
-	mov rcx, r12
-	cmp rbx, rcx
-	setg r12b
-	mov r10, r13
-	mov r11, 2
-	mov qword [r10 + r11*8], r12
-	mov r10, r13
-	mov r11, 2
-	mov r12, qword [r10 + r11*8]
-	cmp r12b, 0
-	jz L_3
-L_2:
-	mov r10, r13
-	mov r11, 3
-	mov rbx, 40
-	mov qword [r10 + r11*8], rbx
-L_4:
-	mov r10, r13
-	mov r11, 3
-	mov r14, qword [r10 + r11*8]
-	mov r10, r13
-	mov r11, 1
-	mov r12, qword [r10 + r11*8]
-	mov r10, r13
-	mov r11, 0
-	mov r13, qword [r10 + r11*8]
-	mov rbx, r13
-	mov rcx, r12
-	mov r12, rbx
-	add r12, rcx
-	mov rbx, r12
-	mov rcx, r14
-	mov r12, rbx
-	add r12, rcx
+	mov r12, rax
 	mov rax, r12
-L_1:
+L_7:
 	leave
 	ret
-L_3:
-	mov r10, r13
-	mov r11, 3
-	mov rbx, 80
-	mov qword [r10 + r11*8], rbx
-	jmp L_4
 toString:
 	push rbp
 	mov rbp,rsp

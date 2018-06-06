@@ -77,11 +77,58 @@ public class Printer {
                     continue;
                 }
             }
-            if (line.printKind == PrintKind.CMP && line.string2.equals("false")){
+            if (line.printKind == PrintKind.CMP && line.string2.equals("false")) {
                 line.string2 = "0";
+            }
+            switch (line.printKind) {
+                case CMP:
+                case MOV:
+                case BIT_AND:
+                case BIT_XOR:
+                case BIR_OR:
+                case ADD:
+                case SUB:
+                    if (isAddr(line.string1) && isAddr(line.string2)) {
+                        codeLines.add(index, new CodeLine(PrintKind.MOV, "rcx", line.string2));
+                        line.string2 = "rcx";
+                        ++index;
+                        break;
+                    }
+                    break;
+
+                case SHL:
+                case SHR:
+                    codeLines.add(index, new CodeLine(PrintKind.MOV, "rcx", line.string2));
+                    line.string2 = "cl";
+                    ++index;
+                    break;
+
+//                case DIV:
+//                case MOD:
+//                case MUL:
+//                case LESS:
+//                case EQUAL:
+//                case GREATER:
+//                case INEQUAL:
+//                case CALL:
+//                case CDQ:
+//                case LESS_EQUAL:
+//                case GREATER_EQUAL:
+//                case LOGIC_NOT:
+//                case NEGE:
+//                case BIT_NOT:
+//                case POSI:
+//                case ASSIGN:
+//                case SELF_INC:
+//                case SELF_DEC:
             }
             ++index;
         }
+
+    }
+
+    public boolean isAddr(String string) {
+        return string.startsWith("q");
     }
 
     public void print() {
