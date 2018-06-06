@@ -77,12 +77,12 @@ public class Printer {
                     continue;
                 }
             }
-            if (line.printKind == PrintKind.CMP){
+            if (line.printKind == PrintKind.CMP) {
                 if (line.string2.equals("false"))
                     line.string2 = "0";
-                if (!isAddr(line.string1) && notRegister(line.string1)){
-                    codeLines.add(index, new CodeLine(PrintKind.MOV, "rcx", line.string1));
-                    line.string1 = "rcx";
+                if (!isAddr(line.string1) && notRegister(line.string1)) {
+                    codeLines.add(index, new CodeLine(PrintKind.MOV, "cl", line.string1));
+                    line.string1 = "cl";
                     ++index;
                 }
             }
@@ -139,8 +139,12 @@ public class Printer {
 
     }
 
+    public boolean isByte(String string) {
+        return string.startsWith("byte");
+    }
+
     public boolean isAddr(String string) {
-        return string.startsWith("q");
+        return string.startsWith("qword");
     }
 
     public boolean notRegister(String string) {
@@ -152,6 +156,9 @@ public class Printer {
         int index = 0;
         while (index < codeLines.size()) {
             CodeLine line = codeLines.get(index);
+            if (line.printKind == PrintKind.MOV && line.string1.equals("rcx") && line.string2.startsWith("byte")){
+                int lyk = 1;
+            }
             if (line.printKind != PrintKind.LABEL)
                 out.print('\t');
             switch (line.printKind) {

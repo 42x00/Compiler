@@ -1,69 +1,61 @@
-//考察点：section 10 字符串，包括字符串定义，运算符语义，字符串的内建方法
-//算法：递归模拟
-//样例输入：
-//DCBAE
-//4ssfsdf
-//样例输出：
-//ABCD
-
-string A;
-string B;
-string C;
-int N;
-
-string calc(string A)
-{
-    int len = A.length();
-    if (1 == len)
-        return A;
-    int mid = len / 2;
-    string L = calc(A.substring(0, mid - 1));
-    string R = calc(A.substring(mid, len - 1));
-    if (L < R)
-        return L + R;
-    else if (L == R)
-    {
-        int l = L.ord(0);
-        int r = R.ord(0);
-        if (l < r)
-            return L + R;
-        return R + L;
-    }
-    else if (L > R)
-        return R + L;
-    println("Never Ever!");
-}
-
 int main()
 {
-    A = getString();
-    B = getString();
-    N = B.parseInt();
-    if (A.length() < N)
-    {
-        println("length error!");
-        return 0;
-    }
-    C = calc(A.substring(0, N - 1));
-    println(C);
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    int f;
+    int g;
+    int n = getInt();
+    int ans = 0;
+    for (a = 0; a < n; ++a)
+        for (b = 0; b < n; ++b)
+            for (c = 0; c < n; ++c)
+                for (d = 0; d < n; ++d)
+                    for (e = 0; e < n; ++e)
+                        for (f = 0; f < n; ++f)
+                            for (g = 0; g < n; ++g)
+                            {
+                                bool t1 = (((a == b) && c > 0) || (d == e && f > 0 && g > 0) || (a == g) || (d > 0 && f > 0));
+                                bool t2 = (((a == b) && c > 0) || (d == e && f > 0 && g > 0) || (a == g) || (d > 0 && f > 0));
+                                bool t3 = (((a == b) && c > 0) || (d == e && f > 0 && g > 0) || (a == g) || (d > 0 && f > 0));
+                                bool t4 = (((a == b) && c > 0) || (d == e && f > 0 && g > 0) || (a == g) || (d > 0 && f > 0));
+                                bool t5 = (((a == b) && c > 0) || (d == e && f > 0 && g > 0) || (a == g) || (d > 0 && f > 0));
+                                bool t6 = (((a == b) && c > 0) || (d == e && f > 0 && g > 0) || (a == g) || (d > 0 && f > 0));
+                                if (t1)
+                                    ans++;
+                                if (t2)
+                                    ans++;
+                                if (t3)
+                                    ans++;
+                                if (t4)
+                                    ans++;
+                                if (t5)
+                                    ans++;
+                                if (t6)
+                                    ans++;
+                            }
+    print(toString(ans));
     return 0;
 }
 
 /*!! metadata:
 === comment ===
-string_test-huyuncong.mx
-=== input ===
-DCBAE
-4ssfsdf
+5140309234-xietiancheng Common Expression Elimination
+=== is_public ===
+True
 === assert ===
 output
 === timeout ===
-0.1
-=== output ===
-ABCD
+8.0
+=== input ===
+14
 === phase ===
-codegen pretest
-=== is_public ===
-True
+optim extended
+=== output ===
+559355322
+=== exitcode ===
+
 
 !!*/

@@ -32,7 +32,7 @@ public class DataFlowAnalysis {
     private List<BasicBlock> orderBlockList;
     private Set<Register> virtualRegisters;
 
-    private int cntColor = 4;
+    private int cntColor = 5;
 
     private void setDefUse(Inst inst) {
         if (inst instanceof Assign) {
@@ -130,9 +130,6 @@ public class DataFlowAnalysis {
 
         //set def & use
         for (BasicBlock nowBlock : reverseOrderBlockList) {
-            if (nowBlock.getOrd() == 3){
-                int lyk = 1;
-            }
             for (Inst inst : nowBlock.getInstList()) {
                 setDefUse(inst);
             }
@@ -146,9 +143,6 @@ public class DataFlowAnalysis {
         do {
             flag = true;
             for (BasicBlock nowBlock : reverseOrderBlockList) {
-                if (nowBlock.getOrd() == 3){
-                    int lyk  =1 ;
-                }
                 for (int index = nowBlock.getInstList().size() - 1; index >= 0; --index) {
                     Inst inst = nowBlock.getInstList().get(index);
                     //in' = in
@@ -289,7 +283,7 @@ public class DataFlowAnalysis {
                     register.setOrd(Register.RegisterName.R15);
                     break;
                 case 5:
-                    register.setOrd(Register.RegisterName.RDI);
+                    register.setOrd(Register.RegisterName.RBX);
                     break;
                 case 6:
                     register.setOrd(Register.RegisterName.RSI);

@@ -46,6 +46,8 @@ public class CodeGenerator implements IRVisitor {
                 return "sil";
             case "rdi":
                 return "dil";
+            case "rbx":
+                return "bl";
             default:
                 return s + 'b';
         }
