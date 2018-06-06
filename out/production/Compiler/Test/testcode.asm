@@ -26,8 +26,8 @@ _global_search:
 	push r13
 	push r14
 	push r15
-	mov r12, rdi
-	mov rbx, r12
+	mov r14, rdi
+	mov rbx, r14
 	mov rcx, qword [_global_N]
 	cmp rbx, rcx
 	sete r12b
@@ -58,39 +58,39 @@ L_5:
 L_6:
 	mov r10, qword [_global_row]
 	mov r11, r12
-	mov r12, qword [r10 + r11*8]
-	mov rbx, r12
+	mov r13, qword [r10 + r11*8]
+	mov rbx, r13
 	mov rcx, 0
 	cmp rbx, rcx
-	sete r12b
+	sete r13b
 	jmp L_14
 L_14:
-	cmp r12b, 0
+	cmp r13b, 0
 	jz L_13
 L_15:
 	mov rbx, r12
-	mov rcx, r12
-	mov r12, rbx
-	add r12, rcx
+	mov rcx, r14
+	mov r13, rbx
+	add r13, rcx
 	mov r10, qword [_global_d]
 	mov r11, 0
+	mov r15, qword [r10 + r11*8]
+	mov r10, r15
+	mov r11, r13
 	mov r13, qword [r10 + r11*8]
-	mov r10, r13
-	mov r11, r12
-	mov r12, qword [r10 + r11*8]
-	mov rbx, r12
+	mov rbx, r13
 	mov rcx, 0
 	cmp rbx, rcx
-	sete r12b
+	sete r13b
 	jmp L_16
 L_16:
-	cmp r12b, 0
+	cmp r13b, 0
 	jz L_13
 L_17:
-	mov r12, 1
+	mov r13, 1
 	jmp L_11
 L_11:
-	cmp r12b, 0
+	cmp r13b, 0
 	jz L_10
 L_12:
 	mov rbx, r12
@@ -102,22 +102,22 @@ L_12:
 	mov r13, rbx
 	sub r13, rcx
 	mov rbx, r13
-	mov rcx, r12
+	mov rcx, r14
 	mov r13, rbx
 	sub r13, rcx
 	mov r10, qword [_global_d]
 	mov r11, 1
-	mov r12, qword [r10 + r11*8]
-	mov r10, r12
+	mov r15, qword [r10 + r11*8]
+	mov r10, r15
 	mov r11, r13
-	mov r12, qword [r10 + r11*8]
-	mov rbx, r12
+	mov r13, qword [r10 + r11*8]
+	mov rbx, r13
 	mov rcx, 0
 	cmp rbx, rcx
-	sete r12b
+	sete r13b
 	jmp L_18
 L_18:
-	cmp r12b, 0
+	cmp r13b, 0
 	jz L_10
 L_19:
 	mov r13, 1
@@ -133,14 +133,14 @@ L_8:
 	mov r13, rbx
 	sub r13, rcx
 	mov rbx, r13
-	mov rcx, r12
-	mov r14, rbx
-	sub r14, rcx
+	mov rcx, r14
+	mov r15, rbx
+	sub r15, rcx
 	mov r10, qword [_global_d]
 	mov r11, 1
 	mov r13, qword [r10 + r11*8]
 	mov r10, r13
-	mov r11, r14
+	mov r11, r15
 	mov rbx, 1
 	mov qword [r10 + r11*8], rbx
 	jmp L_9
@@ -152,7 +152,7 @@ L_10:
 	mov r13, 0
 	jmp L_9
 L_13:
-	mov r12, 0
+	mov r13, 0
 	jmp L_11
 L_7:
 	jmp L_4

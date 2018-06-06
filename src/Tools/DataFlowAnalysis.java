@@ -11,6 +11,7 @@ import IR.IRNodes.*;
 import java.util.*;
 
 import static java.lang.System.err;
+import static java.lang.System.out;
 
 public class DataFlowAnalysis {
     private static class VirtualRegisterInfo {
@@ -28,6 +29,7 @@ public class DataFlowAnalysis {
     private Map<Register, VirtualRegisterInfo> virtualRegisterInfoMap;
     private LinkedList<Register> registerStack;
     private List<BasicBlock> reverseOrderBlockList;
+    private List<BasicBlock> orderBlockList;
     private Set<Register> virtualRegisters;
 
     private int cntColor = 4;
@@ -42,14 +44,14 @@ public class DataFlowAnalysis {
             bin.addUse(bin.getLhs());
             bin.addUse(bin.getRhs());
             bin.addDef(bin.getAns());
-        }  else if (inst instanceof Cjump) {
+        } else if (inst instanceof Cjump) {
             Cjump cjump = (Cjump) inst;
             cjump.addUse(cjump.getCond());
         } else if (inst instanceof Uni) {
             Uni uni = (Uni) inst;
             uni.addUse(uni.getObj());
             uni.addDef(uni.getAns());
-        } else if (inst instanceof Push){
+        } else if (inst instanceof Push) {
             Push push = (Push) inst;
             push.addUse(push.getIntValue());
         }
@@ -76,11 +78,21 @@ public class DataFlowAnalysis {
         }
     }
 
+    private void viewOrder(BasicBlock basicBlock) {
+        orderBlockList.add(basicBlock);
+        basicBlock.setVisit();
+        LinkedList<BasicBlock> succ = basicBlock.getSucc();
+        for (Iterator<BasicBlock> iter = succ.iterator(); iter.hasNext(); ) {
+            BasicBlock nxtBlock = iter.next();
+            if (!nxtBlock.isVisit())
+                viewOrder(nxtBlock);
+        }
+    }
+
     private void setReverseOrder(BasicBlock basicBlock) {
         basicBlock.setReverseVisit();
         reverseOrderBlockList.add(basicBlock);
         LinkedList<BasicBlock> pred = basicBlock.getPred();
-        if (pred == null) return;
         for (Iterator<BasicBlock> iter = pred.iterator(); iter.hasNext(); ) {
             BasicBlock preBlock = iter.next();
             if (!preBlock.isReverseVisit())
@@ -96,21 +108,21 @@ public class DataFlowAnalysis {
         reverseOrderBlockList.remove(0);
 
         //clear more jump
-        for (BasicBlock nowBloc : reverseOrderBlockList){
+        for (BasicBlock nowBloc : reverseOrderBlockList) {
             List<Inst> insts = nowBloc.getInstList();
             int cnt = 0;
-            for (Inst inst : insts){
+            for (Inst inst : insts) {
                 if (inst instanceof Jump || inst instanceof Cjump || inst instanceof ReturnInst)
                     ++cnt;
             }
-            if (cnt > 1){
+            if (cnt > 1) {
                 int endindex = -1;
-                for (Inst inst : insts){
+                for (Inst inst : insts) {
                     ++endindex;
                     if (inst instanceof Jump || inst instanceof Cjump || inst instanceof ReturnInst)
                         break;
                 }
-                for (int index = insts.size() - 1; index > endindex; --index){
+                for (int index = insts.size() - 1; index > endindex; --index) {
                     insts.remove(index);
                 }
             }
@@ -200,7 +212,7 @@ public class DataFlowAnalysis {
                 virtualRegisters.addAll(inst.getDef());
             }
         }
-        for (VarDeclNode varDeclNode : funcDeclNode.getFunctionParameterList().getVardeclnodeList()){
+        for (VarDeclNode varDeclNode : funcDeclNode.getFunctionParameterList().getVardeclnodeList()) {
             virtualRegisters.add((Register) varDeclNode.getIntValue());
         }
 
@@ -270,6 +282,27 @@ public class DataFlowAnalysis {
                 case 4:
                     register.setOrd(Register.RegisterName.R15);
                     break;
+            }
+        }
+    }
+
+
+    private void viewRightOrder(FuncDeclNode funcDeclNode){
+        orderBlockList = new ArrayList<>();
+        viewOrder(funcDeclNode.getStartBlock());
+
+        for (BasicBlock basicBlock : orderBlockList) {
+
+            out.println("=============================");
+            out.println(basicBlock.toLabel());
+            for (Inst inst : basicBlock.getInstList()) {
+                if (inst instanceof Cjump) {
+                    Cjump cjump = (Cjump) inst;
+                    out.printf("cjp %s %s\n", cjump.getThenBlock(), cjump.getElseBlock());
+                } else if (inst instanceof Jump) {
+                    Jump jump = (Jump) inst;
+                    out.printf("jmp %s\n", jump.getNxtBlock());
+                }
             }
         }
     }

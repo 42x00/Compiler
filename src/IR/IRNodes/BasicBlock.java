@@ -17,6 +17,8 @@ public class BasicBlock{
     private LinkedList<BasicBlock> succ;
     private boolean isReverseVisit;
 
+    private boolean isVisit;
+
     static private int cntBasicBlock = 0;
 
     public BasicBlock() {
@@ -63,6 +65,14 @@ public class BasicBlock{
         return isReverseVisit;
     }
 
+    public boolean isVisit() {
+        return isVisit;
+    }
+
+    public void setVisit() {
+        isVisit = true;
+    }
+
     public void setReverseVisit() {
         isReverseVisit = true;
     }
@@ -83,5 +93,8 @@ public class BasicBlock{
         visitor.visit(this);
     }
 
-
+    @Override
+    public String toString() {
+        return toLabel();
+    }
 }

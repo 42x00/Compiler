@@ -571,8 +571,8 @@ public class IRGenerator implements ASTVisitor {
                 currentBlock.append(new Jump(jumpBlock));
                 setLink(currentBlock, jumpBlock);
                 jumpBlock.append(new Cjump(exprLinkedList.pop(), nxtBlock, shortCutBlock));
-                setLink(currentBlock, nxtBlock);
-                setLink(currentBlock, shortCutBlock);
+                setLink(jumpBlock, nxtBlock);
+                setLink(jumpBlock, shortCutBlock);
                 currentBlock = nxtBlock;
 
                 jumpBlock = new BasicBlock();
@@ -583,8 +583,8 @@ public class IRGenerator implements ASTVisitor {
                 currentBlock.append(new Jump(jumpBlock));
                 setLink(currentBlock, jumpBlock);
                 jumpBlock.append(new Cjump(exprLinkedList.pop(), nxtBlock, shortCutBlock));
-                setLink(currentBlock, nxtBlock);
-                setLink(currentBlock, shortCutBlock);
+                setLink(jumpBlock, nxtBlock);
+                setLink(jumpBlock, shortCutBlock);
                 currentBlock = nxtBlock;
 
                 currentBlock.append(new Assign(register, new ConstValue(1)));
@@ -606,8 +606,8 @@ public class IRGenerator implements ASTVisitor {
                 currentBlock.append(new Jump(jumpBlock));
                 setLink(currentBlock, jumpBlock);
                 jumpBlock.append(new Cjump(exprLinkedList.pop(), shortCutBlock, nxtBlock));
-                setLink(currentBlock, shortCutBlock);
-                setLink(currentBlock, nxtBlock);
+                setLink(jumpBlock, shortCutBlock);
+                setLink(jumpBlock, nxtBlock);
                 currentBlock = nxtBlock;
 
                 jumpBlock = new BasicBlock();
@@ -618,8 +618,8 @@ public class IRGenerator implements ASTVisitor {
                 currentBlock.append(new Jump(jumpBlock));
                 setLink(currentBlock, jumpBlock);
                 jumpBlock.append(new Cjump(exprLinkedList.pop(), shortCutBlock, nxtBlock));
-                setLink(currentBlock, shortCutBlock);
-                setLink(currentBlock, nxtBlock);
+                setLink(jumpBlock, shortCutBlock);
+                setLink(jumpBlock, nxtBlock);
                 currentBlock = nxtBlock;
 
                 currentBlock.append(new Assign(register, new ConstValue(0)));
