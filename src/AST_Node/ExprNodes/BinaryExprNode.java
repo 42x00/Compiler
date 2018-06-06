@@ -4,7 +4,7 @@ import AST_Node.ASTVisitor;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 public class BinaryExprNode extends ExprNode{
-    static public  enum BinaryOP{
+    static public enum BinaryOP{
         MUL, DIV, MOD,
         ADD, SUB,
         SHL, SHR,

@@ -32,7 +32,7 @@ public class DataFlowAnalysis {
     private List<BasicBlock> orderBlockList;
     private Set<Register> virtualRegisters;
 
-    private int cntColor = 8;
+    private int cntColor = 4;
 
     private void setDefUse(Inst inst) {
         if (inst instanceof Assign) {

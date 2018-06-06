@@ -160,7 +160,7 @@ public class IRGenerator implements ASTVisitor {
 
         List<VarDeclNode> varDeclNodeList = funcDeclNode.getFunctionParameterList().getVardeclnodeList();
         if (currentClass != null) {
-            for (int index = varDeclNodeList.size() - 1; index >= 0; --index) {
+            for (int index = 0; index < varDeclNodeList.size(); ++index) {
                 if (index > 4) {
                     currentBlock.append(new Assign(varDeclNodeList.get(index).getIntValue(),
                             new MemAddr(new Register(Register.RegisterName.RBP),
@@ -187,7 +187,7 @@ public class IRGenerator implements ASTVisitor {
             }
             currentBlock.append(new Assign(currentClass.getIntValue(), new Register(Register.RegisterName.RDI)));
         } else {
-            for (int index = varDeclNodeList.size() - 1; index >= 0; --index) {
+            for (int index = 0; index < varDeclNodeList.size(); ++index) {
                 if (index > 5) {
                     currentBlock.append(new Assign(varDeclNodeList.get(index).getIntValue(),
                             new MemAddr(new Register(Register.RegisterName.RBP),

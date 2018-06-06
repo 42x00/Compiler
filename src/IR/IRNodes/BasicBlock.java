@@ -41,9 +41,9 @@ public class BasicBlock{
         return "L_" + Integer.toString(ord);
     }
 
-    public void setLabel(){
-        out.println(toLabel() + ":");
-    }
+//    public void setLabel(){
+//        out.println(toLabel() + ":");
+//    }
 
     public List<Inst> getInstList() {
         return instList;
