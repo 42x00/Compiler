@@ -77,8 +77,14 @@ public class Printer {
                     continue;
                 }
             }
-            if (line.printKind == PrintKind.CMP && line.string2.equals("false")) {
-                line.string2 = "0";
+            if (line.printKind == PrintKind.CMP){
+                if (line.string2.equals("false"))
+                    line.string2 = "0";
+                if (!isAddr(line.string1) && notRegister(line.string1)){
+                    codeLines.add(index, new CodeLine(PrintKind.MOV, "rcx", line.string1));
+                    line.string1 = "rcx";
+                    ++index;
+                }
             }
             switch (line.printKind) {
                 case CMP:

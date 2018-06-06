@@ -1,50 +1,66 @@
+//考察点：section 10 字符串，包括字符串定义，运算符语义，字符串的内建方法
+//算法：递归模拟
+//样例输入：
+//DCBAE
+//4ssfsdf
+//样例输出：
+//ABCD
+
+string A;
+string B;
+string C;
+int N;
+
+string calc(string A)
+{
+    int len = A.length();
+    if (1 == len)
+        return A;
+    int mid = len / 2;
+    string L = calc(A.substring(0, mid - 1));
+    string R = calc(A.substring(mid, len - 1));
+    if (L < R)
+        return L + R;
+    else if (L == R)
+    {
+        int l = L.ord(0);
+        int r = R.ord(0);
+        if (l < r)
+            return L + R;
+        return R + L;
+    }
+    else if (L > R)
+        return R + L;
+    println("Never Ever!");
+}
+
 int main()
 {
-    int a = 10000;
-    int b = 0;
-    int c = 2800;
-    int d = 0;
-    int e = 0;
-    int[] f = new int[2801];
-    int g = 0;
-
-    for (; b - c != 0;)
-        f[b++] = a / 5;
-    for (;; e = d % a)
+    A = getString();
+    B = getString();
+    N = B.parseInt();
+    if (A.length() < N)
     {
-        d = 0;
-        g = c * 2;
-        if (g == 0)
-            break;
-
-        for (b = c;; d = d * b)
-        {
-            d = d + f[b] * a;
-            f[b] = d % --g;
-            d = d / g--;
-            if (--b == 0)
-                break;
-        }
-
-        c = c - 14;
-        print(toString(e + d / a));
+        println("length error!");
+        return 0;
     }
-
-    print("\n");
+    C = calc(A.substring(0, N - 1));
+    println(C);
     return 0;
 }
 
 /*!! metadata:
 === comment ===
-pi-5090379042-jiaxiao.mx
+string_test-huyuncong.mx
 === input ===
-
+DCBAE
+4ssfsdf
 === assert ===
 output
 === timeout ===
 0.1
 === output ===
-3141592653589793238462643383279528841971693993751058209749445923078164062862089986280348253421170679821480865132823664709384469555822317253594081284811174502841270193852115559644622948954930381964428810975665933446128475648233786783165271201991456485669234634861045432664821339360726024914127372458706606315588174881520920962829254917153643678925903611330530548820466521384146951941511609433057273657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566438602139494639522473719070217986943702770539217176293176752384674818467669451320005681271452635608277857713427577896091736371787214684409012249534301465495853710579227968925892354201995611212902196864344181598136297747713099605187072113499999983729780499510597317328160963185
+ABCD
 === phase ===
 codegen pretest
 === is_public ===

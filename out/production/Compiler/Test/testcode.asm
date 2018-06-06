@@ -10,232 +10,379 @@ extern strlen
 extern memcpy
 extern scanf
 
+global _global_A
+global _global_B
+global _global_C
+global _global_N
+global _global_calc
 global main
 
 SECTION .text
-main:
+_global_calc:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 256
-	mov rbx, 10000
-	mov qword [rbp - 8], rbx
-	mov rbx, 0
-	mov qword [rbp - 16], rbx
-	mov rbx, 2800
-	mov qword [rbp - 24], rbx
-	mov rbx, 0
-	mov qword [rbp - 32], rbx
-	mov rbx, 0
-	mov qword [rbp - 40], rbx
-	mov rbx, 2801
-	mov rcx, 3
-	mov qword [rbp - 56], 2801
-	shl qword [rbp - 56], 3
-	mov rbx, qword [rbp - 56]
-	mov rcx, 8
-		add qword [rbp - 56], 8
+	sub rsp, 224
+	push r12
+	push r13
+	push r14
+	push r15
+	mov r14, rdi
 	push rdi
 	push rsi
 	push r8
 	push r9
-	mov rdi, qword [rbp - 56]
-	call malloc
+	mov rdi, r14
+	call string.length
 	pop r9
 	pop r8
 	pop rsi
 	pop rdi
-	mov rbx, 2801
-	mov qword [rax], rbx
-	mov rbx, rax
-	mov rcx, 8
-	mov qword [rbp - 56], rax
-	add qword [rbp - 56], 8
-	mov rbx, qword [rbp - 56]
-	mov qword [rbp - 48], rbx
-	mov rbx, 0
-	mov qword [rbp - 64], rbx
-	jmp L_2
+	mov r12, rax
+		mov rbx, 1
+	mov rcx, r12
+	cmp 1, qword [_global_N]
+	sete r13b
+	cmp r13b, 0
+	jz L_3
 L_2:
-	mov rbx, qword [rbp - 16]
-	mov rcx, qword [rbp - 24]
-	mov qword [rbp - 72], qword [rbp - 16]
-	sub qword [rbp - 72], qword [rbp - 24]
-	mov rbx, qword [rbp - 72]
-	mov rcx, 0
-	cmp qword [rbp - 72], 0
-	setne byte [rbp - 80]
-	cmp byte [rbp - 80], false
-	jz L_4
+	mov rax, r14
+L_1:
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	leave
+	ret
 L_3:
-	mov rbx, qword [rbp - 8]
-	mov rcx, 5
-	mov rax, qword [rbp - 8]
-	cdq
-	idiv 5
-	mov qword [rbp - 88], rax
-	mov rbx, qword [rbp - 16]
-	mov qword [rbp - 96], rbx
-	inc qword [rbp - 16]
-	mov r10, qword [rbp - 48]
-	mov r11, qword [rbp - 96]
-	mov rbx, qword [rbp - 88]
-	mov qword [r10 + r11*8], rbx
-	jmp L_2
-L_4:
-	jmp L_5
-L_5:
-	jmp L_6
-L_6:
-	mov rbx, 0
-	mov qword [rbp - 32], rbx
-	mov rbx, qword [rbp - 24]
+	mov rbx, r12
 	mov rcx, 2
-	mov rax, qword [rbp - 24]
-	imul 2
-	mov qword [rbp - 104], rax
-	mov rbx, qword [rbp - 104]
-	mov qword [rbp - 64], rbx
-	mov rbx, qword [rbp - 64]
-	mov rcx, 0
-	cmp qword [rbp - 64], 0
-	sete byte [rbp - 112]
-	cmp byte [rbp - 112], false
-	jz L_9
-L_8:
-	jmp L_7
+	mov rax, r12
+	cdq
+	mov rcx, 2
+	idiv rcx
+	mov r13, rax
+	mov qword [rbp - 40], r13
+	mov rbx, qword [rbp - 40]
+	mov rcx, 1
+	mov r13, qword [rbp - 40]
+	sub r13, 1
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdx, r13
+	mov rsi, 0
+	mov rdi, r14
+	call string.substring
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r13, rax
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r13
+	call _global_calc
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r13, rax
+	mov r15, r13
+	mov rbx, r12
+	mov rcx, 1
+		sub r12, 1
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdx, r12
+	mov rsi, qword [rbp - 40]
+	mov rdi, r14
+	call string.substring
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r12
+	call _global_calc
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+		push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r15
+	mov rsi, r12
+	call string.s
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r13, rax
+	cmp r13b, 0
+	jz L_6
+L_5:
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r15
+	mov rsi, r12
+	call string.add
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov rax, r12
+	jmp L_1
+L_6:
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r15
+	mov rsi, r12
+	call string.eq
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r13, rax
+	cmp r13b, 0
+	jz L_10
+L_9:
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rsi, 0
+	mov rdi, r15
+	call string.ord
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r13, rax
+		push rdi
+	push rsi
+	push r8
+	push r9
+	mov rsi, 0
+	mov rdi, r12
+	call string.ord
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r14, rax
+		mov rbx, r13
+	mov rcx, r14
+	cmp r13, r14
+	setl r13b
+	cmp r13b, 0
+	jz L_13
+L_12:
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r15
+	mov rsi, r12
+	call string.add
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov rax, r12
+	jmp L_1
+L_13:
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r12
+	mov rsi, r15
+	call string.add
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov rax, r12
+	jmp L_1
+L_10:
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r15
+	mov rsi, r12
+	call string.g
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r13, rax
+	cmp r13b, 0
+	jz L_17
+L_16:
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r12
+	mov rsi, r15
+	call string.add
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov rax, r12
+	jmp L_1
+L_17:
+L_11:
 L_7:
 	push rdi
 	push rsi
 	push r8
 	push r9
 	mov rdi, _string_0
-	call print
+	call puts
 	pop r9
 	pop r8
 	pop rsi
 	pop rdi
-	mov qword [rbp - 248], rax
+	mov r12, rax
 	mov rax, 0
 	jmp L_1
-L_1:
+main:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 88
+	push rdi
+	push rsi
+	push r8
+	push r9
+	call getString
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov qword [_global_A], r12
+	push rdi
+	push rsi
+	push r8
+	push r9
+	call getString
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov qword [_global_B], r12
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, qword [_global_B]
+	call string.parseInt
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov qword [_global_N], r12
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, qword [_global_A]
+	call string.length
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov rbx, r12
+	mov rcx, qword [_global_N]
+	cmp r12, qword [_global_N]
+	setl r12b
+	cmp r12b, 0
+	jz L_23
+L_22:
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, _string_1
+	call puts
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov rax, 0
+L_21:
 	leave
 	ret
-	jmp L_9
-L_9:
-	mov rbx, qword [rbp - 24]
-	mov qword [rbp - 16], rbx
-	jmp L_10
-L_10:
-	jmp L_11
-L_11:
-	mov r10, qword [rbp - 48]
-	mov r11, qword [rbp - 16]
-	mov rbx, qword [r10 + r11*8]
-	mov qword [rbp - 120], rbx
-	mov rbx, qword [rbp - 120]
-	mov rcx, qword [rbp - 8]
-	mov rax, qword [rbp - 120]
-	imul qword [rbp - 8]
-	mov qword [rbp - 128], rax
-	mov rbx, qword [rbp - 32]
-	mov rcx, qword [rbp - 128]
-	mov qword [rbp - 136], qword [rbp - 32]
-	add qword [rbp - 136], qword [rbp - 128]
-	mov rbx, qword [rbp - 136]
-	mov qword [rbp - 32], rbx
-	dec qword [rbp - 64]
-	mov rcx, qword [rbp - 64]
-	mov qword [rbp - 144], rcx
-	mov rbx, qword [rbp - 32]
-	mov rcx, qword [rbp - 144]
-	mov rax, qword [rbp - 32]
-	cdq
-	idiv qword [rbp - 144]
-	mov qword [rbp - 152], rdx
-	mov r10, qword [rbp - 48]
-	mov r11, qword [rbp - 16]
-	mov rbx, qword [rbp - 152]
-	mov qword [r10 + r11*8], rbx
-	mov rbx, qword [rbp - 64]
-	mov qword [rbp - 160], rbx
-	dec qword [rbp - 64]
-	mov rbx, qword [rbp - 32]
-	mov rcx, qword [rbp - 160]
-	mov rax, qword [rbp - 32]
-	cdq
-	idiv qword [rbp - 160]
-	mov qword [rbp - 168], rax
-	mov rbx, qword [rbp - 168]
-	mov qword [rbp - 32], rbx
-	dec qword [rbp - 16]
-	mov rcx, qword [rbp - 16]
-	mov qword [rbp - 176], rcx
-	mov rbx, qword [rbp - 176]
-	mov rcx, 0
-	cmp qword [rbp - 176], 0
-	sete byte [rbp - 184]
-	cmp byte [rbp - 184], false
-	jz L_14
-L_13:
-	jmp L_12
-L_12:
-	mov rbx, qword [rbp - 24]
-	mov rcx, 14
-	mov qword [rbp - 200], qword [rbp - 24]
-	sub qword [rbp - 200], 14
-	mov rbx, qword [rbp - 200]
-	mov qword [rbp - 24], rbx
-	mov rbx, qword [rbp - 32]
-	mov rcx, qword [rbp - 8]
-	mov rax, qword [rbp - 32]
-	cdq
-	idiv qword [rbp - 8]
-	mov qword [rbp - 208], rax
-	mov rbx, qword [rbp - 40]
-	mov rcx, qword [rbp - 208]
-	mov qword [rbp - 216], qword [rbp - 40]
-	add qword [rbp - 216], qword [rbp - 208]
+L_23:
+	mov rbx, qword [_global_N]
+	mov rcx, 1
+	mov r12, qword [_global_N]
+	sub r12, 1
 	push rdi
 	push rsi
 	push r8
 	push r9
-	mov rdi, qword [rbp - 216]
-	call toString
+	mov rdx, r12
+	mov rsi, 0
+	mov rdi, qword [_global_A]
+	call string.substring
 	pop r9
 	pop r8
 	pop rsi
 	pop rdi
-	mov qword [rbp - 224], rax
+	mov r12, rax
 	push rdi
 	push rsi
 	push r8
 	push r9
-	mov rdi, qword [rbp - 224]
-	call print
+	mov rdi, r12
+	call _global_calc
 	pop r9
 	pop r8
 	pop rsi
 	pop rdi
-	mov qword [rbp - 232], rax
-	mov rbx, qword [rbp - 32]
-	mov rcx, qword [rbp - 8]
-	mov rax, qword [rbp - 32]
-	cdq
-	idiv qword [rbp - 8]
-	mov qword [rbp - 240], rdx
-	mov rbx, qword [rbp - 240]
-	mov qword [rbp - 40], rbx
-	jmp L_5
-	jmp L_14
-L_14:
-	mov rbx, qword [rbp - 32]
-	mov rcx, qword [rbp - 16]
-	mov rax, qword [rbp - 32]
-	imul qword [rbp - 16]
-	mov qword [rbp - 192], rax
-	mov rbx, qword [rbp - 192]
-	mov qword [rbp - 32], rbx
-	jmp L_10
+	mov r12, rax
+	mov qword [_global_C], r12
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, qword [_global_C]
+	call puts
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov rax, 0
+	jmp L_21
 toString:
 	push rbp
 	mov rbp,rsp
@@ -963,7 +1110,13 @@ SECTION .data
 intbuffer: dq 0
 format1: db "%lld", 0
 format2: db "%s", 0
-_string_0_size: dq 1
-_string_0: db 10, 0
+_global_N: dq 0
+_string_1_size: dq 13
+_string_1: db 108, 101, 110, 103, 116, 104, 32, 101, 114, 114, 111, 114, 33, 0
+_string_0_size: dq 11
+_string_0: db 78, 101, 118, 101, 114, 32, 69, 118, 101, 114, 33, 0
 SECTION .bss
 stringbuffer: resb 256
+_global_A: dq 0
+_global_B: dq 0
+_global_C: dq 0
