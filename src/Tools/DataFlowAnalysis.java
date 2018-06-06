@@ -32,7 +32,7 @@ public class DataFlowAnalysis {
     private List<BasicBlock> orderBlockList;
     private Set<Register> virtualRegisters;
 
-    private int cntColor = 4;
+    private int cntColor = 8;
 
     private void setDefUse(Inst inst) {
         if (inst instanceof Assign) {
@@ -281,6 +281,18 @@ public class DataFlowAnalysis {
                     break;
                 case 4:
                     register.setOrd(Register.RegisterName.R15);
+                    break;
+                case 5:
+                    register.setOrd(Register.RegisterName.RDI);
+                    break;
+                case 6:
+                    register.setOrd(Register.RegisterName.RSI);
+                    break;
+                case 7:
+                    register.setOrd(Register.RegisterName.R8);
+                    break;
+                case 8:
+                    register.setOrd(Register.RegisterName.R9);
                     break;
             }
         }

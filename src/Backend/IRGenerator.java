@@ -87,8 +87,17 @@ public class IRGenerator implements ASTVisitor {
         jumpBlock.pushPred(thisBlock);
     }
 
+    private void callerSave(){
+        currentBlock.append(new Push(new Register(Register.RegisterName.RDI)));
+        currentBlock.append(new Push(new Register(Register.RegisterName.RSI)));
+        currentBlock.append(new Push(new Register(Register.RegisterName.R8)));
+        currentBlock.append(new Push(new Register(Register.RegisterName.R9)));
+    }
+
     private void callBuiltInFunc(String funcName, IntValue lhs, IntValue rhs) {
         //push
+        callerSave();
+
         currentBlock.append(new Assign(new Register(Register.RegisterName.RDI), lhs));
         currentBlock.append(new Assign(new Register(Register.RegisterName.RSI), rhs));
         currentBlock.append(new Call(funcName));
@@ -96,6 +105,8 @@ public class IRGenerator implements ASTVisitor {
 
     private void callBuiltInFunc(String funcName, IntValue intValue) {
         //push
+        callerSave();
+
         currentBlock.append(new Assign(new Register(Register.RegisterName.RDI), intValue));
         currentBlock.append(new Call(funcName));
     }
@@ -817,6 +828,8 @@ public class IRGenerator implements ASTVisitor {
             }
             intValueList.add(exprLinkedList.pop());
         }
+
+        callerSave();
 
         for (int index = intValueList.size() - 1; index >= 0; --index) {
             if (index > 5) {

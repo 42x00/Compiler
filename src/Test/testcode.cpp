@@ -1,59 +1,61 @@
-int N = 8;
-int[] row = new int[8];
-int[] col = new int[8];
-int[][] d = new int[2][];
-
-void printBoard()
-{
-    int i;
-    int j;
-    for (i = 0; i < N; i++)
-    {
-        for (j = 0; j < N; j++)
-        {
-            if (col[i] == j)
-                print(" O");
-            else
-                print(" .");
-        }
-        println("");
-    }
-    println("");
-}
-
-void search(int c)
-{
-    if (c == N)
-    {
-        printBoard();
-    }
-    else
-    {
-        int r;
-        for (r = 0; r < N; r++)
-        {
-            if (row[r] == 0 && d[0][r + c] == 0 && d[1][r + N - 1 - c] == 0)
-            {
-                d[1][r + N - 1 - c] = 1;
-                d[0][r + c] = 1;
-                row[r] = 1;
-                col[c] = r;
-
-                search(c + 1);
-
-                row[r] = 0;
-                d[0][r + c] = 0;
-                d[1][r + N - 1 - c] = 0;
-            }
-        }
-    }
-}
-
 int main()
 {
-    int i;
-    for (i = 0; i < 2; i++)
-        d[i] = new int[8 + 8 - 1];
-    search(0);
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    int f;
+    int g;
+    int n = getInt();
+    int ans = 0;
+    for (a = 0; a < n; ++a)
+        for (b = 0; b < n; ++b)
+            for (c = 0; c < n; ++c)
+                for (d = 0; d < n; ++d)
+                    for (e = 0; e < n; ++e)
+                        for (f = 0; f < n; ++f)
+                            for (g = 0; g < n; ++g)
+                            {
+                                bool t1 = (((a == b) && c > 0) || (d == e && f > 0 && g > 0) || (a == g) || (d > 0 && f > 0));
+                                bool t2 = (((a == b) && c > 0) || (d == e && f > 0 && g > 0) || (a == g) || (d > 0 && f > 0));
+                                bool t3 = (((a == b) && c > 0) || (d == e && f > 0 && g > 0) || (a == g) || (d > 0 && f > 0));
+                                bool t4 = (((a == b) && c > 0) || (d == e && f > 0 && g > 0) || (a == g) || (d > 0 && f > 0));
+                                bool t5 = (((a == b) && c > 0) || (d == e && f > 0 && g > 0) || (a == g) || (d > 0 && f > 0));
+                                bool t6 = (((a == b) && c > 0) || (d == e && f > 0 && g > 0) || (a == g) || (d > 0 && f > 0));
+                                if (t1)
+                                    ans++;
+                                if (t2)
+                                    ans++;
+                                if (t3)
+                                    ans++;
+                                if (t4)
+                                    ans++;
+                                if (t5)
+                                    ans++;
+                                if (t6)
+                                    ans++;
+                            }
+    print(toString(ans));
     return 0;
 }
+
+/*!! metadata:
+=== comment ===
+5140309234-xietiancheng Common Expression Elimination
+=== is_public ===
+True
+=== assert ===
+output
+=== timeout ===
+8.0
+=== input ===
+14
+=== phase ===
+optim extended
+=== output ===
+559355322
+=== exitcode ===
+
+
+!!*/

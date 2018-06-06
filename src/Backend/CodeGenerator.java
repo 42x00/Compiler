@@ -36,9 +36,6 @@ public class CodeGenerator implements IRVisitor {
     }
 
     private String c8t1(String s) {
-        if (s.equals("1")) {
-            int lyk = 1;
-        }
         if (s.startsWith("qword")) {
             return "byte" + s.substring(5);
         }
@@ -184,11 +181,7 @@ public class CodeGenerator implements IRVisitor {
         }
 
         //_string_1: dq *, 0
-        for (
-                Map.Entry<String, String> entry : irGenerator.getStringMap().
-
-                entrySet())
-
+        for (Map.Entry<String, String> entry : irGenerator.getStringMap().entrySet())
         {
             String stringDecl = entry.getKey() + ": db ";
             String valueString = entry.getValue();
@@ -255,9 +248,7 @@ public class CodeGenerator implements IRVisitor {
         out.println("stringbuffer: resb 256");
 
         //x: dq 0
-        for (
-                DeclNode declNode : progNode.getDeclarations())
-
+        for (DeclNode declNode : progNode.getDeclarations())
         {
             if (declNode instanceof VarDeclNode) {
                 VarDeclNode varDeclNode = (VarDeclNode) declNode;
@@ -353,12 +344,10 @@ public class CodeGenerator implements IRVisitor {
         //call f
         out.printf("call %s\n", call.getFuncName());
         //pop args*
-//        out.print("pop r9\n\t" +
-//                "pop r8\n\t" +
-//                "pop rcx\n\t" +
-//                "pop rdx\n\t" +
-//                "pop rsi\n\t" +
-//                "pop rdi\n");
+        out.print("pop r9\n\t" +
+                "pop r8\n\t" +
+                "pop rsi\n\t" +
+                "pop rdi\n");
     }
 
     @Override
