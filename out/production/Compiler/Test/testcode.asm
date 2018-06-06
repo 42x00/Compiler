@@ -10,115 +10,64 @@ extern strlen
 extern memcpy
 extern scanf
 
-global _global_N
-global _global_head
-global _global_startx
-global _global_starty
-global _global_targetx
-global _global_targety
-global _global_x
-global _global_y
-global _global_xlist
-global _global_ylist
-global _global_tail
-global _global_ok
-global _global_now
-global _global_dx
-global _global_dy
-global _global_step
-global _global_i
-global _global_j
-global _global_origin
-global _global_check
-global _global_addList
+global _global_qpow
 global main
 
 SECTION .text
-_global_origin:
+_global_qpow:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 72
+	sub rsp, 112
 	push r12
 	push r13
 	push r14
 	push r15
 	mov r13, rdi
-	mov rbx, 0
-	mov qword [_global_head], rbx
-	mov rbx, 0
-	mov qword [_global_tail], rbx
-	mov r12, r13
-	mov rcx, 3
-	shl r12, cl
-	mov r12, r12
-	add r12, 8
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdi, r12
-	call malloc
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov qword [rax], r13
-	mov r12, rax
-	add r12, 8
-	mov qword [_global_step], r12
-	mov rbx, 0
-	mov qword [_global_i], rbx
+	mov r14, rsi
+	mov r12, rdx
+	mov r15, 1
+	mov qword [rbp - 40], r13
 L_2:
-	cmp qword [_global_i], r13
-	setl r12b
-	cmp r12b, 0
+	cmp r14, 0
+	setg r13b
+	cmp r13b, 0
 	jz L_4
 L_3:
-	mov r12, r13
-	mov rcx, 3
-	shl r12, cl
-	mov r12, r12
-	add r12, 8
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdi, r12
-	call malloc
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov qword [rax], r13
-	mov r12, rax
-	add r12, 8
-	mov r10, qword [_global_step]
-	mov r11, qword [_global_i]
-	mov qword [r10 + r11*8], r12
-	mov rbx, 0
-	mov qword [_global_j], rbx
+	mov r13, r14
+	and r13, 1
+	cmp r13, 1
+	sete r13b
+	cmp r13b, 0
+	jz L_6
 L_5:
-	cmp qword [_global_j], r13
-	setl r12b
-	cmp r12b, 0
-	jz L_7
+	mov rax, r15
+	mov rcx, qword [rbp - 40]
+	imul rcx
+	mov r13, rax
+	mov rax, r13
+	cdq
+	idiv r12
+	mov r13, rdx
+	mov r15, r13
 L_6:
-	mov r10, qword [_global_step]
-	mov r11, qword [_global_i]
-	mov r12, qword [r10 + r11*8]
-	mov r10, r12
-	mov r11, qword [_global_j]
-	mov rbx, 0
-	mov qword [r10 + r11*8], rbx
-	mov r12, qword [_global_j]
-	inc qword [_global_j]
-	jmp L_5
-L_7:
-	mov r12, qword [_global_i]
-	inc qword [_global_i]
+	mov rax, qword [rbp - 40]
+	mov rcx, qword [rbp - 40]
+	imul rcx
+	mov r13, rax
+	mov rax, r13
+	cdq
+	idiv r12
+	mov r13, rdx
+	mov qword [rbp - 40], r13
+	mov rax, r14
+	cdq
+	mov rcx, 2
+	idiv rcx
+	mov r13, rax
+	mov r14, r13
 	jmp L_2
 L_4:
-	mov rax, 0
+	mov rax, r15
 L_1:
 	pop r15
 	pop r14
@@ -126,435 +75,23 @@ L_1:
 	pop r12
 	leave
 	ret
-_global_check:
-	push rbp
-	mov rbp, rsp
-	sub rsp, 40
-	push r12
-	push r13
-	push r14
-	push r15
-	mov r12, rdi
-	cmp r12, qword [_global_N]
-	setl r13b
-L_13:
-	cmp r13b, 0
-	jz L_12
-L_14:
-	cmp r12, 0
-	setge r12b
-L_15:
-	cmp r12b, 0
-	jz L_12
-L_16:
-	mov r12, 1
-L_11:
-	mov rax, r12
-L_10:
-	pop r15
-	pop r14
-	pop r13
-	pop r12
-	leave
-	ret
-L_12:
-	mov r12, 0
-	jmp L_11
-_global_addList:
-	push rbp
-	mov rbp, rsp
-	sub rsp, 136
-	push r12
-	push r13
-	push r14
-	push r15
-	mov r15, rdi
-	mov r12, rsi
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdi, r15
-	call _global_check
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r13, rax
-L_26:
-	cmp r13b, 0
-	jz L_25
-L_27:
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdi, r12
-	call _global_check
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r13, rax
-L_28:
-	cmp r13b, 0
-	jz L_25
-L_29:
-	mov r13, 1
-L_23:
-	cmp r13b, 0
-	jz L_22
-L_24:
-	mov r10, qword [_global_step]
-	mov r11, r15
-	mov r13, qword [r10 + r11*8]
-	mov r10, r13
-	mov r11, r12
-	mov r13, qword [r10 + r11*8]
-	cmp r13, -1
-	sete r13b
-L_30:
-	cmp r13b, 0
-	jz L_22
-L_31:
-	mov r13, 1
-	cmp r13b, 0
-	jz L_21
-L_20:
-	mov r13, qword [_global_tail]
-	inc qword [_global_tail]
-	mov r10, qword [_global_xlist]
-	mov r11, qword [_global_tail]
-	mov qword [r10 + r11*8], r15
-	mov r10, qword [_global_ylist]
-	mov r11, qword [_global_tail]
-	mov qword [r10 + r11*8], r12
-	mov r13, qword [_global_now]
-	add r13, 1
-	mov r10, qword [_global_step]
-	mov r11, r15
-	mov r14, qword [r10 + r11*8]
-	mov r10, r14
-	mov r11, r12
-	mov qword [r10 + r11*8], r13
-	cmp r15, qword [_global_targetx]
-	sete r13b
-L_35:
-	cmp r13b, 0
-	jz L_34
-L_36:
-	cmp r12, qword [_global_targety]
-	sete r12b
-L_37:
-	cmp r12b, 0
-	jz L_34
-L_38:
-	mov r12, 1
-	cmp r12b, 0
-	jz L_33
-L_32:
-	mov rbx, 1
-	mov qword [_global_ok], rbx
-L_33:
-L_21:
-	mov rax, 0
-L_19:
-	pop r15
-	pop r14
-	pop r13
-	pop r12
-	leave
-	ret
-L_34:
-	mov r12, 0
-	jmp L_33
-L_22:
-	mov r13, 0
-	jmp L_21
-L_25:
-	mov r13, 0
-	jmp L_23
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 304
-	mov r12, 12000
-	mov rcx, 3
-	shl r12, cl
-	mov r12, r12
-	add r12, 8
+	sub rsp, 32
 	push rdi
 	push rsi
 	push r8
 	push r9
-	mov rdi, r12
-	call malloc
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov rbx, 12000
-	mov qword [rax], rbx
-	mov r12, rax
-	add r12, 8
-	mov qword [_global_xlist], r12
-	mov r12, 12000
-	mov rcx, 3
-	shl r12, cl
-	mov r12, r12
-	add r12, 8
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdi, r12
-	call malloc
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov rbx, 12000
-	mov qword [rax], rbx
-	mov r12, rax
-	add r12, 8
-	mov qword [_global_ylist], r12
-	mov r12, 8
-	mov rcx, 3
-	shl r12, cl
-	mov r12, r12
-	add r12, 8
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdi, r12
-	call malloc
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov rbx, 8
-	mov qword [rax], rbx
-	mov r12, rax
-	add r12, 8
-	mov qword [_global_dx], r12
-	mov r12, 9
-	mov rcx, 3
-	shl r12, cl
-	mov r12, r12
-	add r12, 8
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdi, r12
-	call malloc
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov rbx, 9
-	mov qword [rax], rbx
-	mov r12, rax
-	add r12, 8
-	mov qword [_global_dy], r12
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdi, 106
-	call _global_origin
+	mov rdx, 10000
+	mov rsi, 10
+	mov rdi, 2
+	call _global_qpow
 	pop r9
 	pop r8
 	pop rsi
 	pop rdi
 	mov r12, rax
-	push rdi
-	push rsi
-	push r8
-	push r9
-	call getInt
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r12, rax
-	mov qword [_global_N], r12
-	mov r12, qword [_global_N]
-	sub r12, 1
-	mov qword [_global_targety], r12
-	mov rbx, qword [_global_targety]
-	mov qword [_global_targetx], rbx
-	mov rbx, 0
-	mov qword [_global_i], rbx
-L_42:
-	mov rcx, qword [_global_N]
-	cmp qword [_global_i], rcx
-	setl r12b
-	cmp r12b, 0
-	jz L_44
-L_43:
-	mov rbx, 0
-	mov qword [_global_j], rbx
-L_45:
-	mov rcx, qword [_global_N]
-	cmp qword [_global_j], rcx
-	setl r12b
-	cmp r12b, 0
-	jz L_47
-L_46:
-	mov r10, qword [_global_step]
-	mov r11, qword [_global_i]
-	mov r12, qword [r10 + r11*8]
-	mov r10, r12
-	mov r11, qword [_global_j]
-	mov rbx, -1
-	mov qword [r10 + r11*8], rbx
-	mov r12, qword [_global_j]
-	inc qword [_global_j]
-	jmp L_45
-L_47:
-	mov r12, qword [_global_i]
-	inc qword [_global_i]
-	jmp L_42
-L_44:
-	mov r10, qword [_global_dx]
-	mov r11, 0
-	mov rbx, -2
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dy]
-	mov r11, 0
-	mov rbx, -1
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dx]
-	mov r11, 1
-	mov rbx, -2
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dy]
-	mov r11, 1
-	mov rbx, 1
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dx]
-	mov r11, 2
-	mov rbx, 2
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dy]
-	mov r11, 2
-	mov rbx, -1
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dx]
-	mov r11, 3
-	mov rbx, 2
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dy]
-	mov r11, 3
-	mov rbx, 1
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dx]
-	mov r11, 4
-	mov rbx, -1
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dy]
-	mov r11, 4
-	mov rbx, -2
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dx]
-	mov r11, 5
-	mov rbx, -1
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dy]
-	mov r11, 5
-	mov rbx, 2
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dx]
-	mov r11, 6
-	mov rbx, 1
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dy]
-	mov r11, 6
-	mov rbx, -2
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dx]
-	mov r11, 7
-	mov rbx, 1
-	mov qword [r10 + r11*8], rbx
-	mov r10, qword [_global_dy]
-	mov r11, 7
-	mov rbx, 2
-	mov qword [r10 + r11*8], rbx
-L_48:
-	mov rcx, qword [_global_tail]
-	cmp qword [_global_head], rcx
-	setle r12b
-	cmp r12b, 0
-	jz L_50
-L_49:
-	mov r10, qword [_global_xlist]
-	mov r11, qword [_global_head]
-	mov r12, qword [r10 + r11*8]
-	mov qword [_global_x], r12
-	mov r10, qword [_global_ylist]
-	mov r11, qword [_global_head]
-	mov r12, qword [r10 + r11*8]
-	mov qword [_global_y], r12
-	mov r10, qword [_global_step]
-	mov r11, qword [_global_x]
-	mov r12, qword [r10 + r11*8]
-	mov r10, r12
-	mov r11, qword [_global_y]
-	mov r12, qword [r10 + r11*8]
-	mov qword [_global_now], r12
-	mov rbx, 0
-	mov qword [_global_j], rbx
-L_51:
-	cmp qword [_global_j], 8
-	setl r12b
-	cmp r12b, 0
-	jz L_53
-L_52:
-	mov r10, qword [_global_dx]
-	mov r11, qword [_global_j]
-	mov r12, qword [r10 + r11*8]
-	mov r13, qword [_global_x]
-	add r13, r12
-	mov r10, qword [_global_dy]
-	mov r11, qword [_global_j]
-	mov r12, qword [r10 + r11*8]
-	mov r12, qword [_global_y]
-	add r12, r12
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rsi, r12
-	mov rdi, r13
-	call _global_addList
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r12, rax
-	mov r12, qword [_global_j]
-	inc qword [_global_j]
-	jmp L_51
-L_53:
-	cmp qword [_global_ok], 1
-	sete r12b
-	cmp r12b, 0
-	jz L_55
-L_54:
-L_50:
-	cmp qword [_global_ok], 1
-	sete r12b
-	cmp r12b, 0
-	jz L_57
-L_56:
-	mov r10, qword [_global_step]
-	mov r11, qword [_global_targetx]
-	mov r12, qword [r10 + r11*8]
-	mov r10, r12
-	mov r11, qword [_global_targety]
-	mov r12, qword [r10 + r11*8]
 	push rdi
 	push rsi
 	push r8
@@ -577,28 +114,10 @@ L_56:
 	pop rsi
 	pop rdi
 	mov r12, rax
-L_58:
 	mov rax, 0
-L_41:
+L_9:
 	leave
 	ret
-L_57:
-	push rdi
-	push rsi
-	push r8
-	push r9
-	mov rdi, _string_0
-	call print
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	mov r12, rax
-	jmp L_58
-L_55:
-	mov r12, qword [_global_head]
-	inc qword [_global_head]
-	jmp L_48
 toString:
 	push rbp
 	mov rbp,rsp
@@ -1326,25 +845,5 @@ SECTION .data
 intbuffer: dq 0
 format1: db "%lld", 0
 format2: db "%s", 0
-_global_N: dq 0
-_global_head: dq 0
-_global_startx: dq 0
-_global_starty: dq 0
-_global_targetx: dq 0
-_global_targety: dq 0
-_global_x: dq 0
-_global_y: dq 0
-_global_tail: dq 0
-_global_ok: dq 0
-_global_now: dq 0
-_global_i: dq 0
-_global_j: dq 0
-_string_0_size: dq 13
-_string_0: db 110, 111, 32, 115, 111, 108, 117, 116, 105, 111, 110, 33, 10, 0
 SECTION .bss
 stringbuffer: resb 256
-_global_xlist: dq 0
-_global_ylist: dq 0
-_global_dx: dq 0
-_global_dy: dq 0
-_global_step: dq 0

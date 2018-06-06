@@ -10,11 +10,15 @@ extern strlen
 extern memcpy
 extern scanf
 
-global _global_min
+global _global_a
+global _global_i
+global _global_j
+global _global_b
+global _global_printNum
 global main
 
 SECTION .text
-_global_min:
+_global_printNum:
 	push rbp
 	mov rbp, rsp
 	sub rsp, 32
@@ -22,14 +26,30 @@ _global_min:
 	push r13
 	push r14
 	push r15
-	mov r14, rdi
-	mov r12, rsi
-	cmp r14, r12
-	setle r13b
-	cmp r13b, 0
-	jz L_3
-L_2:
-	mov rax, r14
+	mov r12, rdi
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r12
+	call toString
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r12
+	call puts
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov rax, 0
 L_1:
 	pop r15
 	pop r14
@@ -37,29 +57,318 @@ L_1:
 	pop r12
 	leave
 	ret
-L_3:
-	mov rax, r12
-	jmp L_1
 main:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 32
-	mov r13, 10
-	mov r12, 20
+	sub rsp, 344
+	mov r12, 4
+	mov rcx, 3
+	shl r12, cl
+	mov r12, r12
+	add r12, 8
 	push rdi
 	push rsi
 	push r8
 	push r9
-	mov rsi, r12
-	mov rdi, r13
-	call _global_min
+	mov rdi, r12
+	call malloc
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov rbx, 4
+	mov qword [rax], rbx
+	mov r12, rax
+	add r12, 8
+	mov qword [_global_a], r12
+	mov r12, 5
+	mov rcx, 3
+	shl r12, cl
+	mov r12, r12
+	add r12, 8
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r12
+	call malloc
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov rbx, 5
+	mov qword [rax], rbx
+	mov r12, rax
+	add r12, 8
+	mov qword [_global_b], r12
+	mov rbx, 0
+	mov qword [_global_i], rbx
+L_5:
+	cmp qword [_global_i], 4
+	setl r12b
+	cmp r12b, 0
+	jz L_7
+L_6:
+	mov r12, 11
+	mov rcx, 3
+	shl r12, cl
+	mov r12, r12
+	add r12, 8
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r12
+	call malloc
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov rbx, 11
+	mov qword [rax], rbx
+	mov r12, rax
+	add r12, 8
+	mov r10, qword [_global_a]
+	mov r11, qword [_global_i]
+	mov qword [r10 + r11*8], r12
+	mov r12, qword [_global_i]
+	inc qword [_global_i]
+	jmp L_5
+L_7:
+	mov rbx, 0
+	mov qword [_global_i], rbx
+L_8:
+	cmp qword [_global_i], 4
+	setl r12b
+	cmp r12b, 0
+	jz L_10
+L_9:
+	mov rbx, 0
+	mov qword [_global_j], rbx
+L_11:
+	cmp qword [_global_j], 10
+	setl r12b
+	cmp r12b, 0
+	jz L_13
+L_12:
+	mov r10, qword [_global_a]
+	mov r11, qword [_global_i]
+	mov r12, qword [r10 + r11*8]
+	mov r10, r12
+	mov r11, qword [_global_j]
+	mov rbx, 888
+	mov qword [r10 + r11*8], rbx
+	mov r12, qword [_global_j]
+	inc qword [_global_j]
+	jmp L_11
+L_13:
+	mov r12, qword [_global_i]
+	inc qword [_global_i]
+	jmp L_8
+L_10:
+	mov rbx, 0
+	mov qword [_global_i], rbx
+L_14:
+	cmp qword [_global_i], 5
+	setl r12b
+	cmp r12b, 0
+	jz L_16
+L_15:
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, 16
+	call malloc
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r10, qword [_global_b]
+	mov r11, qword [_global_i]
+	mov qword [r10 + r11*8], rax
+	mov r10, qword [_global_b]
+	mov r11, qword [_global_i]
+	mov r10, qword [r10 + r11*8]
+	mov r11, 0
+	mov rbx, -1
+	mov qword [r10 + r11*8], rbx
+	mov r12, qword [_global_i]
+	inc qword [_global_i]
+	jmp L_14
+L_16:
+	mov r10, qword [_global_a]
+	mov r11, 3
+	mov r12, qword [r10 + r11*8]
+	mov r10, r12
+	mov r11, 9
+	mov r12, qword [r10 + r11*8]
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r12
+	call _global_printNum
 	pop r9
 	pop r8
 	pop rsi
 	pop rdi
 	mov r12, rax
-	mov rax, r12
-L_7:
+	mov rbx, 0
+	mov qword [_global_i], rbx
+L_17:
+	cmp qword [_global_i], 3
+	setle r12b
+	cmp r12b, 0
+	jz L_19
+L_18:
+	mov rbx, 0
+	mov qword [_global_j], rbx
+L_20:
+	cmp qword [_global_j], 9
+	setle r12b
+	cmp r12b, 0
+	jz L_22
+L_21:
+	mov rax, qword [_global_i]
+	mov rcx, 10
+	imul rcx
+	mov r12, rax
+	mov r13, r12
+	add r13, qword [_global_j]
+	mov r10, qword [_global_a]
+	mov r11, qword [_global_i]
+	mov r12, qword [r10 + r11*8]
+	mov r10, r12
+	mov r11, qword [_global_j]
+	mov qword [r10 + r11*8], r13
+	mov r12, qword [_global_j]
+	inc qword [_global_j]
+	jmp L_20
+L_22:
+	mov r12, qword [_global_i]
+	inc qword [_global_i]
+	jmp L_17
+L_19:
+	mov rbx, 0
+	mov qword [_global_i], rbx
+L_23:
+	cmp qword [_global_i], 3
+	setle r12b
+	cmp r12b, 0
+	jz L_25
+L_24:
+	mov rbx, 0
+	mov qword [_global_j], rbx
+L_26:
+	cmp qword [_global_j], 9
+	setle r12b
+	cmp r12b, 0
+	jz L_28
+L_27:
+	mov r10, qword [_global_a]
+	mov r11, qword [_global_i]
+	mov r12, qword [r10 + r11*8]
+	mov r10, r12
+	mov r11, qword [_global_j]
+	mov r12, qword [r10 + r11*8]
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r12
+	call _global_printNum
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov r12, qword [_global_j]
+	inc qword [_global_j]
+	jmp L_26
+L_28:
+	mov r12, qword [_global_i]
+	inc qword [_global_i]
+	jmp L_23
+L_25:
+	mov r10, qword [_global_a]
+	mov r11, 2
+	mov r12, qword [r10 + r11*8]
+	mov r10, r12
+	mov r11, 10
+	mov rbx, 0
+	mov qword [r10 + r11*8], rbx
+	mov r10, qword [_global_a]
+	mov r11, 2
+	mov r12, qword [r10 + r11*8]
+	mov r10, r12
+	mov r11, 10
+	mov r12, qword [r10 + r11*8]
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r12
+	call _global_printNum
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov r10, qword [_global_b]
+	mov r11, 0
+	mov r10, qword [r10 + r11*8]
+	mov r11, 0
+	mov rbx, -2
+	mov qword [r10 + r11*8], rbx
+	mov r10, qword [_global_a]
+	mov r11, 2
+	mov r12, qword [r10 + r11*8]
+	mov r10, r12
+	mov r11, 10
+	mov r12, qword [r10 + r11*8]
+	mov r10, qword [_global_b]
+	mov r11, r12
+	mov r10, qword [r10 + r11*8]
+	mov r11, 0
+	mov rbx, -10
+	mov qword [r10 + r11*8], rbx
+	mov r10, qword [_global_b]
+	mov r11, 0
+	mov r12, qword [r10 + r11*8]
+	mov r10, r12
+	mov r11, 0
+	mov r12, qword [r10 + r11*8]
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r12
+	call _global_printNum
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov r10, qword [_global_b]
+	mov r11, 1
+	mov r12, qword [r10 + r11*8]
+	mov r10, r12
+	mov r11, 0
+	mov r12, qword [r10 + r11*8]
+	push rdi
+	push rsi
+	push r8
+	push r9
+	mov rdi, r12
+	call _global_printNum
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	mov r12, rax
+	mov rax, 0
+L_4:
 	leave
 	ret
 toString:
@@ -789,5 +1098,9 @@ SECTION .data
 intbuffer: dq 0
 format1: db "%lld", 0
 format2: db "%s", 0
+_global_i: dq 0
+_global_j: dq 0
 SECTION .bss
 stringbuffer: resb 256
+_global_a: dq 0
+_global_b: dq 0

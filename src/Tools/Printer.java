@@ -103,9 +103,15 @@ public class Printer {
                     ++index;
                     break;
 
-//                case DIV:
-//                case MOD:
-//                case MUL:
+                case DIV:
+                case MOD:
+                case MUL:
+                    if (notRegister(line.string1)){
+                        codeLines.add(index, new CodeLine(PrintKind.MOV, "rcx", line.string1));
+                        line.string1 = "rcx";
+                        ++index;
+                        break;
+                    }
 //                case LESS:
 //                case EQUAL:
 //                case GREATER:
@@ -129,6 +135,10 @@ public class Printer {
 
     public boolean isAddr(String string) {
         return string.startsWith("q");
+    }
+
+    public boolean notRegister(String string){
+        return !string.startsWith("r");
     }
 
     public void print() {
