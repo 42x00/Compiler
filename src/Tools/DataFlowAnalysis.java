@@ -331,13 +331,24 @@ public class DataFlowAnalysis {
                             flag = false;
                             break;
                         }
+                        continue;
                     }
-                    if (!(inst instanceof Assign || inst instanceof Bin)) {
+                    if (!(inst instanceof Assign || inst instanceof Bin || inst instanceof Uni)) {
                         flag = false;
                         break;
                     }
                     if (inst instanceof Assign) {
                         if (((Assign) inst).getLhs() instanceof GloalVar || ((Assign) inst).getLhs() instanceof MemAddr) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (inst instanceof Uni){
+                        if (((Uni) inst).getObj() instanceof GloalVar || ((Uni) inst).getObj() instanceof MemAddr){
+                            flag = false;
+                            break;
+                        }
+                        if (((Uni) inst).getAns() instanceof GloalVar || ((Uni) inst).getAns() instanceof MemAddr){
                             flag = false;
                             break;
                         }
