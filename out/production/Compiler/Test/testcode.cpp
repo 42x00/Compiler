@@ -1,96 +1,65 @@
-//考察点：section 9 函数，包括函数定义，内建函数
-//算法：斜堆
-//样例输入：
-//5 5
-//ABCDE
-//1 2 3 4 5
-//样例输出：
-//5 E
-//10
-int N;
-int M;
-string ch;
-
-int[] l;
-int[] r;
-int[] w;
-
-int merge(int x, int y)
+void cost_a_lot_of_time()
 {
-    if (0 == x)
-        return y;
-    if (0 == y)
-        return x;
-    if (w[x] < w[y])
-    {
-        int e = x;
-        x = y;
-        y = e;
-    }
-    r[x] = merge(r[x], y);
-    int e = l[x];
-    l[x] = r[x];
-    r[x] = e;
-    return x;
+    int a = 3100;
+    int b = 0;
+    int c = 1;
+    for (b = 0; b < 100000000; ++b)
+        c = c * 2 - c;
+    println(toString(a));
+}
+
+void foo(int d, int x, int y)
+{
+    println(toString(d * 1000 + x * 10 + y));
+    if (d == 1)
+        return;
+    int t = x;
+    x = y;
+    y = t;
+    foo(1, x, y);
+    println(toString(d * 1000 + x * 10 + y));
 }
 
 int main()
 {
-    N = getInt();
-    M = getInt();
-    ch = getString();
-    l = new int[N + M + 5];
-    r = new int[N + M + 5];
-    w = new int[N + M + 5];
-    int i;
-    for (i = 1; i <= N; i++)
-    {
-        w[i] = getInt();
-        l[i] = 0;
-        r[i] = 0;
-    }
-    for (i = 1; i <= M; i++)
-    {
-        w[i + N] = ch.ord(i - 1);
-        l[i + N] = 0;
-        r[i + N] = 0;
-    }
-    int rt0 = 1;
-    int rt1 = N + 1;
-    for (i = 2; i <= N; i++)
-        rt0 = merge(rt0, i);
-    for (i = N + 2; i <= N + M; i++)
-        rt1 = merge(rt1, i);
-    print(toString(w[rt0]));
-    print(" ");
-    print(ch.substring(rt1 - N - 1, rt1 - N - 1));
-    print("\n");
-    println(toString(merge(rt0, rt1)));
+    int a = 3100;
+    int b = 0;
+    int c = 1;
+    for (b = 0; b < 100000000; ++b)
+        c = c * 2 - c;
+    println(toString(a));
+
+    cost_a_lot_of_time();
+
+    foo(7, 5, 3);
+
+    int[] aa;
+    int[] bb = new int[10];
+    int[][] cc = new int[2][];
+
     return 0;
 }
 
 /*!! metadata:
 === comment ===
-function_test-huyuncong.mx
-=== input ===
-5
-5
-ABCDE
-1
-2
-3
-4
-5
+code_elimination_recursion-515030910639-yingsihao.txt
+=== is_public ===
+True
 === assert ===
 output
 === timeout ===
-0.1
-=== output ===
-5 E
-10
+2.0
+=== input ===
+
 === phase ===
-codegen pretest
-=== is_public ===
-True
+optim extended
+=== output ===
+3100
+3100
+7053
+1035
+7035
+=== exitcode ===
+
 
 !!*/

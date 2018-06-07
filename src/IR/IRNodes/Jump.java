@@ -9,6 +9,10 @@ public class Jump extends Inst{
         return nxtBlock;
     }
 
+    public void setNxtBlock(BasicBlock nxtBlock) {
+        this.nxtBlock = nxtBlock;
+    }
+
     @Override
     public void accept(IRVisitor visitor) {
         visitor.visit(this);

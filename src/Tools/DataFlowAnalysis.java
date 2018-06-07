@@ -89,6 +89,26 @@ public class DataFlowAnalysis {
         }
     }
 
+    private void viewRightOrder(FuncDeclNode funcDeclNode) {
+        orderBlockList = new ArrayList<>();
+        viewOrder(funcDeclNode.getStartBlock());
+
+        for (BasicBlock basicBlock : orderBlockList) {
+
+            out.println("=============================");
+            out.println(basicBlock.toLabel());
+            for (Inst inst : basicBlock.getInstList()) {
+                if (inst instanceof Cjump) {
+                    Cjump cjump = (Cjump) inst;
+                    out.printf("cjp %s %s\n", cjump.getThenBlock(), cjump.getElseBlock());
+                } else if (inst instanceof Jump) {
+                    Jump jump = (Jump) inst;
+                    out.printf("jmp %s\n", jump.getNxtBlock());
+                }
+            }
+        }
+    }
+
     private void setReverseOrder(BasicBlock basicBlock) {
         basicBlock.setReverseVisit();
         reverseOrderBlockList.add(basicBlock);
@@ -298,22 +318,35 @@ public class DataFlowAnalysis {
         }
     }
 
-
-    private void viewRightOrder(FuncDeclNode funcDeclNode){
-        orderBlockList = new ArrayList<>();
-        viewOrder(funcDeclNode.getStartBlock());
-
-        for (BasicBlock basicBlock : orderBlockList) {
-
-            out.println("=============================");
-            out.println(basicBlock.toLabel());
-            for (Inst inst : basicBlock.getInstList()) {
-                if (inst instanceof Cjump) {
-                    Cjump cjump = (Cjump) inst;
-                    out.printf("cjp %s %s\n", cjump.getThenBlock(), cjump.getElseBlock());
-                } else if (inst instanceof Jump) {
-                    Jump jump = (Jump) inst;
-                    out.printf("jmp %s\n", jump.getNxtBlock());
+    private void deadcodeEliminate() {
+        for (BasicBlock basicBlock : reverseOrderBlockList) {
+            if (basicBlock.isForBody()) {
+                BasicBlock condBlock = basicBlock.getSucc().get(0);
+                BasicBlock endBlock;
+                if (basicBlock.getSucc().get(0).getSucc().get(0) == basicBlock) {
+                    endBlock = basicBlock.getSucc().get(0).getSucc().get(1);
+                } else endBlock = basicBlock.getSucc().get(0).getSucc().get(0);
+                Set<Register> forBlockOut = endBlock.getIn();
+                boolean flag = true;
+                for (Inst inst : basicBlock.getInstList()) {
+                    if (inst.getDef().size() == 0) continue;
+                    if (forBlockOut.containsAll(inst.getDef())) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
+                    if (condBlock.getPred().size() == 2) {
+                        BasicBlock condPreBlock;
+                        if (condBlock.getPred().get(0).isForBody()) condPreBlock = condBlock.getPred().get(1);
+                        else condPreBlock = condBlock.getPred().get(0);
+                        endBlock.resetPredBlock(condBlock, condPreBlock);
+                        Inst condPreBlockJumpInst = condPreBlock.getInstList().get(condPreBlock.getInstList().size() - 1);
+                        if (condPreBlockJumpInst instanceof Jump) {
+                            ((Jump) condPreBlockJumpInst).setNxtBlock(endBlock);
+                        }
+                        condPreBlock.resetSuccBlock(condBlock,endBlock);
+                    }
                 }
             }
         }
@@ -321,6 +354,7 @@ public class DataFlowAnalysis {
 
     private void analysisFunc(FuncDeclNode funcDeclNode) {
         livenessAnalysis(funcDeclNode);
+        deadcodeEliminate();
         buildRIG(funcDeclNode);
         setPhysicalRegister();
     }

@@ -347,7 +347,7 @@ public class IRGenerator implements ASTVisitor {
     @Override
     public void visit(ForStmtNode forStmtNode) {
         BasicBlock condBlock = new BasicBlock();
-        BasicBlock forBlock = new BasicBlock();
+        BasicBlock forBlock = new BasicBlock(true);
         BasicBlock endBlock = new BasicBlock();
 
         if (forStmtNode.getForexprinit() != null) {
