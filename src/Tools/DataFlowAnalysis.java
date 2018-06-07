@@ -323,11 +323,21 @@ public class DataFlowAnalysis {
         for (Iterator<BasicBlock> iter = reverseOrderBlockList.iterator(); iter.hasNext(); ) {
             BasicBlock basicBlock = iter.next();
             if (basicBlock.isForBody()) {
+                BasicBlock condBlock = basicBlock.getSucc().get(0);
+                BasicBlock endBlock;
+                if (basicBlock.getSucc().get(0).getSucc().get(0) == basicBlock) {
+                    endBlock = basicBlock.getSucc().get(0).getSucc().get(1);
+                } else endBlock = basicBlock.getSucc().get(0).getSucc().get(0);
+
                 boolean flag = true;
                 for (Iterator<Inst> instIterator = basicBlock.getInstList().iterator(); instIterator.hasNext(); ) {
                     Inst inst = instIterator.next();
                     if (inst instanceof Jump) {
                         if (instIterator.hasNext()) {
+                            flag = false;
+                            break;
+                        }
+                        if (((Jump) inst).getNxtBlock() != endBlock) {
                             flag = false;
                             break;
                         }
@@ -343,23 +353,18 @@ public class DataFlowAnalysis {
                             break;
                         }
                     }
-                    if (inst instanceof Uni){
-                        if (((Uni) inst).getObj() instanceof GloalVar || ((Uni) inst).getObj() instanceof MemAddr){
+                    if (inst instanceof Uni) {
+                        if (((Uni) inst).getObj() instanceof GloalVar || ((Uni) inst).getObj() instanceof MemAddr) {
                             flag = false;
                             break;
                         }
-                        if (((Uni) inst).getAns() instanceof GloalVar || ((Uni) inst).getAns() instanceof MemAddr){
+                        if (((Uni) inst).getAns() instanceof GloalVar || ((Uni) inst).getAns() instanceof MemAddr) {
                             flag = false;
                             break;
                         }
                     }
-
                 }
-                BasicBlock condBlock = basicBlock.getSucc().get(0);
-                BasicBlock endBlock;
-                if (basicBlock.getSucc().get(0).getSucc().get(0) == basicBlock) {
-                    endBlock = basicBlock.getSucc().get(0).getSucc().get(1);
-                } else endBlock = basicBlock.getSucc().get(0).getSucc().get(0);
+
                 Set<Register> forBlockOut = endBlock.getIn();
                 for (Inst inst : basicBlock.getInstList()) {
                     if (inst.getDef().size() == 0) continue;

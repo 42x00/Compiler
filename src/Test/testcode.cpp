@@ -1,65 +1,51 @@
-void cost_a_lot_of_time()
-{
-    int a = 3100;
-    int b = 0;
-    int c = 1;
-    for (b = 0; b < 100000000; ++b)
-        c = c * 2 - c;
-    println(toString(a));
-}
+//Target: use loops to calculate calculator of 6!
+//@author yixi
 
-void foo(int d, int x, int y)
-{
-    println(toString(d * 1000 + x * 10 + y));
-    if (d == 1)
-        return;
-    int t = x;
-    x = y;
-    y = t;
-    foo(1, x, y);
-    println(toString(d * 1000 + x * 10 + y));
-}
+int N;
+int h = 99;
+int i = 100;
+int j = 101;
+int k = 102;
+int total = 0;
 
 int main()
 {
-    int a = 3100;
-    int b = 0;
-    int c = 1;
-    for (b = 0; b < 100000000; ++b)
-        c = c * 2 - c;
-    println(toString(a));
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    int f;
+    N = getInt();
+    for (a = 1; a <= N; a++)
+        for (b = 1; b <= N; b++)
+            for (c = 1; c <= N; c++)
+                for (d = 1; d <= N; d++)
+                    for (e = 1; e <= N; e++)
+                        for (f = 1; f <= N; f++)
+                            if (a != b && a != c && a != d && a != e && a != f && a != h && a != i && a != j && a != k && b != c && b != d && b != e && b != f && b != h && b != i && b != j && b != k && c != d && c != e && c != f && c != h && c != i && c != j && c != k && d != e && d != f && d != h && d != i && d != j && d != k && e != f && e != h && e != i && e != j && e != k && f != h && f != i && f != j && f != k && i != j && h != k)
+                            {
+                                total++;
+                            }
 
-    cost_a_lot_of_time();
-
-    foo(7, 5, 3);
-
-    int[] aa;
-    int[] bb = new int[10];
-    int[][] cc = new int[2][];
-
+    println(toString(total));
     return 0;
 }
 
 /*!! metadata:
 === comment ===
-code_elimination_recursion-515030910639-yingsihao.txt
-=== is_public ===
-True
+superloop-5090379042-jiaxiao.mx
+=== input ===
+6
 === assert ===
 output
 === timeout ===
-2.0
-=== input ===
-
-=== phase ===
-optim extended
+0.1
 === output ===
-3100
-3100
-7053
-1035
-7035
-=== exitcode ===
-
+720
+=== phase ===
+codegen pretest
+=== is_public ===
+True
 
 !!*/
