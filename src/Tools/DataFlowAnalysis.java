@@ -323,25 +323,20 @@ public class DataFlowAnalysis {
         for (Iterator<BasicBlock> iter = reverseOrderBlockList.iterator(); iter.hasNext(); ) {
             BasicBlock basicBlock = iter.next();
             if (basicBlock.isForBody()) {
-                BasicBlock condBlock = basicBlock.getSucc().get(0);
+                BasicBlock condBlock = basicBlock.getPred().get(0);
                 BasicBlock endBlock;
-                if (basicBlock.getSucc().get(0).getSucc().get(0) == basicBlock) {
-                    endBlock = basicBlock.getSucc().get(0).getSucc().get(1);
-                } else endBlock = basicBlock.getSucc().get(0).getSucc().get(0);
+                if (condBlock.getSucc().get(0) == basicBlock){
+                    endBlock = condBlock.getSucc().get(1);
+                }else endBlock = condBlock.getSucc().get(0);
 
                 boolean flag = true;
                 for (Iterator<Inst> instIterator = basicBlock.getInstList().iterator(); instIterator.hasNext(); ) {
                     Inst inst = instIterator.next();
                     if (inst instanceof Jump) {
-                        if (instIterator.hasNext()) {
+                        if (((Jump) inst).getNxtBlock() != condBlock) {
                             flag = false;
-                            break;
                         }
-                        if (((Jump) inst).getNxtBlock() != endBlock) {
-                            flag = false;
-                            break;
-                        }
-                        continue;
+                        break;
                     }
                     if (!(inst instanceof Assign || inst instanceof Bin || inst instanceof Uni)) {
                         flag = false;
@@ -364,7 +359,9 @@ public class DataFlowAnalysis {
                         }
                     }
                 }
-
+                if (!flag){
+                    continue;
+                }
                 Set<Register> forBlockOut = endBlock.getIn();
                 for (Inst inst : basicBlock.getInstList()) {
                     if (inst.getDef().size() == 0) continue;
@@ -384,7 +381,7 @@ public class DataFlowAnalysis {
                             ((Jump) condPreBlockJumpInst).setNxtBlock(endBlock);
                         }
                         condPreBlock.resetSuccBlock(condBlock, endBlock);
-                        iter.remove();
+//                        iter.remove();
                     }
                 }
             }
