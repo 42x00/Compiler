@@ -325,6 +325,7 @@ public class DataFlowAnalysis {
             if (basicBlock.isForBody()) {
                 BasicBlock condBlock = basicBlock.getPred().get(0);
                 BasicBlock endBlock;
+                if (condBlock.getSucc().size() == 1) continue;
                 if (condBlock.getSucc().get(0) == basicBlock){
                     endBlock = condBlock.getSucc().get(1);
                 }else endBlock = condBlock.getSucc().get(0);
