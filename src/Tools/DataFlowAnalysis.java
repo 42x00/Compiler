@@ -5,6 +5,7 @@ import AST_Node.DeclNodes.DeclNode;
 import AST_Node.DeclNodes.FuncDeclNode;
 import AST_Node.DeclNodes.VarDeclNode;
 import AST_Node.ProgNode;
+import AST_Node.StmtNodes.IfStmtNode;
 import Backend.IRGenerator;
 import IR.IRNodes.*;
 
@@ -319,15 +320,36 @@ public class DataFlowAnalysis {
     }
 
     private void deadcodeEliminate() {
-        for (BasicBlock basicBlock : reverseOrderBlockList) {
+        for (Iterator<BasicBlock> iter = reverseOrderBlockList.iterator(); iter.hasNext(); ) {
+            BasicBlock basicBlock = iter.next();
             if (basicBlock.isForBody()) {
+                boolean flag = true;
+                for (Iterator<Inst> instIterator = basicBlock.getInstList().iterator(); instIterator.hasNext(); ) {
+                    Inst inst = instIterator.next();
+                    if (inst instanceof Jump) {
+                        if (instIterator.hasNext()) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (!(inst instanceof Assign || inst instanceof Bin)) {
+                        flag = false;
+                        break;
+                    }
+                    if (inst instanceof Assign) {
+                        if (((Assign) inst).getLhs() instanceof GloalVar || ((Assign) inst).getLhs() instanceof MemAddr) {
+                            flag = false;
+                            break;
+                        }
+                    }
+
+                }
                 BasicBlock condBlock = basicBlock.getSucc().get(0);
                 BasicBlock endBlock;
                 if (basicBlock.getSucc().get(0).getSucc().get(0) == basicBlock) {
                     endBlock = basicBlock.getSucc().get(0).getSucc().get(1);
                 } else endBlock = basicBlock.getSucc().get(0).getSucc().get(0);
                 Set<Register> forBlockOut = endBlock.getIn();
-                boolean flag = true;
                 for (Inst inst : basicBlock.getInstList()) {
                     if (inst.getDef().size() == 0) continue;
                     if (forBlockOut.containsAll(inst.getDef())) {
@@ -345,7 +367,8 @@ public class DataFlowAnalysis {
                         if (condPreBlockJumpInst instanceof Jump) {
                             ((Jump) condPreBlockJumpInst).setNxtBlock(endBlock);
                         }
-                        condPreBlock.resetSuccBlock(condBlock,endBlock);
+                        condPreBlock.resetSuccBlock(condBlock, endBlock);
+                        iter.remove();
                     }
                 }
             }
